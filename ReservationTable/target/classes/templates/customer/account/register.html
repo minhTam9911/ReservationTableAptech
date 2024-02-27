@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>Registration</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<!-- Custom Styles -->
+	<style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .jumbotron {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 0.3rem;
+        }
+
+        .form {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 2rem;
+            border-radius: 0.3rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group label {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+    </style>
+</head>
+<body class="container">
+
+<div class="jumbotron">
+	<h1 class="display-4">Registration</h1>
+	<p class="lead">Welcome to the registration page!</p>
+</div>
+
+<form method="post" th:action="@{/account/register}" class="form">
+	<div class="form-group">
+		<label class="control-label" for="username">Username <sup>*</sup></label>
+		<input type="text" id="username" class="form-control" th:field="${account.username}" placeholder="Username">
+	</div>
+
+	<div class="form-group">
+		<label class="control-label" for="password">Password <sup>*</sup></label>
+		<input type="password" id="password" class="form-control" th:field="${account.password}" placeholder="Password">
+	</div>
+
+	<div class="form-group">
+		<label class="control-label" for="fullName">Full Name <sup>*</sup></label>
+		<input type="text" id="fullName" class="form-control" th:field="${account.fullName}" placeholder="Full Name">
+	</div>
+
+	<div class="form-group">
+		<label class="control-label" for="input_email">Email <sup>*</sup></label>
+		<input type="text" id="input_email" class="form-control" th:field="${account.email}" placeholder="Email">
+	</div>
+
+	<div class="form-group">
+		<button class="btn btn-success" type="submit">Register</button>
+	</div>
+</form>
+
+<!-- Bootstrap JS (Optional, if you need interactive features) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"
+		integrity="sha384-pzjw8f+ua/CSSeJeaCIj02aKM7bBFXvf2vA8MI7ZeRS6D51ihxFpW24Y3dP3H3Xz"
+		crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+</body>
+</html>

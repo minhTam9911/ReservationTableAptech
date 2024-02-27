@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Area Index Page</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <h1>List of Areas</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="area : ${areas}">
+            <td th:text="${area.id}"></td>
+            <td th:text="${area.name}"></td>
+            <td th:text="${area.description}"></td>
+            <td>
+                <a th:href="@{/system/area/{id}(id=${area.id})}">View</a>
+                <a th:href="@{/system/area/update/{id}(id=${area.id})}">Edit</a>
+                <a th:href="@{/system/area/delete/{id}(id=${area.id})}">Delete</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/system/area/create">Create New Area</a>
+</section>
+
+</body>
+</html>

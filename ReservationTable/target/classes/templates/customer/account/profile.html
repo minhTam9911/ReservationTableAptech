@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Register</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        #profile {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.3rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        table input[type="text"],
+        table input[type="password"] {
+            width: 100%;
+            padding: 8px;
+        }
+
+        table input[type="submit"] {
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+        }
+
+        table input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div id="profile">
+	<h3>Profile</h3>
+	<th:block th:text="${msg}"></th:block>
+	<form method="post" th:action="@{/account/profile}">
+		<table>
+			<tr>
+				<td>Username</td>
+				<td><input type="text" th:field="${account.username}" readonly="readonly"></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="password" th:field="${account.password}"></td>
+			</tr>
+			<tr>
+				<td>Full Name</td>
+				<td><input type="text" th:field="${account.fullName}"></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="text" th:field="${account.email}"></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="Save"> <input type="hidden" th:field="${account.id}"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+</body>
+</html>
