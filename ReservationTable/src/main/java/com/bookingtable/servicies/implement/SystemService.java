@@ -1,6 +1,8 @@
 package com.bookingtable.servicies.implement;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,14 +33,24 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public SystemDto getSystemsById(String id) {
+	public SystemDto getSystemsById(UUID id) {
 		return SystemMapper.mapToDto(systemRepository.findById(id).get());
 	}
 
+	
+
 	@Override
-	public boolean createRestaurant(SystemDto systemDto) {
+	public boolean updateSystem(UUID id, SystemDto systemDto) {
 		try {
-			if(systemRepository.save(SystemMapper.mapToModel(systemDto))!=null) {
+			var data = systemRepository.findById(id).get();
+			data.setFullname(systemDto.getFullname());
+			data.setAddress(systemDto.getAddress());
+			data.setDateOfBirth(systemDto.getDateOfBirth());
+			data.setEmail(systemDto.getEmail());
+			data.setPhoneNumber(systemDto.getPhoneNumber());
+			data.setGender(systemDto.isGender());
+			data.setUpdated(LocalDate.now());
+			if(systemRepository.save(data)!=null) {
 				return true;
 			}else {
 				return false;
@@ -50,24 +62,26 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public boolean updateSystem(String id, SystemDto systemDto) {
-		try {
-			if(systemRepository.save(SystemMapper.mapToModel(systemDto))!=null) {
-				return true;
-			}else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	@Override
-	public boolean deleteSystem(String id) {
+	public boolean deleteSystem(UUID id) {
 		try {
 			if(systemRepository.findById(id)!=null) {
 				systemRepository.deleteById(id);
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean insertSystem(SystemDto systemDto) {
+		try {
+			systemDto.setCreated(LocalDate.now());
+			systemDto.setUpdated(LocalDate.now());
+			if(systemRepository.save(SystemMapper.mapToModel(systemDto))!=null) {
 				return true;
 			}else {
 				return false;
