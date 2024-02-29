@@ -17,8 +17,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Builder
 @Data
@@ -54,7 +58,10 @@ public class RestaurantDto {
 	    @NotNull
 	    @NotEmpty
 	    private String ward;
+	    
+		private LocalDate created;
 		
+		private LocalDate updated;
 		private ReservationAgentDto reservationAgentDto;
 		@NotNull
 	    @NotEmpty

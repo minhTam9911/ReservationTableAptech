@@ -40,6 +40,8 @@ public class RestaurantMapper {
                  .status(restaurant.getStatus())
                  .district(restaurant.getDistrict())
                  .ward(restaurant.getWard())
+                 .created(restaurant.getCreated())
+                 .updated(restaurant.getUpdated())
                  .reservationAgentDto(ReservationAgentMapper.mapToDto(restaurant.getReservationAgent()))
                  .address(restaurant.getAddress())
                  .imagesDto(restaurant.getImages().stream().map(i->ImageMapper.mapToDto(i)).collect(Collectors.toList()))

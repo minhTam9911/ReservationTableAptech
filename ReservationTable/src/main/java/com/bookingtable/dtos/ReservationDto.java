@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.bookingtable.models.ReservationStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,5 +55,5 @@ public class ReservationDto {
 	
 	private LocalTime bookingTime;
 	
-	private boolean status;
+	private ReservationStatusDto reservationStatusDto;
 }

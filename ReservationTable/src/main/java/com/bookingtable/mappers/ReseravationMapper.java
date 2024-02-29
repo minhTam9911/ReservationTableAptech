@@ -19,7 +19,7 @@ public class ReseravationMapper {
 				.floor(reservationDto.getFloor())
 				.bookingDate(reservationDto.getBookingDate())
 				.bookingTime(reservationDto.getBookingTime())
-				.status(reservationDto.isStatus())
+				.reservationStatus(ReservationStatusMapper.mapToModel(reservationDto.getReservationStatusDto()))
 				.build();
 	}
 	public static  ReservationDto mapToDto(Reservation reservation) {
@@ -34,7 +34,7 @@ public class ReseravationMapper {
 				.floor(reservation.getFloor())
 				.bookingDate(reservation.getBookingDate())
 				.bookingTime(reservation.getBookingTime())
-				.status(reservation.isStatus())
+				.reservationStatusDto(ReservationStatusMapper.mapToDto(reservation.getReservationStatus()))
 				.build();
 	}
 }
