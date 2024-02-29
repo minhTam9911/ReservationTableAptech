@@ -9,7 +9,7 @@ public class GuestMapper {
     public static Guest mapToModel(GuestDto guestDto) {
         return Guest.builder()
                 .id(guestDto.getId())
-                .fullname(guestDto.getFullname())
+                .fullName(guestDto.getFullname())
                 .address(guestDto.getAddress())
                 .email(guestDto.getEmail())
                 .created(guestDto.getCreated())
@@ -25,7 +25,7 @@ public class GuestMapper {
     public static GuestDto mapToDto(Guest guest) {
         return GuestDto.builder()
                 .id(guest.getId())
-                .fullname(guest.getFullname())
+                .fullname(guest.getFullName())
                 .address(guest.getAddress())
                 .email(guest.getEmail())
                 .created(guest.getCreated())
