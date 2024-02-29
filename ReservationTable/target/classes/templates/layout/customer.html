@@ -19,8 +19,13 @@
 </head>
 
 <body>
+<div th:replace="/customer/fragments/header :: header"></div>
+
 <div layout:fragment="content">
 </div>
+
+<div th:replace="/customer/fragments/footer :: footer"></div>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script th:src="@{/assets/customer/js/jquery-3.2.1.min.js}"></script>

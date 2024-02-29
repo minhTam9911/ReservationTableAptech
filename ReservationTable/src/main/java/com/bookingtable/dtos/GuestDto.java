@@ -1,6 +1,7 @@
 package com.bookingtable.dtos;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GuestDto {
 
-	private String id;
+	private UUID id;
 	@NotNull
 	@NotEmpty
 	private String fullname;
