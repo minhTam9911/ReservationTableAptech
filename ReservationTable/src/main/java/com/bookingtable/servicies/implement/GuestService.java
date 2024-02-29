@@ -8,6 +8,7 @@ import com.bookingtable.servicies.IGuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class GuestService implements IGuestService {
@@ -23,7 +24,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public GuestDto getGuestById(String id) {
+    public GuestDto getGuestById(UUID id) {
         Guest guest = guestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
         return GuestMapper.mapToDto(guest);
@@ -37,7 +38,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public boolean updateGuest(String id, GuestDto guestDto) {
+    public boolean updateGuest(UUID id, GuestDto guestDto) {
         Guest existingGuest = guestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
 
@@ -49,7 +50,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public boolean deleteGuest(String id) {
+    public boolean deleteGuest(UUID id) {
         if (guestRepository.existsById(id)) {
             guestRepository.deleteById(id);
             return true;
