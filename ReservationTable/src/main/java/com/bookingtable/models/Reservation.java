@@ -7,13 +7,17 @@ import java.util.Collection;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.bookingtable.helpers.GenerateCode;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +34,11 @@ public class Reservation {
 
 	@Id
 	private String id;
+
+    @PrePersist
+    private void generateId() {
+        this.id = GenerateCode.GenerateReservation();
+    }
 	@OneToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
@@ -51,6 +60,7 @@ public class Reservation {
 	private LocalDate bookingDate;
 	@Column
 	private LocalTime bookingTime;
-	@Column
-	private boolean status;
+	@ManyToOne
+    @JoinColumn(name = "reservationStatus_id")
+    private ReservationStatus reservationStatus;
 }

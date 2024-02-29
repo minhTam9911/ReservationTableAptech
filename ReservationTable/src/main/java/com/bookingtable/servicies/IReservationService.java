@@ -6,12 +6,12 @@ import com.bookingtable.dtos.ReservationDto;
 
 public interface IReservationService {
  
-	public List<ReservationDto> getAllReservations();
+	public List<ReservationDto> getAllReservation();
 
     public ReservationDto getReservationById(String id);
 
     public boolean createReservation(ReservationDto reservationDto) ;
-    public boolean updateReservation(String id, ReservationDto reservationDto);
+    public boolean updateReservation(String id,Integer status, ReservationDto reservationDto);
 
     public boolean deleteReservation(String id);
 }

@@ -1,6 +1,7 @@
 package com.bookingtable.dtos;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class ReceptionistDto {
 
 	
-	private String id;
+	private UUID id;
 	@NotNull
     @NotEmpty
 	private String fullname;

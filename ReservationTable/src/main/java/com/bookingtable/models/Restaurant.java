@@ -6,8 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.bookingtable.helpers.GenerateCode;
 
 @Entity
 @AllArgsConstructor
@@ -18,6 +24,10 @@ import java.util.Collection;
 public class Restaurant {
     @Id
     private String id;
+    @PrePersist
+    private void generateId() {
+        this.id = GenerateCode.GenerateRestaurent();
+    }
     @Column
     private String name;
     @Column
@@ -36,6 +46,12 @@ public class Restaurant {
     private String district;
     @Column
     private String ward;
+    @Column
+	@CreationTimestamp
+	private LocalDate created;
+	@Column
+	@UpdateTimestamp
+	private LocalDate updated;
     @Column
     private String status;
 	@OneToOne
