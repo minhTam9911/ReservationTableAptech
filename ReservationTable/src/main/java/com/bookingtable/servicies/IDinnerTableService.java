@@ -11,7 +11,7 @@ public interface IDinnerTableService {
     public DinnerTableDto getDinnerTableById(Integer id);
 
     public boolean createDinnerTable(DinnerTableDto dinnerTableDto) ;
-    public boolean updateDinnerTable(Integer id, DinnerTableDto dinnerTableDto);
+    public boolean updateDinnerTable(DinnerTableDto dinnerTableDto);
 
     public boolean deleteDinnerTable(Integer id);
 }

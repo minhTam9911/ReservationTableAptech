@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Index Dinner Table Page</title>
+    <!-- Script JavaScript -->
+    <script th:inline="javascript">
+  function changePageSize(size) {
+    if (size !== '') {
+      var url = '/system/dinnerTable?page=1'+ '&size=' + size;
+      window.location.href = url;
+    }
+  }
+</script>
+
 </head>
 <body>
 
+<section layout:fragment="content">
+    <h2>Dinner Tables</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Quantity</th>
+            <th>Images</th>
+            <th>Table Type</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dinnerTablePage : ${dinnerTablePages}">
+            <td th:text="${dinnerTablePage.id}"></td>
+            <td th:text="${dinnerTablePage.status}"></td>
+            <td th:text="${dinnerTablePage.quantity}"></td>
+
+            <td><a th:href="@{/system/dinnerTable/edit/{id}(id=${dinnerTablePage.id})}">Edit</a></td>
+            <td><a th:href="@{/system/dinnerTable/delete/{id}(id=${dinnerTablePage.id})}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination :: pagination"></div>
+
+
+    <a href="/system/dinnerTable/create">Create New Dinner Table</a>
+
+</script>
+</section>
+
 </body>
+
 </html>

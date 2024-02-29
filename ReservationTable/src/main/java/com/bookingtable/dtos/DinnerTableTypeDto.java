@@ -16,7 +16,6 @@ import java.util.Collection;
 @Data
 @Builder
 public class DinnerTableTypeDto {
-   
     private Integer id;
     @NotNull
     @NotEmpty
