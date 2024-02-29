@@ -41,14 +41,8 @@ public class DinnerTableService implements IDinnerTableService {
     }
 
     @Override
-    public boolean updateDinnerTable(Integer id, DinnerTableDto dinnerTableDto) {
-        Optional<DinnerTable> optionalDinnerTable = dinnerTableRepository.findById(id);
-        if (optionalDinnerTable.isPresent()) {
-            DinnerTable dinnerTable = optionalDinnerTable.get();
-            DinnerTable updatedDinnerTable = dinnerTableRepository.save(dinnerTable);
-            return DinnerTableMapper.mapToDto(updatedDinnerTable)!=null;
-        }
-        return false;
+    public boolean updateDinnerTable(DinnerTableDto dinnerTableDto) {
+         return dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto))!=null;
     }
 
     @Override
