@@ -1,7 +1,7 @@
 package com.bookingtable.mappers;
 
 import com.bookingtable.dtos.ImageDto;
-import com.bookingtable.dtos.PermissionDto;
+//import com.bookingtable.dtos.PermissionDto;
 import com.bookingtable.models.Image;
 import com.bookingtable.models.Permission;
 

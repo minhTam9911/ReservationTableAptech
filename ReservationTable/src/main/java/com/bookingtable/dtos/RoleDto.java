@@ -30,6 +30,4 @@ public class RoleDto {
 	@NotEmpty
 	@NotNull
 	private String name;
-	@NotNull
-	private Collection<PermissionDto> permissionsDto = new ArrayList<>();
 }

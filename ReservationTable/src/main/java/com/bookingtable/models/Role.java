@@ -33,9 +33,6 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String name;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "role_permission", joinColumns = { @JoinColumn(name = "role_id") },
-	inverseJoinColumns = {@JoinColumn(name="permission_id")})
-	private Collection<Permission> permissions = new ArrayList<>();
+	
 	
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Create Role Table Page</title>
+    <!-- Bootstrap CSS -->
+</head>
+<body>
+
+<section layout:fragment="content" class="container">
+    <h2>Create Role Table</h2>
+    <form th:action="@{/system/role/create}" method="post" th:object="${roleDto}" class="needs-validation">
+        <div class="form-group">
+            <label for="quantity">Name:</label>
+            <input type="number" id="quantity" name="quantity" th:field="*{name}" class="form-control" required>
+            <div class="invalid-feedback">
+                Quantity is required.
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br>
+    <a href="/system/role/index" class="btn btn-secondary">Back</a>
+</section>
+</body>
+</html>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.RoleDto;
-import com.bookingtable.mappers.PermissionMapper;
+//import com.bookingtable.mappers.PermissionMapper;
 import com.bookingtable.mappers.RoleMapper;
 import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.RoleRepository;
@@ -57,8 +57,7 @@ public class RoleService implements IRoleService {
 				}
 			}
 			data.setName(roleDto.getName());
-			data.setPermissions(roleDto.getPermissionsDto().stream().map(i->PermissionMapper.mapToModel(i)).collect(Collectors.toList()));
-			if(roleRepository.save(data)!=null) {
+				if(roleRepository.save(data)!=null) {
 				return new ResultResponse(true,"Update Successful");
 			}else {
 				return new ResultResponse(false,"Update Failure");

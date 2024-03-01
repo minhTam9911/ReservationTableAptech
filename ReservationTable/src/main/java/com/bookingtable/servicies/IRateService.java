@@ -1,6 +1,6 @@
 package com.bookingtable.servicies;
 
-import com.bookingtable.dtos.PermissionDto;
+//import com.bookingtable.dtos.PermissionDto;
 import com.bookingtable.dtos.RateDto;
 
 import java.util.List;

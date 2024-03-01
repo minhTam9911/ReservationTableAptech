@@ -16,22 +16,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+//@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-@Table(name = "permission")
+//@Table(name = "permission")
 public class Permission {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@Column
+	//@Column
 	private String module;
-	@Column
+	//@Column
 	private String name;
 	
-	@ManyToMany(mappedBy = "permissions")
+	//@ManyToMany(mappedBy = "permissions")
 	private Collection<Role> roles = new ArrayList<>();
 }
