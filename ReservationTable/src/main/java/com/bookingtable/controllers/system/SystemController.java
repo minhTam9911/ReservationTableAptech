@@ -13,11 +13,16 @@ import com.bookingtable.servicies.ISystemService;
 public class SystemController {
 	@Autowired
 	private ISystemService systemService;
+	
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
     	
     	model.addAttribute("data", systemService.getAllSystems());
         return "system/index";
+    }
+    
+    public String insert(Model model) {
+    	return "system/create";
     }
 
 }
