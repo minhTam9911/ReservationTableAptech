@@ -61,6 +61,6 @@ public class Reservation {
 	@Column
 	private LocalTime bookingTime;
 	@ManyToOne
-    @JoinColumn(name = "reservationStatus_id")
+    @JoinColumn(name = "reservationStatus_id", nullable = false)
     private ReservationStatus reservationStatus;
 }

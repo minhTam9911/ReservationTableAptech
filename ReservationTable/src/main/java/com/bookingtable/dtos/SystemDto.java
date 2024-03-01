@@ -2,6 +2,7 @@ package com.bookingtable.dtos;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,4 +54,6 @@ public class SystemDto {
 	private LocalDate updated;
 	
 	private RoleDto roleDto;
+	
+	private List<ReservationAgentDto> reservationAgentDtos;
 }

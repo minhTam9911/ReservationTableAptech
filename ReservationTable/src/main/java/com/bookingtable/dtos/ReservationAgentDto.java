@@ -7,6 +7,9 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.bookingtable.models.Receptionist;
+import com.bookingtable.models.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -63,5 +66,9 @@ public class ReservationAgentDto {
 	private LocalDate updated;
 	
 	private RoleDto roleDto;
+	
+	 private Collection<ReceptionistDto> receptionistsDto;
+	 
+	 private SystemDto createBy;
 	
 }

@@ -2,9 +2,11 @@ package com.bookingtable.mappers;
 
 
 import com.bookingtable.dtos.RestaurantDto;
+import com.bookingtable.models.Image;
 import com.bookingtable.models.ReservationAgent;
 import com.bookingtable.models.Restaurant;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 public class RestaurantMapper {
@@ -23,7 +25,7 @@ public class RestaurantMapper {
                 .status(restaurantDto.getStatus())
                 .reservationAgent(ReservationAgentMapper.mapToModel(restaurantDto.getReservationAgentDto()))
                 .address(restaurantDto.getAddress())
-                .images(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList()))
+                .images(new HashSet<Image>(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList()))) 
                 .build();
     }
 
