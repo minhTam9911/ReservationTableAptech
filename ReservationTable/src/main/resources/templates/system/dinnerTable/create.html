@@ -9,13 +9,21 @@
 
 <section layout:fragment="content" class="container">
     <h2>Create Dinner Table</h2>
-    <form th:action="/system/dinnerTable/create" method="post" th:object="${dinnerTableDto}" class="needs-validation">
+    <form th:action="@{/system/dinnerTable/create}" method="post" th:object="${dinnerTableDto}" class="needs-validation">
         <!-- Add form fields for DinnerTableDto properties -->
         <div class="form-group">
             <label for="status">Status:</label>
-            <input type="text" id="status" name="status" th:field="*{status}" class="form-control" required>
+            <select id="status" name="status" class="form-control" required>
+                <option value="">Select Status</option>
+                <option value="Available">Available</option>
+                <option value="Reserved">Reserved</option>
+                <option value="Occupied">Occupied</option>
+                <option value="Booked but Unused">Booked but Unused</option>
+                <option value="Needs Cleaning">Needs Cleaning</option>
+                <option value="Under Maintenance or Repair">Under Maintenance or Repair</option>
+            </select>
             <div class="invalid-feedback">
-                Status is required.
+                Please select a status.
             </div>
         </div>
 

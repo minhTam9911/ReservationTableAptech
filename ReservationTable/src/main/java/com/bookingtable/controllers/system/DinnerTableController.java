@@ -55,12 +55,15 @@ public class DinnerTableController {
 
         List<DinnerTableTypeDto> dinnerTableTypes = dinnerTableTypeService.getAllDinnerTablesType();
         model.addAttribute("dinnerTableTypes", dinnerTableTypes);
+
         // Lấy danh sách hình ảnh từ service và chuyển vào model
         List<ImageDto> images = imageService.getAllImages();
         model.addAttribute("images", images);
+
         // Lấy danh sách nhà hàng từ cơ sở dữ liệu và chuyển vào model
         List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
         model.addAttribute("restaurants", restaurants);
+
         return "system/dinnerTable/create";
     }
 
