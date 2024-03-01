@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +27,6 @@ public class DinnerTableTypeDto {
     private String type;
     private String description;
     @OneToMany(mappedBy = "dinnerTableType", cascade = CascadeType.ALL)
-	private Collection<DinnerTableDto> dinnerTablesDto = new ArrayList<>();
+	private Set<DinnerTableDto> dinnerTablesDto = new HashSet<>();
 
 }
