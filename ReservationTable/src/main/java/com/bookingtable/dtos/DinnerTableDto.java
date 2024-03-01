@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -34,5 +37,5 @@ public class DinnerTableDto {
     
     private RestaurantDto restaurantDto;
   
-    private Collection<ImageDto> imagesDto = new ArrayList<>();
+    private Set<ImageDto> imagesDto = new HashSet<>();
 }
