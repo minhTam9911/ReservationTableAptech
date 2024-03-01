@@ -31,55 +31,56 @@ public class RoleService implements IRoleService {
 	}
 
 	@Override
-	public ResultResponse createRole(RoleDto roleDto) {
+	public ResultResponse<RoleDto> createRole(RoleDto roleDto) {
 		try {
 			if(roleRepository.findByName(roleDto.getName()).size()>0) {
-				return new ResultResponse(false,"Name already");
+				return new ResultResponse<RoleDto>(false,new RoleDto(0,"Name already"));
 			}
 			if(roleRepository.save(RoleMapper.mapToModel(roleDto))!=null) {
-				return new ResultResponse(true,"Create Sucessfull");
+				return new ResultResponse<RoleDto>(true,new RoleDto());
 			}else {
-				return new ResultResponse(false,"Create Failure");
+				return new ResultResponse<RoleDto>(false,new RoleDto(0,"Failure"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultResponse(false,e.getMessage());
+			return new ResultResponse<RoleDto>(false,new RoleDto(0,e.getMessage()));
 		}
 	}
 
 	@Override
-	public ResultResponse updateRole(Integer id, RoleDto roleDto) {
+	public ResultResponse<RoleDto> updateRole(Integer id, RoleDto roleDto) {
 		try {
 			var data = roleRepository.findById(id).get();
 			if(data.getName() != roleDto.getName()) {
 				if(roleRepository.existName(roleDto.getName(), id).size()>0) {
-					return new ResultResponse(false,"Name already");
+				return	new ResultResponse<RoleDto>(false,new RoleDto(0,"Name already"));
 				}
 			}
 			data.setName(roleDto.getName());
 				if(roleRepository.save(data)!=null) {
-				return new ResultResponse(true,"Update Successful");
+				return	new ResultResponse<RoleDto>(true,new RoleDto());
 			}else {
-				return new ResultResponse(false,"Update Failure");
+				return new ResultResponse<RoleDto>(false,new RoleDto(0,"Failure"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultResponse(false,e.getMessage());
+			return new ResultResponse<RoleDto>(false,new RoleDto(0,e.getMessage()));
 		}
+		
 	}
 
 	@Override
-	public ResultResponse deleteRole(Integer id) {
+	public ResultResponse<RoleDto> deleteRole(Integer id) {
 		try {
 			if(roleRepository.findById(id)!=null) {
 				roleRepository.deleteById(id);
-				return new ResultResponse(true,"Delete Successful");
+				return	new ResultResponse<RoleDto>(true,new RoleDto());
 			}else {
-				return new ResultResponse(false,"Delete Failure");
+				return	new ResultResponse<RoleDto>(false,new RoleDto(0,"Failure"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultResponse(false,e.getMessage());
+			return	new ResultResponse<RoleDto>(false,new RoleDto(0,"Name already"));
 		}
 	}
 
