@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ReservationStatusDto;
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.RoleDto;
 //import com.bookingtable.mappers.PermissionMapper;
 import com.bookingtable.mappers.ReservationStatusMapper;
@@ -33,50 +34,55 @@ public class ReservationStatusService implements IReservationStatusService {
 	}
 
 	@Override
-	public boolean createReservationStatus(ReservationStatusDto reservationStatusDto) {
+	public ResultResponse<ReservationStatusDto>  createReservationStatus(ReservationStatusDto reservationStatusDto) {
 		try {
-			
+			if(reservationStatusRepository.findByStatusIgnoreCase(reservationStatusDto.getStatus()).size()>0) {
+				return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,"Status already"));
+			}
 			if(reservationStatusRepository.save(ReservationStatusMapper.mapToModel(reservationStatusDto))!=null) {
-				return true;
+				return new ResultResponse<ReservationStatusDto>(true,new ReservationStatusDto());
 			}else {
-				return false;
+				return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,"Failure"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,e.getMessage()));
 		}
 	}
 
 	@Override
-	public boolean updateReservationStatus(Integer id, ReservationStatusDto reservationStatusDto) {
+	public  ResultResponse<ReservationStatusDto> updateReservationStatus(Integer id, ReservationStatusDto reservationStatusDto) {
 		try {
+			if(reservationStatusRepository.existStatus(reservationStatusDto.getStatus(),id).size()>0) {
+				return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,"Status already"));
+			}
 			var data = reservationStatusRepository.findById(id).get();
 			data.setStatus(reservationStatusDto.getStatus());
 			data.setReason(reservationStatusDto.getReason());
 			data.setDescription(reservationStatusDto.getDescription());
 			if(reservationStatusRepository.save(data)!=null) {
-				return true;
+				return new ResultResponse<ReservationStatusDto>(true,new ReservationStatusDto());
 			}else {
-				return false;
+				return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,"Failure"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,e.getMessage()));
 		}
 	}
 
 	@Override
-	public boolean deleteReservationStatus(Integer id) {
+	public  ResultResponse<ReservationStatusDto> deleteReservationStatus(Integer id) {
 		try {
 			if(reservationStatusRepository.findById(id)!=null) {
 				reservationStatusRepository.deleteById(id);
-				return true;
+				return new ResultResponse<ReservationStatusDto>(true,new ReservationStatusDto());
 			}else {
-				return false;
+				return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,"Failure"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse<ReservationStatusDto>(false,new ReservationStatusDto(0,e.getMessage()));
 		}
 	}
 }

@@ -2,11 +2,6 @@ package com.bookingtable.mappers;
 
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.models.Image;
-<<<<<<< HEAD
-import java.util.stream.Collectors;
-=======
-
->>>>>>> e0a44d4fbac169b2a4c7f108cd5eb9007b3bdf15
 
 public class ImageMapper {
     public static Image mapToModel(ImageDto imageDto) {

@@ -34,4 +34,13 @@ public class ReservationStatusDto {
 	private String description;
 
 	private List<ReservationDto> reservationsDto;
+
+	public ReservationStatusDto(Integer id, @NotNull @NotEmpty String status) {
+		super();
+		this.id = id;
+		this.status = status;
+	}
+	
+	
+	
 }
