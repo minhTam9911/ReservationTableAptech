@@ -12,9 +12,17 @@
     <form th:action="@{/system/dinnerTable/edit/{id}(id=${dinnerTableDto.id})}" method="post" th:object="${dinnerTableDto}" class="needs-validation">
         <div class="form-group">
             <label for="status">Status:</label>
-            <input type="text" id="status" name="status" th:field="*{status}" class="form-control" required>
+            <select id="status" name="status" class="form-control" required>
+                <option value="">Select Status</option>
+                <option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available</option>
+                <option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
+                <option value="Occupied" th:selected="${dinnerTableDto.status == 'Occupied'}">Occupied</option>
+                <option value="Booked but Unused" th:selected="${dinnerTableDto.status == 'Booked but Unused'}">Booked but Unused</option>
+                <option value="Needs Cleaning" th:selected="${dinnerTableDto.status == 'Needs Cleaning'}">Needs Cleaning</option>
+                <option value="Under Maintenance or Repair" th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or Repair</option>
+            </select>
             <div class="invalid-feedback">
-                Status is required.
+                Please select a status.
             </div>
         </div>
 
