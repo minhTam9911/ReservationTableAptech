@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bookingtable.dtos.RoleDto;
-import com.bookingtable.servicies.IPermissionService;
 import com.bookingtable.servicies.IRoleService;
 
 import jakarta.validation.Valid;
