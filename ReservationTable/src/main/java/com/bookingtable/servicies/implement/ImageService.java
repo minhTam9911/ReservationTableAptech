@@ -6,10 +6,11 @@ import com.bookingtable.models.Image;
 import com.bookingtable.repositories.ImageRepository;
 import com.bookingtable.servicies.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class ImageService implements IImageService {
 
     @Autowired

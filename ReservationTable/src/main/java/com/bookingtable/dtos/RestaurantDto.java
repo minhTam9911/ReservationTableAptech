@@ -29,7 +29,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantDto {
-	
 		private String id;
 		@NotNull
 	    @NotEmpty
@@ -70,5 +69,4 @@ public class RestaurantDto {
 	    private Collection<DinnerTableDto> dinnerTablesDto = new ArrayList<>();
 	    
 	    private Collection<ImageDto> imagesDto = new ArrayList<>();
-
 }
