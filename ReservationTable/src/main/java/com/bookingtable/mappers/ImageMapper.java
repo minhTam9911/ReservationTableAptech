@@ -1,11 +1,8 @@
 package com.bookingtable.mappers;
 
 import com.bookingtable.dtos.ImageDto;
-//import com.bookingtable.dtos.PermissionDto;
 import com.bookingtable.models.Image;
-import com.bookingtable.models.Permission;
 
-import java.util.stream.Collectors;
 
 public class ImageMapper {
     public static Image mapToModel(ImageDto imageDto) {

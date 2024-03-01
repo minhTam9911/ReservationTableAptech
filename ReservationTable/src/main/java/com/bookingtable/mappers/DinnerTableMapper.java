@@ -1,7 +1,6 @@
 package com.bookingtable.mappers;
 
 import com.bookingtable.dtos.DinnerTableDto;
-import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.models.DinnerTable;
 
 import java.util.stream.Collectors;
@@ -12,29 +11,20 @@ public class DinnerTableMapper {
                 .id(dinnerTableDto.getId())
                 .quantity(dinnerTableDto.getQuantity())
                 .status(dinnerTableDto.getStatus())
-                .images(dinnerTableDto.getImagesDto()
-                        .stream().map(i->ImageMapper.mapToModel(i))
-                        .collect(Collectors.toList()))
                 .dinnerTableType(DinnerTableTypeMapper.mapToModel(dinnerTableDto.getDinnerTableTypeDto()))
                 .restaurant(RestaurantMapper.mapToModel(dinnerTableDto.getRestaurantDto()))
+                .images(dinnerTableDto.getImagesDto().stream().map(ImageMapper::mapToModel).collect(Collectors.toSet()))
                 .build();
     }
 
     public static DinnerTableDto mapToDto(DinnerTable dinnerTable) {
         return DinnerTableDto.builder()
                 .id(dinnerTable.getId())
-                .status(dinnerTable.getStatus())
                 .quantity(dinnerTable.getQuantity())
-                .imagesDto(dinnerTable.getImages()
-                        .stream().map(i->ImageMapper.mapToDto(i))
-                        .collect(Collectors.toList()))
-                .dinnerTableTypeDto(DinnerTableTypeDto.builder() // Use a simplified version here
-                        .id(dinnerTable.getDinnerTableType().getId())
-                        .type(dinnerTable.getDinnerTableType().getType())
-                        .capacity(dinnerTable.getDinnerTableType().getCapacity())
-                        .description(dinnerTable.getDinnerTableType().getDescription())
-                        .build())
+                .status(dinnerTable.getStatus())
+                .dinnerTableTypeDto(DinnerTableTypeMapper.mapToDto(dinnerTable.getDinnerTableType()))
                 .restaurantDto(RestaurantMapper.mapToDto(dinnerTable.getRestaurant()))
+                .imagesDto(dinnerTable.getImages().stream().map(ImageMapper::mapToDto).collect(Collectors.toSet()))
                 .build();
     }
 }

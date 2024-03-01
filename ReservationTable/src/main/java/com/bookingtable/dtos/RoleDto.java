@@ -3,7 +3,6 @@ package com.bookingtable.dtos;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bookingtable.models.Permission;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
