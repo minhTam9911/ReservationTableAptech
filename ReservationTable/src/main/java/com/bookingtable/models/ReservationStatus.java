@@ -2,6 +2,8 @@ package com.bookingtable.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -34,5 +36,5 @@ public class ReservationStatus {
 	    @Column
 	    private String description;
 	    @OneToMany(mappedBy = "reservationStatus", cascade = CascadeType.ALL)
-		private Collection<Reservation> reservations = new ArrayList<>();
+		private Set<Reservation> reservations = new HashSet<>();
 }

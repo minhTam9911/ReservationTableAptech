@@ -2,6 +2,7 @@ package com.bookingtable.dtos;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.bookingtable.models.Reservation;
 
@@ -32,5 +33,5 @@ public class ReservationStatusDto {
 
 	private String description;
 
-	private Collection<ReservationDto> reservationsDto = new ArrayList<>();
+	private List<ReservationDto> reservationsDto;
 }

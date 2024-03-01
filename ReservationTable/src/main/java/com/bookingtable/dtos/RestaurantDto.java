@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -66,7 +67,7 @@ public class RestaurantDto {
 	    @NotEmpty
 	    private String address;
 	   
-	    private Collection<DinnerTableDto> dinnerTablesDto = new ArrayList<>();
+	    private List<DinnerTableDto> dinnerTablesDto ;
 	    
-	    private Collection<ImageDto> imagesDto = new ArrayList<>();
+	    private List<ImageDto> imagesDto;
 }

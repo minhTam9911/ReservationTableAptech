@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -60,9 +62,9 @@ public class Restaurant {
     @Column
     private String address;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private Collection<DinnerTable> dinnerTables = new ArrayList<>();
+    private Set<DinnerTable> dinnerTables = new HashSet<>();
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private Collection<Image> images = new ArrayList<>();
+    private Set<Image> images = new HashSet<>();
     
 
 }
