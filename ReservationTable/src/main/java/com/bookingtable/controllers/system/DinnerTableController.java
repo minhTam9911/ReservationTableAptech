@@ -4,6 +4,7 @@ import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.dtos.RestaurantDto;
+import com.bookingtable.helpers.ImageHelper;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.IRestaurantService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -31,6 +33,8 @@ public class DinnerTableController {
 
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private ImageHelper imageHelper;
 
     @Autowired
     private RestaurantService restaurantService;
@@ -71,9 +75,13 @@ public class DinnerTableController {
     public String createDinnerTable(@ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
                                     @ModelAttribute("dinnerTableType") Integer dinnerTableTypeId,
                                     @ModelAttribute("restaurant") String restaurantId,
+                                    MultipartFile imageFile,
                                     RedirectAttributes redirectAttributes) {
         try {
-            // Gán đối tượng DinnerTableTypeDto và RestaurantDto
+            String path = imageHelper.uploadImage(imageFile);
+            ImageDto imageDto = new ImageDto();
+            imageDto.setPath(path);
+            dinnerTableDto.getImagesDto().add(imageDto);
             DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeId);
             RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(restaurantId);
             dinnerTableDto.setDinnerTableTypeDto(dinnerTableType);

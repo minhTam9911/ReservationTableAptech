@@ -9,7 +9,7 @@
 
 <section layout:fragment="content" class="container">
     <h2>Create Dinner Table</h2>
-    <form th:action="@{/system/dinnerTable/create}" method="post" th:object="${dinnerTableDto}" class="needs-validation">
+    <form th:action="@{/system/dinnerTable/create}" method="post" th:object="${dinnerTableDto}" class="needs-validation" enctype="multipart/form-data">
         <!-- Add form fields for DinnerTableDto properties -->
         <div class="form-group">
             <label for="status">Status:</label>
@@ -37,13 +37,9 @@
 
         <div class="form-group">
             <label for="image">Image:</label>
-            <select id="image" name="image" class="form-control" >
-                <option value="">Select Image</option>
-                <!-- Thêm các tùy chọn cho hình ảnh từ danh sách có sẵn -->
-                <option th:each="image : ${images}" th:value="${image.id}" th:text="${image.name}"></option>
-            </select>
+            <input type="file" id="image" name="image" class="form-control-file">
             <div class="invalid-feedback">
-                Please select an image.
+                Please select an image file.
             </div>
         </div>
 

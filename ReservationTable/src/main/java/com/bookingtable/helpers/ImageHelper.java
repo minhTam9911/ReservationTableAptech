@@ -1,5 +1,6 @@
 package com.bookingtable.helpers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -12,16 +13,17 @@ import java.util.UUID;
 @Component
 public class ImageHelper {
 
-    private static final String UPLOAD_DIR = "uploads";
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     public String uploadImage(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        Path uploadPath = Paths.get(UPLOAD_DIR);
+        Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
         Path filePath = uploadPath.resolve(fileName);
-        file.transferTo(filePath.toFile());
+        file.transferTo(filePath);
         return fileName;
     }
     public boolean deleteImage(String fileName, String uploadDir) {
