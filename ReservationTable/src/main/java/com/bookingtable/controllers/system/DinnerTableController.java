@@ -3,11 +3,13 @@ package com.bookingtable.controllers.system;
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.dtos.ImageDto;
+import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.servicies.IDinnerTableService;
-import com.bookingtable.servicies.IPaginationService;
+import com.bookingtable.servicies.IDinnerTableTypeService;
+import com.bookingtable.servicies.IRestaurantService;
+import com.bookingtable.servicies.implement.ImageService;
+import com.bookingtable.servicies.implement.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,43 +17,27 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("system/dinnerTable" )
 public class DinnerTableController {
     @Autowired
     private IDinnerTableService iDinnerTableService;
+
     @Autowired
-    private IPaginationService iPaginationService;
+    private IDinnerTableTypeService dinnerTableTypeService;
+    @Autowired
+    private IRestaurantService iRestaurantService;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private RestaurantService restaurantService;
     @GetMapping({ "index", "", "/" })
-    public String getAllCustomers(@RequestParam("page") Optional<Integer> page,
-                                  @RequestParam("size") Optional<Integer> size,
-                                  Model model) {
+    public String getAllCustomers(Model model) {
         List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
-        int[] pageSizes = {5, 10, 20};
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
-        Page<DinnerTableDto> dinnerTablesPage = iPaginationService.findPaginated(dinnerTables, PageRequest.of(currentPage - 1, pageSize));
-        int previousPage = Math.max(1, currentPage - 1);
-        int nextPage = Math.max(1, currentPage + 1);
-        int totalPages = dinnerTablesPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("previousPage", previousPage);
-        model.addAttribute("nextPage", nextPage);
-        model.addAttribute("dinnerTablePages", dinnerTablesPage);
-        model.addAttribute("pageSizes", pageSizes);
-
-        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("dinnerTables",dinnerTables);
 
         return "system/dinnerTable/index";
     }
@@ -65,29 +51,72 @@ public class DinnerTableController {
     @GetMapping("/create")
     public String showDinnerTableCreateForm(Model model) {
         DinnerTableDto dinnerTableDto = new DinnerTableDto();
-        DinnerTableTypeDto dinnerTableTypeDto = new DinnerTableTypeDto();
-        ImageDto imageDto = new ImageDto();
         model.addAttribute("dinnerTableDto", dinnerTableDto);
+
+        List<DinnerTableTypeDto> dinnerTableTypes = dinnerTableTypeService.getAllDinnerTablesType();
+        model.addAttribute("dinnerTableTypes", dinnerTableTypes);
+        // Lấy danh sách hình ảnh từ service và chuyển vào model
+        List<ImageDto> images = imageService.getAllImages();
+        model.addAttribute("images", images);
+        // Lấy danh sách nhà hàng từ cơ sở dữ liệu và chuyển vào model
+        List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
+        model.addAttribute("restaurants", restaurants);
         return "system/dinnerTable/create";
     }
 
     @PostMapping("/create")
-    public String createDinnerTable(@ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto, RedirectAttributes redirectAttributes) {
-        iDinnerTableService.createDinnerTable(dinnerTableDto);
-        redirectAttributes.addAttribute("Create success");
+    public String createDinnerTable(@ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
+                                    @ModelAttribute("dinnerTableType") Integer dinnerTableTypeId,
+                                    @ModelAttribute("restaurant") String restaurantId,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            // Gán đối tượng DinnerTableTypeDto và RestaurantDto
+            DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeId);
+            RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(restaurantId);
+            dinnerTableDto.setDinnerTableTypeDto(dinnerTableType);
+            dinnerTableDto.setRestaurantDto(restaurantDto);
+
+            // Tạo bàn ăn
+            iDinnerTableService.createDinnerTable(dinnerTableDto);
+
+            redirectAttributes.addFlashAttribute("message", "Dinner table created successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to create dinner table: " + e.getMessage());
+        }
         return "redirect:/system/dinnerTable";
     }
 
+
+
     @GetMapping("/edit/{id}")
-    public String showEditDinnerTableForm(@PathVariable("id") Integer id, ModelMap modelMap) {
+    public String showEditDinnerTableForm(@PathVariable("id") Integer id, ModelMap model) {
+        List<DinnerTableTypeDto> dinnerTableTypes = dinnerTableTypeService.getAllDinnerTablesType();
+        model.addAttribute("dinnerTableTypes", dinnerTableTypes);
+
+        // Lấy danh sách nhà hàng từ cơ sở dữ liệu và chuyển vào model
+        List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
+        model.addAttribute("restaurants", restaurants);
+        // Lấy danh sách hình ảnh từ service và chuyển vào model
+        List<ImageDto> images = imageService.getAllImages();
+        model.addAttribute("images", images);
+
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
-        modelMap.addAttribute("dinnerTableDto", dinnerTableDto);
+        model.addAttribute("dinnerTableDto", dinnerTableDto);
         return "system/dinnerTable/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String editDinnerTable(@PathVariable("id") Integer id, @ModelAttribute("dinnerTableDto") DinnerTableDto updatedDinnerTable) {
+    public String editDinnerTable(@PathVariable("id") Integer id,
+                                  @ModelAttribute("dinnerTableDto") DinnerTableDto updatedDinnerTable,
+                                  @ModelAttribute("dinnerTableType") Integer dinnerTableTypeId,
+                                  @ModelAttribute("restaurant") String restaurantId) {
+
         DinnerTableDto existingDinnerTable = iDinnerTableService.getDinnerTableById(id);
+        DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeId);
+        RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(restaurantId);
+        updatedDinnerTable.setDinnerTableTypeDto(dinnerTableType);
+        updatedDinnerTable.setRestaurantDto(restaurantDto);
+
         if (existingDinnerTable != null) {
             existingDinnerTable.setStatus(updatedDinnerTable.getStatus());
             existingDinnerTable.setQuantity(updatedDinnerTable.getQuantity());

@@ -28,4 +28,5 @@ public class DinnerTableType {
     private String description;
     @OneToMany(mappedBy = "dinnerTableType", cascade = CascadeType.ALL)
 	private Collection<DinnerTable> dinnerTables = new ArrayList<>();
+
 }
