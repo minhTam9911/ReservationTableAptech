@@ -30,6 +30,7 @@ public class DinnerTable {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
     @OneToMany(mappedBy = "dinnerTable", cascade = CascadeType.ALL)
     private Collection<Image> images = new ArrayList<>();
 

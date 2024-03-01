@@ -1,7 +1,7 @@
 package com.bookingtable.servicies.implement;
 
-import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
+import com.bookingtable.mappers.DinnerTableMapper;
 import com.bookingtable.models.DinnerTableType;
 import com.bookingtable.repositories.DinnerTableTypeRepository;
 import com.bookingtable.mappers.DinnerTableTypeMapper;
@@ -20,8 +20,7 @@ public class DinnerTableTypeService implements IDinnerTableTypeService {
     public List<DinnerTableTypeDto> getAllDinnerTablesType() {
         return dinnerTableTypeRepository.findAll().stream()
                 .map(DinnerTableTypeMapper::mapToDto)
-                .collect(Collectors.toList());
-    }
+                .collect(Collectors.toList());    }
     @Override
     public DinnerTableTypeDto getDinnerTableTypeById(Integer id) {
         DinnerTableType dinnerTableType = dinnerTableTypeRepository.findById(id)
