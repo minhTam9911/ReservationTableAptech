@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,10 +24,6 @@ public class RoleController {
 	@Autowired
 	private IRoleService roleService;
 	
-	@Autowired
-	private IPermissionService permissionService;
-	
-	
 	@GetMapping({"index","","/"})
 	public String index(Model model) {
 		model.addAttribute("roles", roleService.getAllRoles());
@@ -36,7 +33,6 @@ public class RoleController {
 	@GetMapping("create")
 	public String create(Model model) {
 		model.addAttribute("roleDto", new RoleDto());
-		model.addAttribute("permissions", permissionService.getAllPermission());
 		return "system/role/create";
 	}
 	
@@ -45,10 +41,44 @@ public class RoleController {
 		if(bindingResult.hasErrors()) {
 			return "system/role/create";
 		}
-		if(roleService.createRole(roleDto)) {
+		var response = roleService.createRole(roleDto);
+		if(response.isStatus()) {
+			attributes.addFlashAttribute("msg", response);
+			return "redirect:/system/role/create";
+		}else {
+			attributes.addFlashAttribute("msg", response);
+			return "redirect:/system/role/create";
+		}
+	}
+	@GetMapping("update/{id}")
+	public String update(Model model, @PathVariable("id") Integer id) {
+		model.addAttribute("roleDto", roleService.getRoleById(id));
+		return "system/role/update";
+	}
+	@PostMapping("updateProcess")
+	public String updateProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto, RedirectAttributes attributes, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			return "system/role/update";
+		}
+		var response = roleService.updateRole(roleDto.getId(),roleDto);
+		if(response.isStatus()) {
+			attributes.addFlashAttribute("msg", response);
+			return "redirect:/system/role/update";
+		}else {
+			attributes.addFlashAttribute("msg", response);
+			return "redirect:/system/role/update";
+		}
+	}
+	
+	@GetMapping("delete/{id}")
+	public String delete(@PathVariable("id") Integer id, RedirectAttributes attributes) {
+		var response = roleService.deleteRole(id);
+		if(response.isStatus()) {
+			attributes.addFlashAttribute("msg", response);
 			return "redirect:/system/role/index";
 		}else {
-			attributes.addFlashAttribute("", attributes)
+			attributes.addFlashAttribute("msg", response);
+			return "redirect:/system/role/index";
 		}
 	}
 }

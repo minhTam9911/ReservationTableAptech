@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Index Role Table Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<section layout:fragment="content">
+
+    <h2>Role Tables</h2>
+    <a href="/system/role/create" class="btn btn-success"><i class="fa-solid fa-plus"></i>Add</a>
+
+    <table id="myTable" class="display">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="role : ${roles}">
+            <td th:text="${role.id}"></td>
+            <td th:text="${role.name}"></td>
+            <td>
+                <a th:href="@{/system/role/update/{id}(id=${role.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
+                <a th:href="@{/system/role/delete/{id}(id=${role.id})}" class="btn btn-danger">Delete</a>&emsp;|&emsp;
+                <a th:href="@{/system/role/detail/{id}(id=${role.id})}" class="btn btn-info">Detail</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+
+
+</body>
+
+</html>
