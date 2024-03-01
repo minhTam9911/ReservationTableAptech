@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" 
       layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
@@ -9,10 +9,14 @@
 <body>
 
 <section layout:fragment="content">
-
-    <h2>Role Tables</h2>
-    <a href="/system/role/create" class="btn btn-success"><i class="fa-solid fa-plus"></i>Add</a>
-
+	<br>
+    <h2 style="text-align: center;">
+		<a href="/system/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
+			
+		Role Tables   
+		<a href="/system/role/create" class="btn btn-success" style="float: right; "><i class="fa-solid fa-plus"></i> Add</a>
+	 </h2>
+    <br>
     <table id="myTable" class="display">
         <thead>
         <tr>

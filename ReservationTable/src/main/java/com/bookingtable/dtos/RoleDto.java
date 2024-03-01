@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,7 +29,6 @@ import lombok.NoArgsConstructor;
 public class RoleDto {
 	
 	private Integer id;
-	@NotEmpty
-	@NotNull
+	@NotEmpty(message = "The name cannot be empty")
 	private String name;
 }
