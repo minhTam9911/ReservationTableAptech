@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.RoleDto;
 import com.bookingtable.mappers.PermissionMapper;
 import com.bookingtable.mappers.RoleMapper;
@@ -30,49 +31,56 @@ public class RoleService implements IRoleService {
 	}
 
 	@Override
-	public boolean createRole(RoleDto roleDto) {
+	public ResultResponse createRole(RoleDto roleDto) {
 		try {
-			
+			if(roleRepository.findByName(roleDto.getName()).size()>0) {
+				return new ResultResponse(false,"Name already");
+			}
 			if(roleRepository.save(RoleMapper.mapToModel(roleDto))!=null) {
-				return true;
+				return new ResultResponse(true,"Create Sucessfull");
 			}else {
-				return false;
+				return new ResultResponse(false,"Create Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse(false,e.getMessage());
 		}
 	}
 
 	@Override
-	public boolean updateRole(Integer id, RoleDto roleDto) {
+	public ResultResponse updateRole(Integer id, RoleDto roleDto) {
 		try {
 			var data = roleRepository.findById(id).get();
+			if(data.getName() != roleDto.getName()) {
+				if(roleRepository.existName(roleDto.getName(), id).size()>0) {
+					return new ResultResponse(false,"Name already");
+				}
+			}
 			data.setName(roleDto.getName());
 			data.setPermissions(roleDto.getPermissionsDto().stream().map(i->PermissionMapper.mapToModel(i)).collect(Collectors.toList()));
 			if(roleRepository.save(data)!=null) {
-				return true;
+				return new ResultResponse(true,"Update Successful");
 			}else {
-				return false;
+				return new ResultResponse(false,"Update Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse(false,e.getMessage());
 		}
 	}
 
 	@Override
-	public boolean deleteRole(Integer id) {
+	public ResultResponse deleteRole(Integer id) {
 		try {
 			if(roleRepository.findById(id)!=null) {
 				roleRepository.deleteById(id);
-				return true;
+				return new ResultResponse(true,"Delete Successful");
 			}else {
-				return false;
+				return new ResultResponse(false,"Delete Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse(false,e.getMessage());
 		}
 	}
 
