@@ -2,7 +2,6 @@ package com.bookingtable.mappers;
 
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.models.Image;
-
 public class ImageMapper {
     public static Image mapToModel(ImageDto imageDto) {
         return Image.builder()

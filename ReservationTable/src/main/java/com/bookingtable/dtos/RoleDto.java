@@ -1,6 +1,5 @@
 package com.bookingtable.dtos;
 
-
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

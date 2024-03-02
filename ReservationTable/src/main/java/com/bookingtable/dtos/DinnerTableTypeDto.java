@@ -3,6 +3,7 @@ package com.bookingtable.dtos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,14 +20,13 @@ import java.util.Set;
 @Builder
 public class DinnerTableTypeDto {
     private Integer id;
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Capacity cannot be empty")
+    @Positive
     private int capacity;
-    @NotNull
+    @NotNull(message="Type cannot be empty")
     @NotEmpty
     private String type;
     private String description;
     @OneToMany(mappedBy = "dinnerTableType", cascade = CascadeType.ALL)
 	private Set<DinnerTableDto> dinnerTablesDto = new HashSet<>();
-
 }
