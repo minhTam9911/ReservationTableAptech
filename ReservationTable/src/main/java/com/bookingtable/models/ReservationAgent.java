@@ -52,6 +52,8 @@ public class ReservationAgent {
 	@Column
 	private String password;
 	@Column
+	private int totalRestaurant;
+	@Column
 	@CreationTimestamp
 	private LocalDate created;
 	@Column

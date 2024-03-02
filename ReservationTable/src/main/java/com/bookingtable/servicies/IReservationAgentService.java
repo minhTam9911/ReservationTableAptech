@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.bookingtable.dtos.ReservationAgentDto;
+import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.dtos.RoleDto;
 
 public interface IReservationAgentService {
 
@@ -11,9 +13,9 @@ public interface IReservationAgentService {
 
     public ReservationAgentDto getReservationAgentById(UUID id);
 
-    public boolean createReservationAgent(ReservationAgentDto reservationAgentDto) ;
-    public boolean updateReservationAgent(UUID id, ReservationAgentDto reservationAgentDto);
+    public ResultResponse<ReservationAgentDto> createReservationAgent(ReservationAgentDto reservationAgentDto) ;
+    public ResultResponse<ReservationAgentDto> updateReservationAgent(UUID id, ReservationAgentDto reservationAgentDto);
 
-    public boolean deleteReservationAgent(UUID id);
+    public ResultResponse<ReservationAgentDto> deleteReservationAgent(UUID id);
 	
 }

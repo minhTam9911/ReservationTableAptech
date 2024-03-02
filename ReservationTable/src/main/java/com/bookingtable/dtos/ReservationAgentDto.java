@@ -54,6 +54,8 @@ public class ReservationAgentDto {
 	@NotNull
     @NotEmpty
 	private String homePhoneNumber;
+	
+	private int totalRestaurant;
 	@NotNull
     @NotEmpty
 	private String cellularPhoneNumber;

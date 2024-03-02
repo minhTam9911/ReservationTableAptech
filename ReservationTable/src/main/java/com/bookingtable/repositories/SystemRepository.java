@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.bookingtable.models.Role;
 import com.bookingtable.models.System;
 
 import jakarta.websocket.server.PathParam;
@@ -16,5 +18,10 @@ public interface SystemRepository extends JpaRepository<System, UUID> {
 
 	//@Query(value = "select * from system s where  s.role.id <> 1", nativeQuery = true)
 	List<System> findByRoleIdNot(Integer id);
+	
+	System findByEmail(String email);
+	
+	@Query(value = "select * from system where email = :email and id <> :id", nativeQuery = true)
+	System existEmail(@Param("email")String email, @Param("id") UUID id);
 	
 }

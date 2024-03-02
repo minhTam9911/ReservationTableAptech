@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.models.System;
 import com.bookingtable.mappers.SystemMapper;
+import com.bookingtable.repositories.GuestRepository;
+import com.bookingtable.repositories.ReceptionistRepository;
+import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.SystemRepository;
 import com.bookingtable.servicies.ISystemService;
 
@@ -26,6 +30,14 @@ public class SystemService implements ISystemService {
 
 	@Autowired
 	private SystemRepository systemRepository;
+	@Autowired
+	private ReservationAgentRepository reservationAgentRepository;
+	@Autowired
+	private SystemRepository repository;
+	@Autowired
+	private GuestRepository guestRepository;
+	@Autowired
+	private ReceptionistRepository receptionistRepository;
 	@Override
 	public List<SystemDto> getAllSystems() {
 		
@@ -40,8 +52,24 @@ public class SystemService implements ISystemService {
 	
 
 	@Override
-	public boolean updateSystem(UUID id, SystemDto systemDto) {
+	public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto) {
 		try {
+			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(receptionistRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(reservationAgentRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(guestRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
 			var data = systemRepository.findById(id).get();
 			data.setFullname(systemDto.getFullname());
 			data.setAddress(systemDto.getAddress());
@@ -62,8 +90,9 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public boolean deleteSystem(UUID id) {
+	public  ResultResponse<SystemDto> deleteSystem(UUID id) {
 		try {
+			
 			if(systemRepository.findById(id)!=null) {
 				systemRepository.deleteById(id);
 				return true;
@@ -77,18 +106,36 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public boolean insertSystem(SystemDto systemDto) {
+	public  ResultResponse<SystemDto> insertSystem(SystemDto systemDto) {
 		try {
+			systemDto.setEmail(systemDto.getEmail().toLowerCase());
+			
 			systemDto.setCreated(LocalDate.now());
 			systemDto.setUpdated(LocalDate.now());
+			
+			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(receptionistRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(reservationAgentRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(guestRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
+			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
 			if(systemRepository.save(SystemMapper.mapToModel(systemDto))!=null) {
-				return true;
+				return new  ResultResponse<SystemDto>(false, new SystemDto());
 			}else {
-				return false;
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 		}
 	}
 
