@@ -9,14 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ReservationAgentDto;
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.mappers.ReservationAgentMapper;
+import com.bookingtable.repositories.GuestRepository;
+import com.bookingtable.repositories.ReceptionistRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
+import com.bookingtable.repositories.SystemRepository;
 import com.bookingtable.servicies.IReservationAgentService;
 @Service
 public class ReservationAgentService implements IReservationAgentService {
 
 	@Autowired
 	private ReservationAgentRepository reservationAgentRepository;
+	@Autowired
+	private SystemRepository repository;
+	@Autowired
+	private GuestRepository guestRepository;
+	@Autowired
+	private ReceptionistRepository receptionistRepository;
 	@Override
 	public List<ReservationAgentDto> getAllReservationAgents() {
 		
@@ -31,7 +41,7 @@ public class ReservationAgentService implements IReservationAgentService {
 	
 
 	@Override
-	public boolean updateReservationAgent(UUID id, ReservationAgentDto reservationAgentDto) {
+	public ResultResponse<ReservationAgentDto> updateReservationAgent(UUID id, ReservationAgentDto reservationAgentDto) {
 		try {
 			var data = reservationAgentRepository.findById(id).get();
 			data.setFullName(reservationAgentDto.getFullName());
@@ -44,44 +54,47 @@ public class ReservationAgentService implements IReservationAgentService {
 			data.setCellularPhoneNumber(reservationAgentDto.getCellularPhoneNumber());
 			data.setUpdated(LocalDate.now());
 			if(reservationAgentRepository.save(data)!=null) {
-				return true;
+				return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 			}else {
-				return false;
+				return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 		}
 	}
 
 	@Override
-	public boolean deleteReservationAgent(UUID id) {
+	public ResultResponse<ReservationAgentDto> deleteReservationAgent(UUID id) {
 		try {
 			if(reservationAgentRepository.findById(id)!=null) {
 				reservationAgentRepository.deleteById(id);
-				return true;
+				return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 			}else {
-				return false;
+				return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 		}
 	}
 
 	@Override
-	public boolean createReservationAgent(ReservationAgentDto reservationAgentDto) {
+	public ResultResponse<ReservationAgentDto> createReservationAgent(ReservationAgentDto reservationAgentDto) {
 		try {
+			reservationAgentDto.setEmail(reservationAgentDto.getEmail().toLowerCase());
 			reservationAgentDto.setCreated(LocalDate.now());
 			reservationAgentDto.setUpdated(LocalDate.now());
+			reservationAgentDto.setCreateBy(null);
+			
 			if(reservationAgentRepository.save(ReservationAgentMapper.mapToModel(reservationAgentDto))!=null) {
-				return true;
+				return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 			}else {
-				return false;
+				return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
 		}
 	}
 

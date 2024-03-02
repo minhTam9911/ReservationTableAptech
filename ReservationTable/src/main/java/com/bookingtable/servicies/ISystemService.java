@@ -3,6 +3,7 @@ package com.bookingtable.servicies;
 import java.util.List;
 import java.util.UUID;
 
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
 
 public interface ISystemService {
@@ -11,9 +12,9 @@ public interface ISystemService {
 
     public SystemDto getSystemsById(UUID id);
 
-    public boolean insertSystem(SystemDto systemDto) ;
-    public boolean updateSystem(UUID id, SystemDto systemDto);
+    public ResultResponse<SystemDto> insertSystem(SystemDto systemDto) ;
+    public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto);
 
-    public boolean deleteSystem(UUID id);
+    public  ResultResponse<SystemDto> deleteSystem(UUID id);
 	
 }

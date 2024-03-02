@@ -58,11 +58,13 @@ public class RestaurantDto {
 	    @NotNull
 	    @NotEmpty
 	    private String ward;
-	    
+	  
+	    private boolean active;
+
 		private LocalDate created;
 		
 		private LocalDate updated;
-		private ReservationAgentDto reservationAgentDto;
+		private ReceptionistDto receptionistDto;
 		@NotNull
 	    @NotEmpty
 	    private String address;
@@ -70,4 +72,5 @@ public class RestaurantDto {
 	    private List<DinnerTableDto> dinnerTablesDto ;
 	    
 	    private List<ImageDto> imagesDto;
+	    private ReservationAgentDto createBy;
 }

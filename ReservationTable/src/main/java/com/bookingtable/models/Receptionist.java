@@ -58,6 +58,7 @@ public class Receptionist {
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 	@ManyToOne
-	private ReservationAgent reservationAgent;
+	@JoinColumn(name = "role",nullable = false)
+	private ReservationAgent createBy;
 	
 }

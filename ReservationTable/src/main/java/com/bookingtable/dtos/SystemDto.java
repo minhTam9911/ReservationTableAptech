@@ -56,4 +56,10 @@ public class SystemDto {
 	private RoleDto roleDto;
 	
 	private List<ReservationAgentDto> reservationAgentDtos;
+
+	public SystemDto( String email) {
+		super();
+		this.email = email;
+	}
+	
 }

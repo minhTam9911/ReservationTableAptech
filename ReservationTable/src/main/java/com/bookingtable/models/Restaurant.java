@@ -55,16 +55,22 @@ public class Restaurant {
 	@UpdateTimestamp
 	private LocalDate updated;
     @Column
-    private String status;
+    private boolean active;
+    @Column
+    private String status; 
 	@OneToOne
-	@JoinColumn(name = "reservationAgent_id")
-	private ReservationAgent reservationAgent;
+	@JoinColumn(name = "receptionist_id")
+	private Receptionist receptionist;
     @Column
     private String address;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<DinnerTable> dinnerTables = new HashSet<>();
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Image> images = new HashSet<>();
+    
+    @ManyToOne
+	@JoinColumn(name = "role",nullable = false)
+	private ReservationAgent createBy;
     
 
 }

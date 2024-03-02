@@ -17,6 +17,8 @@ public class ReceptionistMapper {
 				.created(receptionistDto.getCreated())
 				.updated(receptionistDto.getUpdated())
 				.dateOfBirth(receptionistDto.getDateOfBirth())
+				.restaurant(RestaurantMapper.mapToModel(receptionistDto.getRestaurantDto()))
+				.createBy(ReservationAgentMapper.mapToModel(receptionistDto.getReservationAgentDto()))
 				.role(RoleMapper.mapToModel(receptionistDto.getRoleDto()))
 				.build();
 	}
@@ -32,8 +34,9 @@ public class ReceptionistMapper {
 				.created(receptionist.getCreated())
 				.updated(receptionist.getUpdated())
 				.dateOfBirth(receptionist.getDateOfBirth())
+				.restaurantDto(RestaurantMapper.mapToDto(receptionist.getRestaurant()))
+				.reservationAgentDto(ReservationAgentMapper.mapToDto(receptionist.getCreateBy()))
 				.roleDto(RoleMapper.mapToDto(receptionist.getRole()))
 				.build();
 	}
-	
 }
