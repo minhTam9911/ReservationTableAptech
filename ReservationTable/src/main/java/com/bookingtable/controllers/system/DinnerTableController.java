@@ -35,7 +35,6 @@ public class DinnerTableController {
     private ImageService imageService;
     @Autowired
     private ImageHelper imageHelper;
-
     @Autowired
     private RestaurantService restaurantService;
     @GetMapping({"index", "", "/"})
