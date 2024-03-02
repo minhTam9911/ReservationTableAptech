@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head>
     <title>Create Dinner Table Page</title>
     <!-- Bootstrap CSS -->
@@ -8,68 +7,69 @@
 <body>
 
 <section layout:fragment="content" class="container">
-    <h2>Create Dinner Table</h2>
-    <form th:action="@{/system/dinnerTable/create}" method="post" th:object="${dinnerTableDto}" class="needs-validation" enctype="multipart/form-data">
-        <!-- Add form fields for DinnerTableDto properties -->
-        <div class="form-group">
+    <br>
+    <h2 style="text-align: center;">
+        <a href="/system/dinnerTable/index" class="btn btn-secondary" style="float: left; ">
+            <i class="fa-solid fa-arrow-left"></i>&nbsp;Back to List</a>
+        Create Dinner Table Table</h2>
+
+    <br>
+    <div class="bg-light rounded h-100 p-4">
+
+    <form th:action="@{/system/dinnerTable/create}" method="post" th:object="${dinnerTableDto}" class="needs-validation" novalidate enctype="multipart/form-data">
+
+        <div class="mb-3">
             <label for="status">Status:</label>
-            <select id="status" name="status" class="form-control" required>
+            <select id="status" name="status" class="form-control">
                 <option value="">Select Status</option>
-                <option value="Available">Available</option>
-                <option value="Reserved">Reserved</option>
-                <option value="Occupied">Occupied</option>
-                <option value="Booked but Unused">Booked but Unused</option>
-                <option value="Needs Cleaning">Needs Cleaning</option>
-                <option value="Under Maintenance or Repair">Under Maintenance or Repair</option>
+                <option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available</option>
+                <option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
+                <option value="Occupied" th:selected="${dinnerTableDto.status == 'Occupied'}">Occupied</option>
+                <option value="Booked but Unused" th:selected="${dinnerTableDto.status == 'Booked but Unused'}">Booked but Unused</option>
+                <option value="Needs Cleaning" th:selected="${dinnerTableDto.status == 'Needs Cleaning'}">Needs Cleaning</option>
+                <option value="Under Maintenance or Repair" th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or Repair</option>
             </select>
-            <div class="invalid-feedback">
-                Please select a status.
-            </div>
+            <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback" style="display:block;"></div>
+
         </div>
 
-        <div class="form-group">
+        <!-- Quantity with Thymeleaf error handling -->
+        <div class="mb-3">
             <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" class="form-control" required>
-            <div class="invalid-feedback">
-                Quantity is required.
-            </div>
+            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" class="form-control" >
+            <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="invalid-feedback" style="display:block;"></div>
         </div>
 
-        <div class="form-group">
+        <!-- Image field example (assuming you have backend validation for image) -->
+        <div class="mb-3">
             <label for="image">Image:</label>
             <input type="file" id="image" name="image" class="form-control-file">
-            <div class="invalid-feedback">
-                Please select an image file.
-            </div>
+            <div th:if="${#fields.hasErrors('imagesDto')}" th:errors="*{imagesDto}" class="invalid-feedback" style="display:block;"></div>
         </div>
 
-
-        <div class="form-group">
+        <!-- Dinner Table Type with Thymeleaf error handling -->
+        <div class="mb-3">
             <label for="dinnerTableType">Dinner Table Type:</label>
-            <select id="dinnerTableType" name="dinnerTableType" class="form-control" required>
+            <select id="dinnerTableType" name="dinnerTableType" class="form-control" >
                 <option value="">Select Type</option>
                 <option th:each="dinnerTableType : ${dinnerTableTypes}" th:value="${dinnerTableType.id}" th:text="${dinnerTableType.type}"></option>
             </select>
-            <div class="invalid-feedback">
-                Please select a dinner table type.
-            </div>
+            <div th:if="${#fields.hasErrors('dinnerTableTypeDto')}" th:errors="*{dinnerTableTypeDto}" class="invalid-feedback" style="display:block;"></div>
         </div>
 
-        <div class="form-group">
+        <!-- Restaurant with Thymeleaf error handling -->
+        <div class="mb-3">
             <label for="restaurant">Restaurant:</label>
-            <select id="restaurant" name="restaurant" class="form-control" required>
+            <select id="restaurant" name="restaurant" class="form-control" >
                 <option value="">Select Restaurant</option>
                 <option th:each="restaurant : ${restaurants}" th:value="${restaurant.id}" th:text="${restaurant.name}"></option>
             </select>
-            <div class="invalid-feedback">
-                Please select a restaurant.
-            </div>
+            <div th:if="${#fields.hasErrors('restaurantDto')}" th:errors="*{restaurantDto}" class="invalid-feedback" style="display:block;"></div>
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
-    <br>
-    <a href="/system/dinnerTable/index" class="btn btn-secondary">Back to List</a>
+    </div>
 </section>
 </body>
 </html>

@@ -38,7 +38,7 @@ public class DinnerTableController {
 
     @Autowired
     private RestaurantService restaurantService;
-    @GetMapping({ "index", "", "/" })
+    @GetMapping({"index", "", "/"})
     public String getAllCustomers(Model model) {
         List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
         model.addAttribute("dinnerTables",dinnerTables);

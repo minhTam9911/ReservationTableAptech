@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Create Dinner table type Table Page</title>
+</head>
+<body>
+
+<section layout:fragment="content" class="container">
+	<br>
+    <h2 style="text-align: center;">
+        <a href="/system/dinnerTableType/index" class="btn btn-secondary" style="float: left; ">
+        <i class="fa-solid fa-arrow-left"></i>&nbsp;Back to List</a>
+		 Create Dinner table type Table</h2>
+
+    <br>
+     <div class="bg-light rounded h-100 p-4">
+         <form th:action="@{/system/dinnerTableType/create}" method="post" th:object="${dinnerTableTypeDto}">
+             <div class="mb-3">
+                 <label for="type" class="form-label">Type</label>
+                 <input type="text" class="form-control" th:field="*{type}" id="type">
+                 <div class="form-text">
+                     <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" style="color: red;"></span>
+                 </div>
+             </div>
+             <div class="mb-3">
+                 <label for="capacity" class="form-label">Capacity</label>
+                 <input type="number" class="form-control" th:field="*{capacity}" id="capacity">
+                 <div class="form-text">
+                     <span th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}" style="color: red;"></span>
+                 </div>
+             </div>
+             <div class="mb-3">
+                 <label for="description" class="form-label">Description</label>
+                 <textarea class="form-control" th:field="*{description}" id="description"></textarea>
+             </div>
+             <button type="submit" class="btn btn-primary">Create</button>
+         </form>
+
+     </div>
+
+</section>
+</body>
+</html>
