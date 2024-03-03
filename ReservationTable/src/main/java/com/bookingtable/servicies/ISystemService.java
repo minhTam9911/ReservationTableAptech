@@ -10,12 +10,12 @@ public interface ISystemService {
 
 	public List<SystemDto> getAllSystems();
 
-    public SystemDto getSystemsById(UUID id);
+    public SystemDto getSystemsById(String id);
 
     public ResultResponse<SystemDto> insertSystem(SystemDto systemDto) ;
-    public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto);
+    public  ResultResponse<SystemDto> updateSystem(String id, SystemDto systemDto);
 
-    public  ResultResponse<SystemDto> deleteSystem(UUID id);
-    public boolean changeStatus(UUID id);
+    public  ResultResponse<SystemDto> deleteSystem(String id);
+    public boolean changeStatus(String id);
 	
 }

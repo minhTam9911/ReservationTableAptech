@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class ReservationAgentDto {
-	private UUID id;
+	private String id;
 	@NotNull
     @NotEmpty
 	private String fullName;

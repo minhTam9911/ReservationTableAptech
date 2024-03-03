@@ -14,7 +14,7 @@ import com.bookingtable.models.System;
 import jakarta.websocket.server.PathParam;
 
 @Repository
-public interface SystemRepository extends JpaRepository<System, UUID> {
+public interface SystemRepository extends JpaRepository<System, String> {
 
 	//@Query(value = "select * from system s where  s.role.id <> 1", nativeQuery = true)
 	List<System> findByRoleIdNot(Integer id);
@@ -22,6 +22,6 @@ public interface SystemRepository extends JpaRepository<System, UUID> {
 	System findByEmail(String email);
 	
 	@Query(value = "select * from system where email = :email and id <> :id", nativeQuery = true)
-	System existEmail(@Param("email")String email, @Param("id") UUID id);
+	System existEmail(@Param("email")String email, @Param("id") String id);
 	
 }

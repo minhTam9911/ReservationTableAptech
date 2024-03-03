@@ -31,8 +31,8 @@ import lombok.NoArgsConstructor;
 public class ReservationAgent {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
 	@Column
 	private String fullName;
 	@Column

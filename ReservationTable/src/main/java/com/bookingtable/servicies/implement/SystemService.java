@@ -46,14 +46,14 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public SystemDto getSystemsById(UUID id) {
+	public SystemDto getSystemsById(String id) {
 		return SystemMapper.mapToDto(systemRepository.findById(id).get());
 	}
 
 
 
 	@Override
-	public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto) {
+	public  ResultResponse<SystemDto> updateSystem(String id, SystemDto systemDto) {
 		try {
 
 			if(receptionistRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
@@ -62,9 +62,9 @@ public class SystemService implements ISystemService {
 			if(reservationAgentRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
-			if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
-			}
+			//if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
+				//return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			//}
 			if(systemRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
@@ -88,7 +88,7 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public  ResultResponse<SystemDto> deleteSystem(UUID id) {
+	public  ResultResponse<SystemDto> deleteSystem(String id) {
 		try {
 
 			if(systemRepository.findById(id)!=null) {
@@ -145,7 +145,7 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public boolean changeStatus(UUID id) {
+	public boolean changeStatus(String id) {
 		try {
 			var data = systemRepository.findById(id).get();
 			if(data== null) {
