@@ -10,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.bookingtable.models.Role;
 
-
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -26,27 +26,27 @@ import lombok.NoArgsConstructor;
 public class SystemDto {
 	
 	private UUID id;
-	@NotNull
+	
     @NotEmpty
 	private String fullname;
-	@NotNull
+	
     @NotEmpty
 	private String phoneNumber;
-	@NotNull
+	
     @NotEmpty
 	private String address;
-	@NotNull
+	
     @NotEmpty
     @Email
 	private String email;
-	@NotNull
-    @NotEmpty
+	
 	private String password;
-	@NotNull
-    @NotEmpty
+	
 	private boolean gender;
+	
+	private boolean status;
+	
 	@NotNull
-    @NotEmpty
 	private LocalDate dateOfBirth;
 	
 	private LocalDate created;
@@ -54,6 +54,10 @@ public class SystemDto {
 	private LocalDate updated;
 	
 	private RoleDto roleDto;
+	
+	@NotNull
+	private Integer roleId;
+	private List<RoleDto> roleList;
 	
 	private List<ReservationAgentDto> reservationAgentDtos;
 

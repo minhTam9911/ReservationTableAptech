@@ -11,4 +11,9 @@ public class ResultResponse<T> {
 
 	private boolean status;
 	private T message;
+	public ResultResponse(T message) {
+		super();
+		this.message = message;
+	}
+	
 }

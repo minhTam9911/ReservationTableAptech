@@ -46,6 +46,10 @@ public class Receptionist {
 	@Column
 	private LocalDate dateOfBirth;
 	@Column
+	private String securityCode;
+	@Column
+	private boolean status;
+	@Column
 	@CreationTimestamp
 	private LocalDate created;
 	@Column

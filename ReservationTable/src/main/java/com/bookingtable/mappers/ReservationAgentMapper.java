@@ -33,6 +33,7 @@ public class ReservationAgentMapper {
 				.homePhoneNumber(reservationAgent.getHomePhoneNumber())
 				.address(reservationAgent.getAddress())
 				.email(reservationAgent.getEmail())
+				.status(reservationAgent.isStatus())
 				.password(reservationAgent.getPassword())
 				.cellularPhoneNumber(reservationAgent.getCellularPhoneNumber())
 				.created(reservationAgent.getCreated())

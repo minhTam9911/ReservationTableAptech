@@ -16,5 +16,6 @@ public interface ISystemService {
     public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto);
 
     public  ResultResponse<SystemDto> deleteSystem(UUID id);
+    public boolean changeStatus(UUID id);
 	
 }

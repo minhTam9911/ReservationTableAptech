@@ -31,6 +31,7 @@ public class ReceptionistMapper {
 				.email(receptionist.getEmail())
 				.password(receptionist.getPassword())
 				.gender(receptionist.isGender())
+				.status(receptionist.isStatus())
 				.created(receptionist.getCreated())
 				.updated(receptionist.getUpdated())
 				.dateOfBirth(receptionist.getDateOfBirth())
