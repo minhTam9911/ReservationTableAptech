@@ -3,6 +3,7 @@ package com.bookingtable.mappers;
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.models.DinnerTable;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 public class DinnerTableMapper {
@@ -13,7 +14,7 @@ public class DinnerTableMapper {
                 .status(dinnerTableDto.getStatus())
                 .dinnerTableType(DinnerTableTypeMapper.mapToModel(dinnerTableDto.getDinnerTableTypeDto()))
                 .restaurant(RestaurantMapper.mapToModel(dinnerTableDto.getRestaurantDto()))
-                .images(dinnerTableDto.getImagesDto().stream().map(ImageMapper::mapToModel).collect(Collectors.toSet()))
+                .images(new HashSet<>(dinnerTableDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList())))
                 .build();
     }
 
@@ -24,7 +25,7 @@ public class DinnerTableMapper {
                 .status(dinnerTable.getStatus())
                 .dinnerTableTypeDto(DinnerTableTypeMapper.mapToDto(dinnerTable.getDinnerTableType()))
                 .restaurantDto(RestaurantMapper.mapToDto(dinnerTable.getRestaurant()))
-                .imagesDto(dinnerTable.getImages().stream().map(ImageMapper::mapToDto).collect(Collectors.toSet()))
+                .imagesDto(dinnerTable.getImages().stream().map(ImageMapper::mapToDto).collect(Collectors.toList()))
                 .build();
     }
 }

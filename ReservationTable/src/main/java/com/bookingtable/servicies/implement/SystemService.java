@@ -1,19 +1,28 @@
 package com.bookingtable.servicies.implement;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.bookingtable.dtos.DinnerTableTypeDto;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
+=======
+>>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
+<<<<<<< HEAD
 import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.models.System;
+=======
+>>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.GuestRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
@@ -22,13 +31,6 @@ import com.bookingtable.repositories.SystemRepository;
 import com.bookingtable.servicies.IMailService;
 import com.bookingtable.servicies.ISystemService;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 @Service
 public class SystemService implements ISystemService {
 
@@ -46,7 +48,7 @@ public class SystemService implements ISystemService {
 	private Environment environment;
 	@Override
 	public List<SystemDto> getAllSystems() {
-		
+
 		return systemRepository.findByRoleIdNot(1).stream().map(i->SystemMapper.mapToDto(i)).collect(Collectors.toList());
 	}
 
@@ -55,13 +57,18 @@ public class SystemService implements ISystemService {
 		return SystemMapper.mapToDto(systemRepository.findById(id).get());
 	}
 
-	
+
 
 	@Override
 	public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto) {
 		try {
+<<<<<<< HEAD
 			if(systemRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				
+=======
+			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
+
+>>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
 			if(receptionistRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
@@ -85,6 +92,7 @@ public class SystemService implements ISystemService {
 			data.setGender(systemDto.isGender());
 			data.setUpdated(LocalDate.now());
 			if(systemRepository.save(data)!=null) {
+<<<<<<< HEAD
 				return new  ResultResponse<SystemDto>(true, new SystemDto());
 			}else {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Failure"));
@@ -93,14 +101,25 @@ public class SystemService implements ISystemService {
 			e.printStackTrace();
 			return new  ResultResponse<SystemDto>(false, new SystemDto(e.getMessage()));
 		}
+=======
+                return new ResultResponse<SystemDto>(true, new SystemDto());
+            } else {
+                return new ResultResponse<SystemDto>(false, new SystemDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<SystemDto>(false, new SystemDto());
+        }
+>>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 	}
 
 	@Override
 	public  ResultResponse<SystemDto> deleteSystem(UUID id) {
 		try {
-			
+
 			if(systemRepository.findById(id)!=null) {
 				systemRepository.deleteById(id);
+<<<<<<< HEAD
 				return new  ResultResponse<SystemDto>(true, new SystemDto());
 			}else {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Failure"));
@@ -109,14 +128,32 @@ public class SystemService implements ISystemService {
 			e.printStackTrace();
 			return new  ResultResponse<SystemDto>(false, new SystemDto(e.getMessage()));
 		}
+=======
+                return new ResultResponse<SystemDto>(true, new SystemDto());
+            } else {
+                return new ResultResponse<SystemDto>(false, new SystemDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<SystemDto>(false, new SystemDto());
+        }
+
+>>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 	}
 
 	@Override
 	public  ResultResponse<SystemDto> insertSystem(SystemDto systemDto) {
 		try {
 			systemDto.setEmail(systemDto.getEmail().toLowerCase());
+<<<<<<< HEAD
 			systemDto.setCreated(LocalDate.now());
 			systemDto.setUpdated(LocalDate.now());
+=======
+
+			systemDto.setCreated(LocalDate.now());
+			systemDto.setUpdated(LocalDate.now());
+
+>>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}

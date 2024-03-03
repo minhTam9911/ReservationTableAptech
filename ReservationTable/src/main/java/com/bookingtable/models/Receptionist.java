@@ -56,7 +56,7 @@ public class Receptionist {
 	@UpdateTimestamp
 	private LocalDate updated;
 	@ManyToOne
-	@JoinColumn(name = "role",nullable = false)
+	@JoinColumn(name = "role",nullable = false,insertable=false, updatable=false)
 	private Role role;
 	@OneToOne
 	@JoinColumn(name = "restaurant_id")
