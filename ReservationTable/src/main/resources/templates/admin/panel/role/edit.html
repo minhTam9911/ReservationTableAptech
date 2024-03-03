@@ -10,12 +10,12 @@
 <section layout:fragment="content" class="container">
 	</style>
 	<br>
-    <h2 style="text-align: center;"><a href="/system/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
-		 Create Role Table</h2>
+    <h2 style="text-align: center;"><a href="/admin/panel/role/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
+		 Edit Role Table</h2>
     <br>
      <div class="bg-light rounded h-100 p-4">
           <h6 class="mb-4">Form</h6>
-               <form th:action="@{/system/role/updateProcess}" method="post" th:object="${roleDto}">
+               <form th:action="@{/admin/panel/role/updateProcess}" method="post" th:object="${roleDto}">
                      <div class="mb-3">
                          <label for="exampleInputEmail1" class="form-label">Name</label>
                                 <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{name}">

@@ -46,6 +46,10 @@ public class Receptionist {
 	@Column
 	private LocalDate dateOfBirth;
 	@Column
+	private String securityCode;
+	@Column
+	private boolean status;
+	@Column
 	@CreationTimestamp
 	private LocalDate created;
 	@Column
@@ -58,7 +62,7 @@ public class Receptionist {
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 	@ManyToOne
-	@JoinColumn(name = "role",nullable = false)
+	@JoinColumn(name = "createBy",nullable = false)
 	private ReservationAgent createBy;
 	
 }

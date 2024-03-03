@@ -48,6 +48,7 @@ public class ReservationAgentDto {
 	@NotNull
     @NotEmpty
 	private String address;
+	private boolean status;
 	@NotNull
     @NotEmpty
 	private String email;

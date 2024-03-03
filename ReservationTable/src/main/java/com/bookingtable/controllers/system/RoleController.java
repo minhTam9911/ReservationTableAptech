@@ -20,13 +20,13 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("system/role")
+@RequestMapping("admin/panel/role")
 public class RoleController {
 
 	@Autowired
 	private IRoleService roleService;
 	
-	@GetMapping({"index",""})
+	@GetMapping({"index"})
 	public String index(Model model) {
 		model.addAttribute("roles", roleService.getAllRoles());
 		return "system/role/index";
@@ -36,44 +36,44 @@ public class RoleController {
 	public String create(Model model) {
 		RoleDto roleDto = new RoleDto();
 		model.addAttribute("roleDto", roleDto);
-		return "system/role/create";
+		return "admin/panel/role/create";
 	}
 	
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto,
 			BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			return "system/role/create";
+			return "admin/panel/role/create";
 		}
 		roleDto.setName(roleDto.getName().toUpperCase());
 		var response = roleService.createRole(roleDto);
 		if(response.isStatus()) {
-			return "redirect:/system/role/index";
+			return "redirect:/admin/panel/role/index";
 		}else {
 			  
 		       bindingResult.addError(new FieldError("roleDto","name", response.getMessage().getName()));
-		       return "system/role/create";
+		       return "admin/panel/role/create";
 		}
 		
 	}
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") Integer id) {
 		model.addAttribute("roleDto", roleService.getRoleById(id));
-		return "system/role/edit";
+		return "admin/panel/role/edit";
 	}
 	@PostMapping("updateProcess")
 	public String updateProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			return "system/role/edit";
+			return "admin/panel/role/edit";
 		}
 		roleDto.setName(roleDto.getName().toUpperCase());
 		var response = roleService.updateRole(roleDto.getId(),roleDto);
 		if(response.isStatus()) {
 			
-			return "redirect:/system/role/index";
+			return "redirect:/admin/panel/role/index";
 		}else {
 			 bindingResult.addError(new FieldError("roleDto","name", response.getMessage().getName()));
-		       return "system/role/edit";
+		       return "admin/panel/role/edit";
 		}
 	}
 	
@@ -82,10 +82,10 @@ public class RoleController {
 		var response = roleService.deleteRole(id);
 		if(response.isStatus()) {
 			attributes.addFlashAttribute("msg", response);
-			return "redirect:/system/role/index";
+			return "redirect:/admin/panel/role/index";
 		}else {
 			attributes.addFlashAttribute("msg", response);
-			return "redirect:/system/role/index";
+			return "redirect:/admin/panel/role/index";
 		}
 	}
 }

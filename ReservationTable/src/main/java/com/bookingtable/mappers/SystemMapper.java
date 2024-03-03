@@ -31,6 +31,7 @@ public class SystemMapper {
 				.gender(system.isGender())
 				.created(system.getCreated())
 				.updated(system.getUpdated())
+				.status(system.isStatus())
 				.dateOfBirth(system.getDateOfBirth())
 				.roleDto(RoleMapper.mapToDto(system.getRole()))
 				.build();

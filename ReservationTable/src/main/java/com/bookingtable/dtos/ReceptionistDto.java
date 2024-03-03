@@ -40,6 +40,7 @@ public class ReceptionistDto {
 	@NotNull
     @NotEmpty
 	private String address;
+	private boolean status;
 	@NotNull
     @NotEmpty
 	private String email;
