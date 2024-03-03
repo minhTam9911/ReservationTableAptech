@@ -13,10 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Builder
 @Data
@@ -32,10 +29,10 @@ public class DinnerTableDto {
     @NotNull
     @NotEmpty
     private String status;
-    
+    @NotNull
     private DinnerTableTypeDto dinnerTableTypeDto;
-    
+    @NotNull
     private RestaurantDto restaurantDto;
-  
-    private Set<ImageDto> imagesDto = new HashSet<>();
+
+    private List<ImageDto> imagesDto;
 }

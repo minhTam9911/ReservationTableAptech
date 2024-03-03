@@ -6,6 +6,7 @@ import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.RoleDto;
 import com.bookingtable.mappers.DinnerTableMapper;
 import com.bookingtable.mappers.RoleMapper;
+import com.bookingtable.models.DinnerTable;
 import com.bookingtable.models.DinnerTableType;
 import com.bookingtable.repositories.DinnerTableTypeRepository;
 import com.bookingtable.mappers.DinnerTableTypeMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,9 +34,12 @@ public class DinnerTableTypeService implements IDinnerTableTypeService {
 
     @Override
     public DinnerTableTypeDto getDinnerTableTypeById(Integer id) {
-        DinnerTableType dinnerTableType = dinnerTableTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Table type not found with id: " + id));
-        return DinnerTableTypeMapper.mapToDto(dinnerTableType);
+        Optional<DinnerTableType> optionalDinnerTable = dinnerTableTypeRepository.findById(id);
+        if (optionalDinnerTable.isPresent()) {
+            return DinnerTableTypeMapper.mapToDto(optionalDinnerTable.get());
+        }
+        return null;
+
     }
 
     @Override

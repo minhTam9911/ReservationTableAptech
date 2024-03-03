@@ -4,6 +4,7 @@ import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.dtos.RestaurantDto;
+import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.helpers.ImageHelper;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,8 +40,8 @@ public class DinnerTableController {
 
     @Autowired
     private RestaurantService restaurantService;
-    @GetMapping({"index", "", "/"})
-    public String getAllCustomers(Model model) {
+    @GetMapping({ "index", "", "/" })
+    public String getAllDinnerTables(Model model) {
         List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
         model.addAttribute("dinnerTables",dinnerTables);
 
@@ -60,10 +62,6 @@ public class DinnerTableController {
         List<DinnerTableTypeDto> dinnerTableTypes = dinnerTableTypeService.getAllDinnerTablesType();
         model.addAttribute("dinnerTableTypes", dinnerTableTypes);
 
-        // Lấy danh sách hình ảnh từ service và chuyển vào model
-        List<ImageDto> images = imageService.getAllImages();
-        model.addAttribute("images", images);
-
         // Lấy danh sách nhà hàng từ cơ sở dữ liệu và chuyển vào model
         List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
         model.addAttribute("restaurants", restaurants);
@@ -73,21 +71,21 @@ public class DinnerTableController {
 
     @PostMapping("/create")
     public String createDinnerTable(@ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
-                                    @ModelAttribute("dinnerTableType") Integer dinnerTableTypeId,
-                                    @ModelAttribute("restaurant") String restaurantId,
-                                    MultipartFile imageFile,
+                                    @RequestParam("dinnerTableType") Integer dinnerTableTypeId,
+                                    @RequestParam("restaurant") String restaurantId,
+                                    @RequestParam("images") MultipartFile[] images,
                                     RedirectAttributes redirectAttributes) {
         try {
-            String path = imageHelper.uploadImage(imageFile);
-            ImageDto imageDto = new ImageDto();
-            imageDto.setPath(path);
-            dinnerTableDto.getImagesDto().add(imageDto);
+            for (MultipartFile image : images){
+            String path = FileHelper.uploadDinnerTable(image);
+                ImageDto imageDto = new ImageDto();
+                imageDto.setPath(path);
+
+            }
             DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeId);
             RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(restaurantId);
             dinnerTableDto.setDinnerTableTypeDto(dinnerTableType);
             dinnerTableDto.setRestaurantDto(restaurantDto);
-
-            // Tạo bàn ăn
             iDinnerTableService.createDinnerTable(dinnerTableDto);
 
             redirectAttributes.addFlashAttribute("message", "Dinner table created successfully");

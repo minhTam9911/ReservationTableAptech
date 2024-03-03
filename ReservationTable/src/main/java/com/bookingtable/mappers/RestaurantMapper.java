@@ -26,7 +26,7 @@ public class RestaurantMapper {
                 .status(restaurantDto.getStatus())
                 .receptionist(ReceptionistMapper.mapToModel(restaurantDto.getReceptionistDto()))
                 .address(restaurantDto.getAddress())
-                .images(new HashSet<Image>(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList()))) 
+                .images(new HashSet<Image>(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList())))
                 .build();
     }
 

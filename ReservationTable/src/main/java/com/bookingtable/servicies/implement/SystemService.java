@@ -1,16 +1,17 @@
 package com.bookingtable.servicies.implement;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.bookingtable.dtos.DinnerTableTypeDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
-import com.bookingtable.models.System;
 import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.GuestRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
@@ -18,13 +19,6 @@ import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.SystemRepository;
 import com.bookingtable.servicies.ISystemService;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 @Service
 public class SystemService implements ISystemService {
 
@@ -40,7 +34,7 @@ public class SystemService implements ISystemService {
 	private ReceptionistRepository receptionistRepository;
 	@Override
 	public List<SystemDto> getAllSystems() {
-		
+
 		return systemRepository.findByRoleIdNot(1).stream().map(i->SystemMapper.mapToDto(i)).collect(Collectors.toList());
 	}
 
@@ -49,13 +43,13 @@ public class SystemService implements ISystemService {
 		return SystemMapper.mapToDto(systemRepository.findById(id).get());
 	}
 
-	
+
 
 	@Override
 	public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto) {
 		try {
 			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
-				
+
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
 			if(receptionistRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
@@ -79,40 +73,41 @@ public class SystemService implements ISystemService {
 			data.setGender(systemDto.isGender());
 			data.setUpdated(LocalDate.now());
 			if(systemRepository.save(data)!=null) {
-				return true;
-			}else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+                return new ResultResponse<SystemDto>(true, new SystemDto());
+            } else {
+                return new ResultResponse<SystemDto>(false, new SystemDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<SystemDto>(false, new SystemDto());
+        }
 	}
 
 	@Override
 	public  ResultResponse<SystemDto> deleteSystem(UUID id) {
 		try {
-			
+
 			if(systemRepository.findById(id)!=null) {
 				systemRepository.deleteById(id);
-				return true;
-			}else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+                return new ResultResponse<SystemDto>(true, new SystemDto());
+            } else {
+                return new ResultResponse<SystemDto>(false, new SystemDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<SystemDto>(false, new SystemDto());
+        }
+
 	}
 
 	@Override
 	public  ResultResponse<SystemDto> insertSystem(SystemDto systemDto) {
 		try {
 			systemDto.setEmail(systemDto.getEmail().toLowerCase());
-			
+
 			systemDto.setCreated(LocalDate.now());
 			systemDto.setUpdated(LocalDate.now());
-			
+
 			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}

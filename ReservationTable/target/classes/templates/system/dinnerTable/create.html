@@ -42,8 +42,8 @@
 
         <!-- Image field example (assuming you have backend validation for image) -->
         <div class="mb-3">
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image" class="form-control-file">
+            <label for="images">Image:</label>
+            <input type="file" id="images" name="images" multiple class="form-control-file">
             <div th:if="${#fields.hasErrors('imagesDto')}" th:errors="*{imagesDto}" class="invalid-feedback" style="display:block;"></div>
         </div>
 
