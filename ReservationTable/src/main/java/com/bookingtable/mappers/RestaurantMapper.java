@@ -24,7 +24,7 @@ public class RestaurantMapper {
                 .ward(restaurantDto.getWard())
                 .active(restaurantDto.isActive())
                 .status(restaurantDto.getStatus())
-                
+
                 .address(restaurantDto.getAddress())
                 .images(new HashSet<Image>(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList())))
                 .build();

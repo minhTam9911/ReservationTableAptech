@@ -7,6 +7,8 @@ public class ImageMapper {
         return Image.builder()
                 .id(imageDto.getId())
                 .path(imageDto.getPath())
+                .dinnerTable(DinnerTableMapper.mapToModel(imageDto.getDinnerTableDto()))
+                .restaurant(RestaurantMapper.mapToModel(imageDto.getRestaurantDto()))
                 .build();
     }
     public static ImageDto mapToDto(Image image) {
