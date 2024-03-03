@@ -14,8 +14,8 @@ public class ImageDto {
     private Integer id;
     
     private String path;
-  
+
     private DinnerTableDto dinnerTableDto;
-   
+
     private RestaurantDto restaurantDto;
 }

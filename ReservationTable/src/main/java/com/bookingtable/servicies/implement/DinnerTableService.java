@@ -1,8 +1,13 @@
 package com.bookingtable.servicies.implement;
 
 import com.bookingtable.dtos.DinnerTableDto;
+import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.dtos.RoleDto;
+import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.mappers.DinnerTableMapper;
 import com.bookingtable.mappers.RoleMapper;
+import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.models.DinnerTable;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.servicies.IDinnerTableService;
@@ -34,23 +39,51 @@ public class DinnerTableService implements IDinnerTableService {
     }
 
     @Override
-    public boolean createDinnerTable(DinnerTableDto dinnerTableDto) {
-        DinnerTable dinnerTable = DinnerTableMapper.mapToModel(dinnerTableDto);
-        DinnerTable savedDinnerTable = dinnerTableRepository.save(dinnerTable);
-        return savedDinnerTable!=null;
-    }
+    public ResultResponse<DinnerTableDto> createDinnerTable(DinnerTableDto dinnerTableDto) {
+        var saved =dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto));
+        if(dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto))!=null) {
+            return new ResultResponse<>(true, new DinnerTableDto(
+                    saved.getId(),
+                    dinnerTableDto.getQuantity(),
+                    dinnerTableDto.getStatus(),
+                    dinnerTableDto.getDinnerTableTypeDto(),
+                    dinnerTableDto.getDinnerTableTypeList(),
+                    dinnerTableDto.getDinnerTableTypeDtoId(),
+                    dinnerTableDto.getRestaurantDtoId(),
+                    dinnerTableDto.getRestaurantDto(),
+                    dinnerTableDto.getRestaurantList(),
+                    dinnerTableDto.getImagesDto(),
+                    dinnerTableDto.getImageDto()
+            ));
 
-    @Override
-    public boolean updateDinnerTable(DinnerTableDto dinnerTableDto) {
-         return dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto))!=null;
-    }
-
-    @Override
-    public boolean deleteDinnerTable(Integer id) {
-        if (dinnerTableRepository.existsById(id)) {
-            dinnerTableRepository.deleteById(id);
-            return true;
+        }else {
+            return new  ResultResponse<DinnerTableDto>(false, new DinnerTableDto());
         }
-        return false;
+    }
+
+
+    @Override
+    public  ResultResponse<DinnerTableDto> updateDinnerTable(DinnerTableDto dinnerTableDto) {
+        if(dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto))!=null) {
+            return new  ResultResponse<DinnerTableDto>(true, new DinnerTableDto());
+        }else {
+            return new  ResultResponse<DinnerTableDto>(false, new DinnerTableDto());
+        }
+    }
+
+    @Override
+    public  ResultResponse<DinnerTableDto> deleteDinnerTable(Integer id) {
+        try {
+            if(dinnerTableRepository.findById(id)!=null) {
+                dinnerTableRepository.deleteById(id);
+                return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto());
+            }else {
+                return	new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return	new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+        }
+
     }
 }

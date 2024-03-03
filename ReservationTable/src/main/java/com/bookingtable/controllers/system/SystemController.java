@@ -40,8 +40,6 @@ public class SystemController {
 		this.response = new ResultResponse<>(new SystemDto());
 	}
 
-
-
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
 
@@ -68,7 +66,7 @@ public class SystemController {
 			model.addAttribute("msg",true);
 			return "admin/panel/staff/create";
 		}
-		
+
 		model.addAttribute("msg",response.getMessage().getEmail());
 		return "admin/panel/staff/create";
 	}

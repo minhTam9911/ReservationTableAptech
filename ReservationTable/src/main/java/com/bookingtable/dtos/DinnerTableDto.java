@@ -23,17 +23,22 @@ public class DinnerTableDto {
 	
     private Integer id;
     @NotNull
-    @NotEmpty
-    @Min(value = 1)
+
     private int quantity;
-   
-    @NotEmpty
+
     private String status;
     
-    private Integer dinnerTableTypeDtoId;
     private DinnerTableTypeDto dinnerTableTypeDto;
+
+    private List<DinnerTableTypeDto> dinnerTableTypeList;
+    @NotNull
+    private Integer dinnerTableTypeDtoId;
+    @NotNull
     private String restaurantDtoId;
     private RestaurantDto restaurantDto;
+    private List<RestaurantDto> restaurantList;
 
     private List<ImageDto> imagesDto;
+
+    private ImageDto imageDto;
 }
