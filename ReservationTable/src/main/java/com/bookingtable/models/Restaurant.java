@@ -58,9 +58,7 @@ public class Restaurant {
     private boolean active;
     @Column
     private String status; 
-	@OneToOne
-	@JoinColumn(name = "receptionist_id")
-	private Receptionist receptionist;
+	
     @Column
     private String address;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)

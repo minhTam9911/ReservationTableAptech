@@ -14,7 +14,7 @@
 		<a href="/system/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
 			
 		Reservation Status Tables   
-		<a href="/system/reservationStatus/create" class="btn btn-success" style="float: right; "><i class="fa-solid fa-plus"></i> Add</a>
+		<a href="/staff/reservationStatus/create" class="btn btn-success" style="float: right; "><i class="fa-solid fa-plus"></i> Add</a>
 	 </h2>
     <br>
     <table id="myTable" class="display">
@@ -34,8 +34,8 @@
             <td th:text="${reservationStatus.reason}"></td>
             <td th:text="${reservationStatus.description}"></td>
             <td>
-                <a th:href="@{/system/reservationStatus/update/{id}(id=${reservationStatus.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
-                <a th:href="@{/system/reservationStatus/delete/{id}(id=${reservationStatus.id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/staff/reservationStatus/update/{id}(id=${reservationStatus.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
+                <a th:href="@{/staff/reservationStatus/delete/{id}(id=${reservationStatus.id})}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

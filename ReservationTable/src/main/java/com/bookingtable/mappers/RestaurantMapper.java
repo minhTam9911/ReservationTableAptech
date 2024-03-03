@@ -24,7 +24,7 @@ public class RestaurantMapper {
                 .ward(restaurantDto.getWard())
                 .active(restaurantDto.isActive())
                 .status(restaurantDto.getStatus())
-                .receptionist(ReceptionistMapper.mapToModel(restaurantDto.getReceptionistDto()))
+                
                 .address(restaurantDto.getAddress())
                 .images(new HashSet<Image>(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList())))
                 .build();
@@ -46,7 +46,7 @@ public class RestaurantMapper {
                  .ward(restaurant.getWard())
                  .created(restaurant.getCreated())
                  .updated(restaurant.getUpdated())
-                 .receptionistDto(ReceptionistMapper.mapToDto(restaurant.getReceptionist()))
+                 
                  .address(restaurant.getAddress())
                  .imagesDto(restaurant.getImages().stream().map(i->ImageMapper.mapToDto(i)).collect(Collectors.toList()))
                  .build();
