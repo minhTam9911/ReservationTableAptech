@@ -5,7 +5,6 @@ import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.helpers.FileHelper;
-import com.bookingtable.helpers.ImageHelper;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.IRestaurantService;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,8 +33,7 @@ public class DinnerTableController {
 
     @Autowired
     private ImageService imageService;
-    @Autowired
-    private ImageHelper imageHelper;
+
 
     @Autowired
     private RestaurantService restaurantService;

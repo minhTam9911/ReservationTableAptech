@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.helpers.GenerateCode;
-import com.bookingtable.helpers.MailHelper;
+//import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.GuestRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
@@ -126,8 +126,8 @@ public class SystemService implements ISystemService {
 			var data = SystemMapper.mapToModel(systemDto);
 			data.setPassword(GenerateCode.GeneratePassword(12));
 			String email = environment.getProperty("spring.mail.username");
-			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
-			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
+//			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
+			if (mailService.send(email, data.getEmail(), "Account for you", "")) {
 				
 			} else {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Send Email Fail"));
