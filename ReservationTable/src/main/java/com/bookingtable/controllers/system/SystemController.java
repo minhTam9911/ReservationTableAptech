@@ -31,7 +31,7 @@ import jakarta.websocket.server.PathParam;
 public class SystemController {
 	@Autowired
 	private ISystemService systemService;
-<<<<<<< HEAD
+
 	@Autowired 
 	private IRoleService roleService;
 	
@@ -40,14 +40,12 @@ public class SystemController {
 		this.response = new ResultResponse<>(new SystemDto());
 	}
 
-	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-    public String index(Model model,RedirectAttributes attributes) {
-=======
+
 
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
 
->>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
+
     	model.addAttribute("data", systemService.getAllSystems());
     	if(response.getMessage().getEmail() !=null) {
     		if(response.isStatus()) {
@@ -58,7 +56,7 @@ public class SystemController {
     	}
         return "admin/panel/staff/index";
     }
-<<<<<<< HEAD
+
     
 	
 	@GetMapping("create")
@@ -140,11 +138,7 @@ public class SystemController {
 		return "redirect:/admin/panel/index";
 	}
 	
-=======
 
-    public String insert(Model model) {
-    	return "system/create";
-    }
->>>>>>> ddffeb84c56ebb005f11d0d3cc97c184d707f18d
 
+  
 }
