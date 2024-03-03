@@ -27,14 +27,14 @@ public class ReceptionistService implements IReceptionistService {
 	}
 
 	@Override
-	public  ReceptionistDto getReceptionistById(UUID id) {
+	public  ReceptionistDto getReceptionistById(String id) {
 		return ReceptionistMapper.mapToDto(receptionistRepository.findById(id).get());
 	}
 
 	
 
 	@Override
-	public boolean updateReceptionist(UUID id, ReceptionistDto receptionistDto) {
+	public boolean updateReceptionist(String id, ReceptionistDto receptionistDto) {
 		try {
 			var data = receptionistRepository.findById(id).get();
 			data.setFullname(receptionistDto.getFullname());
@@ -56,7 +56,7 @@ public class ReceptionistService implements IReceptionistService {
 	}
 
 	@Override
-	public boolean deleteReceptionist(UUID id) {
+	public boolean deleteReceptionist(String id) {
 		try {
 			if(receptionistRepository.findById(id)!=null) {
 				receptionistRepository.deleteById(id);

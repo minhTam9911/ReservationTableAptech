@@ -34,14 +34,14 @@ public class ReservationAgentService implements IReservationAgentService {
 	}
 
 	@Override
-	public ReservationAgentDto getReservationAgentById(UUID id) {
+	public ReservationAgentDto getReservationAgentById(String id) {
 		return ReservationAgentMapper.mapToDto(reservationAgentRepository.findById(id).get());
 	}
 
 	
 
 	@Override
-	public ResultResponse<ReservationAgentDto> updateReservationAgent(UUID id, ReservationAgentDto reservationAgentDto) {
+	public ResultResponse<ReservationAgentDto> updateReservationAgent(String id, ReservationAgentDto reservationAgentDto) {
 		try {
 			var data = reservationAgentRepository.findById(id).get();
 			data.setFullName(reservationAgentDto.getFullName());
@@ -65,7 +65,7 @@ public class ReservationAgentService implements IReservationAgentService {
 	}
 
 	@Override
-	public ResultResponse<ReservationAgentDto> deleteReservationAgent(UUID id) {
+	public ResultResponse<ReservationAgentDto> deleteReservationAgent(String id) {
 		try {
 			if(reservationAgentRepository.findById(id)!=null) {
 				reservationAgentRepository.deleteById(id);

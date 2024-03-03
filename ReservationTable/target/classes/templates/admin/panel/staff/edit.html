@@ -10,7 +10,7 @@
 
 <section layout:fragment="content" class="container">
 	</style>
-		<th:block th:if="${msg} != 0">
+		<th:block th:if="${msg} != null">
 		
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
            <i class="fa fa-exclamation-circle me-2"></i><span th:text="${msg}"></span>

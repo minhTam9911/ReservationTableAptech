@@ -29,7 +29,7 @@ public class RoleController {
 	@GetMapping({"index"})
 	public String index(Model model) {
 		model.addAttribute("roles", roleService.getAllRoles());
-		return "system/role/index";
+		return "admin/panel/role/index";
 	}
 	
 	@GetMapping("create")

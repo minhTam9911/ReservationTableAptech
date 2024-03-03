@@ -8,10 +8,10 @@ import com.bookingtable.dtos.ReceptionistDto;
 public interface IReceptionistService {
 	public List<ReceptionistDto> getAllReceptionist();
 
-    public ReceptionistDto getReceptionistById(UUID id);
+    public ReceptionistDto getReceptionistById(String id);
 
     public boolean createReceptionist(ReceptionistDto  restaurantDto) ;
-    public boolean updateReceptionist(UUID id, ReceptionistDto receptionistDto);
+    public boolean updateReceptionist(String id, ReceptionistDto receptionistDto);
 
-    public boolean deleteReceptionist(UUID id);
+    public boolean deleteReceptionist(String id);
 }

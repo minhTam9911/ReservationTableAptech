@@ -11,8 +11,8 @@ import com.bookingtable.models.ReservationAgent;
 import com.bookingtable.models.System;
 
 @Repository
-public interface ReservationAgentRepository extends JpaRepository<ReservationAgent, UUID> {
+public interface ReservationAgentRepository extends JpaRepository<ReservationAgent, String> {
 	ReservationAgent findByEmail(String email);
 	@Query(value = "select * from reservation_agent where email = :email and id <> :id", nativeQuery = true)
-	ReservationAgent existEmail(@Param("email")String email, @Param("id") UUID id);
+	ReservationAgent existEmail(@Param("email")String email, @Param("id") String id);
 }
