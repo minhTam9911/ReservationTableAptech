@@ -26,9 +26,11 @@ public class DinnerTable {
     private int quantity;
     @Column
     private String status;
+
     @ManyToOne
     @JoinColumn(name = "dinnerTableType_id")
     private DinnerTableType dinnerTableType;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

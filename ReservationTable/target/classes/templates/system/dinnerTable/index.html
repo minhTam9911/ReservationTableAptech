@@ -33,7 +33,11 @@
             <td th:text="${dinnerTable.id}"></td>
             <td th:text="${dinnerTable.status}"></td>
             <td th:text="${dinnerTable.quantity}"></td>
-            <td th:text="${dinnerTable.imagesDto.path}"></td>
+            <td>
+                <span th:each="image : ${dinnerTable.imagesDto}">
+                    <span th:text="${image.path}"></span>&emsp;
+                </span>
+            </td>
             <td th:text="${dinnerTable.dinnerTableTypeDto.type}"></td>
             <td th:text="${dinnerTable.restaurantDto.name}"></td>
             <td>

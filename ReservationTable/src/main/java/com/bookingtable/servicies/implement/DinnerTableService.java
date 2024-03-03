@@ -2,6 +2,7 @@ package com.bookingtable.servicies.implement;
 
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.mappers.DinnerTableMapper;
+import com.bookingtable.mappers.RoleMapper;
 import com.bookingtable.models.DinnerTable;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.servicies.IDinnerTableService;
@@ -20,9 +21,8 @@ public class DinnerTableService implements IDinnerTableService {
 
     @Override
     public List<DinnerTableDto> getAllDinnerTables() {
-        return dinnerTableRepository.findAll().stream()
-                .map(DinnerTableMapper::mapToDto)
-                .collect(Collectors.toList());
+        return dinnerTableRepository.findAll().stream().map(i-> DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+
     }
     @Override
     public DinnerTableDto getDinnerTableById(Integer id) {
@@ -37,7 +37,7 @@ public class DinnerTableService implements IDinnerTableService {
     public boolean createDinnerTable(DinnerTableDto dinnerTableDto) {
         DinnerTable dinnerTable = DinnerTableMapper.mapToModel(dinnerTableDto);
         DinnerTable savedDinnerTable = dinnerTableRepository.save(dinnerTable);
-        return DinnerTableMapper.mapToDto(savedDinnerTable)!=null;
+        return savedDinnerTable!=null;
     }
 
     @Override

@@ -23,8 +23,9 @@ public class DinnerTableTypeController {
     private IDinnerTableTypeService idinnerTableTypeService;
 
     @GetMapping({ "index", "", "/" })
-    public String getAllCustomers(Model model) {
+    public String getAllDinnerTableTypes(Model model) {
         List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
+
         model.addAttribute("dinnerTableTypes",dinnerTableTypes);
 
         return "system/dinnerTableType/index";
@@ -67,7 +68,6 @@ public class DinnerTableTypeController {
         }
         var response = idinnerTableTypeService.updateDinnerTableType(dinnerTableTypeDto.getId(),dinnerTableTypeDto);
         if(response.isStatus()) {
-
             return "redirect:/system/dinnerTableType/index";
         }else {
             bindingResult.addError(new FieldError("dinnerTableTypeDto","name", response.getMessage().getType()));

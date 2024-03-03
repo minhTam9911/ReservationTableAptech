@@ -30,8 +30,6 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class ReservationAgentDto {
-
-	
 	private UUID id;
 	@NotNull
     @NotEmpty

@@ -27,6 +27,6 @@ public class DinnerTableTypeDto {
     @NotEmpty
     private String type;
     private String description;
-    @OneToMany(mappedBy = "dinnerTableType", cascade = CascadeType.ALL)
-	private Set<DinnerTableDto> dinnerTablesDto = new HashSet<>();
+
+    private Set<DinnerTableDto> dinnerTablesDto = new HashSet<>();
 }

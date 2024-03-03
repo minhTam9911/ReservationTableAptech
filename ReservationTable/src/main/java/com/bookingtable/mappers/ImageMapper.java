@@ -7,7 +7,6 @@ public class ImageMapper {
         return Image.builder()
                 .id(imageDto.getId())
                 .path(imageDto.getPath())
-                
                 .build();
     }
     public static ImageDto mapToDto(Image image) {
