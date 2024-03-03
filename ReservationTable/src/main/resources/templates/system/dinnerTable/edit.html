@@ -45,26 +45,23 @@
 
         </div>
 
-        <div class="mb-3">
+         <div class="mb-3">
             <label for="dinnerTableType">Dinner Table Type:</label>
-            <select id="dinnerTableType" name="dinnerTableType" class="form-control" required>
-                <option value="">Select Type</option>
-                <option th:each="dinnerTableType : ${dinnerTableTypes}" th:value="${dinnerTableType.id}" th:text="${dinnerTableType.type}" th:selected="${dinnerTableType.id == dinnerTableDto.dinnerTableTypeDto.id}"></option>
+            <select th:field="*{dinnerTableTypeDtoId}" class="form-control" >
+                <option th:each="dinnerTableType : ${dinnerTableTypes}" th:value="${dinnerTableType.id}" th:text="${dinnerTableType.type}"></option>
             </select>
-            <div th:if="${#fields.hasErrors('dinnerTableTypeDto')}" th:errors="*{dinnerTableTypeDto}" class="invalid-feedback" style="display:block;"></div>
-
+           
         </div>
 
         <div class="mb-3">
             <label for="restaurant">Restaurant:</label>
-            <select id="restaurant" name="restaurant" class="form-control" required>
-                <option value="">Select Restaurant</option>
-                <option th:each="restaurant : ${restaurants}" th:value="${restaurant.id}" th:text="${restaurant.name}" th:selected="${restaurant.id == dinnerTableDto.restaurantDto.id}"></option>
+            <select th:field="${restaurantDtoId}" class="form-control" >
+               
+                <option th:each="restaurant : ${restaurants}" th:value="${restaurant.id}" th:text="${restaurant.name}"></option>
             </select>
-            <div th:if="${#fields.hasErrors('restaurantDto')}" th:errors="*{restaurantDto}" class="invalid-feedback" style="display:block;"></div>
-
+           
         </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     </div>
 

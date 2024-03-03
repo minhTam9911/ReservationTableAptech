@@ -71,8 +71,7 @@ public class DinnerTableController {
 
     @PostMapping("/create")
     public String createDinnerTable(@ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
-                                    @RequestParam("dinnerTableType") Integer dinnerTableTypeId,
-                                    @RequestParam("restaurant") String restaurantId,
+                                   
                                     @RequestParam("images") MultipartFile[] images,
                                     RedirectAttributes redirectAttributes) {
         try {
@@ -82,8 +81,8 @@ public class DinnerTableController {
                 imageDto.setPath(path);
 
             }
-            DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeId);
-            RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(restaurantId);
+            DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
+            RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
             dinnerTableDto.setDinnerTableTypeDto(dinnerTableType);
             dinnerTableDto.setRestaurantDto(restaurantDto);
             iDinnerTableService.createDinnerTable(dinnerTableDto);
@@ -110,19 +109,20 @@ public class DinnerTableController {
         model.addAttribute("images", images);
 
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
+        dinnerTableDto.setDinnerTableTypeDtoId(dinnerTableDto.getDinnerTableTypeDto().getId());
+        dinnerTableDto.setRestaurantDtoId(dinnerTableDto.getRestaurantDto().getId());
         model.addAttribute("dinnerTableDto", dinnerTableDto);
         return "system/dinnerTable/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String editDinnerTable(@PathVariable("id") Integer id,
-                                  @ModelAttribute("dinnerTableDto") DinnerTableDto updatedDinnerTable,
-                                  @ModelAttribute("dinnerTableType") Integer dinnerTableTypeId,
-                                  @ModelAttribute("restaurant") String restaurantId) {
+                                  @ModelAttribute("dinnerTableDto") DinnerTableDto updatedDinnerTable) {
 
         DinnerTableDto existingDinnerTable = iDinnerTableService.getDinnerTableById(id);
-        DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeId);
-        RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(restaurantId);
+        DinnerTableTypeDto dinnerTableType = dinnerTableTypeService.getDinnerTableTypeById(updatedDinnerTable.getDinnerTableTypeDtoId());
+        RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(updatedDinnerTable.getRestaurantDtoId());
+       
         updatedDinnerTable.setDinnerTableTypeDto(dinnerTableType);
         updatedDinnerTable.setRestaurantDto(restaurantDto);
 
