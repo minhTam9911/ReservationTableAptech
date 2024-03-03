@@ -10,12 +10,12 @@
 <section layout:fragment="content" class="container">
 	</style>
 	<br>
-    <h2 style="text-align: center;"><a href="/system/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
+    <h2 style="text-align: center;"><a href="/staff/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
 		 Reservation Status Table</h2>
     <br>
      <div class="bg-light rounded h-100 p-4">
           <h6 class="mb-4">Form</h6>
-               <form th:action="@{/system/reservationStatus/updateProcess}" method="post" th:object="${reservationStatusDto}">
+               <form th:action="@{/staff/reservationStatus/updateProcess}" method="post" th:object="${reservationStatusDto}">
                      <div class="mb-3">
                          <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Status</label>
                                 <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{status}">

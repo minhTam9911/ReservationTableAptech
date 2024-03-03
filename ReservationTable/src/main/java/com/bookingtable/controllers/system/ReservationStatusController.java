@@ -20,7 +20,7 @@ import com.bookingtable.servicies.IRoleService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("system/reservationStatus")
+@RequestMapping("staff/reservationStatus")
 public class ReservationStatusController {
 
 
@@ -30,49 +30,49 @@ public class ReservationStatusController {
 	@GetMapping({"index",""})
 	public String index(Model model) {
 		model.addAttribute("reservationStatuses", reservationStatusService.getAllReservationStatuses());
-		return "system/reservationStatus/index";
+		return "staff/reservationStatus/index";
 	}
 	
 	@GetMapping("create")
 	public String create(Model model) {
 		ReservationStatusDto reservationStatusDto = new ReservationStatusDto();
 		model.addAttribute("reservationStatusDto", reservationStatusDto);
-		return "system/reservationStatus/create";
+		return "staff/reservationStatus/create";
 	}
 	
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("reservationStatusDto") ReservationStatusDto reservationStatusDto ,
 			BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			return "system/reservationStatus/create";
+			return "staff/reservationStatus/create";
 		}
 		var response = reservationStatusService.createReservationStatus(reservationStatusDto);
 		if(response.isStatus()) {
-			return "redirect:/system/reservationStatus/index";
+			return "redirect:/staff/reservationStatus/index";
 		}else {
 			  
 		       bindingResult.addError(new FieldError("roleDto","name", response.getMessage().getStatus()));
-		       return "system/reservationStatus/create";
+		       return "staff/reservationStatus/create";
 		}
 		
 	}
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") Integer id) {
 		model.addAttribute("reservationStatusDto", reservationStatusService.getReservationStatusById(id));
-		return "system/reservationStatus/edit";
+		return "staff/reservationStatus/edit";
 	}
 	@PostMapping("updateProcess")
 	public String updateProcess(@Valid @ModelAttribute("reservationStatusDto") ReservationStatusDto reservationStatusDto, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			return "system/reservationStatus/edit";
+			return "staff/reservationStatus/edit";
 		}
 		var response = reservationStatusService.updateReservationStatus(reservationStatusDto.getId(),reservationStatusDto);
 		if(response.isStatus()) {
 			
-			return "redirect:/system/reservationStatus/index";
+			return "redirect:/staff/reservationStatus/index";
 		}else {
 			 bindingResult.addError(new FieldError("roleDto","name", response.getMessage().getStatus()));
-		       return "system/reservationStatus/edit";
+		       return "staff/reservationStatus/edit";
 		}
 	}
 	
@@ -81,10 +81,10 @@ public class ReservationStatusController {
 		var response = reservationStatusService.deleteReservationStatus(id);
 		if(response.isStatus()) {
 			attributes.addFlashAttribute("msg", response);
-			return "redirect:/system/reservationStatus/index";
+			return "redirect:/staff/reservationStatus/index";
 		}else {
 			attributes.addFlashAttribute("msg", response);
-			return "redirect:/system/reservationStatus/index";
+			return "redirect:/staff/reservationStatus/index";
 		}
 	}
 	
