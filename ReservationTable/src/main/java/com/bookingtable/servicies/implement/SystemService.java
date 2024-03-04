@@ -46,7 +46,7 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public SystemDto getSystemsById(UUID id) {
+	public SystemDto getSystemsById(String id) {
 		return SystemMapper.mapToDto(systemRepository.findById(id).get());
 	}
 
@@ -62,9 +62,9 @@ public class SystemService implements ISystemService {
 			if(reservationAgentRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
-			if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
-			}
+			//if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
+				//return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			//}
 			if(systemRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}

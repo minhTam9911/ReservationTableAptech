@@ -11,8 +11,8 @@ import com.bookingtable.models.Receptionist;
 import com.bookingtable.models.System;
 
 @Repository
-public interface ReceptionistRepository extends JpaRepository<Receptionist, UUID>  {
+public interface ReceptionistRepository extends JpaRepository<Receptionist, String>  {
 	Receptionist findByEmail(String email);
 	@Query(value = "select * from receptionist where email = :email and id <> :id", nativeQuery = true)
-	Receptionist existEmail(@Param("email")String email, @Param("id") UUID id);
+	Receptionist existEmail(@Param("email")String email, @Param("id") String id);
 }

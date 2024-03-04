@@ -97,9 +97,12 @@ public class SystemController {
 		
 	}
 	@GetMapping("update/{id}")
-	public String update(Model model, @PathVariable("id") UUID id) {
-		model.addAttribute("systemDto", systemService.getSystemsById(id));
-		model.addAttribute("roleDto", roleService.getAllRoles());
+	public String update(Model model, @PathVariable("id") String id) {
+		var systemDto = systemService.getSystemsById(id);
+		systemDto.setRoleId(systemDto.getRoleDto().getId());
+		systemDto.setRoleList(roleService.getAllRoles());
+		model.addAttribute("systemDto", systemDto);
+		
 		return "admin/panel/staff/edit";
 	}
 	@PostMapping("update/save")
@@ -119,7 +122,7 @@ public class SystemController {
 	}
 	
 	@GetMapping("delete/{id}")
-	public String delete(@PathVariable("id") UUID id, RedirectAttributes attributes) {
+	public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 		var response = systemService.deleteSystem(id);
 		if(response.isStatus()) {
 			attributes.addFlashAttribute("msg", true);
@@ -130,7 +133,7 @@ public class SystemController {
 		}
 	}
 	@GetMapping("change/status/{id}")
-	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") UUID id) {
+	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id) {
 		var check = systemService.changeStatus(id);
 		attributes.addFlashAttribute("msg",check);
 		return "redirect:/admin/panel/index";

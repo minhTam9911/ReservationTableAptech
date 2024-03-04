@@ -29,8 +29,8 @@ import lombok.NoArgsConstructor;
 public class Receptionist {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
 	@Column
 	private String fullname;
 	@Column

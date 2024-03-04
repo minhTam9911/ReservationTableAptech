@@ -30,8 +30,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "system")
 public class System {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
 	@Column
 	private String fullname;
 	@Column

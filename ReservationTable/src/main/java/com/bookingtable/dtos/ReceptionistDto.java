@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class ReceptionistDto {
 
 	
-	private UUID id;
+	private String id;
 	@NotNull
     @NotEmpty
 	private String fullname;
