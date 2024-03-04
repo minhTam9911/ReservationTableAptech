@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface GuestRepository extends JpaRepository<Guest, UUID> {
+public interface GuestRepository extends JpaRepository<Guest, String> {
 	Guest findByEmail(String email);
 	@Query(value = "select * from guest where email = :email and id <> :id", nativeQuery = true)
-	Guest existEmail(@Param("email")String email, @Param("id") UUID id);
+	Guest existEmail(@Param("email")String email, @Param("id") String id);
 }

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Guest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	private String id;
 	@Column
 	private String fullName;
 	@Column
