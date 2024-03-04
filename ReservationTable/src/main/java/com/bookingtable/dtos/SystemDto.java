@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SystemDto {
 	
-	private UUID id;
+	private String id;
 	
     @NotEmpty
 	private String fullname;

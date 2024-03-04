@@ -12,7 +12,7 @@ public interface IGuestService {
     public GuestDto getGuestById(UUID id);
 
     public boolean createGuest(GuestDto guestDto) ;
-    public boolean updateGuest(UUID id, GuestDto guestDto);
+    public boolean updateGuest(String id, GuestDto guestDto);
 
-    public boolean deleteGuest(UUID id);
+    public boolean deleteGuest(String id);
 }

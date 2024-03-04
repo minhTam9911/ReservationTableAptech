@@ -53,7 +53,7 @@ public class SystemService implements ISystemService {
 
 
 	@Override
-	public  ResultResponse<SystemDto> updateSystem(UUID id, SystemDto systemDto) {
+	public  ResultResponse<SystemDto> updateSystem(String id, SystemDto systemDto) {
 		try {
 
 			if(receptionistRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
@@ -88,7 +88,7 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public  ResultResponse<SystemDto> deleteSystem(UUID id) {
+	public  ResultResponse<SystemDto> deleteSystem(String id) {
 		try {
 
 			if(systemRepository.findById(id)!=null) {
@@ -145,7 +145,7 @@ public class SystemService implements ISystemService {
 	}
 
 	@Override
-	public boolean changeStatus(UUID id) {
+	public boolean changeStatus(String id) {
 		try {
 			var data = systemRepository.findById(id).get();
 			if(data== null) {

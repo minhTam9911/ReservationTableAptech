@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GuestDto {
 
-	private UUID id;
+	private String id;
 	@NotNull
 	@NotEmpty
 	private String fullname;
