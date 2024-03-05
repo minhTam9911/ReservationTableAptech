@@ -35,7 +35,7 @@ public class SystemController {
 	@Autowired 
 	private IRoleService roleService;
 	
-	private ResultResponse<SystemDto> response = new ResultResponse<>();
+	private ResultResponse<SystemDto> response = new ResultResponse<>(new SystemDto());
 	public SystemController() {
 		this.response = new ResultResponse<>(new SystemDto());
 	}
@@ -60,7 +60,6 @@ public class SystemController {
 	@GetMapping("create")
 	public String create(Model model,RedirectAttributes attributes) {
 		var systemDto = new SystemDto(); 
-		systemDto.setRoleList(roleService.getAllRoles());
 		model.addAttribute("systemDto", systemDto);
 		if(response.isStatus()) {
 			model.addAttribute("msg",true);
@@ -75,13 +74,12 @@ public class SystemController {
 	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto ,
 			BindingResult bindingResult) {
 	
-		  var roleData = roleService.getRoleById(systemDto.getRoleId());
+		  var roleData = roleService.getRoleById(2);
 		  systemDto.setRoleDto(roleData);
 		 
 		System.out.println(bindingResult.getAllErrors().toString());
 		
 		if(bindingResult.hasErrors()) {
-			systemDto.setRoleList(roleService.getAllRoles());
 			return "admin/panel/staff/create";
 		}
 		var response = systemService.insertSystem(systemDto);
@@ -90,7 +88,6 @@ public class SystemController {
 			return "redirect:/admin/panel/index";
 		}else {
 			this.response.setMessage(new SystemDto(response.getMessage().getEmail()));
-			systemDto.setRoleList(roleService.getAllRoles());
 			return "redirect:/admin/panel/create";
 			
 		}
@@ -99,10 +96,7 @@ public class SystemController {
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") String id) {
 		var systemDto = systemService.getSystemsById(id);
-		systemDto.setRoleId(systemDto.getRoleDto().getId());
-		systemDto.setRoleList(roleService.getAllRoles());
 		model.addAttribute("systemDto", systemDto);
-		
 		return "admin/panel/staff/edit";
 	}
 	@PostMapping("update/save")
@@ -116,7 +110,6 @@ public class SystemController {
 			return "redirect:/admin/panel/index";
 		}else {
 			this.response.setMessage(new SystemDto(response.getMessage().getEmail()));
-			systemDto.setRoleList(roleService.getAllRoles());
 			 return "admin/panel/staff/edit";
 		}
 	}

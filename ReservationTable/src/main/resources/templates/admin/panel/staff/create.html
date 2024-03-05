@@ -86,13 +86,7 @@
                                     </div>
                                 </fieldset>
 							<div class="mb-3">
-                        <select th:field="*{roleId}" class="form-control" title="-----Select Role-----">
-         					<th:block th:each="i : ${systemDto.roleList}">
-         						<th:block th:if="${i.id} !=1">
-									 <option th:value="${i.id}" th:text="${i.name}"></option>
-								 </th:block>
-							 </th:block>
-           					 </select>
+                        
                         </div>	
 							
                        

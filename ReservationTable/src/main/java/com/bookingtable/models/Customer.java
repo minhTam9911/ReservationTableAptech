@@ -36,6 +36,8 @@ public class Customer {
     @Column
     private boolean gender;
     @Column
+    private boolean status;
+    @Column
     private LocalDate dateOfBirth;
     @Column
     @CreationTimestamp
