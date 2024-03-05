@@ -79,5 +79,17 @@ public class RestaurantService implements IRestaurantService {
 			return false;
 		}
 	}
+
+	@Override
+	public List<RestaurantDto> getAllRestaurantsForAgent(String idAgent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestaurantDto getRestaurantById(String id, String idAgent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
    
 }

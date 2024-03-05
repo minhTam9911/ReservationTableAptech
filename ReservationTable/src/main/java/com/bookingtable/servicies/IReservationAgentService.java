@@ -17,5 +17,7 @@ public interface IReservationAgentService {
     public ResultResponse<ReservationAgentDto> updateReservationAgent(String id, ReservationAgentDto reservationAgentDto);
 
     public ResultResponse<ReservationAgentDto> deleteReservationAgent(String id);
+    public boolean changeStatus(String id);
+	
 	
 }

@@ -37,6 +37,10 @@ public class ReceptionistDto {
 	@NotNull
     @NotEmpty
 	private String phoneNumber;
+	public ReceptionistDto( String email) {
+		super();
+		this.email = email;
+	}
 	@NotNull
     @NotEmpty
 	private String address;
@@ -44,14 +48,11 @@ public class ReceptionistDto {
 	@NotNull
     @NotEmpty
 	private String email;
-	@NotNull
-    @NotEmpty
+	
 	private String password;
-	@NotNull
-    @NotEmpty
+
 	private boolean gender;
 	@NotNull
-    @NotEmpty
 	private LocalDate dateOfBirth;
 	
 	private LocalDate created;

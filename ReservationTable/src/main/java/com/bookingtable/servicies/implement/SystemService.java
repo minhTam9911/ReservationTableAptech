@@ -99,7 +99,7 @@ public class SystemService implements ISystemService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<SystemDto>(false, new SystemDto());
+            return new ResultResponse<SystemDto>(false, new SystemDto(e.getMessage()));
         }
 	}
 
