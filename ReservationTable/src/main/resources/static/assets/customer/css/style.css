@@ -48,6 +48,31 @@ Table of Content:
 
 /*---------------------------------------------------- */
 /*----------------------------------------------------*/
+  /* Hiệu ứng hover cho nút "Login" */
+  .login-btn:hover {
+    font-weight: bold;
+    transition: font-weight 0.3s ease-in-out; /* Hiệu ứng chuyển đổi mượt mà */
+  }
+
+  /* Hiệu ứng ảo khi hover */
+  .login-btn::after {
+    content: ''; /* Tạo nội dung ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối */
+    width: 100%; /* Chiều rộng */
+    height: 2px; /* Chiều cao */
+    bottom: 0; /* Đặt ở dưới */
+    left: 0; /* Đặt ở bên trái */
+    background-color: #007bff; /* Màu của hiệu ứng */
+    visibility: hidden; /* Ẩn ban đầu */
+    transform: scaleX(0); /* Scale chiều ngang về 0 để ẩn đi */
+    transition: all 0.3s ease-in-out; /* Hiệu ứng chuyển đổi mượt mà */
+  }
+
+  /* Hiệu ứng ảo khi hover */
+  .login-btn:hover::after {
+    visibility: visible; /* Hiện hiệu ứng */
+    transform: scaleX(1); /* Scale chiều ngang về 1 để hiển thị */
+  }
 .list_style {
   list-style: none;
   margin: 0px;
