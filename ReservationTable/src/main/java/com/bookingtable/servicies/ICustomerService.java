@@ -1,6 +1,8 @@
 package com.bookingtable.servicies;
 
 import com.bookingtable.dtos.CustomerDto;
+import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.dtos.SystemDto;
 
 import java.util.List;
 
@@ -9,8 +11,8 @@ public interface ICustomerService {
 
     public CustomerDto getCustomerById(String id);
 
-    public boolean createCustomer(CustomerDto customer) ;
-    public boolean updateCustomer(String id, CustomerDto customer);
+    public ResultResponse<CustomerDto> createCustomer(CustomerDto customer) ;
+    public ResultResponse<CustomerDto> updateCustomer(String id, CustomerDto customer);
 
-    public boolean deleteCustomer(String id);
+    public ResultResponse<CustomerDto> deleteCustomer(String id);
 }
