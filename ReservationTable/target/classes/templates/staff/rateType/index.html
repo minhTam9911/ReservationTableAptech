@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Index Rate Type</title>
+</head>
+
+<body>
+
+<section layout:fragment="content" class="container">
+    <th:block th:if="${msg} != null">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i><span th:text="${msg}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </th:block>
+
+    <br>
+    <h2 style="text-align: center;">
+        <a href="/system/index" class="btn btn-secondary" style="float: left;">
+            <i class="fa fa-house"></i> Home
+        </a>
+        Rate Types
+        <a href="/staff/rateType/create" class="btn btn-success" style="float: right;">
+            <i class="fa fa-plus"></i> Add
+        </a>
+    </h2>
+
+    <br>
+    <table id="myTable" class="display">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rateType : ${rateTypes}">
+            <td th:text="${rateType.id}"></td>
+            <td th:text="${rateType.type}"></td>
+            <td th:text="${rateType.description}"></td>
+            <td>
+                <a th:href="@{/staff/rateType/edit/{id}(id=${rateType.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
+                <a th:href="@{/staff/rateType/delete/{id}(id=${rateType.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+
+</html>
