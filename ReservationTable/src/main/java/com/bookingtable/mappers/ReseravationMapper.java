@@ -1,6 +1,5 @@
 package com.bookingtable.mappers;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.bookingtable.dtos.ReservationDto;
@@ -11,7 +10,7 @@ public class ReseravationMapper {
 		return Reservation.builder()
 				.id(reservationDto.getId())
 				.restaurant(RestaurantMapper.mapToModel(reservationDto.getRestaurantDto()))
-				.guest(GuestMapper.mapToModel(reservationDto.getGuestDto()))
+				.customer(CustomerMapper.mapToModel(reservationDto.getCustomerDto()))
 				.dinnerTable(reservationDto.getDinnerTableDto().stream().map(i->DinnerTableMapper.mapToModel(i)).collect(Collectors.toList()))
 				.created(reservationDto.getCreated())
 				.tableCount(reservationDto.getTableCount())
@@ -25,7 +24,7 @@ public class ReseravationMapper {
 	public static  ReservationDto mapToDto(Reservation reservation) {
 		return ReservationDto.builder()
 				.id(reservation.getId())
-				.guestDto(GuestMapper.mapToDto(reservation.getGuest()))
+				.customerDto(CustomerMapper.mapToDto(reservation.getCustomer()))
 				.restaurantDto(RestaurantMapper.mapToDto(reservation.getRestaurant()))
 				.dinnerTableDto(reservation.getDinnerTable().stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList()))
 				.created(reservation.getCreated())

@@ -5,18 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.bookingtable.models.ReservationStatus;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -37,7 +25,7 @@ public class ReservationDto {
 	
 	private RestaurantDto restaurantDto;
 	
-	private GuestDto guestDto;
+	private CustomerDto customerDto;
 	
 	private Collection<DinnerTableDto> dinnerTableDto;
 	

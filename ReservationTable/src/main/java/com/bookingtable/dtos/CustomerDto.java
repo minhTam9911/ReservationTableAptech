@@ -1,7 +1,6 @@
 package com.bookingtable.dtos;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class GuestDto {
+public class CustomerDto {
 
 	private String id;
 	@NotNull
@@ -47,5 +46,8 @@ public class GuestDto {
 	private LocalDate updated;
 	@NotNull
 	private RoleDto roleDto;
-	
+	public CustomerDto(String email) {
+		super();
+		this.email = email;
+	}
 }

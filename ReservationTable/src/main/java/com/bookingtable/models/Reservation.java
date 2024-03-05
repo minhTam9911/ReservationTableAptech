@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 
+import com.bookingtable.dtos.CustomerDto;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.bookingtable.helpers.GenerateCode;
@@ -44,7 +45,7 @@ public class Reservation {
 	private Restaurant restaurant;
 	@OneToOne
 	@JoinColumn(name = "guest_id")
-	private Guest guest;
+	private Customer customer;
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	private Collection<DinnerTable> dinnerTable;
 	@Column

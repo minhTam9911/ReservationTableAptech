@@ -1,12 +1,8 @@
 package com.bookingtable.servicies.implement;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
-
-import com.bookingtable.dtos.DinnerTableTypeDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -17,7 +13,7 @@ import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.helpers.GenerateCode;
 //import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.mappers.SystemMapper;
-import com.bookingtable.repositories.GuestRepository;
+import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.SystemRepository;
@@ -32,7 +28,7 @@ public class SystemService implements ISystemService {
 	@Autowired
 	private ReservationAgentRepository reservationAgentRepository;
 	@Autowired
-	private GuestRepository guestRepository;
+	private CustomerRepository guestRepository;
 	@Autowired
 	private ReceptionistRepository receptionistRepository;
 	@Autowired
