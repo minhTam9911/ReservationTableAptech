@@ -22,7 +22,7 @@ import com.bookingtable.servicies.ISystemService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("system/customer" )
+@RequestMapping("admin/panel/customer" )
 public class CustomerController {
     @Autowired
     private ICustomerService iCustomerService;
@@ -37,8 +37,6 @@ public class CustomerController {
 
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
-
-
         model.addAttribute("data", iCustomerService.getAllCustomer());
         if(response.getMessage().getEmail() !=null) {
             if(response.isStatus()) {
@@ -47,23 +45,21 @@ public class CustomerController {
                 model.addAttribute("msg",response.getMessage().getEmail());
             }
         }
-        return "admin/panel/staff/index";
+        return "admin/panel/customer/index";
     }
-
-
 
     @GetMapping("create")
     public String create(Model model,RedirectAttributes attributes) {
         var customerDto = new CustomerDto();
-        customerDto.setRoleDto(customerDto.getRoleDto());
+        customerDto.setRoleList(roleService.getAllRoles());
         model.addAttribute("customerDto", customerDto);
         if(response.isStatus()) {
             model.addAttribute("msg",true);
-            return "admin/panel/staff/create";
+            return "admin/panel/customer/create";
         }
 
         model.addAttribute("msg",response.getMessage().getEmail());
-        return "admin/panel/staff/create";
+        return "admin/panel/customer/create";
     }
 
     @PostMapping("create/save")
@@ -75,16 +71,16 @@ public class CustomerController {
 
         if(bindingResult.hasErrors()) {
             customerDto.setRoleList(roleService.getAllRoles());
-            return "admin/panel/staff/create";
+            return "admin/panel/customer/create";
         }
         var response = iCustomerService.createCustomer(customerDto);
         if(response.isStatus()) {
             this.response.setStatus(true);
-            return "redirect:/admin/panel/index";
+            return "redirect:/admin/panel/customer/index";
         }else {
             this.response.setMessage(new CustomerDto(response.getMessage().getEmail()));
             customerDto.setRoleList(roleService.getAllRoles());
-            return "redirect:/admin/panel/create";
+            return "redirect:/admin/panel/customer/create";
 
         }
 
@@ -96,12 +92,12 @@ public class CustomerController {
         customerDto.setRoleList(roleService.getAllRoles());
         model.addAttribute("customerDto", customerDto);
 
-        return "admin/panel/staff/edit";
+        return "admin/panel/customer/edit";
     }
     @PostMapping("update/save")
     public String updateProcess(@Valid @ModelAttribute("customerDto") CustomerDto customerDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            return "admin/panel/staff/edit";
+            return "admin/panel/customer/edit";
         }
         var response = iCustomerService.updateCustomer(customerDto.getId(),customerDto);
         if(response.isStatus()) {
@@ -110,7 +106,7 @@ public class CustomerController {
         }else {
             this.response.setMessage(new CustomerDto(response.getMessage().getEmail()));
             customerDto.setRoleList(roleService.getAllRoles());
-            return "admin/panel/staff/edit";
+            return "admin/panel/customer/edit";
         }
     }
 

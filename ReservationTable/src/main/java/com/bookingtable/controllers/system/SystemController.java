@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 
 @Controller
-@RequestMapping("admin/panel" )
+@RequestMapping("admin/panel")
 public class SystemController {
 	@Autowired
 	private ISystemService systemService;
