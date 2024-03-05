@@ -16,8 +16,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,35 +33,35 @@ import lombok.NoArgsConstructor;
 
 public class ReservationAgentDto {
 	private String id;
-	@NotNull
+
     @NotEmpty
 	private String fullName;
-	@NotNull
-    @NotEmpty
+	
 	private String city;
-	@NotNull
-    @NotEmpty
+	
 	private String district;
-	@NotNull
-    @NotEmpty
+	
 	private String ward;
-	@NotNull
+	
     @NotEmpty
 	private String address;
 	private boolean status;
-	@NotNull
+	
     @NotEmpty
+    @Email
 	private String email;
-	@NotNull
+	
     @NotEmpty
+    @Size(min = 8)
 	private String homePhoneNumber;
 	
+    
 	private int totalRestaurant;
-	@NotNull
+
     @NotEmpty
+    @Size(min = 8)
 	private String cellularPhoneNumber;
-	@NotNull
-    @NotEmpty
+	
 	private String password;
 	
 	private LocalDate created;
@@ -71,5 +73,10 @@ public class ReservationAgentDto {
 	 private Collection<ReceptionistDto> receptionistsDto;
 	 
 	 private SystemDto createBy;
+
+	public ReservationAgentDto( String email) {
+		super();
+		this.email = email;
+	}
 	
 }

@@ -19,7 +19,8 @@ public class ReservationAgentMapper {
 				.cellularPhoneNumber(reservationAgentDto.getCellularPhoneNumber())
 				.created(reservationAgentDto.getCreated())
 				.updated(reservationAgentDto.getUpdated())
-				.createBy(SystemMapper.mapToModel(reservationAgentDto.getCreateBy()))
+				.totalRestaurant(reservationAgentDto.getTotalRestaurant())
+				//.createBy(SystemMapper.mapToModel(reservationAgentDto.getCreateBy()))
 				.role(RoleMapper.mapToModel(reservationAgentDto.getRoleDto()))
 				.build();
 	}
@@ -35,11 +36,12 @@ public class ReservationAgentMapper {
 				.email(reservationAgent.getEmail())
 				.status(reservationAgent.isStatus())
 				.password(reservationAgent.getPassword())
+				.totalRestaurant(reservationAgent.getTotalRestaurant())
 				.cellularPhoneNumber(reservationAgent.getCellularPhoneNumber())
 				.created(reservationAgent.getCreated())
 				.updated(reservationAgent.getUpdated())
 				.roleDto(RoleMapper.mapToDto(reservationAgent.getRole()))
-				.createBy(SystemMapper.mapToDto(reservationAgent.getCreateBy()))
+				//.createBy(SystemMapper.mapToDto(reservationAgent.getCreateBy()))
 				.build();
 	}
 }

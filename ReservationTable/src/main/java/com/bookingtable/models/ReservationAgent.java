@@ -69,6 +69,6 @@ public class ReservationAgent {
 	@JoinColumn(name = "role",nullable = false)
 	private Role role;
 	@ManyToOne
-	@JoinColumn(name = "createBy",nullable = false)
+	@JoinColumn(name = "createBy",nullable = true)
 	private System createBy;
 }
