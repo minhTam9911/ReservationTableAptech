@@ -39,13 +39,17 @@ public class HomeController {
 		model.addAttribute("requestURI", requestURI);
 		// Lấy danh sách tất cả các loại bàn ăn
 		List<DinnerTableTypeDto> dinnerTableTypes = iDinnerTableTypeService.getAllDinnerTablesType();
+		List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
 
 		// Tạo một map lưu trữ hình ảnh đầu tiên của mỗi loại bàn ăn
 		Map<Integer, String> typeImagesMap = new HashMap<>();
 		for (DinnerTableTypeDto type : dinnerTableTypes) {
 			Set<ImageDto> images = imageService.getImagesByDinnerTableId(type.getId());
 			if (!images.isEmpty()) {
-				typeImagesMap.put(type.getId(), images.iterator().next().getPath());
+				// Get the first image path and add it to the map
+				String imagePath = images.iterator().next().getPath();
+				typeImagesMap.put(type.getId(), imagePath);
+			} else {
 			}
 		}
 

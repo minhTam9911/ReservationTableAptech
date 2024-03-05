@@ -2,7 +2,6 @@ package com.bookingtable.servicies.implement;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ReceptionistDto;
-import com.bookingtable.dtos.ReservationAgentDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.mappers.ReceptionistMapper;
-import com.bookingtable.mappers.ReservationAgentMapper;
-import com.bookingtable.repositories.GuestRepository;
+import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.SystemRepository;
@@ -29,7 +26,7 @@ public class ReceptionistService implements IReceptionistService {
 	@Autowired
 	private ReservationAgentRepository reservationAgentRepository;
 	@Autowired
-	private GuestRepository guestRepository;
+	private CustomerRepository guestRepository;
 	@Autowired
 	private ReceptionistRepository receptionistRepository;
 	@Autowired
