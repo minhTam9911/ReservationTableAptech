@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("system/dinnerTable" )
+@RequestMapping("partner/dinnerTable" )
 public class DinnerTableController {
     @Autowired
     private IDinnerTableService iDinnerTableService;
@@ -51,14 +51,14 @@ public class DinnerTableController {
         }
 
         model.addAttribute("dinnerTables", dinnerTables);
-        return "system/dinnerTable/index";
+        return "partner/dinnerTable/index";
     }
 
-    @GetMapping("/dinnerTable-details/{id}")
+    @GetMapping("/partner-details/{id}")
     public String getDinnerTableById(@PathVariable Integer id, Model model) {
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
         model.addAttribute("dinnerTable", dinnerTableDto);
-        return "system/dinnerTable/details";
+        return "partner/details";
     }
 
     @GetMapping("create")
@@ -72,44 +72,44 @@ public class DinnerTableController {
         model.addAttribute("dinnerTableDto", dinnerTableDto);
         if(response.isStatus()) {
             model.addAttribute("msg",true);
-            return "system/dinnerTable/create";
+            return "partner/dinnerTable/create";
         }
-        return "system/dinnerTable/create";
+        return "partner/dinnerTable/create";
     }
 
     @PostMapping("create/save")
     public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
                                     @RequestParam("images") MultipartFile[] images,
                                     BindingResult bindingResult) {
-            List<ImageDto> imageDtos = new ArrayList<>();
+        List<ImageDto> imageDtos = new ArrayList<>();
 
-            dinnerTableDto.setImagesDto(imageDtos);
-            var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
-            dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
-            var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
-            dinnerTableDto.setRestaurantDto(restaurantDto);
-            var response = iDinnerTableService.createDinnerTable(dinnerTableDto);
-            for (MultipartFile image : images) {
-                ImageDto imageDto = new ImageDto();
-                imageDto.setPath(FileHelper.uploadDinnerTable(image));
-                imageDto.setDinnerTableDto(response.getMessage());
-                imageDto.setRestaurantDto(restaurantDto);
-                imageService.createImage(imageDto);
-            }
-            if(bindingResult.hasErrors()) {
-                dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
-                dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-                return "system/dinnerTable/create";
-            }
-            if(response.isStatus()) {
-                this.response.setStatus(true);
-                return "redirect:/system/dinnerTable/index";
-            }else {
-                dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
-                dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-                return "redirect:/system/dinnerTable/create";
+        dinnerTableDto.setImagesDto(imageDtos);
+        var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
+        dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
+        var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
+        dinnerTableDto.setRestaurantDto(restaurantDto);
+        var response = iDinnerTableService.createDinnerTable(dinnerTableDto);
+        for (MultipartFile image : images) {
+            ImageDto imageDto = new ImageDto();
+            imageDto.setPath(FileHelper.uploadDinnerTable(image));
+            imageDto.setDinnerTableDto(response.getMessage());
+            imageDto.setRestaurantDto(restaurantDto);
+            imageService.createImage(imageDto);
+        }
+        if(bindingResult.hasErrors()) {
+            dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
+            dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
+            return "partner/dinnerTable/create";
+        }
+        if(response.isStatus()) {
+            this.response.setStatus(true);
+            return "redirect:/partner/dinnerTable/index";
+        }else {
+            dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
+            dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
+            return "redirect:/partner/dinnerTable/create";
 
-            }
+        }
     }
 
 
@@ -131,9 +131,9 @@ public class DinnerTableController {
 
         if(response.isStatus()) {
             model.addAttribute("msg",true);
-            return "system/dinnerTable/edit";
+            return "partner/dinnerTable/edit";
         }
-        return "system/dinnerTable/edit";
+        return "partner/dinnerTable/edit";
     }
 
     @PostMapping("edit/save")
@@ -159,15 +159,15 @@ public class DinnerTableController {
         if(bindingResult.hasErrors()) {
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-            return "system/dinnerTable/edit";
+            return "partner/dinnerTable/edit";
         }
         if(response.isStatus()) {
             this.response.setStatus(true);
-            return "redirect:/system/dinnerTable/index";
+            return "redirect:/partner/dinnerTable/index";
         }else {
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-            return "redirect:/system/dinnerTable/edit";
+            return "redirect:/partner/dinnerTable/edit";
 
         }
     }
@@ -175,6 +175,6 @@ public class DinnerTableController {
     @GetMapping("/delete/{id}")
     public String deleteDinnerTable(@PathVariable Integer id) {
         iDinnerTableService.deleteDinnerTable(id);
-        return "redirect:/system/dinnerTable";
+        return "redirect:/partner/dinnerTable";
     }
 }

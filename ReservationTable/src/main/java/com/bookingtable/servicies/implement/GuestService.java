@@ -24,7 +24,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public GuestDto getGuestById(UUID id) {
+    public GuestDto getGuestById(String id) {
         Guest guest = guestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
         return GuestMapper.mapToDto(guest);
