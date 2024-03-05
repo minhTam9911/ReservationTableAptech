@@ -1,6 +1,7 @@
 package com.bookingtable.dtos;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,6 +47,10 @@ public class CustomerDto {
 	private LocalDate updated;
 	@NotNull
 	private RoleDto roleDto;
+
+	@NotNull
+	private Integer roleId;
+	private List<RoleDto> roleList;
 	public CustomerDto(String email) {
 		super();
 		this.email = email;

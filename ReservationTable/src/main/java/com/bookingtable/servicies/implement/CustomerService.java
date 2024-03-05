@@ -1,59 +1,119 @@
 package com.bookingtable.servicies.implement;
 
 import com.bookingtable.dtos.CustomerDto;
+import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.mappers.CustomerMapper;
+import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.models.Customer;
 import com.bookingtable.repositories.CustomerRepository;
+import com.bookingtable.repositories.ReceptionistRepository;
+import com.bookingtable.repositories.ReservationAgentRepository;
+import com.bookingtable.repositories.SystemRepository;
 import com.bookingtable.servicies.ICustomerService;
+import com.bookingtable.servicies.IMailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class CustomerService implements ICustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
+    @Autowired
+    private IMailService mailService;
+    @Autowired
+    private Environment environment;
     @Override
     public List<CustomerDto> getAllCustomer() {
-        return customerRepository.findAll().stream()
-                .map(CustomerMapper::mapToDto)
+
+        return customerRepository.findAll().stream() .map(CustomerMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public CustomerDto getCustomerById(String id) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
-        return CustomerMapper.mapToDto(customer);
+        return CustomerMapper.mapToDto(customerRepository.findById(id).get());
     }
 
-    @Override
-    public boolean createCustomer(CustomerDto customer) {
-        Customer cus = CustomerMapper.mapToModel(customer);
-        Customer savedCustomer = customerRepository.save(cus);
-        return CustomerMapper.mapToDto(savedCustomer)!=null;
-    }
+
 
     @Override
-    public boolean updateCustomer(String id, CustomerDto customer) {
-        Customer existingGuest = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
+    public ResultResponse<CustomerDto> updateCustomer(String id, CustomerDto customerDto) {
+        try {
 
-        Customer updatedGuest = CustomerMapper.mapToModel(customer);
-        updatedGuest.setId(existingGuest.getId()); // Ensure the ID remains the same
+            if(customerRepository.existEmail(customerDto.getEmail().toLowerCase(),id)!=null) {
+            return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            }
 
-        Customer savedGuest = customerRepository.save(updatedGuest);
-        return CustomerMapper.mapToDto(savedGuest)!=null;
-    }
-
-    @Override
-    public boolean deleteCustomer(String id) {
-        if (customerRepository.existsById(id)) {
-            customerRepository.deleteById(id);
-            return true;
+            var data = customerRepository.findById(id).get();
+            data.setFullName(customerDto.getFullname());
+            data.setAddress(customerDto.getAddress());
+            data.setDateOfBirth(customerDto.getDateOfBirth());
+            data.setEmail(customerDto.getEmail());
+            data.setPhoneNumber(customerDto.getPhoneNumber());
+            data.setGender(customerDto.isGender());
+            data.setUpdated(LocalDate.now());
+            if(customerRepository.save(data)!=null) {
+                return new  ResultResponse<CustomerDto>(true, new CustomerDto());
+            }else {
+                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Failure"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new  ResultResponse<CustomerDto>(false, new CustomerDto(e.getMessage()));
         }
-        return false;
     }
+
+    @Override
+    public  ResultResponse<CustomerDto> deleteCustomer(String id) {
+        try {
+
+            if(customerRepository.findById(id)!=null) {
+                customerRepository.deleteById(id);
+                return new ResultResponse<CustomerDto>(true, new CustomerDto());
+            } else {
+                return new ResultResponse<CustomerDto>(false, new CustomerDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<CustomerDto>(false, new CustomerDto(e.getMessage()));
+        }
+    }
+
+    @Override
+    public  ResultResponse<CustomerDto> createCustomer(CustomerDto customerDto) {
+        try {
+            customerDto.setEmail(customerDto.getEmail().toLowerCase());
+            if(customerRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            }
+
+            var data = CustomerMapper.mapToModel(customerDto);
+            data.setPassword(GenerateCode.GeneratePassword(12));
+            String email = environment.getProperty("spring.mail.username");
+//			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
+            if (mailService.send(email, data.getEmail(), "Account for you", "")) {
+
+            } else {
+                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Send Email Fail"));
+            }
+
+            if(customerRepository.save(data)!=null) {
+                return new  ResultResponse<CustomerDto>(true, new CustomerDto());
+            }else {
+                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+        }
+    }
+
+
 }
