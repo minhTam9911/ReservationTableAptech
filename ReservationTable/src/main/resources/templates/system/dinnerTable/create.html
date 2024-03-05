@@ -44,13 +44,14 @@
         <div class="mb-3">
             <label>Image:</label>
 
-            <input name="images" type="file" accept="image/png, image/jpg, image/jpeg" multiple class="form-control-file">
+            <input name="images" type="file" accept="image/*" multiple class="form-control-file">
         </div>
 
         <!-- Dinner Table Type with Thymeleaf error handling -->
         <div class="mb-3">
             <label>Dinner Table Type:</label>
             <select th:field="*{dinnerTableTypeDtoId}" class="form-control">
+                <option value="">Select Table Type</option>
                 <th:block th:each="i : ${dinnerTableDto.dinnerTableTypeList}">
                     <th:block >
                         <option th:value="${i.id}" th:text="${i.type}"></option>
@@ -62,7 +63,9 @@
         <!-- Restaurant with Thymeleaf error handling -->
         <div class="mb-3">
             <label>Restaurant:</label>
+
             <select th:field="*{restaurantDtoId}" class="form-control" >
+                <option value="">Select Restaurant</option>
                 <th:block th:each="i : ${dinnerTableDto.restaurantList}">
                     <th:block>
                         <option th:value="${i.id}" th:text="${i.name}"></option>

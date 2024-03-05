@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 @Service
 public class ImageService implements IImageService {
@@ -57,4 +58,9 @@ public class ImageService implements IImageService {
         }
         return false;
     }
+
+    public Set<ImageDto> getImagesByDinnerTableId(Integer dinnerTableId) {
+        return imageRepository.findByDinnerTableId(dinnerTableId).stream()
+                .map(ImageMapper::mapToDto)
+                .collect(Collectors.toSet());    }
 }

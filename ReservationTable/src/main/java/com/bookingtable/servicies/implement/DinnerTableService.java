@@ -5,9 +5,7 @@ import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.RoleDto;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.helpers.GenerateCode;
-import com.bookingtable.mappers.DinnerTableMapper;
-import com.bookingtable.mappers.RoleMapper;
-import com.bookingtable.mappers.SystemMapper;
+import com.bookingtable.mappers.*;
 import com.bookingtable.models.DinnerTable;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.servicies.IDinnerTableService;
@@ -41,7 +39,7 @@ public class DinnerTableService implements IDinnerTableService {
     @Override
     public ResultResponse<DinnerTableDto> createDinnerTable(DinnerTableDto dinnerTableDto) {
         var saved =dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto));
-        if(dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto))!=null) {
+        if(saved!=null) {
             return new ResultResponse<>(true, new DinnerTableDto(
                     saved.getId(),
                     dinnerTableDto.getQuantity(),
@@ -63,11 +61,23 @@ public class DinnerTableService implements IDinnerTableService {
 
 
     @Override
-    public  ResultResponse<DinnerTableDto> updateDinnerTable(DinnerTableDto dinnerTableDto) {
-        if(dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto))!=null) {
-            return new  ResultResponse<DinnerTableDto>(true, new DinnerTableDto());
-        }else {
-            return new  ResultResponse<DinnerTableDto>(false, new DinnerTableDto());
+    public  ResultResponse<DinnerTableDto> updateDinnerTable(Integer id,DinnerTableDto dinnerTableDto) {
+        try {
+            var data = dinnerTableRepository.findById(id).get();
+            data.setId(dinnerTableDto.getId());
+
+            data.setQuantity(dinnerTableDto.getQuantity());
+            data.setStatus(dinnerTableDto.getStatus());
+            data.setRestaurant(RestaurantMapper.mapToModel(dinnerTableDto.getRestaurantDto()));
+            data.setDinnerTableType(DinnerTableTypeMapper.mapToModel(dinnerTableDto.getDinnerTableTypeDto()));
+            if(dinnerTableRepository.save(data)!=null) {
+                return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto());
+            }else {
+                return new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
         }
     }
 

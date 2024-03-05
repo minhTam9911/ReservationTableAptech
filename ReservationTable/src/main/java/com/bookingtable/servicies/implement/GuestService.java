@@ -38,7 +38,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public boolean updateGuest(UUID id, GuestDto guestDto) {
+    public boolean updateGuest(String id, GuestDto guestDto) {
         Guest existingGuest = guestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
 
@@ -50,7 +50,7 @@ public class GuestService implements IGuestService {
     }
 
     @Override
-    public boolean deleteGuest(UUID id) {
+    public boolean deleteGuest(String id) {
         if (guestRepository.existsById(id)) {
             guestRepository.deleteById(id);
             return true;

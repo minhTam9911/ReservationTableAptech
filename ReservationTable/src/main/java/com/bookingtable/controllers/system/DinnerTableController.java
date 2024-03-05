@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("system/dinnerTable" )
@@ -44,10 +45,15 @@ public class DinnerTableController {
     @RequestMapping({ "index", "", "/" })
     public String getAllDinnerTables(Model model) {
         List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
-        model.addAttribute("dinnerTables",dinnerTables);
+        for (DinnerTableDto dinnerTable : dinnerTables) {
+            Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
+            dinnerTable.setImagesDto(new ArrayList<>(images)); // Chuyển Set thành List
+        }
 
+        model.addAttribute("dinnerTables", dinnerTables);
         return "system/dinnerTable/index";
     }
+
     @GetMapping("/dinnerTable-details/{id}")
     public String getDinnerTableById(@PathVariable Integer id, Model model) {
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
@@ -74,7 +80,6 @@ public class DinnerTableController {
     @PostMapping("create/save")
     public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
                                     @RequestParam("images") MultipartFile[] images,
-                                    RedirectAttributes redirectAttributes,
                                     BindingResult bindingResult) {
             List<ImageDto> imageDtos = new ArrayList<>();
 
@@ -111,44 +116,60 @@ public class DinnerTableController {
 
     @GetMapping("edit/{id}")
     public String showEditDinnerTableForm(@PathVariable("id") Integer id, ModelMap model) {
-        List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
-        model.addAttribute("dinnerTableTypes", dinnerTableTypes);
-
-        // Lấy danh sách nhà hàng từ cơ sở dữ liệu và chuyển vào model
-        List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
-        model.addAttribute("restaurants", restaurants);
-        // Lấy danh sách hình ảnh từ service và chuyển vào model
-        List<ImageDto> images = imageService.getAllImages();
-        model.addAttribute("images", images);
-
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
+        dinnerTableDto.setId(id);
         dinnerTableDto.setDinnerTableTypeDtoId(dinnerTableDto.getDinnerTableTypeDto().getId());
         dinnerTableDto.setRestaurantDtoId(dinnerTableDto.getRestaurantDto().getId());
+
         model.addAttribute("dinnerTableDto", dinnerTableDto);
+
+        List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
+        dinnerTableDto.setDinnerTableTypeList(dinnerTableTypes);
+
+        List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
+        dinnerTableDto.setRestaurantList(restaurants);
+
+        if(response.isStatus()) {
+            model.addAttribute("msg",true);
+            return "system/dinnerTable/edit";
+        }
         return "system/dinnerTable/edit";
     }
 
     @PostMapping("edit/save")
-    public String editDinnerTable(@PathVariable("id") Integer id,
-                                  @ModelAttribute("dinnerTableDto") DinnerTableDto updatedDinnerTable) {
+    public String editDinnerTable(@ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
+                                  @RequestParam("images") MultipartFile[] images,
+                                  RedirectAttributes redirectAttributes,
+                                  BindingResult bindingResult
+    ) {
 
-        DinnerTableDto existingDinnerTable = iDinnerTableService.getDinnerTableById(id);
-        DinnerTableTypeDto dinnerTableType = idinnerTableTypeService.getDinnerTableTypeById(updatedDinnerTable.getDinnerTableTypeDtoId());
-        RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(updatedDinnerTable.getRestaurantDtoId());
-       
-        updatedDinnerTable.setDinnerTableTypeDto(dinnerTableType);
-        updatedDinnerTable.setRestaurantDto(restaurantDto);
-
-        if (existingDinnerTable != null) {
-            existingDinnerTable.setStatus(updatedDinnerTable.getStatus());
-            existingDinnerTable.setQuantity(updatedDinnerTable.getQuantity());
-            existingDinnerTable.setDinnerTableTypeDto(updatedDinnerTable.getDinnerTableTypeDto());
-            existingDinnerTable.setRestaurantDto(updatedDinnerTable.getRestaurantDto());
-            existingDinnerTable.setImagesDto(updatedDinnerTable.getImagesDto());
-
-            iDinnerTableService.updateDinnerTable(existingDinnerTable);
+        List<ImageDto> imageDtos = new ArrayList<>();
+        var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
+        dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
+        var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
+        dinnerTableDto.setRestaurantDto(restaurantDto);
+        var response = iDinnerTableService.updateDinnerTable(dinnerTableDto.getId(),dinnerTableDto);
+//        for (MultipartFile image : images) {
+//            ImageDto imageDto = new ImageDto();
+//            imageDto.setPath(FileHelper.uploadDinnerTable(image));
+//            imageDto.setDinnerTableDto(response.getMessage());
+//            imageDto.setRestaurantDto(restaurantDto);
+//            imageService.createImage(imageDto);
+//        }
+        if(bindingResult.hasErrors()) {
+            dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
+            dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
+            return "system/dinnerTable/edit";
         }
-        return "redirect:/system/dinnerTable";
+        if(response.isStatus()) {
+            this.response.setStatus(true);
+            return "redirect:/system/dinnerTable/index";
+        }else {
+            dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
+            dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
+            return "redirect:/system/dinnerTable/edit";
+
+        }
     }
 
     @GetMapping("/delete/{id}")
