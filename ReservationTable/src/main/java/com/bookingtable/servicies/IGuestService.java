@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface IGuestService {
     public List<GuestDto> getAllGuest();
 
-    public GuestDto getGuestById(UUID id);
+    public GuestDto getGuestById(String id);
 
     public boolean createGuest(GuestDto guestDto) ;
     public boolean updateGuest(String id, GuestDto guestDto);
