@@ -17,8 +17,15 @@
     <div class="bg-light rounded h-100 p-4">
         <form th:action="@{/system/dinnerTableType/edit/{id}(id=${dinnerTableTypeDto.id})}" method="post" th:object="${dinnerTableTypeDto}">
             <div class="mb-3">
-                <label for="type" class="form-label">Type</label>
-                <input type="text" class="form-control" th:field="*{type}" id="type">
+                <label class="form-label">Type</label>
+                <select th:field="*{type}" class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="Corner" th:selected="${dinnerTableTypeDto.type == 'Corner'}">Corner</option>
+                    <option value="Center" th:selected="${dinnerTableTypeDto.type == 'Center'}">Center</option>
+                    <option value="By the Window" th:selected="${dinnerTableTypeDto.type == 'By the Window'}">By the Window</option>
+                    <option value="Bar Area" th:selected="${dinnerTableTypeDto.type == 'Bar Area'}">Bar Area</option>
+                    <option value="Scenic View" th:selected="${dinnerTableTypeDto.type == 'Scenic View'}">Scenic View</option>
+                </select>
                 <div class="form-text">
                     <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" style="color: red;"></span>
                 </div>

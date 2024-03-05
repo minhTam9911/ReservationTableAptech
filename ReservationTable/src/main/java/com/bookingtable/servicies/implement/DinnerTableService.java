@@ -1,18 +1,17 @@
 package com.bookingtable.servicies.implement;
 
-import com.bookingtable.dtos.DinnerTableDto;
-import com.bookingtable.dtos.ResultResponse;
-import com.bookingtable.dtos.RoleDto;
-import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.dtos.*;
 import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.mappers.*;
 import com.bookingtable.models.DinnerTable;
+import com.bookingtable.models.DinnerTableType;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.servicies.IDinnerTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -96,4 +95,16 @@ public class DinnerTableService implements IDinnerTableService {
         }
 
     }
+
+    @Override
+    public List<DinnerTableDto> getDinnerTablesByType(DinnerTableTypeDto dinnerTableTypeDto) {
+        List<DinnerTableDto> dinnerTables = dinnerTableRepository.findByDinnerTableType(DinnerTableTypeMapper.mapToModel(dinnerTableTypeDto))
+                .stream()
+                .map(DinnerTableMapper::mapToDto)
+                .collect(Collectors.toList());
+        return dinnerTables;
+    }
+
+
+
 }

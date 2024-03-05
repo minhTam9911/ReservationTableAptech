@@ -761,20 +761,23 @@ button:focus {
   margin-bottom: 30px;
 }
 
-.accomodation_item .hotel_img {
+.accomodation_item .home_img {
   position: relative;
   margin-bottom: 10px;
   overflow: hidden;
   border-radius: 10px;
 }
 
-.accomodation_item .hotel_img img {
+.accomodation_item .home_img img {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
+  width : 365 px;
+  height : 300px;
+  max-width: -webkit-fill-available;
 }
 
-.accomodation_item .hotel_img .theme_btn {
+.accomodation_item .home_img .theme_btn {
   position: absolute;
   bottom: 20px;
   left: 50%;
@@ -785,7 +788,7 @@ button:focus {
   max-width: 128px;
 }
 
-.accomodation_item .hotel_img:hover img {
+.accomodation_item .home_img:hover img {
   -webkit-transform: scale(1.19);
   -ms-transform: scale(1.19);
   transform: scale(1.19);
