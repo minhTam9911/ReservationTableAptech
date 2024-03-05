@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -40,7 +41,8 @@ public class SecurityConfig {
 	public void configGobal(AuthenticationManagerBuilder builder) throws Exception {
 		builder.userDetailsService(accountService);
 	}
-	
+
+
 //	@Bean
 //	WebSecurityCustomizer customizer() {
 //		return (web)->web.ignoring().requestMatchers("/static/**");
@@ -72,15 +74,18 @@ public class SecurityConfig {
 					"assets/system/lib/tempusdominus/js/**",
 					"assets/system/lib/owlcarousel/assets/**",
 					"assets/system/lib/tempusdominus/css/**",
+					"assets/**",
 					"/login", "/register",
 					"/account/check-otp", "/account/verify/check", "/account/forgot-enter-email", "/account/submit",
-					"/account/forgot-password", "/account/new-pass-save").permitAll();
+					"/account/forgot-password", "/account/new-pass-save","/**").permitAll();
 			auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
 			auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-			//auth.requestMatchers("/admin/panel/role/**").permitAll();
-			//auth.requestMatchers("/admin/panel/**").permitAll();
+//			auth.requestMatchers("/admin/panel/role/**").permitAll();
+//			auth.requestMatchers("/admin/panel/**").permitAll();
 			auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
 			auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
+			auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
+			auth.requestMatchers(HttpMethod.POST,"/staff/reservationAgent/create/save").hasAnyRole("STAFF");
 			auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
 			auth.requestMatchers("/partner/**").hasAnyRole("CUSTOMER");
 			auth.requestMatchers("/account/profile","/account/changePass-save","/account/change-password","/account/edit-avatar","/account/edit-profile").hasAnyRole("STAFF","ADMIN","PARTNER","RECEPTIONIST","CUSTOMER");
@@ -99,7 +104,7 @@ public class SecurityConfig {
 							Map<String, String> urls = new HashMap<>();
 							urls.put("ROLE_ADMIN", "/admin/panel/index");
 							urls.put("ROLE_STAFF", "/staff/index");
-							urls.put("ROLE_PATNER", "/partner/index");
+							urls.put("ROLE_PARTNER", "/partner/index");
 							urls.put("ROLE_RECEPTIONIST", "/receptionist/index");
 							String url = "";
 							for (GrantedAuthority role : authentication.getAuthorities()) {

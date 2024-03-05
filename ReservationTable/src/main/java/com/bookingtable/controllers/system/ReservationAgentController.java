@@ -1,6 +1,7 @@
 package com.bookingtable.controllers.system;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,8 @@ import com.bookingtable.servicies.ISystemService;
 
 import jakarta.validation.Valid;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("staff/reservationAgent")
 public class ReservationAgentController {
@@ -31,8 +34,10 @@ public class ReservationAgentController {
 
 	@Autowired 
 	private IRoleService roleService;
-	
+
+
 	private ResultResponse<ReservationAgentDto> response = new ResultResponse<>();
+
 	public ReservationAgentController() {
 		this.response = new ResultResponse<>(new ReservationAgentDto());
 	}
@@ -69,10 +74,11 @@ public class ReservationAgentController {
 	
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto ,
-			BindingResult bindingResult) {
+			BindingResult bindingResult, Principal principal) {
 	
 		  var roleData = roleService.getRoleById(3);
 		  reservationAgentDto.setRoleDto(roleData);
+		  System.out.println(principal.getName());
 		if(bindingResult.hasErrors()) {
 			return "staff/reservationAgent/create";
 		}

@@ -36,6 +36,7 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		username = username.toLowerCase();
 		System system = systemRepository.findByEmail(username);
 		if(system !=null) {
 			if (system.isStatus()) {

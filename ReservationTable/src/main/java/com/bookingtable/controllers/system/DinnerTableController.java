@@ -47,7 +47,7 @@ public class DinnerTableController {
         List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
         for (DinnerTableDto dinnerTable : dinnerTables) {
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
-            dinnerTable.setImagesDto(new ArrayList<>(images)); // Chuyển Set thành List
+            dinnerTable.setImagesDto(new ArrayList<>(images));
         }
 
         model.addAttribute("dinnerTables", dinnerTables);
@@ -82,7 +82,6 @@ public class DinnerTableController {
                                     @RequestParam("images") MultipartFile[] images,
                                     BindingResult bindingResult) {
         List<ImageDto> imageDtos = new ArrayList<>();
-
         dinnerTableDto.setImagesDto(imageDtos);
         var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
         dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
