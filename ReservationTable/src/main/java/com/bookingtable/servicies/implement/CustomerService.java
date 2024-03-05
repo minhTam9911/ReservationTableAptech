@@ -13,45 +13,45 @@ import java.util.stream.Collectors;
 public class CustomerService implements ICustomerService {
 
     @Autowired
-    private CustomerRepository guestRepository;
+    private CustomerRepository customerRepository;
 
     @Override
-    public List<CustomerDto> getAllGuest() {
-        return guestRepository.findAll().stream()
+    public List<CustomerDto> getAllCustomer() {
+        return customerRepository.findAll().stream()
                 .map(CustomerMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CustomerDto getGuestById(String id) {
-        Customer customer = guestRepository.findById(id)
+    public CustomerDto getCustomerById(String id) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
         return CustomerMapper.mapToDto(customer);
     }
 
     @Override
-    public boolean createGuest(CustomerDto customer) {
+    public boolean createCustomer(CustomerDto customer) {
         Customer cus = CustomerMapper.mapToModel(customer);
-        Customer savedCustomer = guestRepository.save(cus);
+        Customer savedCustomer = customerRepository.save(cus);
         return CustomerMapper.mapToDto(savedCustomer)!=null;
     }
 
     @Override
-    public boolean updateGuest(String id, CustomerDto customer) {
-        Customer existingGuest = guestRepository.findById(id)
+    public boolean updateCustomer(String id, CustomerDto customer) {
+        Customer existingGuest = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Guest not found with id: " + id));
 
         Customer updatedGuest = CustomerMapper.mapToModel(customer);
         updatedGuest.setId(existingGuest.getId()); // Ensure the ID remains the same
 
-        Customer savedGuest = guestRepository.save(updatedGuest);
+        Customer savedGuest = customerRepository.save(updatedGuest);
         return CustomerMapper.mapToDto(savedGuest)!=null;
     }
 
     @Override
-    public boolean deleteGuest(String id) {
-        if (guestRepository.existsById(id)) {
-            guestRepository.deleteById(id);
+    public boolean deleteCustomer(String id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
             return true;
         }
         return false;
