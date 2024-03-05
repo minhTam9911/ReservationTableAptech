@@ -71,8 +71,11 @@
                         <a th:href="@{/partner/restaurant/index}" class="dropdown-item">Restaurants</a>
                         <a th:href="@{/admin/panel/role/index}" class="dropdown-item">Roles</a>
                         <a th:href="@{/admin/panel/staff/index}" class="dropdown-item">Staffs</a>
+                        <a th:href="@{/admin/panel/customer/index}" class="dropdown-item">Customers</a>
                         <a th:href="@{/staff/reservationAgent/index}" class="dropdown-item">ReservationAgents</a>
                         <a th:href="@{/staff/reservationStatus/index}" class="dropdown-item">Reservation Status</a>
+                        <a th:href="@{/staff/rateType/index}" class="dropdown-item">Rate types</a>
+
                     </div>
                 </div>
                 <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
@@ -182,9 +185,20 @@
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                         <a href="#" class="dropdown-item">My Profile</a>
                         <a href="#" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">Log Out</a>
+                        <a href="#" class="dropdown-item">
+                            <span class="d-none d-lg-inline-flex">Logout</span>
+                            <i class="fa fa-sign-out"></i>
+                        </a>
                     </div>
                 </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-sign-in-alt me-lg-2"></i>
+
+                        <span class="d-none d-lg-inline-flex">Login</span>
+                    </a>
+                </div>
+
             </div>
         </nav>
         <!-- Navbar End -->
