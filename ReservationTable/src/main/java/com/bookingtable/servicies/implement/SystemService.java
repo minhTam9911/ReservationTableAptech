@@ -6,12 +6,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.helpers.GenerateCode;
-//import com.bookingtable.helpers.MailHelper;
+import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
@@ -35,6 +36,8 @@ public class SystemService implements ISystemService {
 	private IMailService mailService;
 	@Autowired
 	private Environment environment;
+	@Autowired
+	private BCryptPasswordEncoder cryptPasswordEncoder;
 	@Override
 	public List<SystemDto> getAllSystems() {
 
@@ -58,9 +61,9 @@ public class SystemService implements ISystemService {
 			if(reservationAgentRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
-			//if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				//return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
-			//}
+			if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
+				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			}
 			if(systemRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
@@ -120,10 +123,12 @@ public class SystemService implements ISystemService {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
 			}
 			var data = SystemMapper.mapToModel(systemDto);
-			data.setPassword(GenerateCode.GeneratePassword(12));
+			var password = GenerateCode.GeneratePassword(12);
+			var hashPassword = cryptPasswordEncoder.encode(password);
+			data.setPassword(hashPassword);
 			String email = environment.getProperty("spring.mail.username");
-//			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
-			if (mailService.send(email, data.getEmail(), "Account for you", "")) {
+			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), password);
+			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
 				
 			} else {
 				return new  ResultResponse<SystemDto>(false, new SystemDto("Send Email Fail"));

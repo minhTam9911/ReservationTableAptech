@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ReservationAgentDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.helpers.GenerateCode;
+import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.mappers.ReservationAgentMapper;
 import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
@@ -33,6 +35,8 @@ public class ReservationAgentService implements IReservationAgentService {
 	private IMailService mailService;
 	@Autowired
 	private Environment environment;
+	@Autowired
+	private BCryptPasswordEncoder cryptPasswordEncoder;
 	@Override
 	public List<ReservationAgentDto> getAllReservationAgents() {
 
@@ -56,9 +60,9 @@ public class ReservationAgentService implements IReservationAgentService {
 			if(reservationAgentRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
 			}
-			//if(guestRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
-				//return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			//}
+			if(guestRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
+				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+			}
 			if(systemRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
 			}
@@ -114,16 +118,18 @@ public class ReservationAgentService implements IReservationAgentService {
 			if(reservationAgentRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
 			}
-			//if(guestRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-			//	return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			//}
+			if(guestRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+			}
 			if(systemRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
 			}
 			var data = ReservationAgentMapper.mapToModel(reservationAgentDto);
-			data.setPassword(GenerateCode.GeneratePassword(12));
-			String email = environment.getProperty("spring.mail.username");
-//			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
+			var password = GenerateCode.GeneratePassword(12);
+			var hashPassword = cryptPasswordEncoder.encode(password);
+			data.setPassword(hashPassword);
+			String email = environment.getProperty("spring.mail.username");			
+			String content = MailHelper.HtmlNewAccount(data.getFullName(), data.getEmail(), password);
 			if (mailService.send(email, data.getEmail(), "Account for you", "")) {
 				
 			} else {

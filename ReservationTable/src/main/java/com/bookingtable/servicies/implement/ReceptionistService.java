@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ReceptionistDto;
@@ -33,6 +34,8 @@ public class ReceptionistService implements IReceptionistService {
 	private IMailService mailService;
 	@Autowired
 	private Environment environment;
+	@Autowired
+	private BCryptPasswordEncoder cryptPasswordEncoder;
 	@Override
 	public List<ReceptionistDto> getAllReceptionist() {
 
@@ -56,9 +59,9 @@ public class ReceptionistService implements IReceptionistService {
 			if(reservationAgentRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
 			}
-			//if(guestRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
-				//return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			//}
+			if(guestRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
+				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+			}
 			if(systemRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
 			}
@@ -110,14 +113,16 @@ public class ReceptionistService implements IReceptionistService {
 			if(reservationAgentRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
 			}
-			//if(guestRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-			//	return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			//}
+			if(guestRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+			}
 			if(systemRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
 			}
 			var data = ReceptionistMapper.mapToModel(receptionistDto);
-			data.setPassword(GenerateCode.GeneratePassword(12));
+			var password = GenerateCode.GeneratePassword(12);
+			var hashPassword = cryptPasswordEncoder.encode(password);
+			data.setPassword(hashPassword);
 			String email = environment.getProperty("spring.mail.username");
 //			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
 			if (mailService.send(email, data.getEmail(), "Account for you", "")) {

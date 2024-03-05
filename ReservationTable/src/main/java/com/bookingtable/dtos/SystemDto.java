@@ -55,9 +55,9 @@ public class SystemDto {
 	
 	private RoleDto roleDto;
 	
-	@NotNull
-	private Integer roleId;
-	private List<RoleDto> roleList;
+	//@NotNull
+	//private Integer roleId;
+	//private List<RoleDto> roleList;
 	
 	private List<ReservationAgentDto> reservationAgentDtos;
 
