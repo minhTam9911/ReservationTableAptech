@@ -56,13 +56,13 @@ public class Receptionist {
 	@UpdateTimestamp
 	private LocalDate updated;
 	@ManyToOne
-	@JoinColumn(name = "role",nullable = false,insertable=false, updatable=false)
+	@JoinColumn(name = "role",nullable = false)
 	private Role role;
 	@OneToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 	@ManyToOne
-	@JoinColumn(name = "createBy",nullable = false)
+	@JoinColumn(name = "createBy",nullable = true)
 	private ReservationAgent createBy;
 	
 }

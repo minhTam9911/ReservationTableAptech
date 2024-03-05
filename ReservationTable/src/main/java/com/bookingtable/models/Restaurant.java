@@ -67,7 +67,7 @@ public class Restaurant {
     private Set<Image> images = new HashSet<>();
     
     @ManyToOne
-	@JoinColumn(name = "createBy",nullable = false)
+	@JoinColumn(name = "createBy",nullable = true)
 	private ReservationAgent createBy;
     
 

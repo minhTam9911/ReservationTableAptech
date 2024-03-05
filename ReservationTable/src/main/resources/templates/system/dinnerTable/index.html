@@ -10,12 +10,12 @@
     background-color: #333;
     overflow: auto;
     white-space: nowrap;
-    width:200px;
+    padding: 10px;
+    width:120px;
     }
 
     div.scroll-container img {
     padding: 10px;
-    width:200px
     }
     </style>
 </head>
@@ -51,7 +51,7 @@
             <td>
                 <div class="scroll-container">
                     <th:block th:each="image : ${dinnerTable.imagesDto}">
-                        <img th:src="@{~/dinnerTables/{imageName}(imageName=${image.path})}"  />
+                        <img th:src="@{/dinnerTables/{imageName}(imageName=${image.path})}" style="width:80px;" />
                     </th:block>
                 </div>
             </td>

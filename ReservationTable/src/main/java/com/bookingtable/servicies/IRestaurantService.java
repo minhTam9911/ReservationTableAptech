@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface IRestaurantService {
     public List<RestaurantDto> getAllRestaurants();
+    public List<RestaurantDto> getAllRestaurantsForAgent(String idAgent);
 
     public RestaurantDto getRestaurantById(String id);
-
+    public RestaurantDto getRestaurantById(String id, String idAgent);
     public boolean createRestaurant(RestaurantDto restaurantDto) ;
     public boolean updateRestaurant(String id, RestaurantDto restaurantDto);
 
