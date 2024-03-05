@@ -21,8 +21,8 @@ public class FileHelper {
 			return "No file";
 		}
 		try {
-			final Path directory = Paths.get("src/main/resources/static/dinnerTables");
-			final Path filePath = Paths.get("src/main/resources/static/dinnerTables/"+file.getOriginalFilename());
+			final Path directory = Paths.get("src/main/resources/static/uploads/dinnerTables");
+			final Path filePath = Paths.get("src/main/resources/static/uploads/dinnerTables/"+file.getOriginalFilename());
 			if(!Files.exists(directory)) {
 				Files.createDirectories(directory);
 			}

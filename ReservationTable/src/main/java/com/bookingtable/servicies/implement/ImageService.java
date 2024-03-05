@@ -8,6 +8,7 @@ import com.bookingtable.servicies.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class ImageService implements IImageService {
         }
         return false;
     }
-
+    @Override
     public Set<ImageDto> getImagesByDinnerTableId(Integer dinnerTableId) {
         return imageRepository.findByDinnerTableId(dinnerTableId).stream()
                 .map(ImageMapper::mapToDto)

@@ -50,7 +50,7 @@
             <td>
                 <div class="scroll-container">
                     <th:block th:each="image : ${dinnerTable.imagesDto}">
-                        <img th:src="@{~/dinnerTables/{imageName}(imageName=${image.path})}" />
+                        <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}"/>
                     </th:block>
                 </div>
             </td>
