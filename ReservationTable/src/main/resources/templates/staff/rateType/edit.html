@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Edit Rate Type</title>
+</head>
+
+<body>
+
+<section layout:fragment="content" class="container">
+    <th:block th:if="${msg} != null">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i><span th:text="${msg}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </th:block>
+    <style>
+        .col-sm-10 .form-check {
+            display: inline-flex;
+            padding-right: 20px;
+        }
+    </style>
+    <br>
+    <h2 style="text-align: center;">
+        <a href="/system/index" class="btn btn-secondary" style="float: left;">
+            <i class="fa fa-house"></i> Home
+        </a>
+        Edit Rate Type
+    </h2>
+
+    <br>
+    <div class="bg-light rounded h-100 p-4">
+        <form th:action="@{/staff/rateType/updateProcess}" method="post" th:object="${rateTypeDto}">
+            <input type="hidden" th:field="*{id}">
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 600; color: black;">Type</label>
+                <input type="text" class="form-control" th:field="*{type}" placeholder="Enter type">
+                <div class="form-text">
+                    <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" style="color: red;"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 600; color: black;">Description</label>
+                <textarea class="form-control" th:field="*{description}" placeholder="Leave a description here" style="height: 150px;"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+
+</body>
+
+</html>

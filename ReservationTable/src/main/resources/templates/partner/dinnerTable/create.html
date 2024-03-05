@@ -2,7 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Create Dinner Table Page</title>
-    <!-- Bootstrap CSS -->
+    <script>
+    function updateFileName(input) {
+        var fileName = '';
+        for (var i = 0; i < input.files.length; i++) {
+            fileName += input.files[i].name + ', ';
+        }
+        fileName = fileName.slice(0, -2); // Remove the last comma and space
+        document.getElementById('fileName').value = fileName;
+    }
+</script>
 </head>
 <body>
 
@@ -40,12 +49,15 @@
                 <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="invalid-feedback" style="display:block;"></div>
             </div>
 
-            <!-- Image field example (assuming you have backend validation for image) -->
             <div class="mb-3">
-                <label>Image:</label>
-
-                <input name="images" type="file" accept="image/*" multiple class="form-control-file">
+                <label for="imageInput" class="form-label">Upload Image:</label>
+                <div class="input-group">
+                    <input id="imageInput" name="images" type="file" accept="image/*" multiple class="form-control" style="display: none;" onchange="updateFileName(this)">
+                    <label for="imageInput" class="input-group-text btn btn-primary">Choose File</label>
+                    <input id="fileName" type="text" class="form-control" readonly placeholder="No file selected">
+                </div>
             </div>
+
 
             <!-- Dinner Table Type with Thymeleaf error handling -->
             <div class="mb-3">

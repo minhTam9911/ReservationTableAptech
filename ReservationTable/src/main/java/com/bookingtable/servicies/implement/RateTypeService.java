@@ -1,9 +1,13 @@
 package com.bookingtable.servicies.implement;
 
 import com.bookingtable.dtos.RateTypeDto;
+import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.dtos.RoleDto;
+import com.bookingtable.mappers.RoleMapper;
 import com.bookingtable.models.RateType;
 import com.bookingtable.repositories.RateTypeRepository;
 import com.bookingtable.mappers.RateTypeMapper;
+import com.bookingtable.repositories.RoleRepository;
 import com.bookingtable.servicies.IRateTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,41 +19,63 @@ public class RateTypeService implements IRateTypeService{
 
     @Autowired
     private RateTypeRepository rateTypeRepository;
-
+    @Override
     public List<RateTypeDto> getAllRateTypes() {
-        return rateTypeRepository.findAll().stream()
-                .map(RateTypeMapper::mapToDto)
-                .collect(Collectors.toList());
+
+        return rateTypeRepository.findAll().stream().map(i-> RateTypeMapper.mapToDto(i)).collect(Collectors.toList());
     }
 
+    @Override
     public RateTypeDto getRateTypeById(Integer id) {
-        RateType rateType = rateTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("RateType not found with id: " + id));
-        return RateTypeMapper.mapToDto(rateType);
+        return RateTypeMapper.mapToDto(rateTypeRepository.findById(id).get());
+
     }
 
-    public boolean createRateType(RateTypeDto rateDto) {
-        RateType rateType = RateTypeMapper.mapToModel(rateDto);
-        return rateTypeRepository.save(rateType)!=null;
-        
-    }
-
-    public boolean updateRateType(Integer id, RateTypeDto rateDto) {
-        RateType existingRateType = rateTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("RateType not found with id: " + id));
-
-        RateType updatedRateType = RateTypeMapper.mapToModel(rateDto);
-        updatedRateType.setId(existingRateType.getId()); // Ensure the ID remains the same
-
-        return rateTypeRepository.save(updatedRateType) !=null;
-        
-    }
-
-    public boolean deleteRateType(Integer id) {
-        if (rateTypeRepository.existsById(id)) {
-            rateTypeRepository.deleteById(id);
-            return true;
+    @Override
+    public ResultResponse<RateTypeDto> createRateType(RateTypeDto rateTypeDto) {
+        try {
+            if(rateTypeRepository.save(RateTypeMapper.mapToModel(rateTypeDto))!=null) {
+                return new ResultResponse<RateTypeDto>(true,new RateTypeDto());
+            }else {
+                return new ResultResponse<RateTypeDto>(false,new RateTypeDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<RateTypeDto>(false,new RateTypeDto());
         }
-        return false;
+    }
+
+    @Override
+    public ResultResponse<RateTypeDto> updateRateType(Integer id, RateTypeDto rateTypeDto) {
+        try {
+            var data = rateTypeRepository.findById(id).get();
+            data.setType(rateTypeDto.getType());
+            data.setDescription(rateTypeDto.getDescription());
+
+            if(rateTypeRepository.save(data)!=null) {
+                return	new ResultResponse<RateTypeDto>(true,new RateTypeDto());
+            }else {
+                return new ResultResponse<RateTypeDto>(false,new RateTypeDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultResponse<RateTypeDto>(false,new RateTypeDto());
+        }
+
+    }
+
+    @Override
+    public ResultResponse<RateTypeDto> deleteRateType(Integer id) {
+        try {
+            if(rateTypeRepository.findById(id)!=null) {
+                rateTypeRepository.deleteById(id);
+                return	new ResultResponse<RateTypeDto>(true,new RateTypeDto());
+            }else {
+                return	new ResultResponse<RateTypeDto>(false,new RateTypeDto());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return	new ResultResponse<RateTypeDto>(false,new RateTypeDto());
+        }
     }
 }
