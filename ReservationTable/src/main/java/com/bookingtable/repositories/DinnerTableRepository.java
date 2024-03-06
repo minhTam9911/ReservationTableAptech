@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface DinnerTableRepository extends JpaRepository<DinnerTable, Integer> {
     List<DinnerTable> findByDinnerTableType(DinnerTableType dinnerTableType);
-    List<DinnerTable> findByReservationAgentEmail(String email);
+    
+    List<DinnerTable> findByRestaurantId(String restaurentId);
 
 }

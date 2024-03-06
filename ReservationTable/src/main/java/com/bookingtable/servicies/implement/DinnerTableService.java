@@ -6,10 +6,12 @@ import com.bookingtable.mappers.*;
 import com.bookingtable.models.DinnerTable;
 import com.bookingtable.models.DinnerTableType;
 import com.bookingtable.repositories.DinnerTableRepository;
+import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.servicies.IDinnerTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +22,8 @@ public class DinnerTableService implements IDinnerTableService {
 
     @Autowired
     private DinnerTableRepository dinnerTableRepository;
+    @Autowired
+    private ReservationAgentRepository agentRepository;
 
     @Override
     public List<DinnerTableDto> getAllDinnerTables() {
@@ -107,7 +111,14 @@ public class DinnerTableService implements IDinnerTableService {
 
     @Override
     public List<DinnerTableDto> getAllDinnerTablesForAgent(String idAgent) {
-        return dinnerTableRepository.findByReservationAgentEmail(idAgent).stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+    	
+    	var agent = agentRepository.findByEmail(idAgent);
+    	List<DinnerTable> list= new ArrayList<>();
+    	for(var i : agent.getRestaurents()) {
+    		list.addAll(dinnerTableRepository.findByRestaurantId(i.getId()));
+    	}
+    	
+        return list.stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
     }
 
 }

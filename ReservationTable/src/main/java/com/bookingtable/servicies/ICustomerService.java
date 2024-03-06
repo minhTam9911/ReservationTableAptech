@@ -15,4 +15,5 @@ public interface ICustomerService {
     public ResultResponse<CustomerDto> updateCustomer(String id, CustomerDto customer);
 
     public ResultResponse<CustomerDto> deleteCustomer(String id);
+    public boolean changeStatus(String email, String code);
 }

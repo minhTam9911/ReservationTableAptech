@@ -2,6 +2,7 @@ package com.bookingtable.helpers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 import java.util.UUID;
 
 public class GenerateCode {
@@ -52,4 +53,9 @@ public class GenerateCode {
 	 
 	  return sb.toString(); 
 	 } 
+	public static String RandomSecurityCode() {
+			 Random rand = new Random();
+	         int max=999999,min=100000;
+	         return String.valueOf(rand.nextInt(max - min + 1) + min);
+	}
 }

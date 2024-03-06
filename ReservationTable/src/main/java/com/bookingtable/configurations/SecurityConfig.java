@@ -37,18 +37,16 @@ public class SecurityConfig {
     @Autowired
     public IAccountService accountService;
 
-    @Autowired
+   @Autowired
     public void configGobal(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(accountService);
     }
 
 
-//	@Bean
-//	WebSecurityCustomizer customizer() {
-//		return (web)->web.ignoring().requestMatchers("/static/**");
-//	}
 
-    @Bean
+ 
+ 
+ @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.cors(i -> i.disable()).csrf(i -> i.disable()).authorizeHttpRequests(auth -> {
                     auth.requestMatchers(
@@ -78,12 +76,12 @@ public class SecurityConfig {
                             "/login", "/register",
                             "/",
                             "/customer/**",
-                            "/account/check-otp", "/account/verify/check", "/account/forgot-enter-email", "/account/submit",
+                            "/account/check-otp", "/verify", "/account/forgot-enter-email", "/account/submit",
                             "/account/forgot-password", "/account/new-pass-save").permitAll();
-                    auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
-                    auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-                    //	auth.requestMatchers("/admin/panel/role/**").permitAll();
-                    //	auth.requestMatchers("/admin/panel/**").permitAll();
+                //    auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
+                 //   auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
+                    	auth.requestMatchers("/admin/panel/role/**").permitAll();
+                    	auth.requestMatchers("/admin/panel/**").permitAll();
                     //auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
                     auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
@@ -124,6 +122,5 @@ public class SecurityConfig {
 
                 .build();
     }
-
 
 }
