@@ -47,8 +47,7 @@ public class RestaurantController {
         model.addAttribute("restaurants", restaurants);
         return "partner/restaurant/index";
     }
-    // thêm create và update và delete
-    
+
     @GetMapping("create")
     public String create(Model model) {
         RestaurantDto restaurantDto = new RestaurantDto();

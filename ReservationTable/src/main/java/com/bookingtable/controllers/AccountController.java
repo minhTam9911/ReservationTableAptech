@@ -20,6 +20,9 @@ import com.bookingtable.servicies.IRoleService;
 
 import jakarta.validation.Valid;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Controller
 public class AccountController {
 
@@ -53,7 +56,8 @@ public class AccountController {
 	public String register(@Valid @ModelAttribute("customerDto") CustomerDto customerDto ,
 			BindingResult bindingResult) {
 		 var roleData = roleService.getRoleById(5);
-		 customerDto.setRoleDto(roleData);
+		customerDto.setCreated(LocalDate.now());
+		customerDto.setRoleDto(roleData);
 		if(bindingResult.hasErrors()) {
 			return "account/login";
 		}

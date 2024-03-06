@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,8 +44,9 @@ public class DinnerTableController {
     @Autowired
     private RestaurantService restaurantService;
     @RequestMapping({ "index", "", "/" })
-    public String getAllDinnerTables(Model model) {
-        List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
+    public String getAllDinnerTables(Model model,Principal principal) {
+        List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTablesForAgent(principal.getName());
+        model.addAttribute("dinnerTables", dinnerTables);
         for (DinnerTableDto dinnerTable : dinnerTables) {
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));

@@ -2,7 +2,9 @@ package com.bookingtable.servicies;
 
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
+import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.mappers.RestaurantMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +20,5 @@ public interface IDinnerTableService {
 
     public ResultResponse<DinnerTableDto> deleteDinnerTable(Integer id);
     public List<DinnerTableDto> getDinnerTablesByType(DinnerTableTypeDto dinnerTableTypeDto);
+    public List<DinnerTableDto> getAllDinnerTablesForAgent(String idAgent);
 }

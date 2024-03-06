@@ -105,6 +105,9 @@ public class DinnerTableService implements IDinnerTableService {
         return dinnerTables;
     }
 
-
+    @Override
+    public List<DinnerTableDto> getAllDinnerTablesForAgent(String idAgent) {
+        return dinnerTableRepository.findByReservationAgentEmail(idAgent).stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+    }
 
 }
