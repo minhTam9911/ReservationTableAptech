@@ -29,18 +29,18 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityConfig {
 
 
-	@Bean
-	public BCryptPasswordEncoder encoderBcrypt() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder encoderBcrypt() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Autowired
-	public IAccountService accountService;
+    @Autowired
+    public IAccountService accountService;
 
-	@Autowired
-	public void configGobal(AuthenticationManagerBuilder builder) throws Exception {
-		builder.userDetailsService(accountService);
-	}
+    @Autowired
+    public void configGobal(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(accountService);
+    }
 
 
 //	@Bean
@@ -48,80 +48,82 @@ public class SecurityConfig {
 //		return (web)->web.ignoring().requestMatchers("/static/**");
 //	}
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.cors(i -> i.disable()).csrf(i -> i.disable()).authorizeHttpRequests(auth -> {
-			auth.requestMatchers(
-					"assets/customer/css/**",
-					"assets/customer/image/**",
-					"assets/customer/js/**",
-					"assets/customer/scss/**",
-					"assets/customer/vendors/**",
-					"assets/customer/fonts/**",
-					"assets/system/css/**",
-					"assets/system/img/**",
-					"assets/system/js/**",
-					"assets/system/scss/bootstrap/scss/**",
-					"assets/system/scss/bootstrap/scss/forms/**",
-					"assets/system/scss/bootstrap/scss/helpers/**",
-					"assets/system/scss/bootstrap/scss/mixins/**",
-					"assets/system/scss/bootstrap/scss/utilities/**",
-					"assets/system/scss/bootstrap/scss/vendor/**",
-					"assets/system/lib/chart/**",
-					"assets/system/lib/easing/**",
-					"assets/system/lib/waypoints/**",
-					"assets/system/lib/owlcarousel/**",
-					"assets/system/lib/tempusdominus/js/**",
-					"assets/system/lib/owlcarousel/assets/**",
-					"assets/system/lib/tempusdominus/css/**",
-					"assets/**",
-					"/login", "/register",
-					"/account/check-otp", "/account/verify/check", "/account/forgot-enter-email", "/account/submit",
-					"/account/forgot-password", "/account/new-pass-save").permitAll();
-			auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
-			auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-		//	auth.requestMatchers("/admin/panel/role/**").permitAll();
-		//	auth.requestMatchers("/admin/panel/**").permitAll();
-		//auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
-			auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
-			auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
-			auth.requestMatchers(HttpMethod.POST,"/staff/reservationAgent/create/save").hasAnyRole("STAFF");
-			auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
-			auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
-			auth.requestMatchers("/partner/restaurant/**").hasAnyRole("PARTNER");
-			auth.requestMatchers("/account/profile","/account/changePass-save","/account/change-password","/account/edit-avatar","/account/edit-profile").hasAnyRole("STAFF","ADMIN","PARTNER","RECEPTIONIST","CUSTOMER");
-		
-		}).logout(logout->
-			logout.logoutUrl("/logout").logoutSuccessUrl("/login")
-		)
-				
-		.formLogin(login -> {
-			login.loginPage("/login").loginProcessingUrl("/login/process").usernameParameter("username")
-					.passwordParameter("password").successHandler(new AuthenticationSuccessHandler() {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.cors(i -> i.disable()).csrf(i -> i.disable()).authorizeHttpRequests(auth -> {
+                    auth.requestMatchers(
+                            "assets/customer/css/**",
+                            "assets/customer/image/**",
+                            "assets/customer/js/**",
+                            "assets/customer/scss/**",
+                            "assets/customer/vendors/**",
+                            "assets/customer/fonts/**",
+                            "assets/system/css/**",
+                            "assets/system/img/**",
+                            "assets/system/js/**",
+                            "assets/system/scss/bootstrap/scss/**",
+                            "assets/system/scss/bootstrap/scss/forms/**",
+                            "assets/system/scss/bootstrap/scss/helpers/**",
+                            "assets/system/scss/bootstrap/scss/mixins/**",
+                            "assets/system/scss/bootstrap/scss/utilities/**",
+                            "assets/system/scss/bootstrap/scss/vendor/**",
+                            "assets/system/lib/chart/**",
+                            "assets/system/lib/easing/**",
+                            "assets/system/lib/waypoints/**",
+                            "assets/system/lib/owlcarousel/**",
+                            "assets/system/lib/tempusdominus/js/**",
+                            "assets/system/lib/owlcarousel/assets/**",
+                            "assets/system/lib/tempusdominus/css/**",
+                            "assets/**",
+                            "/login", "/register",
+                            "/",
+                            "/customer/**",
+                            "/account/check-otp", "/account/verify/check", "/account/forgot-enter-email", "/account/submit",
+                            "/account/forgot-password", "/account/new-pass-save").permitAll();
+                    auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
+                    auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
+                    //	auth.requestMatchers("/admin/panel/role/**").permitAll();
+                    //	auth.requestMatchers("/admin/panel/**").permitAll();
+                    //auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
+                    auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
+                    auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
+                    auth.requestMatchers(HttpMethod.POST, "/staff/reservationAgent/create/save").hasAnyRole("STAFF");
+                    auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
+                    auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
+                    auth.requestMatchers("/partner/restaurant/**").hasAnyRole("PARTNER");
+                    auth.requestMatchers("/account/profile", "/account/changePass-save", "/account/change-password", "/account/edit-avatar", "/account/edit-profile").hasAnyRole("STAFF", "ADMIN", "PARTNER", "RECEPTIONIST", "CUSTOMER");
 
-						@Override
-						public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-								Authentication authentication) throws IOException, ServletException {
-							Map<String, String> urls = new HashMap<>();
-							urls.put("ROLE_ADMIN", "/admin/panel/index");
-							urls.put("ROLE_STAFF", "/staff/index");
-							urls.put("ROLE_PARTNER", "/partner/index");
-							urls.put("ROLE_RECEPTIONIST", "/receptionist/index");
-							String url = "";
-							for (GrantedAuthority role : authentication.getAuthorities()) {
-								if (urls.containsKey(role.getAuthority())) {
-									url = urls.get(role.getAuthority());
-									break;
-								}
-							}
-							response.sendRedirect(url);
-						}
-					}).failureUrl("/login?error");
+                }).logout(logout ->
+                        logout.logoutUrl("/logout").logoutSuccessUrl("/login")
+                )
 
-		})
+                .formLogin(login -> {
+                    login.loginPage("/login").loginProcessingUrl("/login/process").usernameParameter("username")
+                            .passwordParameter("password").successHandler(new AuthenticationSuccessHandler() {
 
-				.build();
-	}
+                                @Override
+                                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                                    Authentication authentication) throws IOException, ServletException {
+                                    Map<String, String> urls = new HashMap<>();
+                                    urls.put("ROLE_ADMIN", "/admin/panel/index");
+                                    urls.put("ROLE_STAFF", "/staff/index");
+                                    urls.put("ROLE_PARTNER", "/partner/index");
+                                    urls.put("ROLE_RECEPTIONIST", "/receptionist/index");
+                                    String url = "";
+                                    for (GrantedAuthority role : authentication.getAuthorities()) {
+                                        if (urls.containsKey(role.getAuthority())) {
+                                            url = urls.get(role.getAuthority());
+                                            break;
+                                        }
+                                    }
+                                    response.sendRedirect(url);
+                                }
+                            }).failureUrl("/login?error");
 
-	
+                })
+
+                .build();
+    }
+
+
 }
