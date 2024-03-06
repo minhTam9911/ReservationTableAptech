@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.bookingtable.dtos.CustomerDto;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,8 +48,8 @@ public class Reservation {
 	@OneToOne
 	@JoinColumn(name = "guest_id")
 	private Customer customer;
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-	private Collection<DinnerTable> dinnerTable;
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<DinnerTable> dinnerTable  = new HashSet<>();
 	@Column
 	@CreationTimestamp
 	private LocalDateTime created;
@@ -62,6 +64,6 @@ public class Reservation {
 	@Column
 	private LocalTime bookingTime;
 	@ManyToOne
-    @JoinColumn(name = "reservationStatus_id", nullable = false)
+    @JoinColumn(name = "reservationStatus", nullable = false)
     private ReservationStatus reservationStatus;
 }

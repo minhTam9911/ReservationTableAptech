@@ -65,10 +65,9 @@ public class Restaurant {
     private Set<DinnerTable> dinnerTables = new HashSet<>();
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Image> images = new HashSet<>();
-    
     @ManyToOne
-	@JoinColumn(name = "createBy",nullable = true)
-	private ReservationAgent createBy;
+	@JoinColumn(name = "reservationAgent",nullable = false)
+	private ReservationAgent reservationAgent;
     
 
 }

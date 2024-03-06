@@ -77,17 +77,18 @@ public class SecurityConfig {
 					"assets/**",
 					"/login", "/register",
 					"/account/check-otp", "/account/verify/check", "/account/forgot-enter-email", "/account/submit",
-					"/account/forgot-password", "/account/new-pass-save","/**").permitAll();
+					"/account/forgot-password", "/account/new-pass-save").permitAll();
 			auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
 			auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-//			auth.requestMatchers("/admin/panel/role/**").permitAll();
-//			auth.requestMatchers("/admin/panel/**").permitAll();
-			auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
+		//	auth.requestMatchers("/admin/panel/role/**").permitAll();
+		//	auth.requestMatchers("/admin/panel/**").permitAll();
+		//auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
 			auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
 			auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
 			auth.requestMatchers(HttpMethod.POST,"/staff/reservationAgent/create/save").hasAnyRole("STAFF");
 			auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
-			auth.requestMatchers("/partner/**").hasAnyRole("CUSTOMER");
+			auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
+			auth.requestMatchers("/partner/restaurant/**").hasAnyRole("PARTNER");
 			auth.requestMatchers("/account/profile","/account/changePass-save","/account/change-password","/account/edit-avatar","/account/edit-profile").hasAnyRole("STAFF","ADMIN","PARTNER","RECEPTIONIST","CUSTOMER");
 		
 		}).logout(logout->

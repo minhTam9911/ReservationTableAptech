@@ -37,20 +37,24 @@ public class ReceptionistService implements IReceptionistService {
 	@Autowired
 	private BCryptPasswordEncoder cryptPasswordEncoder;
 	@Override
-	public List<ReceptionistDto> getAllReceptionist() {
+	public List<ReceptionistDto> getAllReceptionist(String emailCreatedBy) {
 
-		return receptionistRepository.findAll().stream().map(i->ReceptionistMapper.mapToDto(i)).collect(Collectors.toList());
+		return receptionistRepository.findByReservationAgentEmail(emailCreatedBy).stream().map(i->ReceptionistMapper.mapToDto(i)).collect(Collectors.toList());
 	}
 
 	@Override
-	public ReceptionistDto getReceptionistById(String id) {
-		return ReceptionistMapper.mapToDto(receptionistRepository.findById(id).get());
+	public ReceptionistDto getReceptionistById(String id,String emailCreatedBy) {
+		var data = receptionistRepository.findById(id).get();
+		if(data!=null && data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
+			return ReceptionistMapper.mapToDto(data);
+		}
+		return null;
 	}
 
 
 
 	@Override
-	public  ResultResponse<ReceptionistDto> updateReceptionist(String id, ReceptionistDto receptionistDto) {
+	public  ResultResponse<ReceptionistDto> updateReceptionist(String id, ReceptionistDto receptionistDto, String emailCreatedBy) {
 		try {
 
 			if(receptionistRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
@@ -66,6 +70,9 @@ public class ReceptionistService implements IReceptionistService {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
 			}
 			var data = receptionistRepository.findById(id).get();
+			if(data==null || !data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
+				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto());
+			}
 			data.setFullname(receptionistDto.getFullname());
 			data.setAddress(receptionistDto.getAddress());
 			data.setEmail(receptionistDto.getEmail());
@@ -84,10 +91,10 @@ public class ReceptionistService implements IReceptionistService {
 	}
 
 	@Override
-	public  ResultResponse<ReceptionistDto> deleteReceptionist(String id) {
+	public  ResultResponse<ReceptionistDto> deleteReceptionist(String id, String emailCreatedBy) {
 		try {
-
-			if(receptionistRepository.findById(id)!=null) {
+			var data = receptionistRepository.findById(id).get();
+			if(data!=null && data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
 				receptionistRepository.deleteById(id);
                 return new ResultResponse<ReceptionistDto>(true, new ReceptionistDto());
             } else {
@@ -100,7 +107,7 @@ public class ReceptionistService implements IReceptionistService {
 	}
 
 	@Override
-	public  ResultResponse<ReceptionistDto> createReceptionist(ReceptionistDto receptionistDto) {
+	public  ResultResponse<ReceptionistDto> createReceptionist(ReceptionistDto receptionistDto, String emailCreatedBy) {
 		try {
 			receptionistDto.setEmail(receptionistDto.getEmail().toLowerCase());
 
@@ -119,9 +126,15 @@ public class ReceptionistService implements IReceptionistService {
 			if(systemRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
 			}
+			var reservationAgent = reservationAgentRepository.findByEmail(emailCreatedBy);
+			if(receptionistRepository.findByReservationAgentEmail(emailCreatedBy).size()>= reservationAgent.getTotalRestaurant()) {
+				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("The creation limit has been reached"));
+			}
+			
 			var data = ReceptionistMapper.mapToModel(receptionistDto);
 			var password = GenerateCode.GeneratePassword(12);
 			var hashPassword = cryptPasswordEncoder.encode(password);
+			data.setReservationAgent(reservationAgentRepository.findByEmail(emailCreatedBy));
 			data.setPassword(hashPassword);
 			String email = environment.getProperty("spring.mail.username");
 //			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
@@ -143,14 +156,16 @@ public class ReceptionistService implements IReceptionistService {
 	}
 
 	@Override
-	public boolean changeStatus(String id) {
+	public boolean changeStatus(String id,String emailCreatedBy) {
 		try {
 			var data = receptionistRepository.findById(id).get();
 			if(data== null) {
 				return false;
 			}
+			if(data!=null && data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
 			data.setStatus(!data.isStatus());
 			if(receptionistRepository.save(data)!=null) return true;
+			}
 			return false;
 		}catch (Exception e) {
 			return false;

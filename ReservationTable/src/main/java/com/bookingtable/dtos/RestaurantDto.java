@@ -31,32 +31,30 @@ import org.hibernate.annotations.UpdateTimestamp;
 @AllArgsConstructor
 public class RestaurantDto {
 		private String id;
-		@NotNull
+	
 	    @NotEmpty
 	    private String name;
-		@NotNull
+	
 	    @NotEmpty
 	    private String mainPhoneNumber;
-		@NotNull
+	
 	    @NotEmpty
 	    private String faxNumber;
-		@NotNull
+
 	    @NotEmpty
 	    private String tollFreeNumber;
-		@NotNull
+	
 	    @NotEmpty
 	    @Email
 	    private String companyMail;
 		 private String status;
 	    private String website;
-	    @NotNull
-	    @NotEmpty
+	   
+	    
 	    private String city;
-	    @NotNull
-	    @NotEmpty
+	  
 	    private String district;
-	    @NotNull
-	    @NotEmpty
+	   
 	    private String ward;
 	  
 	    private boolean active;
@@ -64,13 +62,24 @@ public class RestaurantDto {
 		private LocalDate created;
 		
 		private LocalDate updated;
+		
 		private ReceptionistDto receptionistDto;
-		@NotNull
+		
 	    @NotEmpty
 	    private String address;
 	   
 	    private List<DinnerTableDto> dinnerTablesDto ;
 	    
 	    private List<ImageDto> imagesDto;
+	    
 	    private ReservationAgentDto createBy;
+
+		public RestaurantDto(String id, boolean active) {
+			super();
+			this.id = id;
+			this.active = active;
+		}
+	    
+
+	    
 }

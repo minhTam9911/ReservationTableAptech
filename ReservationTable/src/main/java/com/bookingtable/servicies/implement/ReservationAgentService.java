@@ -105,7 +105,7 @@ public class ReservationAgentService implements IReservationAgentService {
 	}
 
 	@Override
-	public  ResultResponse<ReservationAgentDto> createReservationAgent(ReservationAgentDto reservationAgentDto) {
+	public  ResultResponse<ReservationAgentDto> createReservationAgent(ReservationAgentDto reservationAgentDto, String emailCreatedBy) {
 		try {
 			reservationAgentDto.setEmail(reservationAgentDto.getEmail().toLowerCase());
 
@@ -127,10 +127,11 @@ public class ReservationAgentService implements IReservationAgentService {
 			var data = ReservationAgentMapper.mapToModel(reservationAgentDto);
 			var password = GenerateCode.GeneratePassword(12);
 			var hashPassword = cryptPasswordEncoder.encode(password);
+			data.setSystem(systemRepository.findByEmail(emailCreatedBy));
 			data.setPassword(hashPassword);
 			String email = environment.getProperty("spring.mail.username");			
 			String content = MailHelper.HtmlNewAccount(data.getFullName(), data.getEmail(), password);
-			if (mailService.send(email, data.getEmail(), "Account for you", "")) {
+			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
 				
 			} else {
 				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Send Email Fail"));

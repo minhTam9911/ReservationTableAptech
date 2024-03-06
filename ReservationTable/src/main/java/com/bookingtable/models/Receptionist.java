@@ -59,10 +59,10 @@ public class Receptionist {
 	@JoinColumn(name = "role",nullable = false)
 	private Role role;
 	@OneToOne
-	@JoinColumn(name = "restaurant_id")
+	@JoinColumn(name = "restaurant")
 	private Restaurant restaurant;
 	@ManyToOne
-	@JoinColumn(name = "createBy",nullable = true)
-	private ReservationAgent createBy;
+	@JoinColumn(name = "reservationAgent",nullable = true)
+	private ReservationAgent reservationAgent;
 	
 }
