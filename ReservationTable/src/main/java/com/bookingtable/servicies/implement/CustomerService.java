@@ -1,6 +1,7 @@
 package com.bookingtable.servicies.implement;
 
 import com.bookingtable.dtos.CustomerDto;
+import com.bookingtable.dtos.ReservationAgentDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.helpers.GenerateCode;
@@ -15,6 +16,7 @@ import com.bookingtable.servicies.ICustomerService;
 import com.bookingtable.servicies.IMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,12 +25,20 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerService implements ICustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private IMailService mailService;
-    @Autowired
-    private Environment environment;
+	@Autowired
+	private SystemRepository systemRepository;
+	@Autowired
+	private ReservationAgentRepository reservationAgentRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private ReceptionistRepository receptionistRepository;
+	@Autowired
+	private IMailService mailService;
+	@Autowired
+	private Environment environment;
+	@Autowired
+	private BCryptPasswordEncoder cryptPasswordEncoder;
     @Override
     public List<CustomerDto> getAllCustomer() {
 
@@ -46,12 +56,22 @@ public class CustomerService implements ICustomerService {
     @Override
     public ResultResponse<CustomerDto> updateCustomer(String id, CustomerDto customerDto) {
         try {
-
+        	customerDto.setEmail(customerDto.getEmail().toLowerCase());
             if(customerRepository.existEmail(customerDto.getEmail().toLowerCase(),id)!=null) {
             return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
             }
-
+            
+			if(receptionistRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+			}
+			if(reservationAgentRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+			}
+			if(systemRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+			}
             var data = customerRepository.findById(id).get();
+            
             data.setFullName(customerDto.getFullname());
             data.setAddress(customerDto.getAddress());
             data.setDateOfBirth(customerDto.getDateOfBirth());
@@ -89,16 +109,29 @@ public class CustomerService implements ICustomerService {
     @Override
     public  ResultResponse<CustomerDto> createCustomer(CustomerDto customerDto) {
         try {
-            customerDto.setEmail(customerDto.getEmail().toLowerCase());
+        	customerDto.setEmail(customerDto.getEmail().toLowerCase());
             if(customerRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
             }
+            
+			if(receptionistRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+			}
+			if(reservationAgentRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+			}
+			if(systemRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
+				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+			}
 
             var data = CustomerMapper.mapToModel(customerDto);
-            data.setPassword(GenerateCode.GeneratePassword(12));
+            var hashPassword = cryptPasswordEncoder.encode(customerDto.getPassword());
+            data.setPassword(hashPassword);
+            data.setSecurityCode(GenerateCode.RandomSecurityCode());
             String email = environment.getProperty("spring.mail.username");
-//			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
-            if (mailService.send(email, data.getEmail(), "Account for you", "")) {
+            var content = "Click here to activate: "+"http://localhost:8080/verify?email="+data.getEmail()+"&securityCode="+ data.getSecurityCode();
+		System.out.println(content);
+            if (mailService.send(email, data.getEmail(), "Active Account", content)) {
 
             } else {
                 return new  ResultResponse<CustomerDto>(false, new CustomerDto("Send Email Fail"));
@@ -114,6 +147,21 @@ public class CustomerService implements ICustomerService {
             return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
         }
     }
+
+	@Override
+	public boolean changeStatus(String email, String code) {
+		var check = customerRepository.findByEmail(email);
+		if(check!=null && !check.isStatus()) {
+			if(check.getSecurityCode().equals(code)) {
+				check.setStatus(true);
+				check.setSecurityCode(null);
+				if(customerRepository.save(check) !=null) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 
 }

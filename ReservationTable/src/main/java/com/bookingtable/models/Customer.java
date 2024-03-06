@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column
     private String fullName;
@@ -35,6 +35,8 @@ public class Customer {
     private String password;
     @Column
     private boolean gender;
+    @Column
+	private String securityCode;
     @Column
     private boolean status;
     @Column
