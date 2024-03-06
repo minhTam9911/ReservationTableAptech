@@ -113,8 +113,6 @@ public class DinnerTableController {
         }
     }
 
-
-
     @GetMapping("edit/{id}")
     public String showEditDinnerTableForm(@PathVariable("id") Integer id, ModelMap model) {
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
