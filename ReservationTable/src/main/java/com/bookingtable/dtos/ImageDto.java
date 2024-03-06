@@ -18,4 +18,12 @@ public class ImageDto {
     private DinnerTableDto dinnerTableDto;
 
     private RestaurantDto restaurantDto;
+
+	public ImageDto(String path) {
+		super();
+		this.path = path;
+	}
+    
+    
+    
 }

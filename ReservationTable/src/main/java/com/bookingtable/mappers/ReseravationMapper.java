@@ -11,7 +11,7 @@ public class ReseravationMapper {
 				.id(reservationDto.getId())
 				.restaurant(RestaurantMapper.mapToModel(reservationDto.getRestaurantDto()))
 				.customer(CustomerMapper.mapToModel(reservationDto.getCustomerDto()))
-				.dinnerTable(reservationDto.getDinnerTableDto().stream().map(i->DinnerTableMapper.mapToModel(i)).collect(Collectors.toList()))
+				.dinnerTable(reservationDto.getDinnerTableDto().stream().map(i->DinnerTableMapper.mapToModel(i)).collect(Collectors.toSet()))
 				.created(reservationDto.getCreated())
 				.tableCount(reservationDto.getTableCount())
 				.numberOfPepole(reservationDto.getNumberOfPepole())

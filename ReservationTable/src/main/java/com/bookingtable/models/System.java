@@ -60,6 +60,6 @@ public class System {
 	@JoinColumn(name = "role",nullable = false)
 	private Role role;
 	
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "system", cascade = CascadeType.ALL)
     private Collection<ReservationAgent> reservationAgents;
 }

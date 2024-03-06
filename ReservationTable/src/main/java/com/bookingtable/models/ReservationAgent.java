@@ -1,7 +1,11 @@
 package com.bookingtable.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -63,12 +67,14 @@ public class ReservationAgent {
 	@Column
 	@UpdateTimestamp
 	private LocalDate updated;
-	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL) 
-    private Collection<Receptionist> receptionists;
+	@OneToMany(mappedBy = "reservationAgent") 
+    private Set<Receptionist> receptionists ;
+	@OneToMany
+    private Set<ReservationAgent> restaurents;
 	@ManyToOne
 	@JoinColumn(name = "role",nullable = false)
 	private Role role;
 	@ManyToOne
-	@JoinColumn(name = "createBy",nullable = true)
-	private System createBy;
+	@JoinColumn(name = "system",nullable = false)
+	private System system;
 }

@@ -7,16 +7,16 @@ public class ImageMapper {
         return Image.builder()
                 .id(imageDto.getId())
                 .path(imageDto.getPath())
-                .dinnerTable(DinnerTableMapper.mapToModel(imageDto.getDinnerTableDto()))
-                .restaurant(RestaurantMapper.mapToModel(imageDto.getRestaurantDto()))
+                .dinnerTable(imageDto.getDinnerTableDto() == null? null : DinnerTableMapper.mapToModel(imageDto.getDinnerTableDto()))
+                .restaurant(imageDto.getRestaurantDto() == null? null: RestaurantMapper.mapToModel(imageDto.getRestaurantDto()))
                 .build();
     }
     public static ImageDto mapToDto(Image image) {
         return ImageDto.builder()
                 .id(image.getId())
                 .path(image.getPath())
-                .restaurantDto(RestaurantMapper.mapToDto(image.getRestaurant()))
-                .dinnerTableDto(DinnerTableMapper.mapToDto(image.getDinnerTable()))
+                .restaurantDto(image.getRestaurant() == null? null:RestaurantMapper.mapToDto(image.getRestaurant()))
+                .dinnerTableDto(image.getDinnerTable() == null? null : DinnerTableMapper.mapToDto(image.getDinnerTable()))
                 .build();
     }
 }

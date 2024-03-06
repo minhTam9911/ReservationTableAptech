@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, String> {
 	Customer findByEmail(String email);
-	@Query(value = "select * from guest where email = :email and id <> :id", nativeQuery = true)
+	@Query(value = "select * from customer where email = :email and id <> :id", nativeQuery = true)
 	Customer existEmail(@Param("email")String email, @Param("id") String id);
 }

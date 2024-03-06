@@ -82,7 +82,7 @@ public class ReservationAgentController {
 		if(bindingResult.hasErrors()) {
 			return "staff/reservationAgent/create";
 		}
-		var response = reservationAgentService.createReservationAgent(reservationAgentDto);
+		var response = reservationAgentService.createReservationAgent(reservationAgentDto, principal.getName());
 		if(response.isStatus()) {
 			this.response.setStatus(true);
 			return "redirect:/staff/reservationAgent/index";

@@ -1,5 +1,6 @@
 package com.bookingtable.repositories;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,5 @@ public interface ReceptionistRepository extends JpaRepository<Receptionist, Stri
 	Receptionist findByEmail(String email);
 	@Query(value = "select * from receptionist where email = :email and id <> :id", nativeQuery = true)
 	Receptionist existEmail(@Param("email")String email, @Param("id") String id);
+	List<Receptionist> findByReservationAgentEmail(String email);
 }
