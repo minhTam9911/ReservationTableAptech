@@ -5,6 +5,7 @@ import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.mappers.*;
 import com.bookingtable.models.DinnerTable;
 import com.bookingtable.models.DinnerTableType;
+import com.bookingtable.models.Restaurant;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.servicies.IDinnerTableService;
@@ -112,8 +113,10 @@ public class DinnerTableService implements IDinnerTableService {
     @Override
     public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String idAgent) {
         var agent = agentRepository.findByEmail(idAgent);
+        List<Restaurant> restaurants =new ArrayList<>();
+        restaurants = agent.getRestaurents().stream().collect(Collectors.toList());
         List<DinnerTable> list= new ArrayList<>();
-        for(var i : agent.getRestaurents()) {
+        for(var i : restaurants) {
             list.addAll(dinnerTableRepository.findByRestaurant_Id(i.getId()));
         }
 
