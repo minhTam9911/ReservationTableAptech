@@ -12,11 +12,8 @@ import java.util.List;
 
 public interface DinnerTableRepository extends JpaRepository<DinnerTable, Integer> {
     List<DinnerTable> findByDinnerTableType(DinnerTableType dinnerTableType);
-<<<<<<< HEAD
     List<DinnerTable> findByRestaurant_Id(String restaurant_Id);
-=======
-    
+
     List<DinnerTable> findByRestaurantId(String restaurentId);
->>>>>>> origin/main
 
 }
