@@ -120,7 +120,9 @@ public class SecurityConfig {
                                 }
                             }).failureUrl("/login?error");
 
-                })
+                }).exceptionHandling(e -> e
+                        .accessDeniedPage("/403")
+                )
 
                 .build();
     }

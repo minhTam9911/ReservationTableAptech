@@ -55,7 +55,7 @@ public class AccountController {
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("customerDto") CustomerDto customerDto ,
 			BindingResult bindingResult) {
-		 var roleData = roleService.getRoleById(5);
+		var roleData = roleService.getRoleById(1);
 		customerDto.setCreated(LocalDate.now());
 		customerDto.setRoleDto(roleData);
 		if(bindingResult.hasErrors()) {

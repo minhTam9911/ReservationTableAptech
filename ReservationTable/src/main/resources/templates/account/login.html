@@ -385,14 +385,14 @@ input:not(:focus):valid ~ .my_place
                     </label>
                 </div> 
                 <div class="form-group">
-                    <label style="display: inline-flex;">
-						<input type="radio" th:field="*{gender}" value="true"  >Male
+                    <label style="display: inline-flex; justify-content: space-evenly;width: 214px;">
+						<input type="radio" th:field="*{gender}" value="true">Male
                         <input type="radio" th:field="*{gender}" value="false">Female
-                        
+
                     </label>
                 </div> 
                 <div class="form-group">
-                    <label>
+                    <label style="width: 214px;">
                         <input type="date" class="my_form-control" th:field="*{dateOfBirth}">
                         <small class="my_place">Date Of Birth</small>
                 
