@@ -110,6 +110,10 @@ public class DinnerTableService implements IDinnerTableService {
     }
 
     @Override
+<<<<<<< HEAD
+    public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String idRestaurant) {
+        return dinnerTableRepository.findByRestaurant_Id(idRestaurant).stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+=======
     public List<DinnerTableDto> getAllDinnerTablesForAgent(String idAgent) {
     	
     	var agent = agentRepository.findByEmail(idAgent);
@@ -119,6 +123,7 @@ public class DinnerTableService implements IDinnerTableService {
     	}
     	
         return list.stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+>>>>>>> origin/main
     }
 
 }
