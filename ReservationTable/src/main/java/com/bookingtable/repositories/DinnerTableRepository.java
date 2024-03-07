@@ -14,6 +14,4 @@ public interface DinnerTableRepository extends JpaRepository<DinnerTable, Intege
     List<DinnerTable> findByDinnerTableType(DinnerTableType dinnerTableType);
     List<DinnerTable> findByRestaurant_Id(String restaurant_Id);
 
-    List<DinnerTable> findByRestaurantId(String restaurentId);
-
 }
