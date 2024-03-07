@@ -347,43 +347,35 @@ input:not(:focus):valid ~ .my_place
 </head>
 
 <body>
-	<th:block th:if="${msg} == true">
-		<div class="alert alert-success" role="alert">
-  A simple success alert—check it out!
-</div>
-	</th:block >
-	<th:block th:if="${msg} == false">
-		<div class="alert alert-danger" role="alert">
-  A simple danger alert—check it out!
-</div>
-	</th:block>
-
+	
+		
             <div class="container" id="container">
         <div class="form-container sign-up-container">
 
             <form th:action="@{/register}" id="contact-form" method="post" th:object="${customerDto}" class="main-form needs-validation" >
                 <h3>Create Account</h3>
                 <div class="form-group">
-                    <label>
+                    <label style="margin-top: -8px;">
                         <input type="text" class="my_form-control" th:field="*{fullname}" >
                         <small class="my_place">Full Name</small>
-                
+                <span  th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"style="color: red;"></span>
                     </label>
                 </div> 
                 <div class="form-group">
-                    <label>
+                    <label style="margin-top: -8px;">
                         <input type="text" class="my_form-control"  th:field="*{address}">
                         <small class="my_place">Address</small>
-                
+                <span  th:if="${#fields.hasErrors('address')}" th:errors="*{address}"style="color: red;"></span>
                     </label>
                 </div> 
 				<div class="form-group">
-                    <label>
+                    <label style="margin-top: -8px;">
                         <input type="text" class="my_form-control" th:field="*{phoneNumber}" >
                         <small class="my_place">Phone</small>
-                
+                <span  th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"style="color: red;"></span>
                     </label>
                 </div> 
+<<<<<<< HEAD
                 <div class="form-group">
                     <label style="display: inline-flex; justify-content: space-evenly;width: 214px;">
 						<input type="radio" th:field="*{gender}" value="true">Male
@@ -393,30 +385,34 @@ input:not(:focus):valid ~ .my_place
                 </div> 
                 <div class="form-group">
                     <label style="width: 214px;">
+=======
+             
+                <div class="form-group" >
+                    <label style="margin-top: -8px;">
+>>>>>>> origin/main
                         <input type="date" class="my_form-control" th:field="*{dateOfBirth}">
                         <small class="my_place">Date Of Birth</small>
-                
+                <span  th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"style="color: red;"></span>
                     </label>
                 </div> 
                 <div class="form-group">
-                    <label>
+                    <label style="margin-top: -8px;">
                         <input type="text" class="my_form-control"  th:field="*{email}">
                         <small class="my_place">Your email</small>
-                       
+                       <span  th:if="${#fields.hasErrors('email')}" th:errors="*{email}"style="color: red;"></span>
                     </label>
                 </div>   
 
                 <div class="form-group" style="display: inline-block;">
-                    <label>
+                    <label style="margin-top: -8px;">
                         <input type="password" th:field="*{password}" class="my_form-control" >
                         <small class="my_place">Your password</small>
-                        
-
+                        <span  th:if="${#fields.hasErrors('password')}" th:errors="*{password}"style="color: red;"></span>
                     </label>
                 </div>  
 
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary mt-2 mx-auto" style="margin-top: 10px;" >CREATE ACCOUNT</button>
+                    <button type="submit" class="btn btn-primary mt-2 mx-auto" style="margin-top: 10px;" >Submit</button>
                 </div>
 
     
@@ -456,6 +452,8 @@ input:not(:focus):valid ~ .my_place
                 </div>
 
                 <div class="form-group mt-2 text-center">
+					
+
                     <span class="forgot" style="font-size: 18px;">Forgot password ?</span>
                 </div>
 

@@ -50,6 +50,7 @@ public class RestaurantController {
 
     @GetMapping("create")
     public String create(Model model) {
+    
         RestaurantDto restaurantDto = new RestaurantDto();
         model.addAttribute("restaurantDto", restaurantDto);
         
