@@ -116,7 +116,7 @@ public class SecurityConfig {
                                     }
                                     response.sendRedirect(url);
                                 }
-                            }).failureUrl("/login?error");
+                            }).failureUrl("/login?error=usernotfound");
 
                 })
                 .build();

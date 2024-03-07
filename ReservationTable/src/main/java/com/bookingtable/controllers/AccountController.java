@@ -48,10 +48,8 @@ public class AccountController {
 			RedirectAttributes redirectAttributes, Model model) {
 		var customerDto = new CustomerDto();
 		model.addAttribute("customerDto", customerDto);
-		model.addAttribute("msg",result);
 		if (error != null) {
-			result.setMessage("Username and password invalid");
-			redirectAttributes.addFlashAttribute("msg", result);
+			model.addAttribute("msg", "Username and password invalid");
 		}
 		
 		return "account/login";
@@ -59,35 +57,31 @@ public class AccountController {
 	
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("customerDto") CustomerDto customerDto ,
-			BindingResult bindingResult) {
+			BindingResult bindingResult,RedirectAttributes attributes,Model model) {
 		var roleData = roleService.getRoleById(1);
 		customerDto.setCreated(LocalDate.now());
 		customerDto.setRoleDto(roleData);
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("msg", "Form input invalid");
 			return "account/login";
 		}
 		var response = customerService.createCustomer(customerDto);
 		if(response.isStatus()) {
-			this.result.setStatus(true);
-			this.result.setMessage("Please check your email again to activate your account");
+			attributes.addFlashAttribute("msg", "Please check your email again to activate your account");
 			return "redirect:/login";
 		}else {
-			
-			
+			attributes.addFlashAttribute("msg",response.getMessage().getEmail()==null?null: response.getMessage().getEmail());
 			return "redirect:/login";
 			
 		}
 		
 	}
 	@GetMapping("verify")
-	public String verify(@PathParam("email")String email, @PathParam("securityCode") String securityCode) {
+	public String verify(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
 		if(customerService.changeStatus(email, securityCode)) {
-			this.result.setStatus(true);
-			this.result.setMessage("Successful activation");
-			
+			attributes.addFlashAttribute("msg", "Success activation");
 		}else {
-			this.result.setStatus(false);
-			this.result.setMessage("Failure activation");
+			attributes.addFlashAttribute("msg", "Failure activation");
 		}
 		return "redirect:/login";
 	}
