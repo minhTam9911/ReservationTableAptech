@@ -42,7 +42,7 @@ public class RestaurantController {
 	}
 
 	@GetMapping("index")
-    public String getAllCustomers(Model model, Principal principal) {
+    public String getAllRestaurants(Model model, Principal principal) {
         List<RestaurantDto> restaurants = iRestaurantService.getAllRestaurantsForAgent(principal.getName());
         model.addAttribute("restaurants", restaurants);
         return "partner/restaurant/index";

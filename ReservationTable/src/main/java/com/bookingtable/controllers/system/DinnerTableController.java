@@ -45,14 +45,15 @@ public class DinnerTableController {
     private RestaurantService restaurantService;
     @RequestMapping({ "index", "", "/" })
     public String getAllDinnerTables(Model model,Principal principal) {
-        List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTablesForRestaurant(principal.getName());
-        model.addAttribute("dinnerTables", dinnerTables);
-        for (DinnerTableDto dinnerTable : dinnerTables) {
-            Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
-            dinnerTable.setImagesDto(new ArrayList<>(images));
+        List<RestaurantDto> restaurants = iRestaurantService.getAllRestaurantsForAgent(principal.getName());
+        for (RestaurantDto restaurant : restaurants){
+            List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTablesForRestaurant(restaurant.getId());
+            model.addAttribute("dinnerTables", dinnerTables);
+            for (DinnerTableDto dinnerTable : dinnerTables) {
+                Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
+                dinnerTable.setImagesDto(new ArrayList<>(images));
+            }
         }
-
-        model.addAttribute("dinnerTables", dinnerTables);
         return "partner/dinnerTable/index";
     }
 

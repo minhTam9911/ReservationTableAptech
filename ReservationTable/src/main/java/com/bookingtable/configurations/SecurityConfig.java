@@ -74,13 +74,15 @@ public class SecurityConfig {
                             "assets/system/lib/tempusdominus/css/**",
                             "assets/**",
                             "/login", "/register",
-                            "/",
+                            "/**",
                             "/customer/**",
                             "/account/check-otp", "/verify", "/account/forgot-enter-email", "/account/submit",
                             "/account/forgot-password", "/account/new-pass-save").permitAll();
-                //    auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
-                 //   auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-                    	auth.requestMatchers("/admin/panel/role/**").permitAll();
+                    auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
+                    auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
+                    auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
+
+                    auth.requestMatchers("/admin/panel/role/**").permitAll();
                     	auth.requestMatchers("/admin/panel/**").permitAll();
                     //auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
