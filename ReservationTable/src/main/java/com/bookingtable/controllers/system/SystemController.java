@@ -1,8 +1,10 @@
 package com.bookingtable.controllers.system;
 
+import java.security.Principal;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,10 +43,10 @@ public class SystemController {
 	}
 
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index(Model model, Principal principal) {
+		model.addAttribute("username",principal.getName());
 
-
-    	model.addAttribute("data", systemService.getAllSystems());
+		model.addAttribute("data", systemService.getAllSystems());
     	if(response.getMessage().getEmail() !=null) {
     		if(response.isStatus()) {
     			model.addAttribute("msg",true);

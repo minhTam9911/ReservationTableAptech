@@ -15,7 +15,7 @@
     <br>
     <div class="bg-light rounded h-100 p-4">
 
-        <form th:action="@{/partner/dinnerTable/update}" method="post" th:object="${dinnerTableDto}" enctype="multipart/form-data">
+        <form th:action="@{/partner/dinnerTable/edit/save}" method="post" th:object="${dinnerTableDto}" enctype="multipart/form-data">
 
             <input type="hidden" th:field="*{id}">
 
