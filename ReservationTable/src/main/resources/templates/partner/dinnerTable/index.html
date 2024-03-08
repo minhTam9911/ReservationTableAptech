@@ -56,7 +56,10 @@
             </td>
             <td style="width: 30%;">
                 <a th:href="@{/partner/dinnerTable/edit/{id}(id=${dinnerTable.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
-                <a th:href="@{/partner/dinnerTable/delete/{id}(id=${dinnerTable.id})}" class="btn btn-danger">Delete</a>&emsp;|&emsp;
+                <a th:href="@{/partner/dinnerTable/delete/{id}(id=${dinnerTable.id})}" class="btn btn-danger"
+                   th:onclick="if(!(confirm('Are you sure you want to delete this dinner table with id:' + '\'+${dinnerTable.id}+\'' +'?' ) )) return false" >
+                    Delete
+                </a>&emsp;|&emsp;
                 <a th:href="@{/partner/dinnerTable/detail/{id}(id=${dinnerTable.id})}" class="btn btn-info">Detail</a>
             </td>
         </tr>
