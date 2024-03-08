@@ -68,9 +68,13 @@ public class ReservationAgent {
 	@UpdateTimestamp
 	private LocalDate updated;
 	@OneToMany(mappedBy = "reservationAgent") 
-    private Set<Receptionist> receptionists ;
+    private Set<Receptionist> receptionists = new HashSet<>() ;
 	@OneToMany
+<<<<<<< HEAD
     private Set<Restaurant> restaurants = new HashSet<>();
+=======
+    private Set<Restaurant> restaurents = new HashSet<>();
+>>>>>>> 0ae13131c795645be85659bf37cac7b6f56fe06d
 	@ManyToOne
 	@JoinColumn(name = "role",nullable = false)
 	private Role role;
