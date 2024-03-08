@@ -26,7 +26,8 @@ public class DinnerTable {
     private int quantity;
     @Column
     private String status;
-
+    @Column
+    private String currentQuantity;
     @ManyToOne
     @JoinColumn(name = "dinnerTableType_id")
     private DinnerTableType dinnerTableType;

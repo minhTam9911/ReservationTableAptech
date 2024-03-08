@@ -64,4 +64,11 @@ public class ImageService implements IImageService {
         return imageRepository.findByDinnerTableId(dinnerTableId).stream()
                 .map(ImageMapper::mapToDto)
                 .collect(Collectors.toSet());    }
+
+    @Override
+    public Set<ImageDto> getImagesByRestaurantId(String restaurantId) {
+        return imageRepository.findByRestaurantId(restaurantId).stream()
+                .map(ImageMapper::mapToDto)
+                .collect(Collectors.toSet());
+    }
 }

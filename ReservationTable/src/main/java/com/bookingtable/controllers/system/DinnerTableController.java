@@ -199,6 +199,7 @@ public class DinnerTableController {
         var existImages = imageService.getImagesByDinnerTableId(id);
         for(var existImage :existImages) {
             FileHelper.deleteDinnerTableImage(existImage.getPath());
+
             imageService.deleteImage(existImage.getId());
         }
         iDinnerTableService.deleteDinnerTable(id);

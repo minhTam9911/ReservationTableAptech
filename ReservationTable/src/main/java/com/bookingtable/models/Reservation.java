@@ -45,9 +45,6 @@ public class Reservation {
 	@OneToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
-	@OneToOne
-	@JoinColumn(name = "guest_id")
-	private Customer customer;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<DinnerTable> dinnerTable  = new HashSet<>();
 	@Column
@@ -66,4 +63,7 @@ public class Reservation {
 	@ManyToOne
     @JoinColumn(name = "reservationStatus", nullable = false)
     private ReservationStatus reservationStatus;
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 }

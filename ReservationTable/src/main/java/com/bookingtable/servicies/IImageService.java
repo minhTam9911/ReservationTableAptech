@@ -18,4 +18,7 @@ public interface IImageService {
     public boolean deleteImage(Integer id);
     public Set<ImageDto> getImagesByDinnerTableId(Integer dinnerTableId);
 
+    public Set<ImageDto> getImagesByRestaurantId(String restaurantId);
+
+
 }

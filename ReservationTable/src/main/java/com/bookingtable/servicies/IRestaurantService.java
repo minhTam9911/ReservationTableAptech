@@ -13,7 +13,9 @@ public interface IRestaurantService {
     public RestaurantDto getRestaurantById(String id);
     public RestaurantDto getRestaurantById(String id, String idAgent);
     public ResultResponse<RestaurantDto> createRestaurant(RestaurantDto restaurantDto, String emailCreatedBy) ;
-    public boolean updateRestaurant(String id, RestaurantDto restaurantDto,String emailCreatedBy);
+    public ResultResponse<RestaurantDto> updateRestaurant(String id, RestaurantDto restaurantDto,String emailCreatedBy);
 
-    public boolean deleteRestaurant(String id, String emailCreateBy);
+    public ResultResponse<RestaurantDto> deleteRestaurant(String id, String emailCreateBy);
+
+
 }
