@@ -1,6 +1,10 @@
 package com.bookingtable.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,9 @@ import com.bookingtable.servicies.IAccountService;
 import com.bookingtable.servicies.ICustomerService;
 import com.bookingtable.servicies.IRoleService;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 
@@ -26,22 +33,21 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
+
 public class AccountController {
 
 	@Autowired
 	private ICustomerService customerService;
 	@Autowired
 	private IRoleService roleService;
+	@Autowired
+	private IAccountService accountService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private ResultResponse<String> result = new ResultResponse<>(false,"");
 	
-	private ResultResponse<String> result = new ResultResponse<>(false,null);
-	
-	
-	
-	public AccountController() {
-		super();
-		this.result = new ResultResponse<>(false,null);
-		
-	}
+	   
+
 
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "error", required = false) String error,
@@ -77,12 +83,99 @@ public class AccountController {
 		
 	}
 	@GetMapping("verify")
-	public String verify(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
+	public String verifyAcitve(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
 		if(customerService.changeStatus(email, securityCode)) {
 			attributes.addFlashAttribute("msg", "Success activation");
 		}else {
 			attributes.addFlashAttribute("msg", "Failure activation");
 		}
 		return "redirect:/login";
+	}
+	
+	
+
+	@GetMapping("/forgot-password")
+	public String forgot(Model model) {
+		if(!result.getMessage().isEmpty()) {
+			model.addAttribute("msg",result.getMessage());
+			result = new ResultResponse<>(false,"");
+		}
+		return "account/forgotPassword";
+	}
+	
+
+	@GetMapping("/reset-password")
+	public String resetPassword(HttpSession session, Model model) {
+		if(session.getAttribute("email")!=null) {
+			if(!result.getMessage().isEmpty()) {
+				model.addAttribute("msg",result.getMessage());
+			}
+			result = new ResultResponse<>(false,"");
+			return "account/resetPassword";
+		}
+		return "account/403";
+	}
+	
+	@GetMapping("/verify-code")
+	public String verifyCode(HttpSession session,Model model) {
+		if(session.getAttribute("email")!=null) {
+			if(!result.getMessage().isEmpty()) {
+				model.addAttribute("msg",result.getMessage());
+			}
+			result = new ResultResponse<>(false,"");
+			return "account/verificationCode";
+	}
+		return "account/403";
+	}
+	
+	
+	@PostMapping("/forgot-password/submit")
+	public String forgot(RedirectAttributes attributes,Model model,HttpSession session, @PathParam("email") String email) {
+		var check = accountService.forgotPassword(email);
+		if(check.isStatus()) {
+			model.addAttribute("msg", check.getMessage());
+			session.setAttribute("email", email);
+			return "account/verificationCode";
+		}
+		result.setMessage(check.getMessage());
+		return "redirect:/forgot-password";
+		
+	}
+	@PostMapping("/verify/submit")
+	public String verifyCode(RedirectAttributes attributes,Model model,HttpSession session, @PathParam("code") String[] code) {
+		if(session.getAttribute("email") != null) {
+			String verifyCode = "";
+			for(var i : code) {
+				verifyCode+=i;
+			}
+			var check = accountService.verifyCode(session.getAttribute("email").toString(), verifyCode);
+			if(check.isStatus()) {
+				
+				return "redirect:/reset-password";
+			}
+			result.setMessage(check.getMessage());
+			return "redirect:/verify-code";
+		}
+		return "account/403";
+		
+	}
+	@PostMapping("/reset-password/save")
+	public String resetPassword(RedirectAttributes attributes,Model model,HttpSession session, @PathParam("newPassword") String newPassword,  @PathParam("confirmPassword") String confirmPassword) {
+		if(session.getAttribute("email") != null) {
+			if(!newPassword.equals(confirmPassword)) {
+				result.setMessage( "Confirm password does not match new password");
+				return "redirect:/reset-password";
+			}
+			var hashPassword = bCryptPasswordEncoder.encode(newPassword);
+			var check = accountService.saveResetPassword(session.getAttribute("email").toString(), hashPassword);
+			if(check.isStatus()) {
+				session.removeAttribute("email");
+				result.setMessage(check.getMessage());
+				return "redirect:/login";
+			}
+			result.setMessage(check.getMessage());
+			return "redirect:/reset-password";
+		}
+		return "account/403";
 	}
 }
