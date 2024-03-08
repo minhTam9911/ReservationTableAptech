@@ -70,7 +70,7 @@ public class ReservationAgent {
 	@OneToMany(mappedBy = "reservationAgent") 
     private Set<Receptionist> receptionists ;
 	@OneToMany
-    private Set<ReservationAgent> restaurents;
+    private Set<Restaurant> restaurants = new HashSet<>();
 	@ManyToOne
 	@JoinColumn(name = "role",nullable = false)
 	private Role role;

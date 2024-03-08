@@ -56,7 +56,6 @@ public class RestaurantController {
         
         if(response.isStatus()) {
 			model.addAttribute("msg",true);
-			return "partner/restaurant/index";
 		}
         model.addAttribute("msg",false);
         return "partner/restaurant/create";
