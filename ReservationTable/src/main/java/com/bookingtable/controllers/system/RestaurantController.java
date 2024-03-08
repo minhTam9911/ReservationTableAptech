@@ -63,7 +63,7 @@ public class RestaurantController {
     }
     @PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("restaurantDto") RestaurantDto restaurantDto ,
-			BindingResult bindingResult,Principal principal, @RequestParam("file") MultipartFile[] images) {
+			BindingResult bindingResult,Principal principal, @RequestParam("images") MultipartFile[] images) {
 	
 		restaurantDto.setImagesDto(new ArrayList<ImageDto>());
 		if(bindingResult.hasErrors()) {

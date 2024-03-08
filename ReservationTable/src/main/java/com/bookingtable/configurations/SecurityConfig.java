@@ -96,7 +96,9 @@ public class SecurityConfig {
                 }).logout(logout ->
                         logout.logoutUrl("/logout").logoutSuccessUrl("/login")
                 )
-
+                .exceptionHandling(ex -> {
+                    ex.accessDeniedPage("/account/accessDenied");
+                })
                 .formLogin(login -> {
                     login.loginPage("/login").loginProcessingUrl("/login/process").usernameParameter("username")
                             .passwordParameter("password").successHandler(new AuthenticationSuccessHandler() {
