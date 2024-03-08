@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+  <title>Verification Code</title>
+
+    <link rel="canonical" href="https://codepen.io/solygambas/pen/KKgYZWR">
+  
+  
+  
+  
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Muli:wght@300;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-image:url(https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?size=626&ext=jpg&ga=GA1.1.1395880969.1709856000&semt=sph);
+  font-family: "Muli", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.container {
+  background-color: #fff;
+  border: 3px #000 solid;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.code-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.code {
+  border-radius: 5px;
+  font-size: 75px;
+  height: 120px;
+  width: 100px;
+  border: 1px solid #eee;
+  margin: 1%;
+  text-align: center;
+  font-weight: 300;
+  -moz-appearance: textfield;
+}
+
+.code::-webkit-inner-spin-button,
+.code::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.code:valid {
+  border-color: #3498db;
+  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.25);
+}
+
+.info {
+ 
+}
+
+@media (max-width: 800px) {
+  .code-container {
+    flex-wrap: wrap;
+  }
+
+  .code {
+    font-size: 50px;
+    height: 70px;
+    max-width: 60px;
+  }
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+	
+	
+	
+  <div class="container">
+	  <th:block th:if="${msg} !=null")>
+	  <div class="alert " style="background-color: rgb(254, 191, 107); border-radius: 5px; min-height: 35px " role="alert">
+			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+ 			<span style="color: #333; font-size: 20px; font-weight: 300; font-family: 'Times New Roman', Times, serif;" th:text="${msg}"></span>
+	</div>
+	</th:block>
+      <h2>Verify Your Account</h2>
+      <p>
+        We emailed you the six digit code to cool_guy@email.com <br />
+        Enter the code below to confirm your email address.
+      </p>
+      <form action="/verify/submit" method="post">
+      <div class="code-container">
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          name="code"
+          max="9"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+           name="code"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+           name="code"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+           name="code"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+           name="code"
+          required
+        />
+        <input
+          type="number"
+          class="code"
+          placeholder="0"
+          min="0"
+          max="9"
+           name="code"
+          required
+        />
+      </div>
+      
+        <button class="infor" style="background-color: #0559bc;
+    height: 50px;
+    font-size: 22px;
+    color: white;
+    border-radius: 6px;" type="submit">VERIFY & PROCEED</button>
+        
+      
+      </form>
+    </div>
+  
+      <script id="rendered-js" >
+const codes = document.querySelectorAll(".code");
+
+codes[0].focus();
+
+codes.forEach((code, index) => {
+  code.addEventListener("keydown", e => {
+    if (e.key >= 0 && e.key <= 9) {
+      codes[index].value = "";
+      setTimeout(() => {
+        codes[index + 1].focus();
+      }, 10);
+    } else if (e.key === "Backspace") {
+      setTimeout(() => {
+        codes[index - 1].focus();
+      }, 10);
+    }
+  });
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+</body>
+
+</html>

@@ -16,8 +16,11 @@
 
 body
 {
-    background: #f6f5f7;
+    background-image: url(https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjU0NmJhdGNoMy1teW50LTM0LWJhZGdld2F0ZXJjb2xvcl8xLmpwZw.jpg);
     display: flex;
+    background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -350,14 +353,17 @@ input:not(:focus):valid ~ .my_place
 
 <body>
 	
-	<th:block th:if="${msg} !=null")>
-		<div class="alert " style="min-width: 1000px; min-height: 30px; background-color: rgb(222, 129, 1);" role="alert">
-			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
- 			<span th:text="${msg}" style="color: #333; font-size: 25px; font-weight: 300;"></span>
-		</div>	
+	
+		
 	</th:block>
+	
 		
             <div class="container" id="container">
+				<th:block th:if="${msg} !=null")>
+				<div class="alert " style="z-index: 3; text-align:center;background-color:  rgb(222, 129, 1);width: 480px; position: relative; top :40px" role="alert">
+			<span  th:text="${msg}" style="color: rgb(64, 0, 0); font-size: 20px; font-weight: 300; font-family: 'Times New Roman', Times, serif"></span>
+			</th:block >
+		</div>	
         <div class="form-container sign-up-container">
 
             <form th:action="@{/register}" id="contact-form" method="post" th:object="${customerDto}" class="main-form needs-validation" >
@@ -456,7 +462,7 @@ input:not(:focus):valid ~ .my_place
                 <div class="form-group mt-2 text-center">
 					
 
-                    <span class="forgot" style="font-size: 18px;">Forgot password ?</span>
+                    <a href="/forgot-password"  class="forgot" style="font-size: 18px;">Forgot password ?</a>
                 </div>
 
             </form>
