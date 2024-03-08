@@ -3,7 +3,7 @@
 
 <head>
     <title>Edit Dinner Table Page</title>
-    <!-- Bootstrap CSS -->
+
 </head>
 <body>
 
@@ -24,8 +24,6 @@
                     <option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available</option>
                     <option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
                     <option value="Occupied" th:selected="${dinnerTableDto.status == 'Occupied'}">Occupied</option>
-                    <option value="Booked but Unused" th:selected="${dinnerTableDto.status == 'Booked but Unused'}">Booked but Unused</option>
-                    <option value="Needs Cleaning" th:selected="${dinnerTableDto.status == 'Needs Cleaning'}">Needs Cleaning</option>
                     <option value="Under Maintenance or Repair" th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or Repair</option>
                 </select>
                 <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback" style="display:block;"></div>
@@ -39,14 +37,17 @@
                 <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="invalid-feedback" style="display:block;"></div>
             </div>
 
-            <!-- Image field example (assuming you have backend validation for image) -->
             <div class="mb-3">
-                <label>Image:</label>
-
-                <input name="images" type="file" accept="image/png, image/jpg, image/jpeg" multiple class="form-control-file">
+                <label accept="image/*" class="form-label" style="font-weight: 600; color: black;">Image</label>
+                <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images">
+                <label>Your existing images :</label>
+                <div class="scroll-container">
+                    <th:block th:each="image : ${imageDtos}">
+                        <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}" style="width:100px;height:100px;"/>
+                    </th:block>
+                </div>
             </div>
 
-            <!-- Dinner Table Type with Thymeleaf error handling -->
             <div class="mb-3">
                 <label>Dinner Table Type:</label>
                 <select th:field="*{dinnerTableTypeDtoId}" class="form-control">

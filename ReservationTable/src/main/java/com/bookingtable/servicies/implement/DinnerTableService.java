@@ -74,8 +74,21 @@ public class DinnerTableService implements IDinnerTableService {
             data.setStatus(dinnerTableDto.getStatus());
             data.setRestaurant(RestaurantMapper.mapToModel(dinnerTableDto.getRestaurantDto()));
             data.setDinnerTableType(DinnerTableTypeMapper.mapToModel(dinnerTableDto.getDinnerTableTypeDto()));
-            if(dinnerTableRepository.save(data)!=null) {
-                return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto());
+            var saved = dinnerTableRepository.save(data);
+            if(saved!=null) {
+                return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto(
+                        saved.getId(),
+                        dinnerTableDto.getQuantity(),
+                        dinnerTableDto.getStatus(),
+                        dinnerTableDto.getDinnerTableTypeDto(),
+                        dinnerTableDto.getDinnerTableTypeList(),
+                        dinnerTableDto.getDinnerTableTypeDtoId(),
+                        dinnerTableDto.getRestaurantDtoId(),
+                        dinnerTableDto.getRestaurantDto(),
+                        dinnerTableDto.getRestaurantList(),
+                        dinnerTableDto.getImagesDto(),
+                        dinnerTableDto.getImageDto()
+                ));
             }else {
                 return new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
             }
@@ -111,14 +124,9 @@ public class DinnerTableService implements IDinnerTableService {
     }
 
     @Override
-    public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String idAgent) {
-        var agent = agentRepository.findByEmail(idAgent);
-        List<Restaurant> restaurants =new ArrayList<>();
-        restaurants = agent.getRestaurents().stream().collect(Collectors.toList());
-        List<DinnerTable> list= new ArrayList<>();
-        for(var i : restaurants) {
-            list.addAll(dinnerTableRepository.findByRestaurant_Id(i.getId()));
-        }
+    public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String restaurantId) {
+        return dinnerTableRepository.findByRestaurant_Id(restaurantId).stream().map(i -> DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+    }
 
-        return list.stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());    }
+
 }

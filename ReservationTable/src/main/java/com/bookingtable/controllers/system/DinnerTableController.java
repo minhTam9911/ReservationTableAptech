@@ -2,6 +2,7 @@ package com.bookingtable.controllers.system;
 
 import com.bookingtable.dtos.*;
 import com.bookingtable.helpers.FileHelper;
+import com.bookingtable.models.Image;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.IRestaurantService;
@@ -46,10 +47,16 @@ public class DinnerTableController {
 
     @RequestMapping({"index", "", "/"})
     public String getAllDinnerTables(Model model, Principal principal) {
-        List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTablesForRestaurant(principal.getName());
-        for (DinnerTableDto dinnerTable : dinnerTables) {
-            Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
-            dinnerTable.setImagesDto(new ArrayList<>(images));
+        List<RestaurantDto> restaurants = iRestaurantService.getAllRestaurantsForAgent(principal.getName());
+        List<DinnerTableDto> dinnerTables = new ArrayList<>();
+
+        for (var restaurant:restaurants){
+            List<DinnerTableDto> dinnerTableDtos = iDinnerTableService.getAllDinnerTablesForRestaurant(restaurant.getId());
+            for (DinnerTableDto dinnerTable : dinnerTableDtos) {
+                dinnerTables.add(dinnerTable);
+                Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
+                dinnerTable.setImagesDto(new ArrayList<>(images));
+            }
         }
         model.addAttribute("dinnerTables", dinnerTables);
 
@@ -116,9 +123,13 @@ public class DinnerTableController {
     @GetMapping("edit/{id}")
     public String showEditDinnerTableForm(@PathVariable("id") Integer id, ModelMap model) {
         DinnerTableDto dinnerTableDto = iDinnerTableService.getDinnerTableById(id);
+        Set<ImageDto> getExistingImages = imageService.getImagesByDinnerTableId(id);
+        List<ImageDto> imageDtos = new ArrayList<>(getExistingImages);
+        dinnerTableDto.setImagesDto(imageDtos);
         dinnerTableDto.setId(id);
         dinnerTableDto.setDinnerTableTypeDtoId(dinnerTableDto.getDinnerTableTypeDto().getId());
         dinnerTableDto.setRestaurantDtoId(dinnerTableDto.getRestaurantDto().getId());
+        model.addAttribute("imageDtos", imageDtos);
 
         model.addAttribute("dinnerTableDto", dinnerTableDto);
 
@@ -142,19 +153,31 @@ public class DinnerTableController {
                                   BindingResult bindingResult
     ) {
 
-        List<ImageDto> imageDtos = new ArrayList<>();
+        List<ImageDto> existingImages = new ArrayList<>(imageService.getImagesByDinnerTableId(dinnerTableDto.getId()));
+        dinnerTableDto.setImagesDto(existingImages);
+//        for (var existingImage:existingImages) {
+//            dinnerTableDto.setImageDto(existingImage);
+//        }
         var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
         dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
         var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
         dinnerTableDto.setRestaurantDto(restaurantDto);
         var response = iDinnerTableService.updateDinnerTable(dinnerTableDto.getId(),dinnerTableDto);
-//        for (MultipartFile image : images) {
-//            ImageDto imageDto = new ImageDto();
-//            imageDto.setPath(FileHelper.uploadDinnerTable(image));
-//            imageDto.setDinnerTableDto(response.getMessage());
-//            imageDto.setRestaurantDto(restaurantDto);
-//            imageService.createImage(imageDto);
-//        }
+        for (MultipartFile image : images) {
+            ImageDto imageDto = new ImageDto();
+            imageDto.setPath(FileHelper.uploadDinnerTable(image));
+            imageDto.setDinnerTableDto(response.getMessage());
+            imageDto.setRestaurantDto(restaurantDto);
+            for (ImageDto existingImage:existingImages) {
+                if (!imageDto.getPath().contains(existingImage.getPath())) {
+                    imageService.deleteImage(existingImage.getId());
+                    FileHelper.deleteDinnerTableImage(existingImage.getPath());
+                }
+            }
+            if (!existingImages.contains(imageDto.getPath())) {
+                imageService.createImage(imageDto);
+            }
+        }
         if(bindingResult.hasErrors()) {
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
@@ -173,6 +196,11 @@ public class DinnerTableController {
 
     @GetMapping("/delete/{id}")
     public String deleteDinnerTable(@PathVariable Integer id) {
+        var existImages = imageService.getImagesByDinnerTableId(id);
+        for(var existImage :existImages) {
+            FileHelper.deleteDinnerTableImage(existImage.getPath());
+            imageService.deleteImage(existImage.getId());
+        }
         iDinnerTableService.deleteDinnerTable(id);
         return "redirect:/partner/dinnerTable";
     }

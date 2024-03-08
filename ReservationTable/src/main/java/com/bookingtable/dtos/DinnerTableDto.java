@@ -38,7 +38,7 @@ public class DinnerTableDto {
     private RestaurantDto restaurantDto;
     private List<RestaurantDto> restaurantList;
 
-    private List<ImageDto> imagesDto;
+    private List<ImageDto> imagesDto = new ArrayList<>();
 
     private ImageDto imageDto;
 }

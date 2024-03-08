@@ -2,16 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Create Dinner Table Page</title>
-    <script>
-    function updateFileName(input) {
-        var fileName = '';
-        for (var i = 0; i < input.files.length; i++) {
-            fileName += input.files[i].name + ', ';
-        }
-        fileName = fileName.slice(0, -2); // Remove the last comma and space
-        document.getElementById('fileName').value = fileName;
-    }
-</script>
 </head>
 <body>
 
@@ -20,7 +10,7 @@
     <h2 style="text-align: center;">
         <a href="/partner/dinnerTable/index" class="btn btn-secondary" style="float: left; ">
             <i class="fa-solid fa-arrow-left"></i>&nbsp;Back to List</a>
-        Create Dinner Table Table</h2>
+        Create Dinner Table</h2>
 
     <br>
     <div class="bg-light rounded h-100 p-4">
@@ -34,8 +24,6 @@
                     <option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available</option>
                     <option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
                     <option value="Occupied" th:selected="${dinnerTableDto.status == 'Occupied'}">Occupied</option>
-                    <option value="Booked but Unused" th:selected="${dinnerTableDto.status == 'Booked but Unused'}">Booked but Unused</option>
-                    <option value="Needs Cleaning" th:selected="${dinnerTableDto.status == 'Needs Cleaning'}">Needs Cleaning</option>
                     <option value="Under Maintenance or Repair" th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or Repair</option>
                 </select>
                 <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback" style="display:block;"></div>
@@ -50,16 +38,11 @@
             </div>
 
             <div class="mb-3">
-                <label for="imageInput" class="form-label">Upload Image:</label>
-                <div class="input-group">
-                    <input id="imageInput" name="images" type="file" accept="image/*" multiple class="form-control" style="display: none;" onchange="updateFileName(this)">
-                    <label for="imageInput" class="input-group-text btn btn-primary">Choose File</label>
-                    <input id="fileName" type="text" class="form-control" readonly placeholder="No file selected">
-                </div>
+                <label class="form-label" style="font-weight: 600; color: black;" accept="image/*">Image</label>
+                <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images">
+
             </div>
 
-
-            <!-- Dinner Table Type with Thymeleaf error handling -->
             <div class="mb-3">
                 <label>Dinner Table Type:</label>
                 <select th:field="*{dinnerTableTypeDtoId}" class="form-control">
