@@ -12,5 +12,6 @@ import java.util.Set;
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
     Set<Image> findByDinnerTableId(Integer dinnerTableId);
+    Set<Image> findByRestaurantId(String restaurantId);
 
 }

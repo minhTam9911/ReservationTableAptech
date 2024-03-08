@@ -21,6 +21,10 @@
     padding-right: 20px;
 }
 
+
+
+
+
     </style>
     <br>
     <h2 style="text-align: center;"><a href="/partner/restaurant/index" class="btn btn-secondary" style="float: left; "><i
@@ -60,73 +64,71 @@
                 </div>
             </div>
             <div class="mb-3">
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Toll Free
-                        Number</label>
-                    <input type="number" class="form-control" aria-describedby="emailHelp" th:field="*{tollFreeNumber}">
-                    <div class="form-text">
-                        <span th:if="${#fields.hasErrors('tollFreeNumber')}" th:errors="*{tollFreeNumber}"
+                <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Toll Free
+                    Number</label>
+                <input type="number" class="form-control" aria-describedby="emailHelp" th:field="*{totalFreeNumber}">
+                <div class="form-text">
+                        <span th:if="${#fields.hasErrors('totalFreeNumber')}" th:errors="*{tollFreeNumber}"
                               style="color: red;"></span>
-                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label"
-                           style="font-weight: 600; color: black;">Address</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{address}">
-                    <div class="form-text">
-                        <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red;"></span>
-                    </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label"
+                       style="font-weight: 600; color: black;">Address</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{address}">
+                <div class="form-text">
+                    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red;"></span>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Company
-                        Email</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{companyMail}">
-                    <div class="form-text">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Company
+                    Email</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{companyMail}">
+                <div class="form-text">
                         <span th:if="${#fields.hasErrors('companyMail')}" th:errors="*{companyMail}"
                               style="color: red;"></span>
-                    </div>
                 </div>
-                <div class="mb-3">
+            </div>
 
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Website</label>
-                        <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{website}">
-                        <div class="form-text">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label"
+                       style="font-weight: 600; color: black;">Website</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{website}">
+                <div class="form-text">
                             <span th:if="${#fields.hasErrors('website')}" th:errors="*{website}"
                                   style="color: red;"></span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Image</label>
-                            <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="file"
-                                   required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label"
+                       style="font-weight: 600; color: black;">Image</label>
+                <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images"
+                       required>
 
-                        </div>
-                        <div class="mb-3">
-                            <div class="mb-3">
-                                <select id="province" class="form-control">
+            </div>
+            <div class="mb-3">
+                <select id="province" class="form-control">
 
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <select id="district1" class="form-control">
-                                    <option value="">Select District</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <select id="ward1" class="form-control">
-                                    <option value="">Select ward</option>
-                                </select>
-                            </div>
-                            <div id="results">
-                                <input type="hidden" th:field="*{city}">
-                                <input type="hidden" th:field="*{district}">
-                                <input type="hidden" th:field="*{ward}">
-                            </div>
+                </select>
+            </div>
+            <div class="mb-3">
+                <select id="district1" class="form-control">
+                    <option value="">Select District</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <select id="ward1" class="form-control">
+                    <option value="">Select ward</option>
+                </select>
+            </div>
+            <div id="results">
+                <input type="hidden" th:field="*{city}">
+                <input type="hidden" th:field="*{district}">
+                <input type="hidden" th:field="*{ward}">
+            </div>
 
 
-                            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"

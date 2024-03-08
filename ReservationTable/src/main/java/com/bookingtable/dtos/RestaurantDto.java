@@ -42,7 +42,7 @@ public class RestaurantDto {
 	    private String faxNumber;
 
 	    @NotEmpty
-	    private String tollFreeNumber;
+	    private String totalFreeNumber;
 	
 	    @NotEmpty
 	    @Email
