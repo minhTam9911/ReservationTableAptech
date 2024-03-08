@@ -3,24 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document Title</title>
-  <link rel="stylesheet" th:href="@{/account/403/403}">
+  <title>Access Denied</title>
+  <link rel="stylesheet" th:href="@{/assets/account/403/403.css}">
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
-<div class="belt"></div>
-<div class="scanner"></div>
-<div class="scan-window"></div>
-<div class="hide"></div>
-<div class="monitor text"></div>
-
-<div class="box">
-  <p>User X</p>
-  <p class="version"></p>
-  <div class="user"></div>
+<div class="container">
+  <h1>4<div class="lock"><div class="top"></div><div class="bottom"></div>
+  </div>3</h1>
+  <h3 style="color:white;">Access denied</h3>
+  <h4  style="color:white;">You do not have permission to view this content!!!</h4>
+  <button id="goBackButton" class="goback-btn"><i class="fas fa-arrow-left"></i> Go Back</button>
 </div>
 
-<!-- Thêm tệp JavaScript -->
-<script th:src="@{/account/403/403}"></script>
+<script>
+document.getElementById("goBackButton").addEventListener("click", function() {
+  window.history.back();
+});
+</script>
+
+<script  th:src="@{/assets/account/403/403.js}"></script>
 </body>
 </html>

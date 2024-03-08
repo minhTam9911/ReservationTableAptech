@@ -38,7 +38,7 @@ public class SecurityConfig {
     public IAccountService accountService;
 
    @Autowired
-    public void configGobal(AuthenticationManagerBuilder builder) throws Exception {
+    public void configGlobal(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(accountService);
     }
 
@@ -73,8 +73,8 @@ public class SecurityConfig {
                             "assets/system/lib/owlcarousel/assets/**",
                             "assets/system/lib/tempusdominus/css/**",
                             "assets/**",
-                            "/login", "/register",
-                            "/**",
+                            "/login", "/register","/accessDenied",
+//                            "/**",
                             "/customer/**",
                             "/account/check-otp", "/verify", "/account/forgot-enter-email", "/account/submit",
                             "/account/forgot-password", "/account/new-pass-save").permitAll();
@@ -97,7 +97,7 @@ public class SecurityConfig {
                         logout.logoutUrl("/logout").logoutSuccessUrl("/login")
                 )
                 .exceptionHandling(ex -> {
-                    ex.accessDeniedPage("/account/accessDenied");
+                    ex.accessDeniedPage("/accessDenied");
                 })
                 .formLogin(login -> {
                     login.loginPage("/login").loginProcessingUrl("/login/process").usernameParameter("username")
@@ -122,6 +122,8 @@ public class SecurityConfig {
                                 }
                             }).failureUrl("/login?error=usernotfound");
 
+                }).exceptionHandling(ex -> {
+                    ex.accessDeniedPage("/accessDenied");
                 })
                 .build();
     }

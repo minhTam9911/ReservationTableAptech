@@ -113,9 +113,12 @@ public class AccountController {
 			result = new ResultResponse<>(false,"");
 			return "account/resetPassword";
 		}
-		return "account/403";
+		return "account/accessDenied";
 	}
-	
+	@GetMapping("/accessDenied")
+	public String accessDenied() {
+		return "account/accessDenied";
+	}
 	@GetMapping("/verify-code")
 	public String verifyCode(HttpSession session,Model model) {
 		if(session.getAttribute("email")!=null) {
@@ -125,7 +128,7 @@ public class AccountController {
 			result = new ResultResponse<>(false,"");
 			return "account/verificationCode";
 	}
-		return "account/403";
+		return "account/accessDenied";
 	}
 	
 	
@@ -156,7 +159,7 @@ public class AccountController {
 			result.setMessage(check.getMessage());
 			return "redirect:/verify-code";
 		}
-		return "account/403";
+		return "account/accessDenied";
 		
 	}
 	@PostMapping("/reset-password/save")
@@ -176,6 +179,6 @@ public class AccountController {
 			result.setMessage(check.getMessage());
 			return "redirect:/reset-password";
 		}
-		return "account/403";
+		return "account/accessDenied";
 	}
 }
