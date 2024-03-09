@@ -91,6 +91,7 @@ public class DinnerTableController {
     public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
                                     @RequestParam("images") MultipartFile[] images,
                                     BindingResult bindingResult) {
+        dinnerTableDto.setCurrentQuantity(dinnerTableDto.getQuantity());
         List<ImageDto> imageDtos = new ArrayList<>();
         dinnerTableDto.setImagesDto(imageDtos);
         var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());

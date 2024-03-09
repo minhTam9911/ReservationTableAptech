@@ -26,6 +26,8 @@ public class DinnerTableDto {
 
     private int quantity;
 
+    private int currentQuantity;
+
     private String status;
     
     private DinnerTableTypeDto dinnerTableTypeDto;
