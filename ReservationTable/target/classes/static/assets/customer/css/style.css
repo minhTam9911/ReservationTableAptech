@@ -773,7 +773,7 @@ button:focus {
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
   width : 365 px;
-  height : 300px;
+  height : 260px;
   max-width: -webkit-fill-available;
 }
 

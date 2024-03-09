@@ -34,7 +34,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "reservation")
 public class Reservation {
-
 	@Id
 	private String id;
 
@@ -45,17 +44,16 @@ public class Reservation {
 	@OneToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<DinnerTable> dinnerTable  = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name = "dinnerTable_id")
+	private DinnerTable dinnerTable;
 	@Column
 	@CreationTimestamp
 	private LocalDateTime created;
 	@Column
-	private int tableCount;
+	private int numberOfPeople;
 	@Column
-	private int numberOfPepole;
-	@Column
-	private int floor;
+	private int quantity;
 	@Column
 	private LocalDate bookingDate;
 	@Column
