@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -163,19 +164,37 @@ public class DinnerTableController {
         var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
         dinnerTableDto.setRestaurantDto(restaurantDto);
         var response = iDinnerTableService.updateDinnerTable(dinnerTableDto.getId(),dinnerTableDto);
+        Set<String> imagePaths = new HashSet<>(); // Store paths of new images
+
+        // Loop through new images
         for (MultipartFile image : images) {
             ImageDto imageDto = new ImageDto();
             imageDto.setPath(FileHelper.uploadDinnerTable(image));
             imageDto.setDinnerTableDto(response.getMessage());
-            imageDto.setRestaurantDto(restaurantDto);
-            for (ImageDto existingImage:existingImages) {
-                if (!imageDto.getPath().contains(existingImage.getPath())) {
-                    imageService.deleteImage(existingImage.getId());
-                    FileHelper.deleteDinnerTableImage(existingImage.getPath());
+            imagePaths.add(imageDto.getPath()); // Add new image path to the set
+
+            // Check if the new image already exists in the existing images
+            boolean isExisting = false;
+            for (ImageDto existingImage : existingImages) {
+                if (existingImage.getPath().equals(imageDto.getPath())) {
+                    isExisting = true;
+                    break;
                 }
             }
-            if (!existingImages.contains(imageDto.getPath())) {
+
+            // If the new image does not exist in the existing images, create it
+            if (!isExisting) {
                 imageService.createImage(imageDto);
+            }
+        }
+
+        // Loop through existing images and check if any image needs to be deleted
+        for (ImageDto existingImage : existingImages) {
+            if (!imagePaths.contains(existingImage.getPath())) {
+                // If the path of the existing image is not present in the set of new image paths,
+                // delete the existing image
+                imageService.deleteImage(existingImage.getId());
+                FileHelper.deleteDinnerTableImage(existingImage.getPath());
             }
         }
         if(bindingResult.hasErrors()) {
