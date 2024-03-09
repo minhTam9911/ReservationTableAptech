@@ -44,9 +44,10 @@ public class DinnerTableService implements IDinnerTableService {
     public ResultResponse<DinnerTableDto> createDinnerTable(DinnerTableDto dinnerTableDto) {
         var saved =dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto));
         if(saved!=null) {
-            return new ResultResponse<>(true, new DinnerTableDto(
+            return new ResultResponse<DinnerTableDto>(true, new DinnerTableDto(
                     saved.getId(),
                     dinnerTableDto.getQuantity(),
+                    dinnerTableDto.getCurrentQuantity(),
                     dinnerTableDto.getStatus(),
                     dinnerTableDto.getDinnerTableTypeDto(),
                     dinnerTableDto.getDinnerTableTypeList(),
@@ -55,8 +56,7 @@ public class DinnerTableService implements IDinnerTableService {
                     dinnerTableDto.getRestaurantDto(),
                     dinnerTableDto.getRestaurantList(),
                     dinnerTableDto.getImagesDto(),
-                    dinnerTableDto.getImageDto()
-            ));
+                    dinnerTableDto.getImageDto()));
 
         }else {
             return new  ResultResponse<DinnerTableDto>(false, new DinnerTableDto());
@@ -79,6 +79,7 @@ public class DinnerTableService implements IDinnerTableService {
                 return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto(
                         saved.getId(),
                         dinnerTableDto.getQuantity(),
+                        dinnerTableDto.getCurrentQuantity(),
                         dinnerTableDto.getStatus(),
                         dinnerTableDto.getDinnerTableTypeDto(),
                         dinnerTableDto.getDinnerTableTypeList(),
