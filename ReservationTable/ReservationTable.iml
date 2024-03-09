@@ -126,5 +126,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:6.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE" level="project" />
   </component>
 </module>
