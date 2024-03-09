@@ -73,6 +73,7 @@ public class SecurityConfig {
                             "assets/system/lib/owlcarousel/assets/**",
                             "assets/system/lib/tempusdominus/css/**",
                             "assets/**",
+                            "uploads/**",
                             "/login", "/register","/accessDenied",
 //                            "/**",
                             "/customer/**",
