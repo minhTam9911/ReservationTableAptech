@@ -23,7 +23,7 @@ public class ReservationStatusMapper {
          		.status(reservationStatus.getStatus())
          		.reason(reservationStatus.getReason())
          		.description(reservationStatus.getDescription())
-         		.reservationsDto(reservationStatus.getReservations().stream().map(i->ReseravationMapper.mapToDto(i)).collect(Collectors.toList()))
+         		.reservationsDto(reservationStatus.getReservations().stream().map(i-> ReservationMapper.mapToDto(i)).collect(Collectors.toList()))
          		.build();
 }
 }
