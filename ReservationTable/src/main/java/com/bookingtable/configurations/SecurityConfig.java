@@ -75,8 +75,11 @@ public class SecurityConfig {
                             "assets/**",
                             "uploads/**",
                             "/login", "/register","/accessDenied",
-//                            "/**",
+                            "/",
                             "/customer/**",
+                            "/customer/home/index",
+                            "/customer/aboutUs",
+                            "/customer/dinnerTables",
                             "/account/check-otp", "/verify", "/account/forgot-enter-email", "/account/submit",
                             "/account/forgot-password", "/account/new-pass-save").permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
@@ -97,9 +100,6 @@ public class SecurityConfig {
                 }).logout(logout ->
                         logout.logoutUrl("/logout").logoutSuccessUrl("/login")
                 )
-                .exceptionHandling(ex -> {
-                    ex.accessDeniedPage("/accessDenied");
-                })
                 .formLogin(login -> {
                     login.loginPage("/login").loginProcessingUrl("/login/process").usernameParameter("username")
                             .passwordParameter("password").successHandler(new AuthenticationSuccessHandler() {

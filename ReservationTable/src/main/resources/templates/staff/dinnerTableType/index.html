@@ -11,10 +11,10 @@
 <section layout:fragment="content">
 	<br>
     <h2 style="text-align: center;">
-		<a href="/partner/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i>&nbsp;Home</a>
+		<a href="/staff/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i>&nbsp;Home</a>
 			
 		Dinner Tables Type List
-		<a href="/partner/dinnerTableType/create" class="btn btn-success" style="float: right; "><i class="fa-solid fa-plus"></i> Add</a>
+		<a href="/staff/dinnerTableType/create" class="btn btn-success" style="float: right; "><i class="fa-solid fa-plus"></i> Add</a>
 	 </h2>
     <br>
     <table id="myTable" class="display">
@@ -34,9 +34,9 @@
             <td th:text="${dinnerTableType.type}"></td>
             <td th:text="${dinnerTableType.description}"></td>
             <td>
-                <a th:href="@{/partner/dinnerTableType/edit/{id}(id=${dinnerTableType.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
-                <a th:href="@{/partner/dinnerTableType/delete/{id}(id=${dinnerTableType.id})}" class="btn btn-danger">Delete</a>&emsp;|&emsp;
-                <a th:href="@{/partner/dinnerTableType/detail/{id}(id=${dinnerTableType.id})}" class="btn btn-info">Detail</a>
+                <a th:href="@{/staff/dinnerTableType/edit/{id}(id=${dinnerTableType.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
+                <a th:href="@{/staff/dinnerTableType/delete/{id}(id=${dinnerTableType.id})}" class="btn btn-danger">Delete</a>&emsp;|&emsp;
+                <a th:href="@{/staff/dinnerTableType/detail/{id}(id=${dinnerTableType.id})}" class="btn btn-info">Detail</a>
             </td>
         </tr>
         </tbody>
