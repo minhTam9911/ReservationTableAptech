@@ -82,12 +82,13 @@ public class SecurityConfig {
                             "/customer/aboutUs",
                             "/customer/dinnerTables",
                             "/customer/profile",
-                            "/account/check-otp", "/verify", "/account/forgot-enter-email", "/account/submit",
-                            "/account/forgot-password", "/account/new-pass-save").permitAll();
+                            "/account/check-otp", "/verify-code","/reset-password", "/forgot-password",
+                            "/verify/submit",
+                            "/forgot-password/submit",
+                            "/reset-password/save").permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-
                     auth.requestMatchers("/admin/panel/role/**").permitAll();
                     	auth.requestMatchers("/admin/panel/**").permitAll();
                     //auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
