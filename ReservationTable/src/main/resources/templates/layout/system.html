@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Page</title>
     <title>Reservation Table ADMIN</title>
@@ -20,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -55,47 +56,33 @@
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                 </div>
                 <div class="ms-3">
-                    <h6 class="mb-0">Jhon Doe</h6>
-                    <span>Admin</span>
+                    <span sec:authentication="principal.authorities"></span>
                 </div>
             </div>
             <div class="navbar-nav w-100">
-                <a th:href="@{/system/index}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                            class="fa fa-laptop me-2"></i>Module</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <th:block sec:authorize="hasAnyRole('ROLE_STAFF')">
-                        <a th:href="@{/staff/dinnerTableType/index}"  class="dropdown-item">
-                            Dinner Table Types
-                        </a>
-                        </th:block>
-                        <a sec:authorize="hasRole('ROLE_PARTNER')"
-                           th:href="@{/partner/dinnerTable/index}" class="dropdown-item">Dinner Tables</a>
-                        <a sec:authorize="hasRole('ROLE_PARTNER')" th:href="@{/partner/receptionist/index}" class="dropdown-item">Receptionists</a>
-                        <a sec:authorize="hasRole('ROLE_PARTNER')" th:href="@{/partner/restaurant/index}" class="dropdown-item">Restaurants</a>
-                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/role/index}" class="dropdown-item">Roles</a>
-                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/index}" class="dropdown-item">Staffs</a>
-                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/staff/reservationAgent/index}" class="dropdown-item">ReservationAgents</a>
-                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/staff/reservationStatus/index}" class="dropdown-item">Reservation Status</a>
-                        <a sec:authorize="hasRole('ROLE_STAFF')" th:href="@{/staff/rateType/index}" class="dropdown-item">Rate types</a>
+                <a th:href="@{/index}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a sec:authorize="hasAnyRole('ROLE_STAFF')" th:href="@{/staff/dinnerTableType/index}"
+                   class="nav-item nav-link"><i class="fa-solid fa-list"></i>
+                    Dinner Table Types
+                </a>
 
-                    </div>
-                </div>
-                <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
-                <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                            class="far fa-file-alt me-2"></i>Pages</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="signin.html" class="dropdown-item">Sign In</a>
-                        <a href="signup.html" class="dropdown-item">Sign Up</a>
-                        <a href="404.html" class="dropdown-item">404 Error</a>
-                        <a href="blank.html" class="dropdown-item">Blank Page</a>
-                    </div>
-                </div>
+                <a sec:authorize="hasRole('ROLE_PARTNER')"
+                   th:href="@{/partner/dinnerTable/index}" class="nav-item nav-link">
+                    <i class="fa-solid fa-utensils"></i>
+                    Dinner Tables
+                </a>
+                <a sec:authorize="hasRole('ROLE_PARTNER')" th:href="@{/partner/receptionist/index}"
+                   class="nav-item nav-link"><i class="fa-solid fa-users"></i>Receptionists</a>
+                <a sec:authorize="hasRole('ROLE_PARTNER')" th:href="@{/partner/restaurant/index}"
+                   class="nav-item nav-link"><i class="fa-regular fa-building"></i>Restaurants</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/role/index}" class="nav-item nav-link"><i class="fa-solid fa-key"></i>Roles</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/index}" class="nav-item nav-link"><i class="fa-solid fa-users"></i>Staffs</a>
+                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STAFF')" th:href="@{/staff/reservationAgent/index}"
+                   class="nav-item nav-link"><i class="fa-solid fa-users"></i>ReservationAgents</a>
+                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STAFF')" th:href="@{/staff/reservationStatus/index}"
+                   class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Reservation Status</a>
+                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STAFF')" th:href="@{/staff/rateType/index}" class="nav-item nav-link"><i class="fa-solid fa-star"></i>
+                    Rate types</a>
             </div>
         </nav>
     </div>
@@ -184,14 +171,12 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                         <img class="rounded-circle me-lg-2" th:src="@{/assets/system/img/user.jpg}" alt=""
                              style="width: 40px; height: 40px;">
-                        <span class="d-none d-lg-inline-flex">
-                            <div th:text="${username}"></div>
+                        <span class="d-none d-lg-inline-flex" sec:authentication="name">
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a href="#" class="dropdown-item">My Profile</a>
-                        <a href="#" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">
+                        <a href="/profile" class="dropdown-item">My Profile</a>
+                        <a href="/logout" class="dropdown-item">
                             <span class="d-none d-lg-inline-flex">Logout</span>
                             <i class="fa fa-sign-out"></i>
                         </a>
@@ -251,6 +236,7 @@
 		$(document).ready(function () {
 			$('#myTable').DataTable();
 		})
+
 
 </script>
 
