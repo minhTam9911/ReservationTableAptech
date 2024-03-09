@@ -107,6 +107,14 @@
 
             </div>
             <div class="mb-3">
+                <select th:field="*{categoryId}"class="form-control">
+					<th:block th:each="i : ${category} ">
+						<option th:value="${i.id}" th:text="${i.name}"></option>
+					</th:block>
+                    
+                </select>
+            </div>
+            <div class="mb-3">
                 <select id="province" class="form-control">
 
                 </select>
@@ -116,11 +124,22 @@
                     <option value="">Select District</option>
                 </select>
             </div>
+            
             <div class="mb-3">
                 <select id="ward1" class="form-control">
                     <option value="">Select ward</option>
                 </select>
             </div>
+            <div clas="mb-3">
+				<div class="form-floating">
+                     <textarea class="form-control" placeholder="Leave a comment here" th:field="*{description}" style="height: 150px;"></textarea>
+                    <label for="floatingTextarea">Description</label>
+                </div>
+                 <div class="form-text">
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{webdescriptionsite}"
+                          style="color: red;"></span>
+                </div>
+			</div>
             <div id="results">
                 <input type="hidden" th:field="*{city}">
                 <input type="hidden" th:field="*{district}">

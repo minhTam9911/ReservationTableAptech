@@ -58,6 +58,7 @@ public class SecurityConfig {
                             "assets/customer/fonts/**",
                             "assets/system/css/**",
                             "assets/system/img/**",
+                            
                             "assets/system/js/**",
                             "assets/system/scss/bootstrap/scss/**",
                             "assets/system/scss/bootstrap/scss/forms/**",
@@ -76,6 +77,7 @@ public class SecurityConfig {
                             "uploads/**",
                             "/login", "/register","/accessDenied",
                             "/",
+                            "/restaurant/index",
                             "/account/accessDenied",
                             "/customer/**",
                             "/customer/home/index",

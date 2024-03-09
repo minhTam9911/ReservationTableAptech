@@ -24,7 +24,8 @@ public class RestaurantMapper {
                 .ward(restaurantDto.getWard())
                 .active(restaurantDto.isActive())
                 .status(restaurantDto.getStatus())
-
+                .description(restaurantDto.getDescription())
+                .categoryRetaurant(CategoryRestaurantMapper.mapToModel(restaurantDto.getCategoryRetaurantDto()))
                 .address(restaurantDto.getAddress())
                 .images(new HashSet<Image>(restaurantDto.getImagesDto().stream().map(i->ImageMapper.mapToModel(i)).collect(Collectors.toList())))
                 .build();
@@ -46,7 +47,8 @@ public class RestaurantMapper {
                  .ward(restaurant.getWard())
                  .created(restaurant.getCreated())
                  .updated(restaurant.getUpdated())
-                 
+                 .description(restaurant.getDescription())
+                 .categoryRetaurantDto(CategoryRestaurantMapper.mapToDto(restaurant.getCategoryRetaurant()))
                  .address(restaurant.getAddress())
                  .imagesDto(restaurant.getImages().stream().map(i->ImageMapper.mapToDto(i)).collect(Collectors.toList()))
                  .build();
