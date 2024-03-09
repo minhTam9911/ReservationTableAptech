@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -116,20 +117,40 @@ public class RestaurantController {
 		List<ImageDto> existingImages = new ArrayList<>(iImageService.getImagesByRestaurantId(restaurantDto.getId()));
 		restaurantDto.setImagesDto(existingImages);
 		var response = iRestaurantService.updateRestaurant(restaurantDto.getId(), restaurantDto, principal.getName());
+		Set<String> imagePaths = new HashSet<>(); // Tạo một tập hợp để lưu trữ các đường dẫn hình ảnh mới
+
+// Lặp qua danh sách các hình ảnh mới
 		for (MultipartFile image : images) {
 			ImageDto imageDto = new ImageDto();
 			imageDto.setPath(FileHelper.uploadRestaurant(image));
 			imageDto.setRestaurantDto(restaurantDto);
+			imagePaths.add(imageDto.getPath()); // Thêm đường dẫn hình ảnh mới vào tập hợp
+
+			// Kiểm tra xem hình ảnh đã tồn tại trong danh sách cũ hay chưa
+			boolean isExisting = false;
 			for (ImageDto existingImage : existingImages) {
-				if (!imageDto.getPath().contains(existingImage.getPath())) {
-					iImageService.deleteImage(existingImage.getId());
-					FileHelper.deleteRestaurantImage(existingImage.getPath());
+				if (existingImage.getPath().equals(imageDto.getPath())) {
+					isExisting = true;
+					break;
 				}
 			}
-			if (!existingImages.contains(imageDto.getPath())) {
+
+			// Nếu hình ảnh mới không tồn tại trong danh sách cũ, thêm mới vào
+			if (!isExisting) {
 				iImageService.createImage(imageDto);
 			}
 		}
+
+// Lặp qua danh sách các hình ảnh cũ và kiểm tra xem có hình ảnh nào cần xóa không
+		for (ImageDto existingImage : existingImages) {
+			if (!imagePaths.contains(existingImage.getPath())) {
+				// Nếu đường dẫn hình ảnh cũ không tồn tại trong tập hợp các đường dẫn hình ảnh mới
+				// thì xóa hình ảnh cũ
+				iImageService.deleteImage(existingImage.getId());
+				FileHelper.deleteRestaurantImage(existingImage.getPath());
+			}
+		}
+
 		if(bindingResult.hasErrors()) {
 			return "partner/restaurant/edit";
 		}
