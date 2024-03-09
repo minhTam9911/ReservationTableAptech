@@ -3,6 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
+
 </head>
 <body>
 <div th:fragment="header">
@@ -38,14 +39,18 @@
             <!--            </li>-->
             <!--            <li class="nav-item"><a class="nav-link" href="elements.html">Elemests</a></li>-->
             <!--            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>-->
-            <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Login</a></li>
-            <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></li>
 
-            <li class="nav-item" sec:authorize="isAuthenticated()">
+            <li class="nav-item" sec:authorize="isAuthenticated()" th:class="${requestURI  == '/profile' ? 'nav-item active' : 'nav-item'}">
               <a class="nav-link" th:href="@{/customer/profile}">
-                <i class="fa fa-user-circle"></i> Profile
+                <i class="fa-regular fa-address-card"></i> Profile
               </a>
             </li>
+            <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Login</a></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a></li>
+
+
 
           </ul>
         </div>
