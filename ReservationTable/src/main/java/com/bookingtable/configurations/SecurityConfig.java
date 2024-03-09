@@ -112,6 +112,8 @@ public class SecurityConfig {
                                     urls.put("ROLE_STAFF", "/staff/index");
                                     urls.put("ROLE_PARTNER", "/partner/index");
                                     urls.put("ROLE_RECEPTIONIST", "/receptionist/index");
+                                    urls.put("ROLE_CUSTOMER", "/customer/home");
+
                                     String url = "";
                                     for (GrantedAuthority role : authentication.getAuthorities()) {
                                         if (urls.containsKey(role.getAuthority())) {
