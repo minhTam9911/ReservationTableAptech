@@ -20,7 +20,7 @@ import com.bookingtable.servicies.IRoleService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("staff/category-restaurant")
+@RequestMapping("staff/categoryRestaurant")
 public class CategoryRestaurantController {
 	@Autowired
 	private ICategoryRestaurantService categoryRestaurantService;
