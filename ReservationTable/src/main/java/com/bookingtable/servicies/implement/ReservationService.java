@@ -1,6 +1,5 @@
 package com.bookingtable.servicies.implement;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookingtable.dtos.ReservationDto;
-import com.bookingtable.mappers.ReseravationMapper;
+import com.bookingtable.mappers.ReservationMapper;
 import com.bookingtable.mappers.ReservationStatusMapper;
-import com.bookingtable.mappers.RestaurantMapper;
-import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.repositories.ReservationStatusRepository;
 import com.bookingtable.servicies.IReservationService;
@@ -27,13 +24,13 @@ public class ReservationService implements IReservationService {
 	public List<ReservationDto> getAllReservation() {
 		return reservationRepository.findAll()
 				.stream()
-				.map(i->ReseravationMapper.mapToDto(i))
+				.map(i-> ReservationMapper.mapToDto(i))
 				.collect(Collectors.toList());	
 	}
 
 	@Override
 	public ReservationDto getReservationById(String id) {
-		return ReseravationMapper.mapToDto(reservationRepository.findById(id).get());
+		return ReservationMapper.mapToDto(reservationRepository.findById(id).get());
 	}
 
 	@Override
@@ -41,7 +38,7 @@ public class ReservationService implements IReservationService {
 		try {
 			reservationDto.setCreated(LocalDateTime.now());
 			reservationDto.setReservationStatusDto(ReservationStatusMapper.mapToDto(reservationStatusRepository.findById(1).get()));
-			if(reservationRepository.save(ReseravationMapper.mapToModel(reservationDto)) != null){
+			if(reservationRepository.save(ReservationMapper.mapToModel(reservationDto)) != null){
 					return true;
 			}else {
 				return false;

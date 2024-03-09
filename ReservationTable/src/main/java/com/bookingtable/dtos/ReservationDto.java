@@ -27,18 +27,16 @@ public class ReservationDto {
 	
 	private CustomerDto customerDto;
 	
-	private Collection<DinnerTableDto> dinnerTableDto;
+	private DinnerTableDto dinnerTableDto;
 	
 	private LocalDateTime created;
 	@NotNull
     @NotEmpty
-	private int tableCount;
+	private int quantity;
 	@NotNull
     @NotEmpty
-	private int numberOfPepole;
-	
-	private int floor;
-	
+	private int numberOfPeople;
+
 	private LocalDate bookingDate;
 	
 	private LocalTime bookingTime;

@@ -28,6 +28,8 @@ public class DinnerTableType {
     private String type;
     @Column
     private String description;
+    @Column
+    private Double price;
     @OneToMany(mappedBy = "dinnerTableType", cascade = CascadeType.ALL)
 	private Set<DinnerTable> dinnerTables = new HashSet<>();
 

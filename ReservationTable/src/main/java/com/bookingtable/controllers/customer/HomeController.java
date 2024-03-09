@@ -37,24 +37,28 @@ public class HomeController {
 	public String index(Model model) {
 		String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
 		model.addAttribute("requestURI", requestURI);
-//		// Lấy danh sách tất cả các loại bàn ăn
-//		List<DinnerTableTypeDto> dinnerTableTypes = iDinnerTableTypeService.getAllDinnerTablesType();
-//		List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTables();
-//
-//		// Tạo một map lưu trữ hình ảnh đầu tiên của mỗi loại bàn ăn
-//		Map<Integer, String> typeImagesMap = new HashMap<>();
-//		for (DinnerTableTypeDto type : dinnerTableTypes) {
-//			Set<ImageDto> images = imageService.getImagesByDinnerTableId(type.getId());
-//			if (!images.isEmpty()) {
-//				// Get the first image path and add it to the map
-//				String imagePath = images.iterator().next().getPath();
-//				typeImagesMap.put(type.getId(), imagePath);
-//			} else {
-//			}
-//		}
-//
-//		model.addAttribute("dinnerTableTypes", dinnerTableTypes);
-//		model.addAttribute("typeImagesMap", typeImagesMap);
+		// Lấy danh sách tất cả các loại bàn ăn
+		List<DinnerTableTypeDto> dinnerTableTypes = iDinnerTableTypeService.getAllDinnerTablesType();
+		// Tạo một map lưu trữ hình ảnh đầu tiên của mỗi loại bàn ăn
+		Map<Integer, String> typeImagesMap = new HashMap<>();
+		for (DinnerTableTypeDto type : dinnerTableTypes) {
+			// Lấy danh sách các bàn ăn thuộc loại này
+			List<DinnerTableDto> dinnerTables = iDinnerTableService.getDinnerTablesByType(type);
+			for (DinnerTableDto dinnerTableDto : dinnerTables) {
+				// Lấy danh sách hình ảnh của bàn ăn này
+				Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTableDto.getId());
+				if (!images.isEmpty()) {
+					// Lấy đường dẫn hình ảnh đầu tiên và thêm vào map
+					String imagePath = images.iterator().next().getPath();
+					typeImagesMap.put(type.getId(), imagePath);
+					// Sau khi tìm thấy ảnh của bàn ăn này, thoát khỏi vòng lặp để không lặp lại
+					break;
+				}
+			}
+		}
+
+		model.addAttribute("dinnerTableTypes", dinnerTableTypes);
+		model.addAttribute("typeImagesMap", typeImagesMap);
 		return "customer/home/index";
 	}
 }
