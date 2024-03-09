@@ -29,6 +29,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -46,19 +47,21 @@ public class AccountController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private ResultResponse<String> result = new ResultResponse<>(false,"");
 	
-	   
-
 
 	@GetMapping("/login")
-	public String login(@RequestParam(value = "error", required = false) String error,
+	public String login(@RequestParam(value = "error", required = false) String error, Principal principal,
 			RedirectAttributes redirectAttributes, Model model) {
-		var customerDto = new CustomerDto();
-		model.addAttribute("customerDto", customerDto);
-		if (error != null) {
-			model.addAttribute("msg", "Username and password invalid");
+		if(principal == null){
+			var customerDto = new CustomerDto();
+			model.addAttribute("customerDto", customerDto);
+			if (error != null) {
+				model.addAttribute("msg", "Username and password invalid");
+			}
+
+			return "account/login";
 		}
-		
-		return "account/login";
+		return "redirect:/accessDenied";
+
 	}
 	
 	@PostMapping("/register")
@@ -83,7 +86,7 @@ public class AccountController {
 		
 	}
 	@GetMapping("verify")
-	public String verifyAcitve(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
+	public String verifyActive(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
 		if(customerService.changeStatus(email, securityCode)) {
 			attributes.addFlashAttribute("msg", "Success activation");
 		}else {

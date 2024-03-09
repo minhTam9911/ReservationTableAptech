@@ -76,10 +76,12 @@ public class SecurityConfig {
                             "uploads/**",
                             "/login", "/register","/accessDenied",
                             "/",
+                            "/account/accessDenied",
                             "/customer/**",
                             "/customer/home/index",
                             "/customer/aboutUs",
                             "/customer/dinnerTables",
+                            "/customer/profile",
                             "/account/check-otp", "/verify", "/account/forgot-enter-email", "/account/submit",
                             "/account/forgot-password", "/account/new-pass-save").permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
@@ -95,7 +97,9 @@ public class SecurityConfig {
                     auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
                     auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/partner/restaurant/**").hasAnyRole("PARTNER");
-                    auth.requestMatchers("/account/profile", "/account/changePass-save", "/account/change-password", "/account/edit-avatar", "/account/edit-profile").hasAnyRole("STAFF", "ADMIN", "PARTNER", "RECEPTIONIST", "CUSTOMER");
+                    auth.requestMatchers("/account/profile", "/account/changePass-save",
+                            "/account/change-password", "/account/edit-avatar", "/account/edit-profile")
+                            .hasAnyRole("STAFF", "ADMIN", "PARTNER", "RECEPTIONIST", "CUSTOMER");
 
                 }).logout(logout ->
                         logout.logoutUrl("/logout").logoutSuccessUrl("/login")
