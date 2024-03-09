@@ -12,8 +12,8 @@ import java.security.Principal;
 @RequestMapping("partner")
 public class PartnerController {
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-    public String index(Model model, Principal principal) {
-        model.addAttribute("username",principal.getName());
+    public String index(Model model, Authentication authentication) {
+        model.addAttribute("username",authentication.getName());
         return "partner/index";
     }
 }

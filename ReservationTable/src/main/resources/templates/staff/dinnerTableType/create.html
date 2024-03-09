@@ -9,13 +9,13 @@
 <section layout:fragment="content" class="container">
 	<br>
     <h2 style="text-align: center;">
-        <a href="/partner/dinnerTableType/index" class="btn btn-secondary" style="float: left; ">
+        <a href="/staff/dinnerTableType/index" class="btn btn-secondary" style="float: left; ">
         <i class="fa-solid fa-arrow-left"></i>&nbsp;Back to List</a>
 		 Create Dinner table type Table</h2>
 
     <br>
      <div class="bg-light rounded h-100 p-4">
-         <form th:action="@{/partner/dinnerTableType/create}" method="post" th:object="${dinnerTableTypeDto}">
+         <form th:action="@{/staff/dinnerTableType/create}" method="post" th:object="${dinnerTableTypeDto}">
              <div class="mb-3">
                  <label class="form-label">Type</label>
                  <select th:field="*{type}" class="form-control">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Page</title>
     <title>Reservation Table ADMIN</title>
@@ -46,7 +46,7 @@
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
             <a href="/system/index" class="navbar-brand mx-4 mb-3">
-                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>Bokki</h3>
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i></h3>
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
@@ -65,16 +65,20 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                             class="fa fa-laptop me-2"></i>Module</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a th:href="@{/partner/dinnerTableType/index}" class="dropdown-item">Dinner Table Types</a>
-                        <a th:href="@{/partner/dinnerTable/index}" class="dropdown-item">Dinner Tables</a>
-                        <a th:href="@{/partner/receptionist/index}" class="dropdown-item">Receptionists</a>
-                        <a th:href="@{/partner/restaurant/index}" class="dropdown-item">Restaurants</a>
-                        <a th:href="@{/admin/panel/role/index}" class="dropdown-item">Roles</a>
-                        <a th:href="@{/admin/panel/index}" class="dropdown-item">Staffs</a>
-                        <a th:href="@{/admin/panel/customer/index}" class="dropdown-item">Customers</a>
-                        <a th:href="@{/staff/reservationAgent/index}" class="dropdown-item">ReservationAgents</a>
-                        <a th:href="@{/staff/reservationStatus/index}" class="dropdown-item">Reservation Status</a>
-                        <a th:href="@{/staff/rateType/index}" class="dropdown-item">Rate types</a>
+                        <th:block sec:authorize="hasAnyRole('ROLE_STAFF')">
+                        <a th:href="@{/staff/dinnerTableType/index}"  class="dropdown-item">
+                            Dinner Table Types
+                        </a>
+                        </th:block>
+                        <a sec:authorize="hasRole('ROLE_PARTNER')"
+                           th:href="@{/partner/dinnerTable/index}" class="dropdown-item">Dinner Tables</a>
+                        <a sec:authorize="hasRole('ROLE_PARTNER')" th:href="@{/partner/receptionist/index}" class="dropdown-item">Receptionists</a>
+                        <a sec:authorize="hasRole('ROLE_PARTNER')" th:href="@{/partner/restaurant/index}" class="dropdown-item">Restaurants</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/role/index}" class="dropdown-item">Roles</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/index}" class="dropdown-item">Staffs</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/staff/reservationAgent/index}" class="dropdown-item">ReservationAgents</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/staff/reservationStatus/index}" class="dropdown-item">Reservation Status</a>
+                        <a sec:authorize="hasRole('ROLE_STAFF')" th:href="@{/staff/rateType/index}" class="dropdown-item">Rate types</a>
 
                     </div>
                 </div>
@@ -193,14 +197,6 @@
                         </a>
                     </div>
                 </div>
-                <div class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-sign-in-alt me-lg-2"></i>
-
-                        <span class="d-none d-lg-inline-flex">Login</span>
-                    </a>
-                </div>
-
             </div>
         </nav>
         <!-- Navbar End -->
