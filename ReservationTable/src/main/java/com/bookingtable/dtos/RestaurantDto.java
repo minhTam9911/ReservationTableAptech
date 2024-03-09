@@ -1,5 +1,6 @@
 package com.bookingtable.dtos;
 
+import com.bookingtable.models.CategoryRestaurant;
 import com.bookingtable.models.DinnerTable;
 import com.bookingtable.models.Image;
 import com.bookingtable.models.ReservationAgent;
@@ -62,6 +63,11 @@ public class RestaurantDto {
 		private LocalDate created;
 		
 		private LocalDate updated;
+		
+		private CategoryRestaurantDto categoryRetaurantDto;
+		private Integer categoryId;
+		@NotEmpty
+		private String description;
 		
 		private ReceptionistDto receptionistDto;
 		

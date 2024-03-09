@@ -4,6 +4,7 @@ package com.bookingtable.controllers.system;
 import com.bookingtable.dtos.*;
 import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.models.Image;
+import com.bookingtable.servicies.ICategoryRestaurantService;
 import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.IRestaurantService;
 
@@ -31,6 +32,8 @@ public class RestaurantController {
     private IRestaurantService iRestaurantService;
     @Autowired
     private IImageService iImageService;
+    @Autowired
+    private ICategoryRestaurantService categoryRestaurantService;
     private ResultResponse<Boolean> response = new ResultResponse<>(null);
     
     public RestaurantController() {
@@ -55,7 +58,7 @@ public class RestaurantController {
     
         RestaurantDto restaurantDto = new RestaurantDto();
         model.addAttribute("restaurantDto", restaurantDto);
-        
+        model.addAttribute("category", categoryRestaurantService.getList());
         if(response.isStatus()) {
 			model.addAttribute("msg",true);
 		}
@@ -70,6 +73,8 @@ public class RestaurantController {
 		if(bindingResult.hasErrors()) {
 			return "partner/restaurant/create";
 		}
+		var category = categoryRestaurantService.getById(restaurantDto.getCategoryId());
+		restaurantDto.setCategoryRetaurantDto(category);
 		var response = iRestaurantService.createRestaurant(restaurantDto,principal.getName());
 		if(response.isStatus()) {
 			this.response.setStatus(true);
@@ -98,6 +103,8 @@ public class RestaurantController {
 		restaurantDto.setImagesDto(imageDtos);
 		restaurantDto.setId(id);
 		model.addAttribute("imageDtos", imageDtos);
+		var categoryId = restaurantDto.getCategoryRetaurantDto().getId();
+		restaurantDto.setCategoryId(categoryId);
 		model.addAttribute("restaurantDto", restaurantDto);
 		if(response.isStatus()) {
 			model.addAttribute("msg",true);
@@ -113,9 +120,13 @@ public class RestaurantController {
 								  BindingResult bindingResult,
 								 Principal principal
 	) {
-
+		if(bindingResult.hasErrors()) {
+			return "partner/restaurant/edit";
+		}
 		List<ImageDto> existingImages = new ArrayList<>(iImageService.getImagesByRestaurantId(restaurantDto.getId()));
 		restaurantDto.setImagesDto(existingImages);
+		var category = categoryRestaurantService.getById(restaurantDto.getCategoryId());
+		restaurantDto.setCategoryRetaurantDto(category);
 		var response = iRestaurantService.updateRestaurant(restaurantDto.getId(), restaurantDto, principal.getName());
 		Set<String> imagePaths = new HashSet<>(); // Tạo một tập hợp để lưu trữ các đường dẫn hình ảnh mới
 
@@ -151,9 +162,7 @@ public class RestaurantController {
 			}
 		}
 
-		if(bindingResult.hasErrors()) {
-			return "partner/restaurant/edit";
-		}
+		
 		if(response.isStatus()) {
 			this.response.setStatus(true);
 			return "redirect:/partner/restaurant/index";

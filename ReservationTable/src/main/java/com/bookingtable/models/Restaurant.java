@@ -58,7 +58,11 @@ public class Restaurant {
     private boolean active;
     @Column
     private String status; 
-	
+    @ManyToOne
+	@JoinColumn(name = "categoryRetaurant",nullable = false)
+	private CategoryRestaurant categoryRetaurant;
+	@Column
+	private String description;
     @Column
     private String address;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
