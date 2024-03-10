@@ -12,6 +12,7 @@ public class DinnerTableTypeMapper {
         return DinnerTableType.builder()
                 .id(dinnerTableTypeDto.getId())
                 .capacity(dinnerTableTypeDto.getCapacity())
+                .price(dinnerTableTypeDto.getPrice())
                 .type(dinnerTableTypeDto.getType())
                 .description(dinnerTableTypeDto.getDescription())
                 .build();
@@ -21,6 +22,7 @@ public class DinnerTableTypeMapper {
         return DinnerTableTypeDto.builder()
                 .id(dinnerTableType.getId())
                 .capacity(dinnerTableType.getCapacity())
+                .price(dinnerTableType.getPrice())
                 .type(dinnerTableType.getType())
                 .description(dinnerTableType.getDescription())
                 .build();

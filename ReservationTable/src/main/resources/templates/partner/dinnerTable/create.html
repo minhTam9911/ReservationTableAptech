@@ -23,7 +23,6 @@
                     <option value="">Select Status</option>
                     <option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available</option>
                     <option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
-                    <option value="Occupied" th:selected="${dinnerTableDto.status == 'Occupied'}">Occupied</option>
                     <option value="Under Maintenance or Repair" th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or Repair</option>
                 </select>
                 <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback" style="display:block;"></div>

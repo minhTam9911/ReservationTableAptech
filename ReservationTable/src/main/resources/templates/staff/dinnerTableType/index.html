@@ -22,6 +22,7 @@
         <tr>
             <th>ID</th>
             <th>Capacity</th>
+            <th>Price</th>
             <th>Type</th>
             <th>Description</th>
             <th>Actions</th>
@@ -31,6 +32,7 @@
         <tr th:each="dinnerTableType : ${dinnerTableTypes}">
             <td th:text="${dinnerTableType.id}"></td>
             <td th:text="${dinnerTableType.capacity}"></td>
+            <td th:text="${dinnerTableType.price}"></td>
             <td th:text="${dinnerTableType.type}"></td>
             <td th:text="${dinnerTableType.description}"></td>
             <td>

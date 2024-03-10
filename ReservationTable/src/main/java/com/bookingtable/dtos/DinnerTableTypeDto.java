@@ -23,6 +23,8 @@ public class DinnerTableTypeDto {
     @NotNull(message = "Capacity cannot be empty")
     @Positive
     private int capacity;
+    private double price;
+
     @NotNull(message="Type cannot be empty")
     @NotEmpty
     private String type;

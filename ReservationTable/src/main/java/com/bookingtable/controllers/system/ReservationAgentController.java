@@ -131,7 +131,7 @@ public class ReservationAgentController {
 	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id) {
 		var check = reservationAgentService.changeStatus(id);
 		attributes.addFlashAttribute("msg",check);
-		return "redirect:/astaff/reservationAgent/index";
+		return "redirect:/staff/reservationAgent/index";
 	}
 	
 	

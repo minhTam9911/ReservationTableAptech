@@ -49,11 +49,11 @@ public class DinnerTableTypeService implements IDinnerTableTypeService {
             if (dinnerTableTypeRepository.save(dinnerTableType) != null) {
                 return new ResultResponse<DinnerTableTypeDto>(true, new DinnerTableTypeDto());
             } else {
-                return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto(0, 0, "", "", new HashSet<>()));
+                return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto(0, 0, "", "", new HashSet<>()));
+            return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
         }
 
     }
