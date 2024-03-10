@@ -5,6 +5,7 @@ import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.models.Image;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
+import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.IRestaurantService;
 import com.bookingtable.servicies.implement.ImageService;
 import com.bookingtable.servicies.implement.RestaurantService;
@@ -36,7 +37,7 @@ public class DinnerTableController {
     private IRestaurantService iRestaurantService;
 
     @Autowired
-    private ImageService imageService;
+    private IImageService imageService;
 
 
     private ResultResponse<DinnerTableDto> response = new ResultResponse<>();

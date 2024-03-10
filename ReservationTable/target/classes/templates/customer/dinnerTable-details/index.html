@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Dinner table details Page</title>
+    <style>
+        /* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Six columns side by side */
+.row {
+  display: flex; /* Sử dụng flexbox để căn chỉnh các cột */
+  flex-wrap: wrap; /* Cho phép các cột wrap khi không đủ không gian */
+  justify-content: center;
+}
+
+.column {
+  flex-basis: calc(16.66% - 20px); /* Đặt kích thước cố định cho mỗi cột và định cấu trúc giữa chúng */
+  margin-bottom: 20px; /* Tạo khoảng cách giữa các cột */
+  margin-right: 2px;
+
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 116%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+    right: 570px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+  text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+    </style>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <!--================Breadcrumb Area =================-->
+    <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+             data-background=""></div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">For more information
+                </h2>
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/customer/dinnerTables}">Dinner Tables</a></li>
+                    <li class="active">Dinner Table Details</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <!--================Breadcrumb Area =================-->
+    <div class="container">
+        <h1>Dinner Table Details</h1>
+
+        <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="mySlides">
+            <div class="numbertext" th:text="${iterStat.index + 1} + ' / ' + ${dinnerTable.imagesDto.size()}"></div>
+            <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}" style="width:100%;height: 523px;margin-bottom: 15px;" >
+        </div>
+        <!-- Thumbnail images -->
+        <div class="row">
+            <!-- Iterate over imagesDto and generate thumbnail images -->
+            <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="column">
+                <img class="demo cursor" th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}" style="width:100%; height: 200px;"
+                     th:onclick="'currentSlide(' + ${iterStat.index + 1} + ')'" th:alt="Image">
+            </div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+
+
+
+
+    <div class="container" style="
+    margin-bottom: 33px;">
+        <div class="details-display d-flex justify-content-between">
+            <div class="card">
+                <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
+                    <h5 class="card-title">Table Details</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="'Table ID: ' + ${dinnerTable.id}"></h6>
+                    <p class="card-text" th:text="'Table Quantity: ' + ${dinnerTable.quantity}"></p>
+                    <p class="card-text" th:text="'Table Type: ' + ${dinnerTable.dinnerTableTypeDto.type}"></p>
+                    <p class="card-text" th:text="'Restaurant Name: ' + ${dinnerTable.restaurantDto.name}"></p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
+                    <h5 class="card-title">Rating</h5>
+                    <!-- Your data here -->
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
+                    <h5 class="card-title">Location</h5>
+                    <!-- Your data here -->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
+    </script>
+
+</section>
+
+</body>
+</html>
