@@ -5,25 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eda963b8-0c4c-4f0b-8d2f-8c1c2c9e08e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/customer/ProfileController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/account/profile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/ProfileController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/account/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/configurations/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/configurations/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/IAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/IAccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/ICustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/ICustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/profile/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/profile/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReservationTable.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/dinnerTable-details/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/dinnerTable-details/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/configurations/SecurityConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/configurations/SecurityConfig$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/configurations/SecurityConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/AccountController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/IAccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/IAccountService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/ICustomerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/ICustomerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/AccountService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/CustomerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/CustomerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/customer/profile/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/customer/profile/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/CustomerRestaurantController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/CustomerRestaurantController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/DinnerTableController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/DinnerTableController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/ReceptionistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/ReceptionistController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/RestaurantController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/RestaurantController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/ReceptionistDto$ReceptionistDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/ReceptionistDto$ReceptionistDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/ReceptionistDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/ReceptionistDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/RestaurantDto$RestaurantDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/RestaurantDto$RestaurantDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/RestaurantDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/dtos/RestaurantDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/mappers/ReceptionistMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/mappers/ReceptionistMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/mappers/RestaurantMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/mappers/RestaurantMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/DinnerTable$DinnerTableBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/DinnerTable$DinnerTableBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/DinnerTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/DinnerTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Rate$RateBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Rate$RateBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Rate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Rate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/RateType$RateTypeBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/RateType$RateTypeBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/RateType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/RateType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/ReservationStatus$ReservationStatusBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/ReservationStatus$ReservationStatusBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/ReservationStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/ReservationStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Restaurant$RestaurantBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Restaurant$RestaurantBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/models/Restaurant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/repositories/CategoryRestaurantRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/repositories/CategoryRestaurantRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/CategoryRestaurantService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/CategoryRestaurantService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/ReceptionistService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/ReceptionistService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/RestaurantService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/servicies/implement/RestaurantService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,13 +76,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="ReservationTableApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.bookingtable.ReservationTableApplication" />
