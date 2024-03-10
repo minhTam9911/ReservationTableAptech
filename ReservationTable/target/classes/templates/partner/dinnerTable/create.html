@@ -47,9 +47,9 @@
                 <select th:field="*{dinnerTableTypeDtoId}" class="form-control">
                     <option value="">Select Table Type</option>
                     <th:block th:each="i : ${dinnerTableDto.dinnerTableTypeList}">
-                        <th:block >
-                            <option th:value="${i.id}" th:text="${i.type}"></option>
-                        </th:block>
+                       
+                            <option th:value="${i.id}" th:text="${i.type+' - '+i.description}"></option>
+                  			
                     </th:block>
                 </select>
             </div>

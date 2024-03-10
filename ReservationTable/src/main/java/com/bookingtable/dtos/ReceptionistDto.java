@@ -62,6 +62,10 @@ public class ReceptionistDto {
 	private RoleDto roleDto;
 	
 	private RestaurantDto restaurantDto;
+	
+	private String restaurantDtoId;
+	
+	
 	private ReservationAgentDto reservationAgentDto;
 	
 }

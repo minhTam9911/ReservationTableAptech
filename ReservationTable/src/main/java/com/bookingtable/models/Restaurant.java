@@ -48,6 +48,8 @@ public class Restaurant {
     private String district;
     @Column
     private String ward;
+    @Column(columnDefinition = "VARCHAR")
+    private String shortDescription;
     @Column
 	@CreationTimestamp
 	private LocalDate created;
@@ -61,7 +63,7 @@ public class Restaurant {
     @ManyToOne
 	@JoinColumn(name = "categoryRetaurant",nullable = false)
 	private CategoryRestaurant categoryRetaurant;
-	@Column
+    @Column(columnDefinition = "VARCHAR")
 	private String description;
     @Column
     private String address;

@@ -72,7 +72,18 @@
                                    </div>
                                 </div>
                         	<div class="mb-3">
-							
+							 <div class="mb-3">
+                <label>Restaurant:</label>
+
+                <select th:field="*{restaurantDtoId}" class="form-control" >
+                    <option value="">Select Restaurant</option>
+                    <th:block th:each="i : ${restaurants}">
+                        <th:block>
+                            <option th:value="${i.id}" th:text="${i.name}"></option>
+                        </th:block>
+                    </th:block>
+                </select>
+            </div>
                         
 							
 							<fieldset class="row mb-3">

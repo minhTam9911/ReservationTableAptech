@@ -73,12 +73,12 @@ public class DinnerTableController {
     }
 
     @GetMapping("create")
-    public String showDinnerTableCreateForm(Model model) {
+    public String showDinnerTableCreateForm(Model model, Principal principal) {
         var dinnerTableDto = new DinnerTableDto();
 
         List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
         dinnerTableDto.setDinnerTableTypeList(dinnerTableTypes);
-        List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
+        List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
         dinnerTableDto.setRestaurantList(restaurants);
         model.addAttribute("dinnerTableDto", dinnerTableDto);
         if(response.isStatus()) {

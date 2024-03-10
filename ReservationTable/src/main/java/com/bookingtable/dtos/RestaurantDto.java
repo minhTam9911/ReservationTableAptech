@@ -68,7 +68,8 @@ public class RestaurantDto {
 		private Integer categoryId;
 		@NotEmpty
 		private String description;
-		
+		@NotEmpty
+		private String shortDescription;
 		private ReceptionistDto receptionistDto;
 		
 	    @NotEmpty
@@ -77,6 +78,7 @@ public class RestaurantDto {
 	    private List<DinnerTableDto> dinnerTablesDto ;
 	    
 	    private List<ImageDto> imagesDto;
+	    private String imageSrc;
 	    
 	    private ReservationAgentDto createBy;
 

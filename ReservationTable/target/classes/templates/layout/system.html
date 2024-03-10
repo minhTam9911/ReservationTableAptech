@@ -61,7 +61,7 @@
             </div>
             <div class="navbar-nav w-100">
                 <a th:href="@{/index}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a sec:authorize="hasAnyRole('ROLE_STAFF')" th:href="@{/staff/dinnerTableType/index}"
+                <a sec:authorize="hasAnyRole('ROLE_STAFF','ROLE_ADMIN')" th:href="@{/staff/dinnerTableType/index}"
                    class="nav-item nav-link"><i class="fa-solid fa-list"></i>
                     Dinner Table Types
                 </a>
@@ -83,6 +83,8 @@
                    class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Reservation Status</a>
                 <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STAFF')" th:href="@{/staff/rateType/index}" class="nav-item nav-link"><i class="fa-solid fa-star"></i>
                     Rate types</a>
+                     <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STAFF')" th:href="@{/staff/categoryRestaurant/index}" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>
+                    Category</a>
             </div>
         </nav>
     </div>
