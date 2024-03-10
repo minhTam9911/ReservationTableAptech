@@ -107,6 +107,7 @@
 
             </div>
             <div class="mb-3">
+				<label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Category</label>
                 <select th:field="*{categoryId}"class="form-control">
 					<th:block th:each="i : ${category} ">
 						<option th:value="${i.id}" th:text="${i.name}"></option>
@@ -130,13 +131,23 @@
                     <option value="">Select ward</option>
                 </select>
             </div>
+             <div clas="mb-3">
+				<div class="form-floating">
+                     <textarea class="form-control" placeholder="Leave a comment here" th:field="*{shortDescription}" style="height: 150px;"></textarea>
+                    <label for="floatingTextarea">Short Description</label>
+                </div>
+                 <div class="form-text">
+                    <span th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"
+                          style="color: red;"></span>
+                </div>
+			</div>
             <div clas="mb-3">
 				<div class="form-floating">
                      <textarea class="form-control" placeholder="Leave a comment here" th:field="*{description}" style="height: 150px;"></textarea>
                     <label for="floatingTextarea">Description</label>
                 </div>
                  <div class="form-text">
-                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{webdescriptionsite}"
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{descriptionsite}"
                           style="color: red;"></span>
                 </div>
 			</div>

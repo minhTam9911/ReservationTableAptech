@@ -1,6 +1,7 @@
 package com.bookingtable.controllers.system;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bookingtable.dtos.ReceptionistDto;
 import com.bookingtable.dtos.ReservationAgentDto;
+import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.servicies.IReceptionistService;
 import com.bookingtable.servicies.IReservationAgentService;
+import com.bookingtable.servicies.IRestaurantService;
 import com.bookingtable.servicies.IRoleService;
 
 import jakarta.validation.Valid;
@@ -31,6 +34,8 @@ public class ReceptionistController {
 
 	@Autowired 
 	private IRoleService roleService;
+	@Autowired 
+	private IRestaurantService restaurantService;
 	
 	private ResultResponse<ReceptionistDto> response = new ResultResponse<>();
 	public  ReceptionistController() {
@@ -55,10 +60,13 @@ public class ReceptionistController {
     
 	
 	@GetMapping("create")
-	public String create(Model model,RedirectAttributes attributes) {
+	public String create(Model model,RedirectAttributes attributes, Principal principal) {
 		var receptionistDto = new ReceptionistDto(); 
-		model.addAttribute("receptionistDto", receptionistDto);
-		if(response.isStatus()) {
+		
+		  List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+		  model.addAttribute("restaurants", restaurants);
+		  model.addAttribute("receptionistDto", receptionistDto);
+		  if(response.isStatus()) {
 			model.addAttribute("msg",true);
 			return "partner/receptionist/create";
 		}
@@ -68,12 +76,16 @@ public class ReceptionistController {
 	}
 	
 	@PostMapping("create/save")
-	public String createProcess(@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto ,
+	public String createProcess(Model model,@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto ,
 			BindingResult bindingResult,Principal principal) {
 	
 		  var roleData = roleService.getRoleById(4);
 		  receptionistDto.setRoleDto(roleData);
+		  var restaurant = restaurantService.getRestaurantById(receptionistDto.getRestaurantDtoId());
+		  receptionistDto.setRestaurantDto(restaurant);
 		if(bindingResult.hasErrors()) {
+			  List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+			  model.addAttribute("restaurants", restaurants);
 			return "partner/receptionist/create";
 		}
 		var response = receptionistService.createReceptionist(receptionistDto,principal.getName());
@@ -90,16 +102,23 @@ public class ReceptionistController {
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") String id,Principal principal) {
 		var receptionistDto = receptionistService.getReceptionistById(id,principal.getName());
+		  List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+		  model.addAttribute("restaurants", restaurants);
+		  receptionistDto.setRestaurantDtoId(receptionistDto.getRestaurantDto().getId());
 		model.addAttribute("receptionistDto", receptionistDto);
 		return "partner/receptionist/edit";
 	}
 	@PostMapping("update/save")
-	public String updateProcess(@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto, BindingResult bindingResult,Principal principal) {
+	public String updateProcess(@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto,Model model, BindingResult bindingResult,Principal principal) {
 		if(bindingResult.hasErrors()) {
+			List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+			  model.addAttribute("restaurants", restaurants);
 			return "partner/receptionist/edit";
 		}
 		var roleData = roleService.getRoleById(4);
 		receptionistDto.setRoleDto(roleData);
+		var restaurant = restaurantService.getRestaurantById(receptionistDto.getRestaurantDtoId());
+		  receptionistDto.setRestaurantDto(restaurant);
 		var response = receptionistService.updateReceptionist(receptionistDto.getId(),receptionistDto, principal.getName());
 		if(response.isStatus()) {
 			this.response.setStatus(true);;

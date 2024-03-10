@@ -28,6 +28,7 @@ public class DinnerTable {
     private String status;
     @Column
     private int currentQuantity;
+    
     @ManyToOne
     @JoinColumn(name = "dinnerTableType_id")
     private DinnerTableType dinnerTableType;

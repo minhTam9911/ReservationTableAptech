@@ -30,7 +30,7 @@ public class Rate {
 	private Integer id;
 	@Column
 	private double point;
-	@Column 
+	@Column(columnDefinition = "VARCHAR")	
 	private String comment;
 	@Column
 	@CreationTimestamp

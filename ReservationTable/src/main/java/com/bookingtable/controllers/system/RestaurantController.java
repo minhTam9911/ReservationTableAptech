@@ -67,10 +67,11 @@ public class RestaurantController {
     }
     @PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("restaurantDto") RestaurantDto restaurantDto ,
-			BindingResult bindingResult,Principal principal, @RequestParam("images") MultipartFile[] images) {
+			BindingResult bindingResult,Model model,Principal principal, @RequestParam("images") MultipartFile[] images) {
 	
 		restaurantDto.setImagesDto(new ArrayList<ImageDto>());
 		if(bindingResult.hasErrors()) {
+			   model.addAttribute("category", categoryRestaurantService.getList());
 			return "partner/restaurant/create";
 		}
 		var category = categoryRestaurantService.getById(restaurantDto.getCategoryId());
@@ -105,6 +106,7 @@ public class RestaurantController {
 		model.addAttribute("imageDtos", imageDtos);
 		var categoryId = restaurantDto.getCategoryRetaurantDto().getId();
 		restaurantDto.setCategoryId(categoryId);
+		   model.addAttribute("category", categoryRestaurantService.getList());
 		model.addAttribute("restaurantDto", restaurantDto);
 		if(response.isStatus()) {
 			model.addAttribute("msg",true);
@@ -118,9 +120,11 @@ public class RestaurantController {
 								  @RequestParam("images") MultipartFile[] images,
 								  RedirectAttributes redirectAttributes,
 								  BindingResult bindingResult,
-								 Principal principal
+								 Principal principal,
+								 Model model
 	) {
 		if(bindingResult.hasErrors()) {
+			   model.addAttribute("category", categoryRestaurantService.getList());
 			return "partner/restaurant/edit";
 		}
 		List<ImageDto> existingImages = new ArrayList<>(iImageService.getImagesByRestaurantId(restaurantDto.getId()));
