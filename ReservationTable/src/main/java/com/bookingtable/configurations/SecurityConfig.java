@@ -77,7 +77,7 @@ public class SecurityConfig {
                             "uploads/**",
                             "/login", "/register","/accessDenied",
                             "/",
-                            "/**",
+                            //"/**",
                             "/restaurant/index",
                             "/account/accessDenied",
                             "/customer/**",
@@ -88,6 +88,15 @@ public class SecurityConfig {
                             "/account/check-otp", "/verify-code","/reset-password", "/forgot-password",
                             "/verify/submit",
                             "/forgot-password/submit",
+                            "/payment/paypal/**",
+                            "/payment/paypal/create-payment",
+                            "/payment/paypal/success",
+                            "/payment/paypal/cancel",
+                            "/payment/vnpay/**",
+                            "/payment/vnpay/create-payment",
+                            "/payment/vnpay/success",
+                            "/payment/vnpay/cancel",
+                            "/payment/vnpay/error",
                             "/reset-password/save").permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
@@ -100,7 +109,7 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/staff/reservationAgent/create/save").hasAnyRole("STAFF");
                     auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
                     auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
-                    auth.requestMatchers("/partner/restaurant/**").hasAnyRole("PARTNER");
+                    auth.requestMatchers("/partner/restaurant/**","/partner/dinnerTable/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/account/profile", "/account/changePass-save",
                             "/account/change-password", "/account/edit-avatar", "/account/edit-profile")
                             .hasAnyRole("STAFF", "ADMIN", "PARTNER", "RECEPTIONIST", "CUSTOMER");

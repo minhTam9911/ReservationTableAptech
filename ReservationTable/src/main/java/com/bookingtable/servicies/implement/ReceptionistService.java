@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import com.bookingtable.dtos.ReceptionistDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.helpers.GenerateCode;
+import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.mappers.ReceptionistMapper;
+import com.bookingtable.mappers.RestaurantMapper;
+import com.bookingtable.models.Restaurant;
 import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.ReceptionistRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
@@ -78,6 +81,7 @@ public class ReceptionistService implements IReceptionistService {
 			data.setEmail(receptionistDto.getEmail());
 			data.setPhoneNumber(receptionistDto.getPhoneNumber());
 			data.setGender(receptionistDto.isGender());
+			data.setRestaurant(RestaurantMapper.mapToModel(receptionistDto.getRestaurantDto()));
 			data.setUpdated(LocalDate.now());
 			if(receptionistRepository.save(data)!=null) {
 				return new  ResultResponse<ReceptionistDto>(true, new ReceptionistDto());
@@ -132,13 +136,14 @@ public class ReceptionistService implements IReceptionistService {
 			}
 			
 			var data = ReceptionistMapper.mapToModel(receptionistDto);
+			data.setReservationAgent(reservationAgentRepository.findByEmail(emailCreatedBy));
 			var password = GenerateCode.GeneratePassword(12);
 			var hashPassword = cryptPasswordEncoder.encode(password);
 			data.setReservationAgent(reservationAgentRepository.findByEmail(emailCreatedBy));
 			data.setPassword(hashPassword);
 			String email = environment.getProperty("spring.mail.username");
-//			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
-			if (mailService.send(email, data.getEmail(), "Account for you", "")) {
+			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
+			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
 				
 			} else {
 				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Send Email Fail"));

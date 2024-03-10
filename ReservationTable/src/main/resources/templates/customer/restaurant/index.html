@@ -42,12 +42,12 @@
         <div class="col-md-6 col-xl-4 mb-5">
           <div class="card card-explore">
             <div class="card-explore__img">
-              <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/640px-Barbieri_-_ViaSophia25668.jpg" alt="">
-            </div>
+              <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}" alt="">
+        </div>
             <div class="card-body">
               <h3 class="card-explore__price"><span  th:text="${i.name}"></span> <sub  th:text=" ${'/'+ i.city}"></sub></h3>
-              <h4 class="card-explore__title"><a href="#">Classic Bed Room</a></h4>
-              <p>Beginning fourth dominion creeping god was. Beginning, which fly yieldi dry beast moved blessed </p>
+              <h4 class="card-explore__title"><a th:href="@{/customer/restaurants/category/{id}(id=${i.categoryRetaurantDto.id})}" th:text="${i.categoryRetaurantDto.name}"></a></h4>
+              <p th:text="${i.shortDescription}"></p>
               <a class="card-explore__link" th:href="@{/restaurant/detail/{id}(id=${i.id})}">Read More<i class="ti-arrow-right"></i></a>
             </div>
           </div>

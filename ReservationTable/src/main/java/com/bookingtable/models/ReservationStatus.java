@@ -33,7 +33,7 @@ public class ReservationStatus {
 	    private String status;
 	    @Column
 	    private String reason;
-	    @Column
+	    @Column(columnDefinition = "VARCHAR")
 	    private String description;
 	    @OneToMany(mappedBy = "reservationStatus", cascade = CascadeType.ALL)
 		private Set<Reservation> reservations = new HashSet<>();

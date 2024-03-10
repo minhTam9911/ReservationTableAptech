@@ -45,7 +45,7 @@ public class CategoryRestaurantService implements ICategoryRestaurantService {
 
 	@Override
 	public ResultResponse<CategoryRestaurantDto> update(Integer id, CategoryRestaurantDto categoryRestaurantDto) {
-		if(categoryRestaurantRepository.existName(toUpperCaseFirstLetter(categoryRestaurantDto.getName()),id) != null) {
+		if(categoryRestaurantRepository.existName(toUpperCaseFirstLetter(categoryRestaurantDto.getName()),id).size() >0) {
 			return new ResultResponse<CategoryRestaurantDto>(false,new CategoryRestaurantDto("Name Already"));
 		}
 		categoryRestaurantDto.setName(toUpperCaseFirstLetter(categoryRestaurantDto.getName()));

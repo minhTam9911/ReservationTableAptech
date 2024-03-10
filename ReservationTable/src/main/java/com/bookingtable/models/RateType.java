@@ -23,6 +23,6 @@ public class RateType {
 	private Integer id;
 	@Column
 	private String type;
-	@Column
+	@Column(columnDefinition = "VARCHAR")
 	private String description;
 }

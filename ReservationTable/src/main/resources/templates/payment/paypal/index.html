@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+  <title>Payment Paypal</title>
+
+    <link rel="canonical" href="https://codepen.io/manojhl/pen/QabPdq">
+  
+  
+  
+  
+<style>
+* {
+  font-family: "Helvetica Neue", Helvetica;
+  font-size: 15px;
+  font-variant: normal;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background: #E6EBF1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+form {
+  width: 480px;
+  margin: 20px 0;
+}
+
+.group {
+  background: white;
+  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+label {
+  position: relative;
+  color: #8898AA;
+  font-weight: 300;
+  height: 40px;
+  line-height: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+.group label:not(:last-child) {
+  border-bottom: 1px solid #F0F5FA;
+}
+
+label > span {
+  width: 120px;
+  text-align: right;
+  margin-right: 30px;
+}
+
+.field {
+  background: transparent;
+  font-weight: 300;
+  border: 0;
+  color: #31325F;
+  outline: none;
+  flex: 1;
+  padding-right: 10px;
+  padding-left: 10px;
+  cursor: text;
+}
+
+.field::-webkit-input-placeholder {
+  color: #CFD7E0;
+}
+
+.field::-moz-placeholder {
+  color: #CFD7E0;
+}
+
+button {
+  float: left;
+  display: block;
+  background: #666EE8;
+  color: white;
+  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  border: 0;
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  width: 100%;
+  height: 40px;
+  line-height: 38px;
+  outline: none;
+}
+
+button:focus {
+  background: #555ABF;
+}
+
+button:active {
+  background: #43458B;
+}
+
+.outcome {
+  float: left;
+  width: 100%;
+  padding-top: 8px;
+  min-height: 24px;
+  text-align: center;
+}
+
+.success,
+.error {
+  display: none;
+  font-size: 13px;
+}
+
+.success.visible,
+.error.visible {
+  display: inline;
+}
+
+.error {
+  color: #E4584C;
+}
+
+.success {
+  color: #666EE8;
+}
+
+.success .token {
+  font-weight: 500;
+  font-size: 13px;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <script src="https://js.stripe.com/v3/"></script>
+
+<body>
+  <form  action="/payment/paypal/create-payment"  method="post">
+    <input type="hidden" name="token" />
+    <div class="group">
+		<label>
+        <span>Method</span>
+        <input name="method" class="field" readonly value="Paypal">
+      </label>
+      <label>
+        <span>Intent</span>
+        <input name="intent" class="field" readonly value="Pay your table reservation bill online">
+      </label>
+    </div>
+    <div class="group">
+      <label>
+        <span>Full name</span>
+        <input id="first-name" name="first-name" class="field" placeholder="Manoj" />
+      </label>
+      <label>
+        <span>Email</span>
+        <input id="last-name" name="last-name" class="field" placeholder="Halugona" />
+      </label>
+      <label>
+        <span>Phone</span>
+        <input id="address-line2" name="address_line2" class="field" placeholder="" />
+      </label>
+      <label>
+        <span>Address</span>
+        <input id="address-line1" name="address_line1" class="field" placeholder="77 Winchester Lane" />
+      </label>
+    </div>
+    <div class="group">
+      
+      <label>
+        <span>Quantity</span>
+        <Ex id="address-city" name="address_city" class="field" placeholder="Coachella" />
+      </label>
+      <label>
+        <span>Total People</span>
+        <input id="address-state" name="address_state" class="field" placeholder="SA" />
+      </label>
+      <label>
+        <span>Restaurant</span>
+        <input id="address-zip" name="address_zip" class="field" placeholder="92236" />
+      </label>
+      <label>
+        <span>Dinner Table</span>
+        <input id="address-zip" name="address_zip" class="field" placeholder="92236" />
+      </label>
+      <label>
+        <span>Currency</span>
+        <select name="currency" id="address-country" class="field">
+          <option value="USD" selected>USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+           <option value="VND">VND</option>
+        </select>
+      </label>
+      
+    </div>
+    <div class="group">
+		<label>
+        <span>Total Amount</span>
+        <input id="address-zip" name="amount" class="field" placeholder="92236" />
+      </label>
+      <label>
+        <span>Description</span>
+        <textarea id="address-zip" name="description" class="field" placeholder="92236"></textarea>
+      </label>
+	</div>
+    <button type="submit">Pay </button>
+    <div class="outcome">
+      <div class="error"></div>
+      <div class="success">
+        Success! Your Stripe token is <span class="token"></span>
+      </div>
+    </div>
+  </form>
+</body>
+  
+
+  
+</body>
+
+</html>

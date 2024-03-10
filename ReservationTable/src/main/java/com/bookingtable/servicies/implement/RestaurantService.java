@@ -3,7 +3,9 @@ package com.bookingtable.servicies.implement;
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.mappers.CategoryRestaurantMapper;
 import com.bookingtable.mappers.RestaurantMapper;
+import com.bookingtable.models.CategoryRestaurant;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.ReservationRepository;
@@ -72,11 +74,14 @@ public class RestaurantService implements IRestaurantService {
             data.setCity(restaurantDto.getCity());
             data.setDistrict(restaurantDto.getDistrict());
             data.setWard(restaurantDto.getWard());
+            data.setShortDescription(restaurantDto.getShortDescription());
+            data.setDescription(restaurantDto.getDescription());
             data.setCompanyMail(restaurantDto.getCompanyMail());
             data.setMainPhoneNumber(restaurantDto.getMainPhoneNumber());
             data.setFaxNumber(restaurantDto.getFaxNumber());
             data.setCreated(LocalDate.now());
             data.setUpdated(LocalDate.now());
+            data.setCategoryRetaurant(CategoryRestaurantMapper.mapToModel(restaurantDto.getCategoryRetaurantDto()));
             var saveChange = restaurantRepository.save(data);
 			if(saveChange!=null) {
 				return	new ResultResponse<RestaurantDto>(true, RestaurantMapper.mapToDto(saveChange));
