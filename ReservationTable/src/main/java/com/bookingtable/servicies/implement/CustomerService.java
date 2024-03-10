@@ -162,6 +162,27 @@ public class CustomerService implements ICustomerService {
 		}
 		return false;
 	}
+    @Override
+    public CustomerDto getCustomerByEmail(String email) {
+        try {
+            // Convert email to lowercase for case-insensitive comparison
+            email = email.toLowerCase();
+
+            // Find the customer by email
+            Customer customer = customerRepository.findByEmail(email);
+
+            // If customer is found, map it to DTO and return
+            if (customer != null) {
+                return CustomerMapper.mapToDto(customer);
+            } else {
+                // If customer is not found, return null or throw an exception as per your requirement
+                return null; // Or throw new Exception("Customer not found for email: " + email);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // Or handle the exception as per your requirement
+        }
+    }
 
 
 }
