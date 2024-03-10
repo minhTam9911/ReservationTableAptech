@@ -3,6 +3,8 @@ package com.bookingtable.servicies.implement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
@@ -233,6 +235,76 @@ public class AccountService implements IAccountService {
 				return new ResultResponse<String>(true, "Reset Password Successful");
 		}
 		return  new ResultResponse<String>(false, "Reset Password Failure");
+	}
+
+	public ResultResponse<String> updateProfile(String email, SystemDto systemDto) {
+		// Common logic for updating the user profile
+		if(systemRepository.findByEmail(email)!=null) {
+			var data = systemRepository.findByEmail(email);
+			data.setFullname(systemDto.getFullname());
+
+			data.setPassword(systemDto.getPassword());
+			systemRepository.save(data);
+			return new ResultResponse<String>(true, "Reset Password Successful");
+
+		}
+		if(reservationAgentRepository.findByEmail(email)!=null) {
+			var data = reservationAgentRepository.findByEmail(email);
+			data.setFullName(systemDto.getFullname());
+			data.setPassword(systemDto.getPassword());
+			reservationAgentRepository.save(data);
+			return new ResultResponse<String>(true, "Reset Password Successful");
+		}
+		if(receptionistRepository.findByEmail(email)!=null) {
+			var data = receptionistRepository.findByEmail(email);
+			data.setFullname(systemDto.getFullname());
+
+			data.setPassword(systemDto.getPassword());
+			receptionistRepository.save(data);
+			return new ResultResponse<String>(true, "Reset Password Successful");
+		}
+		if(customerRepository.findByEmail(email)!=null) {
+			var data = customerRepository.findByEmail(email);
+			data.setFullName(systemDto.getFullname());
+			data.setPassword(systemDto.getPassword());
+			customerRepository.save(data);
+			return new ResultResponse<String>(true, "Reset Password Successful");
+		}
+
+		return new ResultResponse<String>(true, "Profile updated successfully");
+	}
+	public SystemDto getUserByEmail(String email) {
+		System system = systemRepository.findByEmail(email);
+		if (system != null) {
+			return SystemMapper.mapToDto(system);
+		}
+
+		ReservationAgent reservationAgent = reservationAgentRepository.findByEmail(email);
+		if (reservationAgent != null) {
+			SystemDto systemDto = new SystemDto();
+			systemDto.setId(reservationAgent.getId());
+			systemDto.setFullname(reservationAgent.getFullName());
+			systemDto.setAddress(reservationAgent.getAddress());
+			systemDto.setEmail(reservationAgent.getEmail());
+			systemDto.setPassword(reservationAgent.getPassword());
+			systemDto.setStatus(reservationAgent.isStatus());
+			systemDto.setCreated(reservationAgent.getCreated());
+			systemDto.setUpdated(reservationAgent.getUpdated());
+			systemDto.setRoleDto(RoleMapper.mapToDto(reservationAgent.getRole())); // Assuming you have a method to map Role entity to RoleDto
+			return systemDto;
+		}
+
+//		Receptionist receptionist = receptionistRepository.findByEmail(email);
+//		if (receptionist != null) {
+//			return ReceptionistMapper.mapToDto(receptionist);
+//		}
+//
+//		Customer customer = customerRepository.findByEmail(email);
+//		if (customer != null) {
+//			return mapCustomerToSystemDto(customer);
+//		}
+
+		return null;
 	}
 
 }

@@ -16,4 +16,7 @@ public interface ICustomerService {
 
     public ResultResponse<CustomerDto> deleteCustomer(String id);
     public boolean changeStatus(String email, String code);
-}
+
+    public CustomerDto getCustomerByEmail(String email) ;
+
+    }

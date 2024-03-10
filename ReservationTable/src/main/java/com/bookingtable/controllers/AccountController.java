@@ -1,5 +1,7 @@
 package com.bookingtable.controllers;
 
+import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.servicies.ISystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Scope;
@@ -9,11 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bookingtable.dtos.CustomerDto;
@@ -46,7 +44,8 @@ public class AccountController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private ResultResponse<String> result = new ResultResponse<>(false,"");
-	
+	@Autowired
+	private ISystemService systemService;
 
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "error", required = false) String error, Principal principal,
@@ -67,7 +66,7 @@ public class AccountController {
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("customerDto") CustomerDto customerDto ,
 			BindingResult bindingResult,RedirectAttributes attributes,Model model) {
-		var roleData = roleService.getRoleById(1);
+		var roleData = roleService.getRoleById(4);
 		customerDto.setCreated(LocalDate.now());
 		customerDto.setRoleDto(roleData);
 		if(bindingResult.hasErrors()) {
@@ -79,11 +78,10 @@ public class AccountController {
 			attributes.addFlashAttribute("msg", "Please check your email again to activate your account");
 			return "redirect:/login";
 		}else {
-			attributes.addFlashAttribute("msg",response.getMessage().getEmail()==null?null: response.getMessage().getEmail());
+			attributes.addFlashAttribute("msg", response.getMessage().getEmail() == null ? null : response.getMessage().getEmail());
 			return "redirect:/login";
-			
+
 		}
-		
 	}
 	@GetMapping("verify")
 	public String verifyActive(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
@@ -183,5 +181,26 @@ public class AccountController {
 			return "redirect:/reset-password";
 		}
 		return "account/accessDenied";
+	}
+
+	@GetMapping("profile")
+	public String profile(Model model, Principal principal) {
+//		var currentUser = accountService.
+//		model.addAttribute("systemDto", systemDto);
+		return "account/profile";
+	}
+	@PostMapping("profile/save")
+	public String updateProfileProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			return "account/profile";
+		}
+		var response = systemService.updateSystem(systemDto.getId(),systemDto);
+		if(response.isStatus()) {
+			this.result.setStatus(true);;
+			return "redirect:/account/profile";
+		}else {
+//			this.result.setMessage(new SystemDto(response.getMessage().getEmail()));
+			return "account/profile";
+		}
 	}
 }
