@@ -39,6 +39,7 @@
             <div class="mb-3">
                 <label class="form-label" style="font-weight: 600; color: black;" accept="image/*">Image</label>
                 <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images">
+                <div th:if="${#fields.hasErrors('imageDto')}" th:errors="*{imageDto}" class="invalid-feedback" style="display:block;"></div>
 
             </div>
 
@@ -47,11 +48,11 @@
                 <select th:field="*{dinnerTableTypeDtoId}" class="form-control">
                     <option value="">Select Table Type</option>
                     <th:block th:each="i : ${dinnerTableDto.dinnerTableTypeList}">
-                       
                             <option th:value="${i.id}" th:text="${i.type+' - '+i.description}"></option>
-                  			
                     </th:block>
                 </select>
+                <div th:if="${#fields.hasErrors('dinnerTableTypeDto')}" th:errors="*{dinnerTableTypeDto}" class="invalid-feedback" style="display:block;"></div>
+
             </div>
 
             <!-- Restaurant with Thymeleaf error handling -->
@@ -65,7 +66,10 @@
                             <option th:value="${i.id}" th:text="${i.name}"></option>
                         </th:block>
                     </th:block>
+
                 </select>
+                <div th:if="${#fields.hasErrors('restaurantDto')}" th:errors="*{restaurantDto}" class="invalid-feedback" style="display:block;"></div>
+
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>

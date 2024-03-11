@@ -5,6 +5,7 @@ import com.bookingtable.dtos.*;
 import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.models.Image;
 import com.bookingtable.servicies.ICategoryRestaurantService;
+import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.IRestaurantService;
 
@@ -34,6 +35,8 @@ public class RestaurantController {
     private IImageService iImageService;
     @Autowired
     private ICategoryRestaurantService categoryRestaurantService;
+	@Autowired
+	private IDinnerTableService iDinnerTableService;
     private ResultResponse<Boolean> response = new ResultResponse<>(null);
     
     public RestaurantController() {
@@ -178,9 +181,14 @@ public class RestaurantController {
 	@GetMapping("/delete/{id}")
 	public String deleteRestaurant(@PathVariable String id,Principal principal) {
 		var existImages = iImageService.getImagesByRestaurantId(id);
+		var existDinnerTables = iDinnerTableService.getAllDinnerTablesForRestaurant(id);
+
 		for(var existImage :existImages) {
 			FileHelper.deleteRestaurantImage(existImage.getPath());
 			iImageService.deleteImage(existImage.getId());
+		}
+		for(var existDinnerTable :existDinnerTables) {
+			iDinnerTableService.deleteDinnerTable(existDinnerTable.getId());
 		}
 		iRestaurantService.deleteRestaurant(id,principal.getName());
 		return "redirect:/partner/restaurant/index";

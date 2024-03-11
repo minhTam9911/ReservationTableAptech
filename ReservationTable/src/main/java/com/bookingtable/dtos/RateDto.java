@@ -18,15 +18,13 @@ public class RateDto {
 
 	
 	private Integer id;
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Point cannot be null")
 	private double point;
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Comment cannot be null")
 	private String comment;
-	
+	@NotNull(message = "Created cannot be null")
 	private LocalDate created;
-	 
+
 	private RateTypeDto rateType;
 	
 	private DinnerTableDto dinnerTable;

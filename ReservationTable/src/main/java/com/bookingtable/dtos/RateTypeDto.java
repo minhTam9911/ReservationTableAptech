@@ -20,10 +20,9 @@ import lombok.NoArgsConstructor;
 public class RateTypeDto {
 
 	private Integer id;
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Type cannot be null")
 	private String type;
-	
+	@NotNull(message = "Description cannot be null")
 	private String description;
 
 }

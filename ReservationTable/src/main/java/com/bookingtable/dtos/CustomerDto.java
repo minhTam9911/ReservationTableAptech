@@ -20,20 +20,19 @@ public class CustomerDto {
 
 	private String id;
 
-	@NotEmpty
+	@NotEmpty(message = "Full name cannot be empty")
 	private String fullname;
 
-	@NotEmpty
+	@NotEmpty(message = "Phone number cannot be null")
 	private String phoneNumber;
 
-	@NotEmpty
+	@NotEmpty(message = "Address cannot be null")
 	private String address;
 
-	@NotEmpty
-	@Email
+	@NotEmpty(message = "Email cannot be null")
 	private String email;
 
-	@NotEmpty
+	@NotEmpty(message = "Password cannot be null")
 	private String password;
 
 	private boolean gender;

@@ -89,16 +89,21 @@ public class DinnerTableController {
     }
 
     @PostMapping("create/save")
-    public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,
-                                    @RequestParam("images") MultipartFile[] images,
-                                    BindingResult bindingResult) {
+    public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,BindingResult bindingResult
+                                    ,@RequestParam("images") MultipartFile[] images) {
         dinnerTableDto.setCurrentQuantity(dinnerTableDto.getQuantity());
         List<ImageDto> imageDtos = new ArrayList<>();
         dinnerTableDto.setImagesDto(imageDtos);
+        if(bindingResult.hasErrors()) {
+            dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
+            dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
+            return "partner/dinnerTable/create";
+        }
         var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
         dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
         var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
         dinnerTableDto.setRestaurantDto(restaurantDto);
+
         var response = iDinnerTableService.createDinnerTable(dinnerTableDto);
         for (MultipartFile image : images) {
             ImageDto imageDto = new ImageDto();
@@ -106,11 +111,6 @@ public class DinnerTableController {
             imageDto.setDinnerTableDto(response.getMessage());
             imageDto.setRestaurantDto(restaurantDto);
             imageService.createImage(imageDto);
-        }
-        if(bindingResult.hasErrors()) {
-            dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
-            dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-            return "partner/dinnerTable/create";
         }
         if(response.isStatus()) {
             this.response.setStatus(true);
