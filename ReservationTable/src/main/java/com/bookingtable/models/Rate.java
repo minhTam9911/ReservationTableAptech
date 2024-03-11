@@ -37,9 +37,6 @@ public class Rate {
 	@CreationTimestamp
 	private LocalDate created;
 	@OneToOne
-	@JoinColumn(name = "rateType_id") 
-	private RateType rateType;
-	@OneToOne
 	@JoinColumn(name = "dinnerTable_id") 
 	private DinnerTable dinnerTable;
 	@ManyToOne

@@ -24,8 +24,6 @@ public class RateDto {
 	private String comment;
 	@NotNull(message = "Created cannot be null")
 	private LocalDate created;
-
-	private RateTypeDto rateType;
 	
 	private DinnerTableDto dinnerTable;
 }

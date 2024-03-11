@@ -15,6 +15,8 @@ import com.bookingtable.helpers.GenerateCode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -35,12 +37,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "reservation")
 public class Reservation {
 	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-
-    @PrePersist
-    private void generateId() {
-        this.id = GenerateCode.GenerateReservation();
-    }
 	@OneToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
