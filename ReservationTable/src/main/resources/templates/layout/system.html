@@ -62,7 +62,7 @@
             <div class="navbar-nav w-100">
                 <a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a sec:authorize="hasAnyRole('ROLE_STAFF','ROLE_ADMIN')" th:href="@{/staff/dinnerTableType/index}"
-                   th:class="${requestURI  == '/staff/dinnerTableType' ? 'nav-item active' : 'nav-item'}"><i class="fa-solid fa-list"></i>
+                   class="nav-item nav-link"><i class="fa-solid fa-list"></i>
                     Dinner Table Types
                 </a>
 
