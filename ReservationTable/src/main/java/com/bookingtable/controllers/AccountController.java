@@ -183,23 +183,24 @@ public class AccountController {
 		return "account/accessDenied";
 	}
 
-	@GetMapping("profile")
-	public String profile(Model model, Principal principal) {
-//		var currentUser = accountService.
-//		model.addAttribute("systemDto", systemDto);
-		return "account/profile";
+	@GetMapping("/profile")
+	public String profileForm(Model model, Principal principal) {
+		var systemDto = accountService.findByEmail(principal.getName());
+		model.addAttribute("systemDto", systemDto);
+		return "/account/profile";
 	}
-	@PostMapping("profile/save")
-	public String updateProfileProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto, BindingResult bindingResult) {
+	@PostMapping("/profile/save")
+	public String updateProfileProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
+									   BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return "account/profile";
 		}
-		var response = systemService.updateSystem(systemDto.getId(),systemDto);
+		var response = accountService.updateProfile(systemDto,systemDto.getEmail());
 		if(response.isStatus()) {
 			this.result.setStatus(true);;
-			return "redirect:/account/profile";
+			return "redirect:/profile";
 		}else {
-//			this.result.setMessage(new SystemDto(response.getMessage().getEmail()));
+			this.result.setMessage("Update Profile success");
 			return "account/profile";
 		}
 	}
