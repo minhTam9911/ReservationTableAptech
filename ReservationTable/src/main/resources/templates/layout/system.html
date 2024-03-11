@@ -177,7 +177,9 @@
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a href="/profile" class="dropdown-item">My Profile</a>
+                        <li sec:authorize="!hasAuthority('ROLE_ADMIN')" class="nav-item">
+                            <a href="/profile" class="dropdown-item">My Profile</a>
+                        </li>
                         <a href="/logout" class="dropdown-item">
                             <span class="d-none d-lg-inline-flex">Logout</span>
                             <i class="fa fa-sign-out"></i>
