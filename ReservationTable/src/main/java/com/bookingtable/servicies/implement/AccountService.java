@@ -2,13 +2,17 @@ package com.bookingtable.servicies.implement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import com.bookingtable.dtos.CustomerDto;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -236,75 +240,73 @@ public class AccountService implements IAccountService {
 		}
 		return  new ResultResponse<String>(false, "Reset Password Failure");
 	}
-
-	public ResultResponse<String> updateProfile(String email, SystemDto systemDto) {
-		// Common logic for updating the user profile
-		if(systemRepository.findByEmail(email)!=null) {
-			var data = systemRepository.findByEmail(email);
-			data.setFullname(systemDto.getFullname());
-
-			data.setPassword(systemDto.getPassword());
-			systemRepository.save(data);
-			return new ResultResponse<String>(true, "Reset Password Successful");
-
-		}
-		if(reservationAgentRepository.findByEmail(email)!=null) {
-			var data = reservationAgentRepository.findByEmail(email);
-			data.setFullName(systemDto.getFullname());
-			data.setPassword(systemDto.getPassword());
-			reservationAgentRepository.save(data);
-			return new ResultResponse<String>(true, "Reset Password Successful");
-		}
-		if(receptionistRepository.findByEmail(email)!=null) {
-			var data = receptionistRepository.findByEmail(email);
-			data.setFullname(systemDto.getFullname());
-
-			data.setPassword(systemDto.getPassword());
-			receptionistRepository.save(data);
-			return new ResultResponse<String>(true, "Reset Password Successful");
-		}
-		if(customerRepository.findByEmail(email)!=null) {
-			var data = customerRepository.findByEmail(email);
-			data.setFullName(systemDto.getFullname());
-			data.setPassword(systemDto.getPassword());
-			customerRepository.save(data);
-			return new ResultResponse<String>(true, "Reset Password Successful");
-		}
-
-		return new ResultResponse<String>(true, "Profile updated successfully");
-	}
-	public SystemDto getUserByEmail(String email) {
+	@Override
+	public ResultResponse<String> updateProfile(SystemDto updatedProfile,String email) {
 		System system = systemRepository.findByEmail(email);
 		if (system != null) {
+			system.setFullname(updatedProfile.getFullname());
+			system.setAddress(updatedProfile.getAddress());
+			system.setPhoneNumber(updatedProfile.getPhoneNumber());
+			system.setPassword(updatedProfile.getPassword());
+			systemRepository.save(system);
+			return new ResultResponse<String>(true, "Profile updated successfully");
+		}
+
+		ReservationAgent reservationAgent = reservationAgentRepository.findByEmail(email);
+		if (reservationAgent != null) {
+			system.setFullname(reservationAgent.getFullName());
+			system.setAddress(reservationAgent.getAddress());
+			system.setPhoneNumber(reservationAgent.getCellularPhoneNumber());
+			system.setPassword(reservationAgent.getPassword());
+			reservationAgentRepository.save(reservationAgent);
+			return new ResultResponse<String>(true, "Profile updated successfully");
+		}
+
+		Receptionist receptionist = receptionistRepository.findByEmail(email);
+		if (reservationAgent != null) {
+			system.setFullname(receptionist.getFullname());
+			system.setAddress(receptionist.getAddress());
+			system.setPhoneNumber(receptionist.getPhoneNumber());
+			system.setPassword(receptionist.getPassword());
+			system.setDateOfBirth(receptionist.getDateOfBirth());
+			receptionistRepository.save(receptionist);
+			return new ResultResponse<String>(true, "Profile updated successfully");
+		}
+		return new ResultResponse<String>(false, "User not found");
+	}
+	@Override
+	public SystemDto findByEmail(String email) {
+		System system = systemRepository.findByEmail(email);
+		if (system != null) {
+			system.setFullname(system.getFullname());
+			system.setAddress(system.getAddress());
+			system.setPhoneNumber(system.getPhoneNumber());
+			system.setPassword(system.getPassword());
 			return SystemMapper.mapToDto(system);
 		}
 
 		ReservationAgent reservationAgent = reservationAgentRepository.findByEmail(email);
 		if (reservationAgent != null) {
-			SystemDto systemDto = new SystemDto();
-			systemDto.setId(reservationAgent.getId());
-			systemDto.setFullname(reservationAgent.getFullName());
-			systemDto.setAddress(reservationAgent.getAddress());
-			systemDto.setEmail(reservationAgent.getEmail());
-			systemDto.setPassword(reservationAgent.getPassword());
-			systemDto.setStatus(reservationAgent.isStatus());
-			systemDto.setCreated(reservationAgent.getCreated());
-			systemDto.setUpdated(reservationAgent.getUpdated());
-			systemDto.setRoleDto(RoleMapper.mapToDto(reservationAgent.getRole())); // Assuming you have a method to map Role entity to RoleDto
-			return systemDto;
+			system.setFullname(reservationAgent.getFullName());
+			system.setAddress(reservationAgent.getAddress());
+			system.setPhoneNumber(reservationAgent.getCellularPhoneNumber());
+			system.setPassword(reservationAgent.getPassword());
+			return SystemMapper.mapToDto(system);
 		}
 
-//		Receptionist receptionist = receptionistRepository.findByEmail(email);
-//		if (receptionist != null) {
-//			return ReceptionistMapper.mapToDto(receptionist);
-//		}
-//
-//		Customer customer = customerRepository.findByEmail(email);
-//		if (customer != null) {
-//			return mapCustomerToSystemDto(customer);
-//		}
+		Receptionist receptionist = receptionistRepository.findByEmail(email);
+		if (receptionist != null) {
+			system.setFullname(receptionist.getFullname());
+			system.setAddress(receptionist.getAddress());
+			system.setPhoneNumber(receptionist.getPhoneNumber());
+			system.setPassword(receptionist.getPassword());
+			system.setDateOfBirth(receptionist.getDateOfBirth());
+			return SystemMapper.mapToDto(system);
+		}
 
-		return null;
+		return SystemMapper.mapToDto(system);
 	}
+
+
 
 }

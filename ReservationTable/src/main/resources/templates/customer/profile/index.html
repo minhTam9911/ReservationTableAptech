@@ -9,7 +9,6 @@
 
 <section layout:fragment="content">
     <div class="container">
-        <div class="container">
             <form th:action="@{/customer/profile/save}" method="post">
                 <!-- Form Group (fullname)-->
                 <div class="mb-3">
@@ -59,11 +58,11 @@
                                placeholder="Enter your date of birth" th:value="${customerDto.dateOfBirth}">
                     </div>
                 </div>
+\
                 <!-- Save changes button-->
                 <button class="btn btn-primary" type="submit">Save changes</button>
 
             </form>
-        </div>
     </div>
 </section>
 </body>
