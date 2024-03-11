@@ -20,14 +20,16 @@ import java.util.Set;
 @Builder
 public class DinnerTableTypeDto {
     private Integer id;
-    @NotNull(message = "Capacity cannot be empty")
-    @Positive
+    @NotNull(message = "Capacity cannot be null")
     private int capacity;
+
+    @NotNull(message = "Price cannot be null")
     private double price;
 
-    @NotNull(message="Type cannot be empty")
-    @NotEmpty
+    @NotNull(message="Type cannot be null")
     private String type;
+
+    @NotNull(message="Type cannot be null")
     private String description;
 
     private Set<DinnerTableDto> dinnerTablesDto = new HashSet<>();

@@ -6,16 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="eda963b8-0c4c-4f0b-8d2f-8c1c2c9e08e2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/configurations/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/configurations/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/SystemDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/SystemDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/IAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/IAccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/account/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/account/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/profile/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/profile/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/partner/receptionist/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/partner/receptionist/edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/configurations/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/AccountController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/system/DinnerTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/system/DinnerTableController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/system/RestaurantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/system/RestaurantController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/CustomerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/CustomerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/DinnerTableDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/DinnerTableDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/DinnerTableTypeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/DinnerTableTypeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/RateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/RateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/RateTypeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/RateTypeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/ReceptionistDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/ReceptionistDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/RoleDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/dtos/RoleDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/DinnerTableTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/servicies/implement/DinnerTableTypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/account/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/account/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/partner/dinnerTable/create.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/partner/dinnerTable/create.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

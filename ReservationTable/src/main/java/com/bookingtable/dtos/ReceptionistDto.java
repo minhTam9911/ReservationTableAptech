@@ -31,28 +31,26 @@ public class ReceptionistDto {
 
 	
 	private String id;
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Full name cannot be null")
 	private String fullname;
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Phone number cannot be null")
 	private String phoneNumber;
 	public ReceptionistDto( String email) {
 		super();
 		this.email = email;
 	}
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Address cannot be null")
 	private String address;
 	private boolean status;
-	@NotNull
-    @NotEmpty
+	@NotNull(message = "Email cannot be null")
 	private String email;
-	
+
+	@NotNull(message = "Password cannot be null")
 	private String password;
 
 	private boolean gender;
-	@NotNull
+
+	@NotNull(message = "Date of birth cannot be null")
 	private LocalDate dateOfBirth;
 	
 	private LocalDate created;

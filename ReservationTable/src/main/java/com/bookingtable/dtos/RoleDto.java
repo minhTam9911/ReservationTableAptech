@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class RoleDto {
 	
 	private Integer id;
-	@NotEmpty(message = "The name cannot be empty")
+	@NotEmpty(message = "Name cannot be empty")
 	private String name;
 }
