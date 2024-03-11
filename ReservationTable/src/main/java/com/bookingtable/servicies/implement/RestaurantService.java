@@ -133,4 +133,9 @@ public class RestaurantService implements IRestaurantService {
         }
     }
 
+	@Override
+	public List<RestaurantDto> getAllRestaurantsWithCategory(Integer categoryId) {
+		 return restaurantRepository.findBycategoryRetaurantId(categoryId).stream().map(i -> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
+	}
+
 }

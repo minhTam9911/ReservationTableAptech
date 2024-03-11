@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -36,9 +37,9 @@ public class Rate {
 	@CreationTimestamp
 	private LocalDate created;
 	@OneToOne
-	@JoinColumn(name = "rateType_id") 
-	private RateType rateType;
-	@OneToOne
 	@JoinColumn(name = "dinnerTable_id") 
 	private DinnerTable dinnerTable;
+	@ManyToOne
+	@JoinColumn(name = "customer",nullable = false)
+	private Customer customer;
 }

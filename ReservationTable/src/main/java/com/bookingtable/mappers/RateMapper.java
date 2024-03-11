@@ -10,7 +10,7 @@ public class RateMapper {
                 .point(rateDto.getPoint())
                 .comment(rateDto.getComment())
                 .created(rateDto.getCreated())
-                .rateType(RateTypeMapper.mapToModel(rateDto.getRateType()))
+                
                 .dinnerTable(DinnerTableMapper.mapToModel(rateDto.getDinnerTable()))
                 .build();
     }
@@ -21,7 +21,7 @@ public class RateMapper {
                 .point(rate.getPoint())
                 .comment(rate.getComment())
                 .created(rate.getCreated())
-                .rateType(RateTypeMapper.mapToDto(rate.getRateType()))
+               
                 .dinnerTable(DinnerTableMapper.mapToDto(rate.getDinnerTable()))
                 .build();
     }

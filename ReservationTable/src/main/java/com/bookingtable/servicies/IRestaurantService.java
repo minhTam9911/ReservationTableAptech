@@ -9,7 +9,7 @@ import java.util.List;
 public interface IRestaurantService {
     public List<RestaurantDto> getAllRestaurants();
     public List<RestaurantDto> getAllRestaurantsForAgent(String idAgent);
-
+    public List<RestaurantDto> getAllRestaurantsWithCategory(Integer categoryId);
     public RestaurantDto getRestaurantById(String id);
     public RestaurantDto getRestaurantById(String id, String idAgent);
     public ResultResponse<RestaurantDto> createRestaurant(RestaurantDto restaurantDto, String emailCreatedBy) ;
