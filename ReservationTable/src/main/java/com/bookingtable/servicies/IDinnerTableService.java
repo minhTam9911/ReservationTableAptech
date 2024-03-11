@@ -20,5 +20,5 @@ public interface IDinnerTableService {
 
     public ResultResponse<DinnerTableDto> deleteDinnerTable(Integer id);
     public List<DinnerTableDto> getDinnerTablesByType(DinnerTableTypeDto dinnerTableTypeDto);
-    public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String idAgent);
+    public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String restaunrantId);
 }

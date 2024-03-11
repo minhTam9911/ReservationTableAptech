@@ -3,7 +3,7 @@
       layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <title>Restaurant</title>
+    <title>Restaurant Category</title>
 </head>
 <body>
 
@@ -48,7 +48,7 @@
               <h3 class="card-explore__price"><span  th:text="${i.name}"></span> <sub  th:text=" ${'/'+ i.city}"></sub></h3>
               <h4 class="card-explore__title"><a th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}" th:text="${i.categoryRetaurantDto.name}"></a></h4>
               <p th:text="${i.shortDescription}"></p>
-              <a class="card-explore__link" th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i class="ti-arrow-right"></i></a>
+              <a class="card-explore__link" th:href="@{/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i class="ti-arrow-right"></i></a>
             </div>
           </div>
         </div>
