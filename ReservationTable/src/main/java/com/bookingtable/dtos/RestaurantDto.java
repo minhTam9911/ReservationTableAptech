@@ -88,9 +88,11 @@ public class RestaurantDto {
 			this.active = active;
 		}
 	public String getFullAddress() {
-		// Giả định rằng ward, district, và city đã được khởi tạo và không rỗng.
-		// Bạn cần kiểm tra null hoặc rỗng tùy vào yêu cầu thực tế của ứng dụng.
+
 		String fullAddress = "";
+		if (address != null && !address.isEmpty()) {
+			fullAddress += address + ", ";
+		}
 		if (ward != null && !ward.isEmpty()) {
 			fullAddress += ward + ", ";
 		}

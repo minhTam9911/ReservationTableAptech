@@ -93,14 +93,15 @@ public class DinnerTableController {
     @PostMapping("create/save")
     public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,BindingResult bindingResult
                                     ,@RequestParam("images") MultipartFile[] images) {
-        dinnerTableDto.setCurrentQuantity(dinnerTableDto.getQuantity());
-        List<ImageDto> imageDtos = new ArrayList<>();
-        dinnerTableDto.setImagesDto(imageDtos);
         if(bindingResult.hasErrors()) {
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
             return "partner/dinnerTable/create";
         }
+        dinnerTableDto.setCurrentQuantity(dinnerTableDto.getQuantity());
+        List<ImageDto> imageDtos = new ArrayList<>();
+        dinnerTableDto.setImagesDto(imageDtos);
+
         var dinnerTableTypeDto = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableDto.getDinnerTableTypeDtoId());
         dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
         var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
@@ -114,6 +115,7 @@ public class DinnerTableController {
             imageDto.setRestaurantDto(restaurantDto);
             imageService.createImage(imageDto);
         }
+
         if(response.isStatus()) {
             this.response.setStatus(true);
             return "redirect:/partner/dinnerTable/index";

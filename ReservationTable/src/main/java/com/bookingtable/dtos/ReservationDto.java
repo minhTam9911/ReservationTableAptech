@@ -19,8 +19,6 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class ReservationDto {
-
-	
 	private String id;
 	
 	private RestaurantDto restaurantDto;

@@ -6,19 +6,35 @@
     <title>Dinner table details Page</title>
     <style>
     #map {
-            height: 400px;
+            height: 320px;
             width: 100%;
         }
         /* Hide the images by default */
 
+.location-info {
+    display: flex;
+    align-items: center;
+}
 
+.location-info .fa-location-dot {
+    font-size: 24px; /* Điều chỉnh kích thước của biểu tượng */
+    margin-right: 5px; /* Điều chỉnh khoảng cách giữa biểu tượng và văn bản */
+    color: #1e90ff; /* Thiết lập màu xanh dương là màu mặc định */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển đổi màu */
+}
+
+.icon-blue:hover {
+    color: #ff0000; /* Khi hover vào biểu tượng, đổi màu thành màu đỏ */
+}
 /* Six columns side by side */
 .row {
   display: flex; /* Sử dụng flexbox để căn chỉnh các cột */
   flex-wrap: wrap; /* Cho phép các cột wrap khi không đủ không gian */
   justify-content: center;
 }
-
+.mySlides{
+  display: none;
+}
 .column {
   flex-basis: calc(16.66% - 20px); /* Đặt kích thước cố định cho mỗi cột và định cấu trúc giữa chúng */
   margin-bottom: 20px; /* Tạo khoảng cách giữa các cột */
@@ -128,10 +144,6 @@
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
-
-
-
-
     <div class="container" style="
     margin-bottom: 33px;">
         <div class="details-display d-flex justify-content-between">
@@ -146,26 +158,105 @@
             </div>
             <div class="card">
                 <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
-                    <h5 class="card-title">Rating</h5>
-                    <!-- Your data here -->
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
                     <h5 class="card-title">Location and contact information</h5>
                     <div id="map"></div>
+                    <div class="location-info">
+                        <i class="fa-solid fa-location-dot larger icon-blue"></i>
+                        <p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
+                    </div>
 
-                    <i class="fa-solid fa-location-dot"></i> : <p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
-                    <p class="card-text" th:text="'Location: ' + ${dinnerTable.restaurantDto.getFullAddress()}"></p>
 
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="width: 350px; box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);">
+                    <div class="booking-form">
+                        <h3 class="card-title">Reserve your table</h3>
+                        <form action="">
+                            <div class="form-group">
+                                <label for="booking-date">Booking Date:</label>
+                                <input type="date" class="form-control" id="booking-date" required style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="booking-time">Booking Time:</label>
+                                <input type="time" class="form-control" id="booking-time" required style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                            </div>
+                            <div class="input-group" style="flex-direction: column;">
+                                <label>Party size:</label>
+                                <select class="wide" style="display: none;">
+                                    <option value="1">1 People</option>
+                                    <option value="2">2 Peoples</option>
+                                    <option value="3">3 Peoples</option>
+                                </select>
+                            </div>
+                            <div class="input-group" style="flex-direction: column;">
+                                <label>Payment method:</label>
+                                <select class="wide" style="display: none;">
+                                    <option value="1">Paypal</option>
+                                    <option value="2">VNPay</option>
+                                </select>
+
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Book</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Phần comment -->
+        <div class="comment-section">
+            <h2>Comments</h2>
+
+            <!-- Form comment -->
+            <form>
+                <div class="form-group">
+                    <label for="comment">Comment & Rating:</label>
+                    <textarea class="form-control" id="comment" rows="3" placeholder="Enter your comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
 
     </div>
     <script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Hiển thị slide đầu tiên
+  showSlides(slideIndex);
+});
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block"; // Thiết lập slide hiển thị
+  if(dots.length > 0) { // Kiểm tra xem có dots không để tránh lỗi
+    dots[slideIndex-1].className += " active";
+  }
+}
+
+let slideIndex = 1;
+// showSlides(slideIndex); // Bỏ dòng này vì đã gọi trong DOMContentLoaded
+
+// Các hàm next/previous
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Các hàm điều khiển thumbnail
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
        mapboxgl.accessToken = 'pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw';
 
     var map = new mapboxgl.Map({
@@ -179,42 +270,14 @@
     var googleMapOverlay = document.createElement('iframe');
 googleMapOverlay.setAttribute('src', 'https://www.google.com/maps/embed/v1/place?key=pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw&q=' + encodeURIComponent(dinnerTable.restaurantDto.getFullAddress()));
 googleMapOverlay.setAttribute('width', '100%');
-googleMapOverlay.setAttribute('height', '400px');
+googleMapOverlay.setAttribute('height', '320px');
 googleMapOverlay.style.border = '0';
 
 
     map.on('load', function() {
         map.getCanvasContainer().appendChild(googleMapOverlay);
     });
-        let slideIndex = 1;
-showSlides(slideIndex);
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("demo");
-  let captionText = document.getElementById("caption");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-}
     </script>
 
 </section>

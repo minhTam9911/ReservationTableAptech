@@ -29,16 +29,13 @@ public class DinnerTableDto {
     private int currentQuantity;
     @NotEmpty(message = "Status cannot be empty")
     private String status;
-    @NotNull(message = "Dinner table cannot be null, please select dinner table")
     private DinnerTableTypeDto dinnerTableTypeDto;
 
     private List<DinnerTableTypeDto> dinnerTableTypeList;
     private Integer dinnerTableTypeDtoId;
     private String restaurantDtoId;
-    @NotNull(message = "Restaurant table cannot be null, please select restaurant")
     private RestaurantDto restaurantDto;
     private List<RestaurantDto> restaurantList;
     private List<ImageDto> imagesDto = new ArrayList<>();
-    @NotNull(message = "Image cannot be null, please select image")
     private ImageDto imageDto;
 }
