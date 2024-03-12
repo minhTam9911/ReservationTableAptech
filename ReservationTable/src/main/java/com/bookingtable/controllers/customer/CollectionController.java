@@ -29,13 +29,13 @@ public class CollectionController {
 		return "account/accessDined";
 	}
 	
-	@GetMapping("delete/{id}")
-	public String delete(Model model,@PathVariable("id") Integer id, Principal principal) {
-		if(principal !=null) {
-			collectionService.delete(id, principal.getName());
-			return "redirect:/customer/collection/index";
-		}
-		return "account/accessDined";
-	}
+//	@GetMapping("delete/{id}")
+//	public String delete(Model model,@PathVariable("id") Integer id, Principal principal) {
+//		if(principal !=null) {
+//			collectionService.delete(id, principal.getName());
+//			return "redirect:/customer/collection/index";
+//		}
+//		return "account/accessDined";
+//	}
 	
 }

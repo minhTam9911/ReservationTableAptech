@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Restaurant</title>
@@ -22,6 +23,8 @@
 .heart-icon i {
     color: #000000a6;;
 }
+
+
     </style>
 </head>
 <body>
@@ -57,22 +60,34 @@
                         <div class="col-md-6 col-xl-4 mb-5">
                             <div class="card card-explore">
                                 <div class="card-explore__img position-relative">
-                                    <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}" alt="">
-<!--                                    <a th:href="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" class="heart-icon">-->
-<!--                                        <i class="fa-regular fa-heart fa-2x"></i>-->
-<!--                                    </a>-->
-<!--                                    <form id="addToCollectionForm" th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" method="post" style="display: none;">-->
-<!--                                        <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}" />-->
-<!--                                    </form>-->
-<!--                                    <a href="#" onclick="submitForm()" class="heart-icon">-->
-<!--                                        <i class="fa-regular fa-heart fa-2x"></i>-->
-<!--                                    </a>-->
-                                    <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}" />
+                                    <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
+                                         alt="">
+                                    <th:block sec:authorize="isAuthenticated()">
+                                        <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}"/>
 
-                                    <a href="#" onclick="removeCollection()" class="heart-icon">
-                                        <i class="fa-solid fa-heart 2x"></i>
-                                    </a>
+                                        <!-- Nút thêm vào collection -->
+                                        <th:block th:if="${i.collectionStatus == false}">
+                                            <form id="addToCollectionForm"
+                                                  th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}"
+                                                  method="post">
+                                            </form>
+                                            <a href="#" onclick="submitFormCallBack()" class="heart-icon">
+                                                <i class="fa-regular fa-heart fa-2x"></i>
+                                            </a>
+                                        </th:block>
+                                        <!-- Nút xóa khỏi collection -->
+                                        <th:block th:if="${i.collectionStatus == true}">
+                                            <form id="removeFromCollectionForm"
+                                                  th:action="@{/customer/restaurant/remove-collection/{id}(id=${i.id})}"
+                                                  method="post">
+                                            </form>
+                                            <a href="" onclick="removeCollectionCallBack()" class="heart-icon">
+                                                <i class="fa-solid fa-heart fa-2x"></i>
+                                            </a>
+                                        </th:block>
+                                    </th:block>
                                 </div>
+
                                 <div class="card-body">
                                     <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
                                             th:text=" ${'/'+ i.city}"></sub></h3>
@@ -98,23 +113,19 @@
 
     </section>
     <script>
-function submitForm() {
-    document.getElementById("addToCollectionForm").submit();
-    // Hiển thị hộp thoại thông báo
-    document.getElementById("successMessage").style.display = "block";
-}
-function removeCollection() {
+async function removeCollection() {
     // Lấy ID của nhà hàng
     var restaurantId = document.getElementById("restaurantId").value;
 
     // Gửi request DELETE sử dụng Fetch API
-    fetch('/customer/restaurant/remove-collection/' + restaurantId, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
+    try {
+        const response = await fetch('/customer/restaurant/remove-collection/' + restaurantId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
         if (response.ok) {
             // Xử lý khi xóa thành công, ví dụ hiển thị thông báo
             document.getElementById("successMessage").style.display = "block";
@@ -122,13 +133,26 @@ function removeCollection() {
             // Xử lý khi xóa không thành công, ví dụ hiển thị thông báo lỗi
             console.error('Xóa không thành công');
         }
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Lỗi:', error);
-    });
+    }
 }
 
-</script>
+function removeCollectionCallBack() {
+    // Gọi hàm removeCollection
+    removeCollection();
+}
+
+function submitForm() {
+    document.getElementById("addToCollectionForm").submit();
+    // Hiển thị hộp thoại thông báo
+    document.getElementById("successMessage").style.display = "block";
+}
+function submitFormCallBack(){
+    submitForm();
+}
+
+    </script>
 </section>
 
 </body>
