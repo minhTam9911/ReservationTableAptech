@@ -5,156 +5,390 @@
 <head>
   <meta charset="UTF-8">
   
-
-    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
-
-    <meta name="apple-mobile-web-app-title" content="CodePen">
-
-    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
-
-    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
-
-
-
   
     <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
 
 
   <title>Payment Paypal</title>
 
-    <link rel="canonical" href="https://codepen.io/manojhl/pen/QabPdq">
+    <link rel="canonical" href="https://codepen.io/UtkarshDevloper/pen/ZEjpLpZ">
   
   
-  
-  
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
+:root {
+  --field-border: 1px solid #eeeeee;
+  --field-border-radius: 0.5em;
+  --secondary-text: #aaaaaa;
+  --sidebar-color: #f1f1f1;
+  --accent-color: #2962ff;
+}
+
 * {
-  font-family: "Helvetica Neue", Helvetica;
-  font-size: 15px;
-  font-variant: normal;
-  padding: 0;
-  margin: 0;
+  box-sizing: border-box;
 }
 
-html {
-  height: 100%;
+.flex {
+  display: flex;
 }
-
-body {
-  background: #E6EBF1;
+.flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
 }
-
-form {
-  width: 480px;
-  margin: 20px 0;
-}
-
-.group {
-  background: white;
-  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-label {
-  position: relative;
-  color: #8898AA;
-  font-weight: 300;
-  height: 40px;
-  line-height: 40px;
+.flex-fill {
   display: flex;
-  flex-direction: row;
+  flex: 1 1;
+}
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
+}
+.flex-vertical-center {
+  display: flex;
+  align-items: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+.p-sm {
+  padding: 0.5em;
+}
+.pl-sm {
+  padding-left: 0.5em;
+}
+.pr-sm {
+  padding-right: 0.5em;
+}
+.pb-sm {
+  padding-bottom: 0.5em;
+}
+.p-md {
+  padding: 1em;
+}
+.pb-md {
+  padding-bottom: 1em;
+}
+.p-lg {
+  padding: 2em;
+}
+.m-md {
+  margin: 1em;
+}
+.size-md {
+  font-size: 0.85em;
+}
+.size-lg {
+  font-size: 1.5em;
+}
+.size-xl {
+  font-size: 2em;
+}
+.half-width {
+  width: 50%;
 }
 
-.group label:not(:last-child) {
-  border-bottom: 1px solid #F0F5FA;
+.pointer {
+  cursor: pointer;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-label > span {
-  width: 120px;
-  text-align: right;
-  margin-right: 30px;
+.f-main-color {
+  color: #2962ff;
+}
+.f-secondary-color {
+  color: var(--secondary-text);
+}
+.b-main-color {
+  background: var(--accent-color);
+}
+.numbers::-webkit-outer-spin-button,
+.numbers::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.field {
-  background: transparent;
+body {
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bod-3 {
+  border-radius: 30px;
+}
+.main-back {
+  background: #a2cdff !important;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+}
+.header {
+  padding-bottom: 1em;
+}
+
+.header .title {
+  font-size: 1.2em;
+}
+.header .title span {
   font-weight: 300;
-  border: 0;
-  color: #31325F;
-  outline: none;
-  flex: 1;
-  padding-right: 10px;
-  padding-left: 10px;
-  cursor: text;
 }
 
-.field::-webkit-input-placeholder {
-  color: #CFD7E0;
+.card-data > div {
+  padding-bottom: 1.5em;
+}
+.card-data > div:first-child {
+  padding-top: 1.5em;
 }
 
-.field::-moz-placeholder {
-  color: #CFD7E0;
+.card-property-title {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+  margin-right: 0.5em;
+}
+.card-property-title strong {
+  padding-bottom: 0.5em;
+  font-size: 0.85em;
+}
+.card-property-title span {
+  color: var(--secondary-text);
+  font-size: 0.75em;
+}
+.card-property-value {
+  flex: 1 1;
 }
 
-button {
-  float: left;
-  display: block;
-  background: #666EE8;
-  color: white;
-  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  border: 0;
-  margin-top: 20px;
-  font-size: 15px;
-  font-weight: 400;
+.card-number {
+  background: #fafafa;
+  border: var(--field-border);
+  border-radius: var(--field-border-radius);
+  padding: 0.5em 1em;
+}
+.card-number-field * {
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+.card-number-field input {
   width: 100%;
-  height: 40px;
-  line-height: 38px;
-  outline: none;
-}
-
-button:focus {
-  background: #555ABF;
-}
-
-button:active {
-  background: #43458B;
-}
-
-.outcome {
-  float: left;
-  width: 100%;
-  padding-top: 8px;
-  min-height: 24px;
-  text-align: center;
-}
-
-.success,
-.error {
-  display: none;
-  font-size: 13px;
-}
-
-.success.visible,
-.error.visible {
-  display: inline;
-}
-
-.error {
-  color: #E4584C;
-}
-
-.success {
-  color: #666EE8;
-}
-
-.success .token {
+  height: 100%;
+  padding: 0.5em 1rem;
+  margin: 0 0.75em;
+  border: none;
+  color: #888888;
+  background: transparent;
+  font-family: inherit;
   font-weight: 500;
-  font-size: 13px;
+}
+
+.timer span {
+  background: #311b92;
+  color: #ffffff;
+  width: 1.2em;
+  padding: 4px 0;
+  display: inline-block;
+  text-align: center;
+  border-radius: 3px;
+}
+.timer span + span {
+  margin-left: 2px;
+}
+.timer em {
+  font-style: normal;
+}
+
+.action button {
+  padding: 1.1em;
+  width: 100%;
+  height: 100%;
+  font-weight: 600;
+  font-size: 1em;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5em;
+  transition: background-color 0.2s ease-in-out;
+}
+.action button:hover {
+  background: #2979ff;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 3em;
+  overflow: hidden;
+  border: var(--field-border);
+  border-radius: var(--field-border-radius);
+}
+.input-container input,
+.input-container i {
+  line-height: 1;
+}
+.input-container input {
+  flex: 1 1;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-radius: var(--field-border-radius);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.85em;
+}
+.input-container input:focus {
+  background: #e3f2fd;
+  color: #283593;
+}
+.input-container input::placeholder {
+  color: #ddd;
+}
+.input-container input::-webkit-outer-spin-button,
+.input-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-container i {
+  position: absolute;
+  right: 0.5em;
+}
+
+.purchase-section {
+  position: relative;
+  overflow: visible;
+  padding: 0 1em 1em 1em;
+  background: var(--sidebar-color);
+  border-top-left-radius: 0.8em;
+  border-top-right-radius: 0.8em;
+}
+.purchase-section:before {
+  content: "";
+  position: absolute;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  left: -0.8em;
+  bottom: -0.8em;
+  background: #ffffff;
+}
+.purchase-section:after {
+  content: "";
+  position: absolute;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  right: -0.8em;
+  bottom: -0.8em;
+  background: #ffffff;
+}
+
+.card-mockup {
+  position: relative;
+  margin: 3em 1em 1.5em 1em;
+  padding: 1.5em 1.2em;
+  border-radius: 0.6em;
+  background: #72a2f7;
+  color: #fff;
+  box-shadow: 0 0.5em 1em 0.125em rgba(0, 0, 0, 0.1);
+}
+.card-mockup:after {
+  content: "";
+  position: absolute;
+  width: 25%;
+  top: -0.2em;
+  left: 37.5%;
+  height: 0.2em;
+  background: var(--accent-color);
+  border-top-left-radius: 0.2em;
+  border-top-right-radius: 0.2em;
+}
+.card-mockup:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 25%;
+  left: 37.5%;
+  height: 0.5em;
+  background: #2962ff36;
+  border-bottom-left-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+  box-shadow: 0 2px 15px 5px #2962ff4d;
+}
+
+.purchase-props {
+  margin: 0;
+  padding: 0;
+  font-size: 0.8em;
+  width: 100%;
+}
+.purchase-props li {
+  width: 100%;
+  line-height: 2.5;
+}
+.purchase-props li span {
+  color: var(--secondary-text);
+  font-weight: 600;
+}
+
+.separation-line {
+  border-top: 1px dashed #aaa;
+  margin: 0 0.8em;
+}
+
+.total-section {
+  position: relative;
+  overflow: hidden;
+
+  padding: 1em;
+  background: var(--sidebar-color);
+  border-bottom-left-radius: 0.8em;
+  border-bottom-right-radius: 0.8em;
+}
+.total-section:before {
+  content: "";
+  position: absolute;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  left: -0.8em;
+  top: -0.8em;
+  background: #ffffff;
+}
+.total-section:after {
+  content: "";
+  position: absolute;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  right: -0.8em;
+  top: -0.8em;
+  background: #ffffff;
+}
+.total-label {
+  font-size: 0.8em;
+  padding-bottom: 0.5em;
+}
+.total-section strong {
+  font-size: 1.5em;
+  font-weight: 800;
+}
+.total-section small {
+  font-weight: 600;
 }
 </style>
 
@@ -167,88 +401,284 @@ button:active {
 </head>
 
 <body translate="no">
-  <script src="https://js.stripe.com/v3/"></script>
+  <html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout Form / Payment Gateway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/akar-icons-fonts"></script>
+</head>
 
 <body>
-  <form  action="/payment/paypal/create-payment"  method="post">
-    <input type="hidden" name="token" />
-    <div class="group">
-		<label>
-        <span>Method</span>
-        <input name="method" class="field" readonly value="Paypal">
-      </label>
-      <label>
-        <span>Intent</span>
-        <input name="intent" class="field" readonly value="Pay your table reservation bill online">
-      </label>
-    </div>
-    <div class="group">
-      <label>
-        <span>Full name</span>
-        <input id="first-name" name="first-name" class="field" placeholder="Manoj" />
-      </label>
-      <label>
-        <span>Email</span>
-        <input id="last-name" name="last-name" class="field" placeholder="Halugona" />
-      </label>
-      <label>
-        <span>Phone</span>
-        <input id="address-line2" name="address_line2" class="field" placeholder="" />
-      </label>
-      <label>
-        <span>Address</span>
-        <input id="address-line1" name="address_line1" class="field" placeholder="77 Winchester Lane" />
-      </label>
-    </div>
-    <div class="group">
-      
-      <label>
-        <span>Quantity</span>
-        <Ex id="address-city" name="address_city" class="field" placeholder="Coachella" />
-      </label>
-      <label>
-        <span>Total People</span>
-        <input id="address-state" name="address_state" class="field" placeholder="SA" />
-      </label>
-      <label>
-        <span>Restaurant</span>
-        <input id="address-zip" name="address_zip" class="field" placeholder="92236" />
-      </label>
-      <label>
-        <span>Dinner Table</span>
-        <input id="address-zip" name="address_zip" class="field" placeholder="92236" />
-      </label>
-      <label>
-        <span>Currency</span>
-        <select name="currency" id="address-country" class="field">
-          <option value="USD" selected>USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-           <option value="VND">VND</option>
-        </select>
-      </label>
-      
-    </div>
-    <div class="group">
-		<label>
-        <span>Total Amount</span>
-        <input id="address-zip" name="amount" class="field" placeholder="92236" />
-      </label>
-      <label>
-        <span>Description</span>
-        <textarea id="address-zip" name="description" class="field" placeholder="92236"></textarea>
-      </label>
-	</div>
-    <button type="submit">Pay </button>
-    <div class="outcome">
-      <div class="error"></div>
-      <div class="success">
-        Success! Your Stripe token is <span class="token"></span>
+  <!-- partial:index.partial.html -->
+
+  <div class="main-back">
+    <div class="container m-auto bg-white p-5 bod-3">
+      <div class="row">
+        <!-- CARD FORM -->
+        <div class="col-lg-8 col-md-12">
+          <form th:action="@{/payment/paypal/create-payment}" method="post">
+            <div class="header flex-between flex-vertical-center">
+              <div class="flex-vertical-center">
+             <i class="fa-brands fa-paypal size-xl pr-sm f-main-color"></i>
+               
+                <span class="title">
+                  <strong>Paypal</strong><span> USD</span>
+                </span>
+              </div>
+            </div>
+            <div class="card-data flex-fill flex-vertical">
+              
+              <!-- CCV Number -->
+              <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Full name</strong>
+                  
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input   type="text" th:value="${paymentDto.fullName}" readonly/>
+                    <i class="fa-solid fa-signature"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Name -->
+              <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Email</strong>
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input type="text"th:value="${paymentDto.email}" readonly />
+                   <i class="fa-solid fa-envelope"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Address</strong>
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input  type="text"th:value="${paymentDto.address}" readonly/>
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Restaurant</strong>
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input   type="text"th:value="${paymentDto.restaurant}" readonly />
+                    <i class="fa-solid fa-house-flag"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Dinner Table</strong>
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input   type="text"th:value="${paymentDto.dinnerTable}" readonly />
+                    <i class="fa-solid fa-chair"></i>
+                  </div>
+                </div>
+              </div>
+              
+               <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Party Size</strong>
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input  type="text"th:value="${paymentDto.partySize}" readonly/>
+                  <i class="fa-solid fa-person"></i>
+                  </div>
+                </div>
+              </div>
+              
+              
+               <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Currency</strong>
+                </div>
+                <div class="card-property-value">
+                  <div class="input-container">
+                    <input   type="text"th:value="${paymentDto.currency}" readonly />
+                    <i class="fa-solid fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+              
+               <div class="flex-between">
+                <div class="card-property-title">
+                  <strong style="font-size: 20px;">Description</strong>
+                </div>
+                <div class="card-property-value">
+                    <textarea style="border-radius: 4px;border-color: #eeeeee;"
+                     cols="49" rows="4"
+                     name="description"
+                       type="text"
+                       th:text="${paymentDto.description}" 
+                       readonly></textarea>
+                </div>
+              </div>
+              
+            </div>
+           <input type="hidden" name="amount" th:value="${paymentDto.amount}">
+            <div class="action flex-center">
+              <button type="submit" class="b-main-color pointer">
+                Pay Now
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="col-lg-4 col-md-12 py-5">
+          <div></div>
+          <div class="purchase-section flex-fill flex-vertical">
+            <div class="card-mockup flex-vertical">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="40px" height="40px">
+                <path fill="#ff9800" d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z" />
+                <path fill="#d50000" d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z" />
+                <path fill="#ff3d00" d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z" />
+              </svg>
+              <div>
+                <strong>
+                  <div class="size-md pb-sm uppercase ellipsis">
+                    Mr. Sir
+                  </div>
+                </strong>
+                <div class="size-md pb-md">
+                  <strong>
+                    <span id="carddigits_mock">1234 4567 7890 0123</span>
+                  </strong>
+                </div>
+                <div class="flex-between flex-vertical-center">
+                  <strong class="size-md">
+                    <span>Expiry Date : </span><span style="font-size: 15px;">∞</span> / <span style="font-size: 15px;">∞</span>
+                  </strong>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="40px" height="40px">
+                    <path fill="#1565C0" d="M45,35c0,2.209-1.791,4-4,4H7c-2.209,0-4-1.791-4-4V13c0-2.209,1.791-4,4-4h34c2.209,0,4,1.791,4,4V35z" />
+                    <path fill="#FFF" d="M15.186 19l-2.626 7.832c0 0-.667-3.313-.733-3.729-1.495-3.411-3.701-3.221-3.701-3.221L10.726 30v-.002h3.161L18.258 19H15.186zM17.689 30L20.56 30 22.296 19 19.389 19zM38.008 19h-3.021l-4.71 11h2.852l.588-1.571h3.596L37.619 30h2.613L38.008 19zM34.513 26.328l1.563-4.157.818 4.157H34.513zM26.369 22.206c0-.606.498-1.057 1.926-1.057.928 0 1.991.674 1.991.674l.466-2.309c0 0-1.358-.515-2.691-.515-3.019 0-4.576 1.444-4.576 3.272 0 3.306 3.979 2.853 3.979 4.551 0 .291-.231.964-1.888.964-1.662 0-2.759-.609-2.759-.609l-.495 2.216c0 0 1.063.606 3.117.606 2.059 0 4.915-1.54 4.915-3.752C30.354 23.586 26.369 23.394 26.369 22.206z" />
+                    <path fill="#FFC107" d="M12.212,24.945l-0.966-4.748c0,0-0.437-1.029-1.573-1.029c-1.136,0-4.44,0-4.44,0S10.894,20.84,12.212,24.945z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <ul class="purchase-props">
+              <li class="flex-between">
+                <span>Company</span>
+                <strong th:text="${paymentDto.restaurant}"></strong>
+              </li>
+              <li class="flex-between">
+                <span>Table</span>
+                <strong th:text="${paymentDto.dinnerTable}"></strong>
+              </li>
+              <li class="flex-between">
+                <span>Intent</span>
+                <strong>Sale</strong>
+              </li>
+              <li class="flex-between">
+                <span>Currency</span>
+                <strong th:text="${paymentDto.currency}"></strong>
+              </li>
+              <li class="flex-between">
+                <span>VAT (0%)</span>
+                <strong>$0.00</strong>
+              </li>
+            </ul>
+          </div>
+          <div class="separation-line"></div>
+          <div class="total-section flex-between flex-vertical-center">
+            <div class="flex-fill flex-vertical">
+              <div class="total-label f-secondary-color">You have to Pay</div>
+              <div>
+                <strong th:text="${paymentDto.amount}"></strong>
+                <small> <span class="f-secondary-color" th:text="${paymentDto.currency}"></span></small>
+              </div>
+            </div>
+            <i class="fa-solid fa-dollar-sign"></i>
+          </div>
+        </div>
       </div>
     </div>
-  </form>
+  </div>
+  <!-- partial -->
+  <script src="./script.js"></script>
 </body>
-  
+
+</html>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
+      <script id="rendered-js" >
+/* COPY INPUT VALUES TO CARD MOCKUP */
+const bounds = document.querySelectorAll("[data-bound]");
+
+for (let i = 0; i < bounds.length; i++) {if (window.CP.shouldStopExecution(0)) break;
+  const targetId = bounds[i].getAttribute("data-bound");
+  const defValue = bounds[i].getAttribute("data-def");
+  const targetEl = document.getElementById(targetId);
+  bounds[i].addEventListener(
+  "blur",
+  () => targetEl.innerText = bounds[i].value || defValue);
+
+}
+
+/* TOGGLE CVC DISPLAY MODE */window.CP.exitedLoop(0);
+const cvc_toggler = document.getElementById("cvc_toggler");
+
+cvc_toggler.addEventListener("click", () => {
+  const target = cvc_toggler.getAttribute("data-target");
+  const el = document.getElementById(target);
+  el.setAttribute("type", el.type === "text" ? "password" : "text");
+});
+
+function onlyNumberKey(evt) {
+  // Only ASCII character in that range allowed
+  var ASCIICode = evt.which ? evt.which : evt.keyCode;
+  if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
+  return true;
+}
+
+$(function () {
+  $("#cardNumber").on("keyup", function (e) {
+    var val = $(this).val();
+    var newval = "";
+    val = val.replace(/\s/g, "");
+    for (var i = 0; i < val.length; i++) {if (window.CP.shouldStopExecution(1)) break;
+      if (i % 4 == 0 && i > 0) newval = newval.concat(" ");
+      newval = newval.concat(val[i]);
+    }window.CP.exitedLoop(1);
+    $(this).val(newval);
+  });
+
+  $(".year-own").datepicker({
+    minViewMode: 2,
+    format: "yyyy" });
+
+
+  $(".month-own").datepicker({
+    format: "MM",
+    minViewMode: "months",
+    maxViewMode: "months",
+    startView: "months" });
+
+});
+//# sourceURL=pen.js
+    </script>
 
   
 </body>
