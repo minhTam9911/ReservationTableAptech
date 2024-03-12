@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.bookingtable.configurations.VNPConfig;
+import com.bookingtable.models.Invoice;
+import com.bookingtable.models.Reservation;
+import com.bookingtable.repositories.ReservationRepository;
+import com.bookingtable.servicies.IInvoiceService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -37,13 +43,18 @@ public class PaymentVNPController {
 	public String index() {
 		return "payment/vnpay/index";
 	}
+	@Autowired 
+	private ReservationRepository reservationRepository;
+	@Autowired
+	private IInvoiceService invoiceService;
 	
 @PostMapping("create-payment")
-	public RedirectView createPaymentVNP(@PathParam("amount") String amount,HttpSession session,@PathParam("language") String language,@PathParam("bankCode") String bankCode) throws UnsupportedEncodingException, UnknownHostException {
+	public RedirectView createPaymentVNP(@PathParam("amount") String amount,HttpSession session) throws UnsupportedEncodingException, UnknownHostException {
 		 
 	        String orderType = "other";
-	        long amountInput = Long.valueOf(amount)*100;
-	        String bankCodeInput = bankCode;
+	        var amoutParse = amount.replace(".0", "");;
+	        long amountInput = Long.valueOf(amoutParse)*100;
+	        String bankCodeInput = "NCB"; //bankcode
 	        
 	        String vnp_TxnRef = VNPConfig.getRandomNumber(8);
 	        InetAddress localHost = InetAddress.getLocalHost();
@@ -65,7 +76,7 @@ public class PaymentVNPController {
 	        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
 	        vnp_Params.put("vnp_OrderType", orderType);
 
-	        String locate = language;
+	        String locate = "vn"; //language
 	        if (locate != null && !locate.isEmpty()) {
 	            vnp_Params.put("vnp_Locale", locate);
 	        } else {
@@ -130,10 +141,18 @@ public class PaymentVNPController {
 			@RequestParam(value = "vnp_Amount") String amount,
 			@RequestParam("vnp_BankCode") String bankCode,
 			@RequestParam("vnp_OrderInfo") String ortherInfo,
-			@RequestParam("vnp_ResponseCode") String responseCode
+			@RequestParam("vnp_ResponseCode") String responseCode,
+			HttpSession session
 			) {
 		
 		if(responseCode.equals("00")) {
+			Reservation reservation = (Reservation) session.getAttribute("reservation");
+			reservation.setCreated(LocalDateTime.now());
+			var reservationSaveChange = reservationRepository.save(reservation);
+			var invoice = new Invoice();
+			invoice.setReservation(reservation);
+			invoiceService.insert(invoice);
+			session.removeAttribute("reservation");
 			return "payment/vnpay/success";
 		}else {
 			return "payment/vnpay/cancel";

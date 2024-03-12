@@ -28,11 +28,9 @@ public class ReservationDto {
 	private DinnerTableDto dinnerTableDto;
 	
 	private LocalDateTime created;
-	@NotNull
-    @NotEmpty
+	
 	private int quantity;
-	@NotNull
-    @NotEmpty
+	
 	private int numberOfPeople;
 
 	private LocalDate bookingDate;
