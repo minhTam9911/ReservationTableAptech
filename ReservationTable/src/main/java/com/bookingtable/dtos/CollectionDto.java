@@ -17,7 +17,6 @@ public class CollectionDto {
 	
 	private Integer id;
 	
-	
 	private RestaurantDto restaurant;
 
 	private CustomerDto customer;

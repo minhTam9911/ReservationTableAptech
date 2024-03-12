@@ -12,6 +12,6 @@ import com.bookingtable.models.Invoice;
 public interface CollectionRepository extends JpaRepository<Collection, Integer>  {
 
 	List<Collection> findByCustomerEmail(String email);
-	Collection findByRestaurantIdAndCustomerId(String restaurantId, String customerId);
+	Collection findByCustomerIdAndRestaurantId(String restaurantId, String customerId);
 
 }

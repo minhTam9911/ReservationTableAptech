@@ -24,8 +24,8 @@ public class CollectionService implements ICollectionService {
 	}
 
 	@Override
-	public CollectionDto findByRestaurantIdAndCustomerId(String idCustomer, String idRestaurant) {
-		var collection =  collectionRepository.findByRestaurantIdAndCustomerId(idCustomer,idRestaurant);
+	public CollectionDto findByCustomerAndRestaurant(String idCustomer, String idRestaurant) {
+		var collection =  collectionRepository.findByCustomerIdAndRestaurantId(idCustomer,idRestaurant);
 		return CollectionMapper.mapToDto(collection);
 	}
 	@Override
@@ -55,13 +55,10 @@ public class CollectionService implements ICollectionService {
 
 
 	@Override
-	public boolean delete(Integer id, String idCustomer) {
+	public boolean delete(Integer id) {
 		var check = collectionRepository.findById(id).get();
-		if(check.getCustomer().getEmail().equals(idCustomer)) {
 			collectionRepository.deleteById(id);
 			return true;
-		}
-		return false;
 	}
 
 }
