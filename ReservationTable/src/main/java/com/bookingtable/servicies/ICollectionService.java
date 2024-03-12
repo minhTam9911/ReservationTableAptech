@@ -14,7 +14,7 @@ public interface ICollectionService {
 	
 	List<Collection> getByCustomer(String idCustomer);
 	
-	boolean insert(Collection collection);
+	boolean insert(CollectionDto collectionDto);
 	
 	boolean delete(Integer id,String idCustomer);
 	

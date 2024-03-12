@@ -2,6 +2,7 @@ package com.bookingtable.servicies.implement;
 
 import java.util.List;
 
+import com.bookingtable.mappers.CollectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,23 +29,25 @@ public class CollectionService implements ICollectionService {
 	}
 
 	@Override
-	public boolean insert(Collection collection) {
+	public boolean insert(CollectionDto collectionDto) {
 		try {
-		var check = collectionRepository.findByCustomerEmail(collection.getCustomer().getEmail());
-		for (var i : check) {
-			if(i.getRestaurant().getId().equals(collection.getRestaurant().getId())) {
-				return false;
+			var collection = CollectionMapper.mapToModel(collectionDto);
+			var check = collectionRepository.findByCustomerEmail(collection.getCustomer().getEmail());
+			for (var i : check) {
+				if (i.getRestaurant().getId().equals(collection.getRestaurant().getId())) {
+					return false;
 				}
 			}
-		if(collectionRepository.save(collection)!=null) {
-			return true;
-		}return false;
-		}catch(Exception ex) {
+			if (collectionRepository.save(collection) != null) {
+				return true;
+			}
+			return false;
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
-		
 	}
+
 
 	@Override
 	public boolean delete(Integer id, String idCustomer) {

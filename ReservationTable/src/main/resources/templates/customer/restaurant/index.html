@@ -4,6 +4,25 @@
 
 <head>
     <title>Restaurant</title>
+    <style>
+        .position-relative {
+    position: relative;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px; /* Điều chỉnh vị trí từ phía trên */
+    right: 10px; /* Điều chỉnh vị trí từ phía phải */
+    border-radius: 50%; /* Làm cho viền tròn */
+    background-color: #ffffff; /* Màu nền trắng cho biểu tượng */
+    padding: 8px; /* Khoảng cách từ biểu tượng đến viền */
+    z-index: 999; /* Đảm bảo biểu tượng hiển thị phía trên hình ảnh */
+}
+
+.heart-icon i {
+    color: #000000a6;;
+}
+    </style>
 </head>
 <body>
 
@@ -37,9 +56,17 @@
                     <th:block th:each="i : ${data}">
                         <div class="col-md-6 col-xl-4 mb-5">
                             <div class="card card-explore">
-                                <div class="card-explore__img">
-                                    <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
-                                         alt="">
+                                <div class="card-explore__img position-relative">
+                                    <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}" alt="">
+<!--                                    <a th:href="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" class="heart-icon">-->
+<!--                                        <i class="fa-regular fa-heart fa-2x"></i>-->
+<!--                                    </a>-->
+                                    <form id="addToCollectionForm" th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" method="post" style="display: none;">
+                                        <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}" />
+                                    </form>
+                                    <a href="#" onclick="submitForm()" class="heart-icon">
+                                        <i class="fa-regular fa-heart fa-2x"></i>
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
@@ -51,6 +78,10 @@
                                     <a class="card-explore__link"
                                        th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
                                             class="ti-arrow-right"></i></a>
+                                    <div>
+                                    <i class="fa-regular fa-heart"></i>
+                                    <i class="fa-solid fa-heart"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +90,11 @@
             </div>
         </div>
     </section>
-
+    <script>
+function submitForm() {
+    document.getElementById("addToCollectionForm").submit();
+}
+</script>
 </section>
 
 </body>
