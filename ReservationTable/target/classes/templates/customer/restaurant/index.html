@@ -61,11 +61,16 @@
 <!--                                    <a th:href="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" class="heart-icon">-->
 <!--                                        <i class="fa-regular fa-heart fa-2x"></i>-->
 <!--                                    </a>-->
-                                    <form id="addToCollectionForm" th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" method="post" style="display: none;">
-                                        <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}" />
-                                    </form>
-                                    <a href="#" onclick="submitForm()" class="heart-icon">
-                                        <i class="fa-regular fa-heart fa-2x"></i>
+<!--                                    <form id="addToCollectionForm" th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}" method="post" style="display: none;">-->
+<!--                                        <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}" />-->
+<!--                                    </form>-->
+<!--                                    <a href="#" onclick="submitForm()" class="heart-icon">-->
+<!--                                        <i class="fa-regular fa-heart fa-2x"></i>-->
+<!--                                    </a>-->
+                                    <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}" />
+
+                                    <a href="#" onclick="removeCollection()" class="heart-icon">
+                                        <i class="fa-solid fa-heart 2x"></i>
                                     </a>
                                 </div>
                                 <div class="card-body">
@@ -79,8 +84,6 @@
                                        th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
                                             class="ti-arrow-right"></i></a>
                                     <div>
-                                    <i class="fa-regular fa-heart"></i>
-                                    <i class="fa-solid fa-heart"></i>
                                     </div>
                                 </div>
                             </div>
@@ -89,11 +92,42 @@
                 </div>
             </div>
         </div>
+        <div id="successMessage" class="alert alert-success" style="display: none;">
+            <strong>Success!</strong> Added to collection successfully.
+        </div>
+
     </section>
     <script>
 function submitForm() {
     document.getElementById("addToCollectionForm").submit();
+    // Hiển thị hộp thoại thông báo
+    document.getElementById("successMessage").style.display = "block";
 }
+function removeCollection() {
+    // Lấy ID của nhà hàng
+    var restaurantId = document.getElementById("restaurantId").value;
+
+    // Gửi request DELETE sử dụng Fetch API
+    fetch('/customer/restaurant/remove-collection/' + restaurantId, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Xử lý khi xóa thành công, ví dụ hiển thị thông báo
+            document.getElementById("successMessage").style.display = "block";
+        } else {
+            // Xử lý khi xóa không thành công, ví dụ hiển thị thông báo lỗi
+            console.error('Xóa không thành công');
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+    });
+}
+
 </script>
 </section>
 

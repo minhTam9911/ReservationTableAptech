@@ -17,5 +17,5 @@ public interface ICollectionService {
 	boolean insert(CollectionDto collectionDto);
 	
 	boolean delete(Integer id,String idCustomer);
-	
+	public CollectionDto findByRestaurantIdAndCustomerId(String idCustomer, String idRestaurant);
 }

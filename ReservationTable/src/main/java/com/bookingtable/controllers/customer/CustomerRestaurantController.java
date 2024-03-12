@@ -15,10 +15,7 @@ import com.bookingtable.servicies.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.ImageDto;
@@ -117,6 +114,11 @@ public class CustomerRestaurantController {
 		collectionService.insert(collection);
 		return "redirect:/customer/restaurant/index";
 	}
-
+	@DeleteMapping("remove-collection/{id}")
+	public String deleteCollection(@PathVariable("id") String restaurantId, Principal principal) {
+		var customer = iCustomerService.getCustomerByEmail(principal.getName());
+		collectionService.findByRestaurantIdAndCustomerId(customer.getId(),restaurantId);
+		return "redirect:/customer/restaurant/index";
+	}
 
 }
