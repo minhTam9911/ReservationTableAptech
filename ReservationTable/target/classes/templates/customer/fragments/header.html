@@ -41,7 +41,7 @@
                             th:class="${requestURI  == '/customer/dinnerTables' ? 'nav-item active' : 'nav-item'}">
                             <a class="nav-link" th:href="@{/customer/dinnerTables}">Dinner Tables</a>
                         </li>
-                        <li class="nav-item submenu dropdown">
+                        <li class="nav-item submenu dropdown" sec:authorize="isAuthenticated() and hasAnyAuthority('ROLE_CUSTOMER')">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">My Account</a>
                             <ul class="dropdown-menu" sec:authorize="isAuthenticated() and hasAnyAuthority('ROLE_CUSTOMER')">

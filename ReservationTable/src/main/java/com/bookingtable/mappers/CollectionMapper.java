@@ -16,11 +16,14 @@ public class CollectionMapper {
     }
 
     public static CollectionDto mapToDto(Collection collection) {
-        return CollectionDto.builder()
-                .id(collection.getId())
-                .customer(CustomerMapper.mapToDto(collection.getCustomer()))
-                .restaurant(RestaurantMapper.mapToDto(collection.getRestaurant()))
-                .status(collection.isStatus()).build();
+        CollectionDto dto = new CollectionDto();
+        if(collection != null) {
+            dto.setId(collection.getId());
+            dto.setCustomer(CustomerMapper.mapToDto(collection.getCustomer()));
+            dto.setRestaurant(RestaurantMapper.mapToDto(collection.getRestaurant()));
+            dto.setStatus(collection.isStatus());
+        }
+        return dto;
     }
 
 }
