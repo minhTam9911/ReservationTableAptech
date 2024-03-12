@@ -147,4 +147,6 @@ public class ReceptionistController {
 		return "redirect:/partner/receptionist/index";
 	}
 	
+	
+	
 }
