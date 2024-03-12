@@ -8,26 +8,22 @@
 <body>
 
 <section layout:fragment="content">
-    <!--================Banner Area =================-->
-    <section class="banner_area">
-        <div class="booking_table d_flex align-items-center">
-            <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
-            <div class="container">
-                <div class="banner_content text-center">
-                    <h6>Book Your Table Now for an Unforgettable Dining Experience.
-                    </h6>
-                    <h2>Fast and convenient</h2>
-                    <p>Connecting people to people
-                        <br>
-                        We look forward to serving you!
-                    </p>
-                    <a href="#" class="btn theme_btn button_hover">Get Started</a>
-                </div>
+    <!--================Breadcrumb Area =================-->
+    <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+             data-background=""></div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">For more information
+                </h2>
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/customer/dinnerTables}">Dinner Tables</a></li>
+                    <li class="active">Dinner Table Details</li>
+                </ol>
             </div>
         </div>
-        
     </section>
-    <!--================Banner Area =================-->
+    <!--================Breadcrumb Area =================-->
 
     <!--================ Accomodation Area  =================-->
     <section class="accomodation_area section_gap">
@@ -37,54 +33,32 @@
                 <p>Various types of tables can be placed</p>
             </div>
             <div class="row mb_30">
-	<div class="row pb-4">
-		<th:block th:each="i : ${data}">
-        <div class="col-md-6 col-xl-4 mb-5">
-          <div class="card card-explore">
-            <div class="card-explore__img">
-              <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}" alt="">
-        </div>
-            <div class="card-body">
-              <h3 class="card-explore__price"><span  th:text="${i.name}"></span> <sub  th:text=" ${'/'+ i.city}"></sub></h3>
-              <h4 class="card-explore__title"><a th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}" th:text="${i.categoryRetaurantDto.name}"></a></h4>
-              <p th:text="${i.shortDescription}"></p>
-              <a class="card-explore__link" th:href="@{/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i class="ti-arrow-right"></i></a>
-            </div>
-          </div>
-        </div>
-   </th:block>
-    </div>
-                <!-- Lặp qua danh sách các loại bàn ăn và hiển thị hình ảnh đầu tiên của mỗi loại -->
-               
-               
-               
-               
-               <!-- -->
-               
-               
+                <div class="row pb-4">
+                    <th:block th:each="i : ${data}">
+                        <div class="col-md-6 col-xl-4 mb-5">
+                            <div class="card card-explore">
+                                <div class="card-explore__img">
+                                    <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
+                                         alt="">
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
+                                            th:text=" ${'/'+ i.city}"></sub></h3>
+                                    <h4 class="card-explore__title"><a
+                                            th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}"
+                                            th:text="${i.categoryRetaurantDto.name}"></a></h4>
+                                    <p th:text="${i.shortDescription}"></p>
+                                    <a class="card-explore__link"
+                                       th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
+                                            class="ti-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
             </div>
         </div>
     </section>
-
-    <!--================ Accomodation Area  =================-->
-
-    <!--================ Facilities Area  =================-->
-  
-    <!--================ Facilities Area  =================-->
-
-    <!--================ About History Area  =================-->
-  
-    <!--================ About History Area  =================-->
-
-    <!--================ Testimonial Area  =================-->
-   
-    <!--================ Testimonial Area  =================-->
-
-    <!--================ Latest Blog Area  =================-->
-    
-    <!--================ Recent Area  =================-->
-
 
 </section>
 
