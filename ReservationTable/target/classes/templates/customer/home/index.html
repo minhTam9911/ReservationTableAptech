@@ -4,6 +4,39 @@
 
 <head>
     <title>Home Page</title>
+    <style>
+        /* CSS để tùy chỉnh giao diện của công cụ tìm kiếm */
+        .search-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            width: 50%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
@@ -99,6 +132,23 @@
     <!--================ Accomodation Area  =================-->
     <section class="accomodation_area section_gap">
         <div class="container">
+            <section class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by area...">
+                <select id="categorySelect">
+                    <option value="">All Categories</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="hotel">Hotel</option>
+                    <!-- Thêm các lựa chọn khác nếu cần -->
+                </select>
+                <input type="number" id="priceMin" placeholder="Min price">
+                <input type="number" id="priceMax" placeholder="Max price">
+                <button onclick="search()">Search</button>
+            </section>
+            <section id="searchResults">
+                <!-- Kết quả tìm kiếm sẽ được hiển thị ở đây -->
+            </section>
+        </div>
+        <div class="container">
             <div class="section_title text-center">
                 <h2 class="title_color">All Dinner Types</h2>
                 <p>Various types of tables can be placed</p>
@@ -174,7 +224,39 @@
 
 
 
+    <script>
+ function search() {
+    var searchTerm = document.getElementById("searchInput").value;
+    var category = document.getElementById("categorySelect").value;
+    var minPrice = document.getElementById("priceMin").value;
+    var maxPrice = document.getElementById("priceMax").value;
 
+    // Gửi yêu cầu tìm kiếm đến máy chủ
+    var xhr = new XMLHttpRequest();
+    var url = "/search?term=" + searchTerm + "&category=" + category + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var searchResults = JSON.parse(xhr.responseText);
+            displayResults(searchResults);
+        }
+    };
+    xhr.send();
+}
+
+function displayResults(results) {
+    var searchResultsSection = document.getElementById("searchResults");
+    searchResultsSection.innerHTML = ""; // Xóa nội dung cũ
+
+    // Hiển thị kết quả tìm kiếm
+    results.forEach(function(result) {
+        var resultElement = document.createElement("div");
+        resultElement.textContent = result.name + " - " + result.area + " - " + result.category + " - $" + result.price;
+        searchResultsSection.appendChild(resultElement);
+    });
+}
+
+</script>
 </section>
 
 </body>
