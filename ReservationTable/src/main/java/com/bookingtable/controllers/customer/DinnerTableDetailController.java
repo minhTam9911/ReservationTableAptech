@@ -41,7 +41,7 @@ public class DinnerTableDetailController {
   
         var comments = rateRepository.findByDinnerTable_id(id);
         model.addAttribute("comments", comments);
-        if(principal.getName()!=null || !principal.getName().isEmpty()) {
+        if(principal!=null) {
         	List<Rate> list = new ArrayList<>();
         	var commentPersonal = rateRepository.findByCustomerEmail(principal.getName());
         	for(var i : commentPersonal) {
