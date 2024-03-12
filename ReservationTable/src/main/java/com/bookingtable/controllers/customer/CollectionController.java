@@ -22,7 +22,7 @@ public class CollectionController {
 	
 	@GetMapping("index")
 	public String index(Model model, Principal principal) {
-		if(principal.getName() !=null || !principal.getName().isEmpty()) {
+		if(principal !=null) {
 			model.addAttribute("data",collectionService.getByCustomer(principal.getName()));
 			return "customer/collection/index";
 		}
@@ -31,7 +31,7 @@ public class CollectionController {
 	
 	@GetMapping("delete/{id}")
 	public String delete(Model model,@PathVariable("id") Integer id, Principal principal) {
-		if(principal.getName() !=null || !principal.getName().isEmpty()) {
+		if(principal !=null) {
 			collectionService.delete(id, principal.getName());
 			return "redirect:/customer/collection/index";
 		}
