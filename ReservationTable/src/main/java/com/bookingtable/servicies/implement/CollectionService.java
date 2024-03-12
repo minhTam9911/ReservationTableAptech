@@ -24,6 +24,11 @@ public class CollectionService implements ICollectionService {
 	}
 
 	@Override
+	public CollectionDto findByRestaurantIdAndCustomerId(String idCustomer, String idRestaurant) {
+		var collection =  collectionRepository.findByRestaurantIdAndCustomerId(idCustomer,idRestaurant);
+		return CollectionMapper.mapToDto(collection);
+	}
+	@Override
 	public List<Collection> getByCustomer(String idCustomer) {
 		return collectionRepository.findByCustomerEmail(idCustomer);
 	}
