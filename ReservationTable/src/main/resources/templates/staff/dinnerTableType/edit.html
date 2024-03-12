@@ -18,15 +18,15 @@
         <form th:action="@{/staff/dinnerTableType/edit/{id}(id=${dinnerTableTypeDto.id})}" method="post" th:object="${dinnerTableTypeDto}">
             <div class="mb-3">
                 <label class="form-label">Type</label>
-                <input type="number" class="form-control" th:field="*{type}" id="capacity">
+                <input type="text" class="form-control" th:field="*{type}">
                  <div class="form-text">
                      <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" style="color: red;"></span>
                  </div>
                 
             </div>
             <div class="mb-3">
-                <label for="capacity" class="form-label">Capacity</label>
-                <input type="number" class="form-control" th:field="*{capacity}" id="capacity">
+                <label class="form-label">Capacity</label>
+                <input type="number" class="form-control" th:field="*{capacity}">
                 <div class="form-text">
                     <span th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}" style="color: red;"></span>
                 </div>

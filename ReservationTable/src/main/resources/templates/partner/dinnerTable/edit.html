@@ -40,7 +40,7 @@
 
             <div class="mb-3">
                 <label accept="image/*" class="form-label" style="font-weight: 600; color: black;">Image</label>
-                <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images">
+                <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images" required>
                 <label>Your existing images :</label>
                 <div class="scroll-container">
                     <th:block th:each="image : ${imageDtos}">
