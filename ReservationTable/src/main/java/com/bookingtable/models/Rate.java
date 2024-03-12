@@ -36,6 +36,8 @@ public class Rate {
 	@Column
 	@CreationTimestamp
 	private LocalDate created;
+	@Column
+	private boolean status;
 	@OneToOne
 	@JoinColumn(name = "dinnerTable_id") 
 	private DinnerTable dinnerTable;

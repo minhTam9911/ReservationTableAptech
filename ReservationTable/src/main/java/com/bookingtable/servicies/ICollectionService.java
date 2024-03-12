@@ -10,12 +10,12 @@ import com.bookingtable.models.Invoice;
 public interface ICollectionService {
 
 	
-	CollectionDto getById(Integer id);
+	Collection getById(Integer id);
 	
-	List<CollectionDto> getByCustomer(String idCustomer);
+	List<Collection> getByCustomer(String idCustomer);
 	
-	boolean insert(InvoiceDto invoiceDto);
+	boolean insert(Collection collection);
 	
-	boolean delete(Integer id);
+	boolean delete(Integer id,String idCustomer);
 	
 }
