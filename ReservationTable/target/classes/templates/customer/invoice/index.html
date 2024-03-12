@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Invoice Page</title>
+    <style>
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-table th,
+        .invoice-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-table th {
+            background-color: #f2f2f2;
+        }
+        .invoice-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .invoice-total {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 2px solid #ddd;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <!-- Breadcrumb Area -->
+    <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+             data-background=""></div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">Your History Transaction</h2>
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/customer/home}">Home</a></li>
+                    <li class="active">Invoice</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <!-- End Breadcrumb Area -->
+    <div class="container">
+        <div class="invoice-header">
+            <h2>Invoice</h2>
+        </div>
+        <table class="invoice-table">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Transaction ID</th>
+                <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Your transaction history data goes here -->
+            <tr>
+                <td>2024-03-12</td>
+                <td>TRX123456</td>
+                <td>$50.00</td>
+            </tr>
+            <tr>
+                <td>2024-03-11</td>
+                <td>TRX654321</td>
+                <td>$35.00</td>
+            </tr>
+            <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        <div class="invoice-total">
+            <p>Total: $85.00</p>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
