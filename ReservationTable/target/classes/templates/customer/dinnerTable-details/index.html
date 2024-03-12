@@ -5,6 +5,10 @@
 <head>
     <title>Dinner table details Page</title>
     <style>
+    #map {
+            height: 400px;
+            width: 100%;
+        }
         /* Hide the images by default */
 .mySlides {
   display: none;
@@ -85,6 +89,9 @@
   opacity: 1;
 }
     </style>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+
 </head>
 <body>
 
@@ -107,7 +114,6 @@
     <!--================Breadcrumb Area =================-->
     <div class="container">
         <h1>Dinner Table Details</h1>
-
         <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="mySlides">
             <div class="numbertext" th:text="${iterStat.index + 1} + ' / ' + ${dinnerTable.imagesDto.size()}"></div>
             <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}" style="width:100%;height: 523px;margin-bottom: 15px;" >
@@ -116,7 +122,7 @@
         <div class="row">
             <!-- Iterate over imagesDto and generate thumbnail images -->
             <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="column">
-                <img class="demo cursor" th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}" style="width:100%; height: 200px;"
+                <img class="demo cursor" th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}" style="width:100%;height: 160px;"
                      th:onclick="'currentSlide(' + ${iterStat.index + 1} + ')'" th:alt="Image">
             </div>
         </div>
@@ -146,10 +152,15 @@
                     <!-- Your data here -->
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
-                    <h5 class="card-title">Location</h5>
-                    <!-- Your data here -->
+                    <h5 class="card-title">Location and contact information</h5>
+                    <div id="map"></div>
+
+                    <i class="fa-solid fa-location-dot"></i> : <p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
+                    <p class="card-text" th:text="'Location: ' + ${dinnerTable.restaurantDto.getFullAddress()}"></p>
+
                 </div>
             </div>
         </div>
@@ -157,6 +168,26 @@
 
     </div>
     <script>
+       mapboxgl.accessToken = 'pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw';
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-74.5, 40],
+        zoom: 9
+    });
+
+    // Add Google Maps overlay
+    var googleMapOverlay = document.createElement('iframe');
+googleMapOverlay.setAttribute('src', 'https://www.google.com/maps/embed/v1/place?key=pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw&q=' + encodeURIComponent(dinnerTable.restaurantDto.getFullAddress()));
+googleMapOverlay.setAttribute('width', '100%');
+googleMapOverlay.setAttribute('height', '400px');
+googleMapOverlay.style.border = '0';
+
+
+    map.on('load', function() {
+        map.getCanvasContainer().appendChild(googleMapOverlay);
+    });
         let slideIndex = 1;
 showSlides(slideIndex);
 
