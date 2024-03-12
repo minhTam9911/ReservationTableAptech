@@ -9,12 +9,12 @@ public interface IInvoiceService {
 
 	List<Invoice> getList();
 	
-	Invoice getById(String id);
+	Invoice getById(String id,String idCustomer);
 	
 	List<Invoice> getByCustomer(String idCustomer);
 	
-	List<Invoice> getByRestaurant(String idRestaurant);
+	List<Invoice> getByRestaurant(String idRestaurant,String idAgent);
 	
-	boolean insert(InvoiceDto invoiceDto);
+	boolean insert(Invoice Invoice);
 	
 }
