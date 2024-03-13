@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bookingtable.dtos.InvoiceDetail;
 import com.bookingtable.servicies.IInvoiceService;
 
 @Controller
@@ -20,11 +21,19 @@ public class CustomerInvoiceController {
 
 	@GetMapping("index")
 	public String index(Model model, Principal principal) {
-		if(principal.getName() !=null || !principal.getName().isEmpty()) {
-			model.addAttribute("data",iInvoiceService.getByCustomer(principal.getName()));
-			return "customer/invoice/index";
-		}
-		return "account/accessDined";
+		
+		return "customer/invoice/index";
+//		if(principal.getName() !=null || !principal.getName().isEmpty()) {
+//			model.addAttribute("data",iInvoiceService.getByCustomer(principal.getName()));
+//			return "customer/invoice/index";
+//		}
+//		return "account/accessDined";
+	}
+	
+	@GetMapping("detail")
+	public String detail(Model model, Principal principal) {
+		model.addAttribute("data", new InvoiceDetail());
+		return "customer/invoice/detail";
 	}
 	
 }

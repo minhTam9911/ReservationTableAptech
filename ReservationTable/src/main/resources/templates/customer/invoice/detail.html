@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <title>Invoice Details Page</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+ <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+             data-background=""></div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">Your History Transaction</h2>
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/customer/home}">Home</a></li>
+                    <li class="active">Invoice</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+
+    <link rel="canonical" href="https://codepen.io/aanjulena/pen/MELeqw">
+  
+  
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lora:400,700|Montserrat:300,400,700'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation-flex.min.css'>
+<link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+  
+<style>
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: #322d28;
+}
+
+header.top-bar h1 {
+  font-family: "Montserrat", sans-serif;
+}
+
+main {
+  margin-top: 4rem;
+  min-height: calc(100vh - 107px);
+}
+main .inner-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+table.invoice {
+  background: #fff;
+}
+table.invoice .num {
+  font-weight: 200;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.8em;
+}
+table.invoice tr, table.invoice td {
+  background: #fff;
+  text-align: left;
+  font-weight: 400;
+  color: #322d28;
+}
+table.invoice tr.header td img {
+  max-width: 300px;
+}
+table.invoice tr.header td h2 {
+  text-align: right;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 200;
+  font-size: 2rem;
+  color: #1779ba;
+}
+table.invoice tr.intro td:nth-child(2) {
+  text-align: right;
+}
+table.invoice tr.details > td {
+  padding-top: 4rem;
+  padding-bottom: 0;
+}
+table.invoice tr.details td.id, table.invoice tr.details td.qty, table.invoice tr.details th.id, table.invoice tr.details th.qty {
+  text-align: center;
+}
+table.invoice tr.details td:last-child, table.invoice tr.details th:last-child {
+  text-align: right;
+}
+table.invoice tr.details table thead, table.invoice tr.details table tbody {
+  position: relative;
+}
+table.invoice tr.details table thead:after, table.invoice tr.details table tbody:after {
+  content: "";
+  height: 1px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  margin-top: -1px;
+  background: #c8c3be;
+}
+table.invoice tr.totals td {
+  padding-top: 0;
+}
+table.invoice tr.totals table tr td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+table.invoice tr.totals table tr td:nth-child(1) {
+  font-weight: 500;
+}
+table.invoice tr.totals table tr td:nth-child(2) {
+  text-align: right;
+  font-weight: 200;
+}
+table.invoice tr.totals table tr:nth-last-child(2) td {
+  padding-bottom: 0.5em;
+}
+table.invoice tr.totals table tr:nth-last-child(2) td:last-child {
+  position: relative;
+}
+table.invoice tr.totals table tr:nth-last-child(2) td:last-child:after {
+  content: "";
+  height: 4px;
+  width: 110%;
+  border-top: 1px solid #1779ba;
+  border-bottom: 1px solid #1779ba;
+  position: relative;
+  right: 0;
+  bottom: -0.575rem;
+  display: block;
+}
+table.invoice tr.totals table tr.total td {
+  font-size: 1.2em;
+  padding-top: 0.5em;
+  font-weight: 700;
+}
+table.invoice tr.totals table tr.total td:last-child {
+  font-weight: 700;
+}
+
+.additional-info h5 {
+  font-size: 0.8em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #1779ba;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <header class="top-bar align-center">
+  <div class="top-bar-title">
+    
+  </div>
+</header>
+<div class="row expanded">
+  <main class="columns">
+    <div class="inner-container">
+    <header class="row align-center">
+        
+      </header>
+    <section class="row">
+      <div class="callout large invoice-container">
+        <table class="invoice">
+          <tr class="header">
+            <td class="">
+              <img th:src="@{/assets/customer/image/Logo.png}" width="120px" alt="Company Name" />
+            </td>
+            <td class="align-right">
+              <h2>Invoice</h2>
+            </td>
+          </tr>
+          <tr class="intro">
+            <td class="">
+              Hello, <span th:text="${data.fullName}"></span>.<br>
+              Thank you for your order.
+            </td>
+            <td class="text-right">
+              <span class="num">Order # <span th:text="${data.idReservation}"></span></span><br>
+             <span th:text="${data.created}"></span>
+            </td>
+          </tr>
+          <tr class="details">
+            <td colspan="2">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="desc">Restaurant</th>
+                    <th class="id">Dinner Table</th>
+                    <th class="qty">Quantity</th>
+                    <th class="amt">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="item">
+                    <td class="desc" th:text="${data.restaurant}"></td>
+                    <td class="id num" th:text="${data.dinnerTable}"></td>
+                    <td class="qty" th:text="${data.quantity}"></td>
+                    <td class="amt" th:text="${data.amount}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td> 
+          </tr>
+          <tr class="totals">
+            <td></td>
+            <td>
+              <table>
+                <tr class="subtotal">
+                  <td class="num">Subtotal</td>
+                  <td class="num" th:text="${data.amount}"></td>
+                </tr>
+                <tr class="fees">
+                  <td class="num">Shipping & Handling</td>
+                  <td class="num">$0.00</td>
+                </tr>
+                <tr class="tax">
+                  <td class="num">Tax (0%)</td>
+                  <td class="num">$0.00</td>
+                </tr>
+                <tr class="total">
+                  <td>Total</td>
+                  <td th:text="${data.amount} + ' VND'"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        
+        <section class="additional-info">
+        <div class="row">
+          <div class="columns">
+            <h5>Restaurant Information</h5>
+            <p th:text="${data.city}"><br>
+            <span th:text="${data.district}"></span><br>
+              <span th:text="${data.ward}"></span><br>
+              <span th:text="${data.address}"></span></p>
+          </div>
+          <div class="columns">
+            <h5>Payment Information</h5>
+            <p>Electronic Wallet<br>
+             Status: <span th:text="${data.status}"></span><br>
+              &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4561
+              </p>
+          </div>
+        </div>
+        </section>
+      </div>
+    </section>
+    </div>
+  </main>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.js'></script>
+  
+  
+</body>
+
+</html>
+
+</section>
+
+</body>
+</html>
+
+
+
