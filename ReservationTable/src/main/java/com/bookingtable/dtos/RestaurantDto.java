@@ -87,7 +87,7 @@ public class RestaurantDto {
 			this.id = id;
 			this.active = active;
 		}
-		private boolean CollectionStatus;
+		private boolean collectionStatus;
 	public String getFullAddress() {
 
 		String fullAddress = "";

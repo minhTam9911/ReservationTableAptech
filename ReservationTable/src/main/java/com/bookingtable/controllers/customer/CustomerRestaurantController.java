@@ -51,53 +51,28 @@ public class CustomerRestaurantController {
         String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
         model.addAttribute("requestURI", requestURI);
 
-        // Lấy thông tin xác thực của người dùng hiện tại
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // Lấy danh sách các vai trò của người dùng
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
         List<RestaurantDto> data = new ArrayList<>();
+        var restaurants = restaurantService.getAllRestaurants();
+        for (var i : restaurants) {
+            var restaurant = new RestaurantDto();
+            restaurant = i;
+            var customer = iCustomerService.getCustomerByEmail(principal.getName());
 
-        // Kiểm tra xem principal có null hay không
-        if (principal != null && roles.contains("ROLE_CUSTOMER")) {
-            var restaurants = restaurantService.getAllRestaurants();
-            for (var i : restaurants) {
-                var restaurant = new RestaurantDto();
-                restaurant = i;
-                var customer = iCustomerService.getCustomerByEmail(principal.getName());
-
-                var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
-                if (collection != null && collection.isStatus()) {
-                    i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
-                } else {
-                    i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
-                }
-                for (int j = 0; j <= 2; j++) {
-                    ImageDto image = new ImageDto();
-                    var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
-                    image = images.get(j);
-                    restaurant.setImageSrc(image.getPath());
-                }
-                data.add(restaurant);
+            var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
+            if (collection != null && collection.isStatus()) {
+                i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
+            } else {
+                i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
             }
-        } else {
-            var restaurants = restaurantService.getAllRestaurants();
-            for (var i : restaurants) {
-                var restaurant = new RestaurantDto();
-                restaurant = i;
-
-                for (int j = 0; j <= 2; j++) {
-                    ImageDto image = new ImageDto();
-                    var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
-                    image = images.get(j);
-                    restaurant.setImageSrc(image.getPath());
-                }
-                data.add(restaurant);
+            for (int j = 0; j <= 2; j++) {
+                ImageDto image = new ImageDto();
+                var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
+                image = images.get(j);
+                restaurant.setImageSrc(image.getPath());
             }
+            data.add(restaurant);
         }
+
 
         model.addAttribute("data", data);
         return "customer/restaurant/index";
@@ -157,12 +132,12 @@ public class CustomerRestaurantController {
         return "redirect:/customer/restaurant/index";
     }
 
-    @DeleteMapping("remove-collection/{id}")
+    @GetMapping("remove-collection/{id}")
     public String deleteCollection(@PathVariable("id") String restaurantId, Principal principal) {
         var customer = iCustomerService.getCustomerByEmail(principal.getName());
         var collectionIdToRemove = collectionService.findByCustomerAndRestaurant(customer.getId(), restaurantId);
         collectionService.delete(collectionIdToRemove.getId());
-        return "redirect:/customer/restaurant/index";
+        return "redirect:/customer/restaurant";
     }
 
 }
