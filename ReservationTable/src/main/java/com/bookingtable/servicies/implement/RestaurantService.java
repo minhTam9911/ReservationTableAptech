@@ -6,6 +6,7 @@ import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.mappers.CategoryRestaurantMapper;
 import com.bookingtable.mappers.RestaurantMapper;
 import com.bookingtable.models.CategoryRestaurant;
+import com.bookingtable.repositories.CategoryRestaurantRepository;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.ReservationRepository;
@@ -25,6 +26,8 @@ public class RestaurantService implements IRestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private CategoryRestaurantRepository categoryRestaurantRepository;
     @Autowired
     private DinnerTableRepository dinnerTableRepository;
     @Autowired
@@ -49,6 +52,7 @@ public class RestaurantService implements IRestaurantService {
                 return new ResultResponse<RestaurantDto>(false, new RestaurantDto());
             }
             var data = RestaurantMapper.mapToModel(restaurantDto);
+            data.setCategoryRestaurant(categoryRestaurantRepository.findById(restaurantDto.getCategoryId()).get());
             data.setReservationAgent(check);
             var saveChange = restaurantRepository.save(data);
             if (saveChange != null) {

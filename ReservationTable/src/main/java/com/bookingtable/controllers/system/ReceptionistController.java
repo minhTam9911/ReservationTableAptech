@@ -21,6 +21,7 @@ import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.servicies.IReceptionistService;
 import com.bookingtable.servicies.IReservationAgentService;
+import com.bookingtable.servicies.IReservationService;
 import com.bookingtable.servicies.IRestaurantService;
 import com.bookingtable.servicies.IRoleService;
 
@@ -36,6 +37,7 @@ public class ReceptionistController {
 	private IRoleService roleService;
 	@Autowired 
 	private IRestaurantService restaurantService;
+	
 	
 	private ResultResponse<ReceptionistDto> response = new ResultResponse<>();
 	public  ReceptionistController() {
@@ -147,6 +149,6 @@ public class ReceptionistController {
 		return "redirect:/partner/receptionist/index";
 	}
 	
-	
+
 	
 }

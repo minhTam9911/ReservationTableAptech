@@ -105,14 +105,50 @@ public class ReservationService implements IReservationService {
 
 	@Override
 	public boolean changeReservationStatusConfirmed(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			var data = reservationRepository.findById(id).get();
+			data.setReservationStatus(reservationStatusRepository.findById(3).get());
+			if(reservationRepository.save(data) != null){
+					return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean changeReservationStatusFinnished(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			var data = reservationRepository.findById(id).get();
+			data.setReservationStatus(reservationStatusRepository.findById(4).get());
+			if(reservationRepository.save(data) != null){
+					return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean changeReservationStatusCancel(String id) {
+		try {
+			var data = reservationRepository.findById(id).get();
+			data.setReservationStatus(reservationStatusRepository.findById(5).get());
+			if(reservationRepository.save(data) != null){
+					return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

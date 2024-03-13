@@ -63,19 +63,12 @@
             <td th:text="${i.dinnerTable.id}"></td>
             <td th:text="${i.reservationStatus.status}"></td>     
             <td>
-				<th:block th:if="${i.reservationStatus.status == 'Confirmed'}">
-				   <a th:href="@{/staff/reservationAgent/change/status/{id}(id=${i.id})}"   class="btn btn-success">Confirmed</a>
+				<th:block th:if="${i.reservationStatus.status == 'Reserved'}">
+				   <a th:href="@{/staff/reservationAgent/change-status/{id}(id=${i.id})}"   class="btn btn-success">Confirmed</a>
        
 			   </th:block>
-			    <th:block  th:if="${i.reservationStatus.status == 'Reserved'}">
-					<th:block>
-						<th:block th:if="${date.equals(#dates.createNow())}">
-							
-						</th:block>
-					</th:block>
-				   <a th:href="@{/staff/reservationAgent/change/status/{id}(id=${i.id})}"
-				     class="btn btn-success">Finished</a>
-       
+			    <th:block  th:unless="${i.reservationStatus.status == 'Reserved'}">
+				   <button type="button" class="btn btn-success" ><span th:text="${i.reservationStatus.status}"></span></button>
 			   </th:block>
 				</div>
                
