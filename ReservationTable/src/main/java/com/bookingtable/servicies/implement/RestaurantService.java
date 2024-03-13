@@ -4,8 +4,11 @@ import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.mappers.CategoryRestaurantMapper;
+import com.bookingtable.mappers.DinnerTableMapper;
 import com.bookingtable.mappers.RestaurantMapper;
 import com.bookingtable.models.CategoryRestaurant;
+import com.bookingtable.models.DinnerTable;
+import com.bookingtable.models.Restaurant;
 import com.bookingtable.repositories.CategoryRestaurantRepository;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
@@ -140,6 +143,18 @@ public class RestaurantService implements IRestaurantService {
 	@Override
 	public List<RestaurantDto> getAllRestaurantsWithCategory(Integer categoryId) {
 		 return restaurantRepository.findByCategoryRestaurantId(categoryId).stream().map(i -> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantDto> getAllCategory(Integer id) {
+		var restaurants =restaurantRepository.findAll();
+		List<Restaurant> list = new ArrayList<>();
+		for(var i : restaurants) {
+			if(i.getCategoryRestaurant().getId() == id) {
+				list.add(i);
+			}
+		}
+		return list.stream().map(i->RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
 	}
 
 }

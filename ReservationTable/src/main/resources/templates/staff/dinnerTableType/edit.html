@@ -15,7 +15,7 @@
         Create Dinner table type Table</h2>
     <br>
     <div class="bg-light rounded h-100 p-4">
-        <form th:action="@{/staff/dinnerTableType/edit/{id}(id=${dinnerTableTypeDto.id})}" method="post" th:object="${dinnerTableTypeDto}">
+        <form th:action="@{/staff/dinnerTableType/edit/{id}(id=${dinnerTableTypeDto.id})}" enctype="multipart/form-data" method="post" th:object="${dinnerTableTypeDto}">
             <div class="mb-3">
                 <label class="form-label">Type</label>
                 <input type="text" class="form-control" th:field="*{type}">
@@ -38,6 +38,19 @@
                     <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red;"></span>
                 </div>
             </div>
+            <div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label"
+							style="font-weight: 600; color: black;">Image</label>
+						<input type="file" class="form-control" aria-describedby="emailHelp"  name="file"
+							>
+							 <label>Your existing images :</label>
+                <div class="scroll-container">
+                    
+                        <img th:src="@{/categories/image-dinnerTable/{imageName}(imageName=${dinnerTableTypeDto.image})}" style="width:100px;height:100px;"/>
+                   
+                </div>
+
+					</div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" th:field="*{description}" id="description"></textarea>

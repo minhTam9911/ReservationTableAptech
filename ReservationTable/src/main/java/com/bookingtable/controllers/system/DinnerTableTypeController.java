@@ -1,15 +1,19 @@
 package com.bookingtable.controllers.system;
 
 import com.bookingtable.dtos.DinnerTableTypeDto;
+import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.implement.RestaurantService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -39,10 +43,12 @@ public class DinnerTableTypeController {
 
     @PostMapping("/create")
     public String createDinnerTableType(@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
-                                        BindingResult bindingResult) {
+    		@PathParam("file") MultipartFile file, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "staff/dinnerTableType/create";
         }
+        var image = FileHelper.uploadCategoryDinnerTable(file);
+		dinnerTableTypeDto.setImage(image);
         var response = idinnerTableTypeService.createDinnerTableType(dinnerTableTypeDto);
         if (response.isStatus()) {
             return "redirect:/staff/dinnerTableType/index";
@@ -62,10 +68,22 @@ public class DinnerTableTypeController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateDinnerTableType(@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto, BindingResult bindingResult) {
+    public String updateDinnerTableType(@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
+    		@PathParam("file") MultipartFile file,
+    		BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "staff/dinnerTableType/edit";
         }
+        if(file!=null) {
+			var categoryImage =  idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
+			FileHelper.deleteCategoryDinnerTable(categoryImage.getImage());
+			var image = FileHelper.uploadCategoryDinnerTable(file);
+			dinnerTableTypeDto.setImage(image);
+		}else {
+			var categoryImage =  idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
+			dinnerTableTypeDto.setImage(categoryImage.getImage());
+		}
+        System.out.println(dinnerTableTypeDto);
         var response = idinnerTableTypeService.updateDinnerTableType(dinnerTableTypeDto.getId(),dinnerTableTypeDto);
         if(response.isStatus()) {
             return "redirect:/staff/dinnerTableType/index";

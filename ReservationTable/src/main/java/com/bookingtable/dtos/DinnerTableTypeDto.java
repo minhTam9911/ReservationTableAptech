@@ -31,6 +31,7 @@ public class DinnerTableTypeDto {
 
     @NotNull(message="Type cannot be null")
     private String description;
-
+    
+    private String image;
     private Set<DinnerTableDto> dinnerTablesDto = new HashSet<>();
 }

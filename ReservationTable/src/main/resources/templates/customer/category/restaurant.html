@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Restaurant</title>
+    <style>
+        .position-relative {
+    position: relative;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px; /* Điều chỉnh vị trí từ phía trên */
+    right: 10px; /* Điều chỉnh vị trí từ phía phải */
+    border-radius: 50%; /* Làm cho viền tròn */
+    background-color: #ffffff; /* Màu nền trắng cho biểu tượng */
+    padding: 8px; /* Khoảng cách từ biểu tượng đến viền */
+    z-index: 999; /* Đảm bảo biểu tượng hiển thị phía trên hình ảnh */
+}
+
+.heart-icon i {
+    color: #000000a6;;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <!--================Breadcrumb Area =================-->
+    <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+             data-background=""></div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">For more information
+                </h2>
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/customer/dinnerTables}">Dinner Tables</a></li>
+                    <li class="active">Dinner Table Details</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <!--================Breadcrumb Area =================-->
+
+    <!--================ Accomodation Area  =================-->
+    <section class="accomodation_area section_gap">
+        <div class="container">
+            <div class="section_title text-center">
+                <h2 class="title_color">All Dinner Types</h2>
+                <p>Various types of tables can be placed</p>
+            </div>
+            <div class="row mb_30">
+                <div class="row pb-4">
+                    <th:block th:each="i : ${data}">
+                        <div class="col-md-6 col-xl-4 mb-5">
+                            <div class="card card-explore">
+                                <div class="card-explore__img position-relative">
+                                    <img class="card-img" th:src="@{/categories/image-restaurant/{image}(image=${i.image})}"
+                                         alt="">
+                                </div>
+
+                                <div class="card-body">
+                                    <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
+                                            ></sub></h3>
+                                   
+                                    <a class="card-explore__link"
+                                       th:href="@{/customer/category/restaurant/detail/{id}(id=${i.id})}">Read More<i
+                                            class="ti-arrow-right"></i></a>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+</body>
+</html>

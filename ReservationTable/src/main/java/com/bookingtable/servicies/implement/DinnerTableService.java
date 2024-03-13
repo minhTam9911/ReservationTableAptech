@@ -128,6 +128,17 @@ public class DinnerTableService implements IDinnerTableService {
     public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String restaurantId) {
         return dinnerTableRepository.findByRestaurant_Id(restaurantId).stream().map(i -> DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
     }
+	@Override
+	public List<DinnerTableDto> getAllCategory(Integer id) {
+		var dinnerTable = dinnerTableRepository.findAll();
+		List<DinnerTable> list = new ArrayList<>();
+		for(var i : dinnerTable) {
+			if(i.getDinnerTableType().getId() == id) {
+				list.add(i);
+			}
+		}
+		return list.stream().map(i->DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
+	}
 
 
 }

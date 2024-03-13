@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public interface IDinnerTableService {
     public List<DinnerTableDto> getAllDinnerTables();
-
+    public List<DinnerTableDto> getAllCategory(Integer id);
     public DinnerTableDto getDinnerTableById(Integer id);
 
     public ResultResponse<DinnerTableDto> createDinnerTable(DinnerTableDto dinnerTableDto) ;
