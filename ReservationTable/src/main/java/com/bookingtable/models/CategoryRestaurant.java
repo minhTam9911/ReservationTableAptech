@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-@Table(name = "categoryRetaurant")
+@Table(name = "categoryRestaurant")
 public class CategoryRestaurant {
 	
 	@Id

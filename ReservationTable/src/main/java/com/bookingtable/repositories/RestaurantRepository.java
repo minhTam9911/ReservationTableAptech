@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, String> {
 	List<Restaurant> findByReservationAgentEmail(String email);
-	List<Restaurant> findBycategoryRetaurantId(Integer idCategory);
+	List<Restaurant> findByCategoryRestaurantId(Integer idCategory);
 }

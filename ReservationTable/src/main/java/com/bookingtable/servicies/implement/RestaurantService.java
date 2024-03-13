@@ -81,7 +81,7 @@ public class RestaurantService implements IRestaurantService {
             data.setFaxNumber(restaurantDto.getFaxNumber());
             data.setCreated(LocalDate.now());
             data.setUpdated(LocalDate.now());
-            data.setCategoryRetaurant(CategoryRestaurantMapper.mapToModel(restaurantDto.getCategoryRetaurantDto()));
+            data.setCategoryRestaurant(CategoryRestaurantMapper.mapToModel(restaurantDto.getCategoryRetaurantDto()));
             var saveChange = restaurantRepository.save(data);
 			if(saveChange!=null) {
 				return	new ResultResponse<RestaurantDto>(true, RestaurantMapper.mapToDto(saveChange));
@@ -135,7 +135,7 @@ public class RestaurantService implements IRestaurantService {
 
 	@Override
 	public List<RestaurantDto> getAllRestaurantsWithCategory(Integer categoryId) {
-		 return restaurantRepository.findBycategoryRetaurantId(categoryId).stream().map(i -> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
+		 return restaurantRepository.findByCategoryRestaurantId(categoryId).stream().map(i -> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
 	}
 
 }
