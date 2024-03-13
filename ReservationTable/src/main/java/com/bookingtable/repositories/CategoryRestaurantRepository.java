@@ -14,6 +14,6 @@ import com.bookingtable.models.Role;
 public interface CategoryRestaurantRepository extends JpaRepository<CategoryRestaurant, Integer> {
 List<CategoryRestaurant> findByName(String name);
 	
-	@Query(value = "select * from category_retaurant where name = :name and id <> :id", nativeQuery = true)
+	@Query(value = "select * from category_restaurant where name = :name and id <> :id", nativeQuery = true)
 	List<CategoryRestaurant> existName(@Param("name")String name, @Param("id") Integer id); 
 }

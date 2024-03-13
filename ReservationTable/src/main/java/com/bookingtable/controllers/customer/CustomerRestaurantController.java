@@ -7,9 +7,11 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import com.bookingtable.dtos.CollectionDto;
+import com.bookingtable.dtos.*;
 import com.bookingtable.models.Collection;
+import com.bookingtable.models.Rate;
 import com.bookingtable.repositories.CustomerRepository;
+import com.bookingtable.repositories.RateRepository;
 import com.bookingtable.repositories.RestaurantRepository;
 import com.bookingtable.servicies.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.bookingtable.dtos.DinnerTableDto;
-import com.bookingtable.dtos.ImageDto;
-import com.bookingtable.dtos.RestaurantDto;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -45,6 +44,8 @@ public class CustomerRestaurantController {
     private ICustomerService iCustomerService;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private RateRepository rateRepository;
 
     @GetMapping({"index", "/", ""})
     public String index(Model model, Principal principal) {
@@ -56,13 +57,16 @@ public class CustomerRestaurantController {
         for (var i : restaurants) {
             var restaurant = new RestaurantDto();
             restaurant = i;
-            var customer = iCustomerService.getCustomerByEmail(principal.getName());
+            if (principal != null) {
+                var customer = iCustomerService.getCustomerByEmail(principal.getName());
 
-            var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
-            if (collection != null && collection.isStatus()) {
-                i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
-            } else {
-                i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
+                var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
+
+                if (collection != null && collection.isStatus()) {
+                    i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
+                } else {
+                    i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
+                }
             }
             for (int j = 0; j <= 2; j++) {
                 ImageDto image = new ImageDto();
@@ -102,7 +106,6 @@ public class CustomerRestaurantController {
     public String dinnerTable(Model model, @PathVariable("id") String id) {
         var dinnerTables = dinnerTableService.getAllDinnerTablesForRestaurant(id);
         var restaurant = restaurantService.getRestaurantById(id);
-
         var imagesGet = imageService.getImagesByRestaurantId(id).stream().collect(Collectors.toList());
         var imageRestaurant = new ArrayList<ImageDto>();
         for (int j = 0; j < 3; j++) {
@@ -112,10 +115,16 @@ public class CustomerRestaurantController {
         }
         restaurant.setImagesDto(imageRestaurant);
         model.addAttribute("restaurant", restaurant);
+        List<Rate> listRates = new ArrayList<>();
         for (DinnerTableDto dinnerTable : dinnerTables) {
+            dinnerTable.getId();
+            var rates = rateRepository.findByDinnerTable_id(dinnerTable.getId());
+            listRates.addAll(rates);
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }
+        model.addAttribute("rates", listRates);
+
         model.addAttribute("dinnerTables", dinnerTables);
         return "customer/restaurant/dinnerTableRestaurant";
     }
