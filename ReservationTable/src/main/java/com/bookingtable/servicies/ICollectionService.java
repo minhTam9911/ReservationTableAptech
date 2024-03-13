@@ -20,6 +20,4 @@ public interface ICollectionService {
 
 	public CollectionDto findByCustomerAndRestaurant(String idCustomer, String idRestaurant);
 
-
-
 }
