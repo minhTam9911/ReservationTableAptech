@@ -25,7 +25,6 @@
 }
 
 
-
     </style>
 </head>
 <body>
@@ -65,13 +64,14 @@
                                          alt="">
                                     <th:block sec:authorize="isAuthenticated()">
                                         <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}"/>
+
                                         <!-- Nút thêm vào collection -->
                                         <th:block th:if="${i.collectionStatus == false}">
                                             <form id="addToCollectionForm"
                                                   th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}"
                                                   method="post">
                                             </form>
-                                            <a href="#" onclick="submitForm()" class="heart-icon">
+                                            <a href="#" onclick="submitFormCallBack()" class="heart-icon">
                                                 <i class="fa-regular fa-heart fa-2x"></i>
                                             </a>
                                         </th:block>
@@ -79,9 +79,9 @@
                                         <th:block th:if="${i.collectionStatus == true}">
                                             <form id="removeFromCollectionForm"
                                                   th:action="@{/customer/restaurant/remove-collection/{id}(id=${i.id})}"
-                                                  method="delete">
+                                                  method="post">
                                             </form>
-                                            <a href="#" onclick="removeCollection()" class="heart-icon">
+                                            <a href="" onclick="removeCollectionCallBack()" class="heart-icon">
                                                 <i class="fa-solid fa-heart fa-2x"></i>
                                             </a>
                                         </th:block>
@@ -107,16 +107,49 @@
                 </div>
             </div>
         </div>
-    </section>
-    <script th:inline="javascript">
- function removeCollection() {
-     var restaurantId = document.getElementById("restaurantId").value;
+        <div id="successMessage" class="alert alert-success" style="display: none;">
+            <strong>Success!</strong> Added to collection successfully.
+        </div>
 
- document.getElementById("removeFromCollectionForm").submit();
+    </section>
+    <script>
+async function removeCollection() {
+    // Lấy ID của nhà hàng
+    var restaurantId = document.getElementById("restaurantId").value;
+
+    // Gửi request DELETE sử dụng Fetch API
+    try {
+        const response = await fetch('/customer/restaurant/remove-collection/' + restaurantId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Xử lý khi xóa thành công, ví dụ hiển thị thông báo
+            document.getElementById("successMessage").style.display = "block";
+        } else {
+            // Xử lý khi xóa không thành công, ví dụ hiển thị thông báo lỗi
+            console.error('Xóa không thành công');
+        }
+    } catch (error) {
+        console.error('Lỗi:', error);
+    }
+}
+
+function removeCollectionCallBack() {
+    // Gọi hàm removeCollection
+    removeCollection();
 }
 
 function submitForm() {
     document.getElementById("addToCollectionForm").submit();
+    // Hiển thị hộp thoại thông báo
+    document.getElementById("successMessage").style.display = "block";
+}
+function submitFormCallBack(){
+    submitForm();
 }
 
     </script>
