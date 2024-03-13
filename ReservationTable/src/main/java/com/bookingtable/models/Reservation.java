@@ -39,7 +39,7 @@ public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	@OneToOne
+	@OneToMany
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 	@ManyToOne
