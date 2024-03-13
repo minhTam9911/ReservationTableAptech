@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class RateDto {
-
-	
 	private Integer id;
 	@NotNull(message = "Point cannot be null")
 	private double point;
