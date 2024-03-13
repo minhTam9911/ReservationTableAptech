@@ -3,8 +3,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Page</title>
-    <title>Reservation Table ADMIN</title>
-    <!-- Libraries Stylesheet -->
     <link th:href="@{/assets/system/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/assets/system/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet"/>
     <link th:href="@{/assets/pagination/pagination_css.css}" rel="stylesheet" type="text/css">
@@ -55,9 +53,9 @@
                          style="width: 40px; height: 40px;">
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                 </div>
-                <div class="ms-3">
+               <!-- <div class="ms-3">
                     <span sec:authentication="principal.authorities"></span>
-                </div>
+                </div>-->
             </div>
             <div class="navbar-nav w-100">
                 <a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>

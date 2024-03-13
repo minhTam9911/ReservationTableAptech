@@ -44,7 +44,11 @@ public class CustomerReservationController {
 			var reservation = new Reservation();
 			var dinerTable = dinnerTableRepository.findById(idDinnerTable).get();
 			var customer = customerRepository.findByEmail(principal.getName());
+			
 			if(dinerTable == null) {
+				return "dinnerTable-details/cancel";
+			}
+			if(dinerTable.getDinnerTableType().getCapacity()>=partySize) {
 				return "dinnerTable-details/cancel";
 			}
 			reservation.setReservationStatus(reservationStatusRepository.findById(1).get());

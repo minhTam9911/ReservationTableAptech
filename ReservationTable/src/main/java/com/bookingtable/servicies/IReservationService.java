@@ -18,4 +18,5 @@ public interface IReservationService {
     public List<Reservation> getAllReservationForReceptionist(String emailReception);
     public boolean	changeReservationStatusConfirmed(String id);
     public boolean	changeReservationStatusFinnished(String id);
+    boolean changeReservationStatusCancel(String id);
 }
