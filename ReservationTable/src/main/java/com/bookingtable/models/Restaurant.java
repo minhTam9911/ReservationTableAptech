@@ -60,8 +60,8 @@ public class Restaurant {
     @Column
     private String status; 
     @ManyToOne
-	@JoinColumn(name = "categoryRetaurant",nullable = false)
-	private CategoryRestaurant categoryRetaurant;
+	@JoinColumn(name = "categoryRestaurant",nullable = false)
+	private CategoryRestaurant categoryRestaurant;
     @Column(columnDefinition = "VARCHAR")
 	private String description;
     @Column
