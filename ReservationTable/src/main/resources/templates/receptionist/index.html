@@ -68,6 +68,11 @@
        
 			   </th:block>
 			    <th:block  th:if="${i.reservationStatus.status == 'Reserved'}">
+					<th:block>
+						<th:block th:if="${date.equals(#dates.createNow())}">
+							
+						</th:block>
+					</th:block>
 				   <a th:href="@{/staff/reservationAgent/change/status/{id}(id=${i.id})}"
 				     class="btn btn-success">Finished</a>
        
