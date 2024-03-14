@@ -11,9 +11,9 @@ public interface IReceptionistService {
 
     public ReceptionistDto getReceptionistById(String id,String emailCreatdBy);
 
-    public  ResultResponse<ReceptionistDto> createReceptionist(ReceptionistDto  restaurantDto, String emailCreatedBy) ;
-    public  ResultResponse<ReceptionistDto> updateReceptionist(String id, ReceptionistDto receptionistDto,String emailCreatdBy);
+    public  ResultResponse<String> createReceptionist(ReceptionistDto  restaurantDto, String emailCreatedBy) ;
+    public  ResultResponse<String> updateReceptionist(String id, ReceptionistDto receptionistDto,String emailCreatdBy);
 
-    public  ResultResponse<ReceptionistDto> deleteReceptionist(String id,String emailCreatdBy);
+    public  ResultResponse<String> deleteReceptionist(String id,String emailCreatdBy);
     public boolean changeStatus(String id,String emailCreatedBy);
 }

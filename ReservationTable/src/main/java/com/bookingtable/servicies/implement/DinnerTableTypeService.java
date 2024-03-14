@@ -43,53 +43,50 @@ public class DinnerTableTypeService implements IDinnerTableTypeService {
     }
 
     @Override
-    public ResultResponse<DinnerTableTypeDto> createDinnerTableType(DinnerTableTypeDto dinnerTableTypeDto) {
+    public ResultResponse<String> createDinnerTableType(DinnerTableTypeDto dinnerTableTypeDto) {
         DinnerTableType dinnerTableType = DinnerTableTypeMapper.mapToModel(dinnerTableTypeDto);
         try {
             if (dinnerTableTypeRepository.save(dinnerTableType) != null) {
-                return new ResultResponse<DinnerTableTypeDto>(true, new DinnerTableTypeDto());
+            	return new  ResultResponse<String>(true,1, "Process Successfully");
             } else {
-                return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto(0,0,0,"","","",new HashSet<>()));
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
 
     }
 
-    public ResultResponse<DinnerTableTypeDto> updateDinnerTableType(Integer id, DinnerTableTypeDto dinnerTableTypeDto) {
+    public ResultResponse<String> updateDinnerTableType(Integer id, DinnerTableTypeDto dinnerTableTypeDto) {
         try {
             DinnerTableType existingType = dinnerTableTypeRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Table type not found with id: " + id));
 
             DinnerTableType updatedType = DinnerTableTypeMapper.mapToModel(dinnerTableTypeDto);
             updatedType.setId(existingType.getId()); // Ensure the ID remains the same
-
-            DinnerTableType savedType = dinnerTableTypeRepository.save(updatedType);
-
-            if (DinnerTableTypeMapper.mapToDto(savedType) != null) {
-                return new ResultResponse<DinnerTableTypeDto>(true, new DinnerTableTypeDto());
+            if (dinnerTableTypeRepository.save(updatedType) != null) {
+            	return new  ResultResponse<String>(true,1, "Process Successfully");
             } else {
-                return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
     }
 
-    public ResultResponse<DinnerTableTypeDto> deleteDinnerTableType(Integer id) {
+    public ResultResponse<String> deleteDinnerTableType(Integer id) {
         try {
             if (dinnerTableTypeRepository.findById(id) != null) {
                 dinnerTableTypeRepository.deleteById(id);
-                return new ResultResponse<DinnerTableTypeDto>(true, new DinnerTableTypeDto());
+                return new  ResultResponse<String>(true,1, "Process Successfully");
             } else {
-                return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<DinnerTableTypeDto>(false, new DinnerTableTypeDto());
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
 
     }

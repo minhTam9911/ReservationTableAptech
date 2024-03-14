@@ -12,8 +12,8 @@ public interface IDinnerTableTypeService{
 
     public DinnerTableTypeDto getDinnerTableTypeById(Integer id);
 
-    public ResultResponse<DinnerTableTypeDto> createDinnerTableType(DinnerTableTypeDto dinnerTableTypeDto) ;
-    public ResultResponse<DinnerTableTypeDto> updateDinnerTableType(Integer id, DinnerTableTypeDto dinnerTableTypeDto);
+    public ResultResponse<String> createDinnerTableType(DinnerTableTypeDto dinnerTableTypeDto) ;
+    public ResultResponse<String> updateDinnerTableType(Integer id, DinnerTableTypeDto dinnerTableTypeDto);
 
-    public ResultResponse<DinnerTableTypeDto> deleteDinnerTableType(Integer id);
+    public ResultResponse<String> deleteDinnerTableType(Integer id);
 }

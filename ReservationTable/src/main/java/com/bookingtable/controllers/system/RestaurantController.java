@@ -37,13 +37,7 @@ public class RestaurantController {
     private ICategoryRestaurantService categoryRestaurantService;
 	@Autowired
 	private IDinnerTableService iDinnerTableService;
-    private ResultResponse<Boolean> response = new ResultResponse<>(null);
-    
-    public RestaurantController() {
-		super();
-		this.response = new ResultResponse<>(null);
-	}
-
+	private ResultResponse<String> response = new ResultResponse<>(false,0,"");
 	@GetMapping("index")
     public String getAllRestaurants(Model model, Principal principal) {
 		List<RestaurantDto> restaurants = iRestaurantService.getAllRestaurantsForAgent(principal.getName());
@@ -62,15 +56,11 @@ public class RestaurantController {
         RestaurantDto restaurantDto = new RestaurantDto();
         model.addAttribute("restaurantDto", restaurantDto);
         model.addAttribute("category", categoryRestaurantService.getList());
-        if(response.isStatus()) {
-			model.addAttribute("msg",true);
-		}
-        model.addAttribute("msg",false);
         return "partner/restaurant/create";
     }
     @PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("restaurantDto") RestaurantDto restaurantDto ,
-			BindingResult bindingResult,Model model,Principal principal, @RequestParam("images") MultipartFile[] images) {
+			BindingResult bindingResult,Model model,RedirectAttributes redirectAttributes,Principal principal, @RequestParam("images") MultipartFile[] images) {
 	
 		restaurantDto.setImagesDto(new ArrayList<ImageDto>());
 		if(bindingResult.hasErrors()) {
@@ -79,22 +69,21 @@ public class RestaurantController {
 		}
 		var category = categoryRestaurantService.getById(restaurantDto.getCategoryId());
 		restaurantDto.setCategoryRetaurantDto(category);
-		var response = iRestaurantService.createRestaurant(restaurantDto,principal.getName());
-		if(response.isStatus()) {
-			this.response.setStatus(true);
+		response = iRestaurantService.createRestaurant(restaurantDto,principal.getName());
+        if(response.getOption()==1) {
+        	redirectAttributes.addFlashAttribute("msg",response);
 			for(var i : images) {
 				var image = new ImageDto();
 	    		var fileName =  FileHelper.uploadRestaurant(i);
 	    		image.setPath(fileName);
-	    		image.setRestaurantDto(iRestaurantService.getRestaurantById(response.getMessage().getId(), principal.getName()));
+	    		image.setRestaurantDto(iRestaurantService.getRestaurantById(response.getMessage(), principal.getName()));
 	    		iImageService.createImage(image);
 			}
 			return "redirect:/partner/restaurant/index";
-		}else {
-			this.response.setStatus(false);
-			return "redirect:/partner/restaurant/create";
-			
+		}if(response.getOption()==2) {
+			redirectAttributes.addFlashAttribute("msg",response);
 		}
+			return "redirect:/partner/restaurant/create";
 		
 	}
 
@@ -111,10 +100,6 @@ public class RestaurantController {
 		restaurantDto.setCategoryId(categoryId);
 		   model.addAttribute("category", categoryRestaurantService.getList());
 		model.addAttribute("restaurantDto", restaurantDto);
-		if(response.isStatus()) {
-			model.addAttribute("msg",true);
-			return "partner/restaurant/edit";
-		}
 		return "partner/restaurant/edit";
 	}
 
@@ -134,7 +119,7 @@ public class RestaurantController {
 		restaurantDto.setImagesDto(existingImages);
 		var category = categoryRestaurantService.getById(restaurantDto.getCategoryId());
 		restaurantDto.setCategoryRetaurantDto(category);
-		var response = iRestaurantService.updateRestaurant(restaurantDto.getId(), restaurantDto, principal.getName());
+		response = iRestaurantService.updateRestaurant(restaurantDto.getId(), restaurantDto, principal.getName());
 		Set<String> imagePaths = new HashSet<>(); // Tạo một tập hợp để lưu trữ các đường dẫn hình ảnh mới
 
 // Lặp qua danh sách các hình ảnh mới
@@ -170,16 +155,18 @@ public class RestaurantController {
 		}
 
 		
-		if(response.isStatus()) {
-			this.response.setStatus(true);
+        if(response.getOption()==1) {
+        	redirectAttributes.addFlashAttribute("msg",response);
 			return "redirect:/partner/restaurant/index";
-		}else {
-			return "redirect:/partner/restaurant/edit";
-
+		}if(response.getOption()==2) {
+			model.addAttribute("msg",response);
 		}
+			return "partner/restaurant/edit";
+
+		
 	}
-	@GetMapping("/delete/{id}")
-	public String deleteRestaurant(@PathVariable String id,Principal principal) {
+	@GetMapping("delete/{id}")
+	public String deleteRestaurant(@PathVariable String id,Principal principal, RedirectAttributes attributes) {
 		var existImages = iImageService.getImagesByRestaurantId(id);
 		var existDinnerTables = iDinnerTableService.getAllDinnerTablesForRestaurant(id);
 
@@ -190,7 +177,8 @@ public class RestaurantController {
 		for(var existDinnerTable :existDinnerTables) {
 			iDinnerTableService.deleteDinnerTable(existDinnerTable.getId());
 		}
-		iRestaurantService.deleteRestaurant(id,principal.getName());
+		response = iRestaurantService.deleteRestaurant(id,principal.getName());
+		attributes.addFlashAttribute("msg",response);
 		return "redirect:/partner/restaurant/index";
 	}
 }

@@ -41,31 +41,20 @@ public class DinnerTableService implements IDinnerTableService {
     }
 
     @Override
-    public ResultResponse<DinnerTableDto> createDinnerTable(DinnerTableDto dinnerTableDto) {
+    public ResultResponse<String> createDinnerTable(DinnerTableDto dinnerTableDto) {
         var saved =dinnerTableRepository.save(DinnerTableMapper.mapToModel(dinnerTableDto));
         if(saved!=null) {
-            return new ResultResponse<DinnerTableDto>(true, new DinnerTableDto(
-                    saved.getId(),
-                    dinnerTableDto.getQuantity(),
-                    dinnerTableDto.getCurrentQuantity(),
-                    dinnerTableDto.getStatus(),
-                    dinnerTableDto.getDinnerTableTypeDto(),
-                    dinnerTableDto.getDinnerTableTypeList(),
-                    dinnerTableDto.getDinnerTableTypeDtoId(),
-                    dinnerTableDto.getRestaurantDtoId(),
-                    dinnerTableDto.getRestaurantDto(),
-                    dinnerTableDto.getRestaurantList(),
-                    dinnerTableDto.getImagesDto(),
-                    dinnerTableDto.getImageDto()));
+            return new ResultResponse<String>(true,1,
+                    saved.getId().toString());
 
         }else {
-            return new  ResultResponse<DinnerTableDto>(false, new DinnerTableDto());
+            return new  ResultResponse<>(true,2, "Process Failure");
         }
     }
 
 
     @Override
-    public  ResultResponse<DinnerTableDto> updateDinnerTable(Integer id,DinnerTableDto dinnerTableDto) {
+    public  ResultResponse<String> updateDinnerTable(Integer id,DinnerTableDto dinnerTableDto) {
         try {
             var data = dinnerTableRepository.findById(id).get();
             data.setId(dinnerTableDto.getId());
@@ -76,41 +65,29 @@ public class DinnerTableService implements IDinnerTableService {
             data.setDinnerTableType(DinnerTableTypeMapper.mapToModel(dinnerTableDto.getDinnerTableTypeDto()));
             var saved = dinnerTableRepository.save(data);
             if(saved!=null) {
-                return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto(
-                        saved.getId(),
-                        dinnerTableDto.getQuantity(),
-                        dinnerTableDto.getCurrentQuantity(),
-                        dinnerTableDto.getStatus(),
-                        dinnerTableDto.getDinnerTableTypeDto(),
-                        dinnerTableDto.getDinnerTableTypeList(),
-                        dinnerTableDto.getDinnerTableTypeDtoId(),
-                        dinnerTableDto.getRestaurantDtoId(),
-                        dinnerTableDto.getRestaurantDto(),
-                        dinnerTableDto.getRestaurantList(),
-                        dinnerTableDto.getImagesDto(),
-                        dinnerTableDto.getImageDto()
-                ));
+            	return new ResultResponse<String>(true,1,
+                        saved.getId().toString());
             }else {
-                return new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
     }
 
     @Override
-    public  ResultResponse<DinnerTableDto> deleteDinnerTable(Integer id) {
+    public  ResultResponse<String> deleteDinnerTable(Integer id) {
         try {
             if(dinnerTableRepository.findById(id)!=null) {
                 dinnerTableRepository.deleteById(id);
-                return	new ResultResponse<DinnerTableDto>(true,new DinnerTableDto());
+                return new  ResultResponse<String>(true,1, "Process Successfully");
             }else {
-                return	new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return	new ResultResponse<DinnerTableDto>(false,new DinnerTableDto());
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
 
     }

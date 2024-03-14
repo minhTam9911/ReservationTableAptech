@@ -36,24 +36,11 @@ public class ReservationAgentController {
 	private IRoleService roleService;
 
 
-	private ResultResponse<ReservationAgentDto> response = new ResultResponse<>();
-
-	public ReservationAgentController() {
-		this.response = new ResultResponse<>(new ReservationAgentDto());
-	}
+	private ResultResponse<String> response = new ResultResponse<>(false,0,"");
 
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
-
-
     	model.addAttribute("data", reservationAgentService.getAllReservationAgents());
-    	if(response.getMessage().getEmail() !=null) {
-    		if(response.isStatus()) {
-    			model.addAttribute("msg",true);
-    		}if(response.isStatus() == false) {
-    			model.addAttribute("msg",response.getMessage().getEmail());
-    		}
-    	}
         return "staff/reservationAgent/index";
     }
 
@@ -63,18 +50,12 @@ public class ReservationAgentController {
 	public String create(Model model,RedirectAttributes attributes) {
 		var reservationAgentDto = new ReservationAgentDto(); 
 		model.addAttribute("reservationAgentDto", reservationAgentDto);
-		if(response.isStatus()) {
-			model.addAttribute("msg",true);
-			return "staff/reservationAgent/create";
-		}
-
-		model.addAttribute("msg",response.getMessage().getEmail());
 		return "staff/reservationAgent/create";
 	}
 	
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto ,
-			BindingResult bindingResult, Principal principal) {
+			BindingResult bindingResult, Principal principal, RedirectAttributes redirectAttributes) {
 	
 		  var roleData = roleService.getRoleById(3);
 		  reservationAgentDto.setRoleDto(roleData);
@@ -82,15 +63,16 @@ public class ReservationAgentController {
 		if(bindingResult.hasErrors()) {
 			return "staff/reservationAgent/create";
 		}
-		var response = reservationAgentService.createReservationAgent(reservationAgentDto, principal.getName());
-		if(response.isStatus()) {
-			this.response.setStatus(true);
+		response = reservationAgentService.createReservationAgent(reservationAgentDto, principal.getName());
+        if(response.getOption()==1) {
+        	redirectAttributes.addFlashAttribute("msg",response);
 			return "redirect:/staff/reservationAgent/index";
-		}else {
-			this.response.setMessage(new ReservationAgentDto(response.getMessage().getEmail()));
+		}if(response.getOption()==2) {
+			redirectAttributes.addFlashAttribute("msg",response);
+		}
 			return "redirect:/staff/reservationAgent/create";
 			
-		}
+		
 		
 	}
 	@GetMapping("update/{id}")
@@ -100,32 +82,29 @@ public class ReservationAgentController {
 		return "staff/reservationAgent/edit";
 	}
 	@PostMapping("update/save")
-	public String updateProcess(@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto, BindingResult bindingResult) {
+	public String updateProcess(RedirectAttributes redirectAttributes,@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return "staff/reservationAgent/edit";
 		}
 		var roleData = roleService.getRoleById(3);
 		  reservationAgentDto.setRoleDto(roleData);
-		var response = reservationAgentService.updateReservationAgent(reservationAgentDto.getId(),reservationAgentDto);
-		if(response.isStatus()) {
-			this.response.setStatus(true);;
+		response = reservationAgentService.updateReservationAgent(reservationAgentDto.getId(),reservationAgentDto);
+        if(response.getOption()==1) {
+        	redirectAttributes.addFlashAttribute("msg",response);
 			return "redirect:/staff/reservationAgent/index";
-		}else {
-			this.response.setMessage(new ReservationAgentDto(response.getMessage().getEmail()));
-			 return "staff/reservationAgent/edit";
-		}
+		}if(response.getOption()==2) {
+			redirectAttributes.addFlashAttribute("msg",response);
+			 
+		}return "staff/reservationAgent/edit";
 	}
 	
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
-		var response = reservationAgentService.deleteReservationAgent(id);
-		if(response.isStatus()) {
-			attributes.addFlashAttribute("msg", true);
+		response = reservationAgentService.deleteReservationAgent(id);
+		
+			attributes.addFlashAttribute("msg", response);
 			return "redirect:/staff/reservationAgent/index";
-		}else {
-			attributes.addFlashAttribute("msg", response.getMessage().getEmail());
-			return "redirect:/staff/reservationAgent/index";
-		}
+		
 	}
 	@GetMapping("change/status/{id}")
 	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id) {

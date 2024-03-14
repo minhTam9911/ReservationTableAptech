@@ -11,10 +11,10 @@ public interface ICustomerService {
 
     public CustomerDto getCustomerById(String id);
 
-    public ResultResponse<CustomerDto> createCustomer(CustomerDto customer) ;
-    public ResultResponse<CustomerDto> updateCustomer(String id, CustomerDto customer);
+    public ResultResponse<String> createCustomer(CustomerDto customer) ;
+    public ResultResponse<String> updateCustomer(String id, CustomerDto customer);
 
-    public ResultResponse<CustomerDto> deleteCustomer(String id);
+    public ResultResponse<String> deleteCustomer(String id);
     public boolean changeStatus(String email, String code);
 
     public CustomerDto getCustomerByEmail(String email) ;

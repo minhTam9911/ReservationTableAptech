@@ -43,7 +43,7 @@ public class AccountController {
 	private IAccountService accountService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	private ResultResponse<String> result = new ResultResponse<>(false,"");
+	private ResultResponse<String> result = new ResultResponse<>(false,0,"");
 	@Autowired
 	private ISystemService systemService;
 
@@ -54,7 +54,10 @@ public class AccountController {
 			var customerDto = new CustomerDto();
 			model.addAttribute("customerDto", customerDto);
 			if (error != null) {
-				model.addAttribute("msg", "Username and password invalid");
+				result.setOption(2);
+				result.setStatus(true);
+				result.setMessage("Username and password invalid");
+				model.addAttribute("msg", result);
 			}
 
 			return "account/login";
@@ -73,23 +76,23 @@ public class AccountController {
 			model.addAttribute("msg", "Form input invalid");
 			return "account/login";
 		}
-		var response = customerService.createCustomer(customerDto);
-		if(response.isStatus()) {
-			attributes.addFlashAttribute("msg", "Please check your email again to activate your account");
+		result = customerService.createCustomer(customerDto);
+			attributes.addFlashAttribute("msg", result);
 			return "redirect:/login";
-		}else {
-			attributes.addFlashAttribute("msg", response.getMessage().getEmail() == null ? null : response.getMessage().getEmail());
-			return "redirect:/login";
-
-		}
 	}
 	@GetMapping("verify")
 	public String verifyActive(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
 		if(customerService.changeStatus(email, securityCode)) {
-			attributes.addFlashAttribute("msg", "Success activation");
+			result.setOption(1);
+			result.setMessage("Success activation");
+			result.setStatus(true);
+			
 		}else {
-			attributes.addFlashAttribute("msg", "Failure activation");
+			result.setOption(1);
+			result.setMessage("Failure activation");
+			result.setStatus(true);
 		}
+		attributes.addFlashAttribute("msg", result);
 		return "redirect:/login";
 	}
 	
@@ -98,8 +101,7 @@ public class AccountController {
 	@GetMapping("/forgot-password")
 	public String forgot(Model model) {
 		if(!result.getMessage().isEmpty()) {
-			model.addAttribute("msg",result.getMessage());
-			result = new ResultResponse<>(false,"");
+			model.addAttribute("msg",result);
 		}
 		return "account/forgotPassword";
 	}
@@ -109,9 +111,8 @@ public class AccountController {
 	public String resetPassword(HttpSession session, Model model) {
 		if(session.getAttribute("email")!=null) {
 			if(!result.getMessage().isEmpty()) {
-				model.addAttribute("msg",result.getMessage());
-			}
-			result = new ResultResponse<>(false,"");
+				model.addAttribute("msg",result);
+			};
 			return "account/resetPassword";
 		}
 		return "account/accessDenied";
@@ -124,24 +125,24 @@ public class AccountController {
 	public String verifyCode(HttpSession session,Model model) {
 		if(session.getAttribute("email")!=null) {
 			if(!result.getMessage().isEmpty()) {
-				model.addAttribute("msg",result.getMessage());
+				model.addAttribute("msg",result);
 			}
-			result = new ResultResponse<>(false,"");
 			return "account/verificationCode";
-	}
+		}
 		return "account/accessDenied";
 	}
 	
 	
 	@PostMapping("/forgot-password/submit")
 	public String forgot(RedirectAttributes attributes,Model model,HttpSession session, @PathParam("email") String email) {
-		var check = accountService.forgotPassword(email);
-		if(check.isStatus()) {
-			model.addAttribute("msg", check.getMessage());
+		result = accountService.forgotPassword(email);
+		if(result.getOption() == 1) {
+			model.addAttribute("msg", result);
 			session.setAttribute("email", email);
 			return "account/verificationCode";
+		}if(result.getOption() == 2) {
+			model.addAttribute("msg", result);
 		}
-		result.setMessage(check.getMessage());
 		return "redirect:/forgot-password";
 		
 	}
@@ -152,12 +153,12 @@ public class AccountController {
 			for(var i : code) {
 				verifyCode+=i;
 			}
-			var check = accountService.verifyCode(session.getAttribute("email").toString(), verifyCode);
-			if(check.isStatus()) {
-				
+			result = accountService.verifyCode(session.getAttribute("email").toString(), verifyCode);
+			if(result.getOption() == 1) {
+				model.addAttribute("msg", result);
 				return "redirect:/reset-password";
 			}
-			result.setMessage(check.getMessage());
+			model.addAttribute("msg", result);
 			return "redirect:/verify-code";
 		}
 		return "account/accessDenied";
@@ -171,13 +172,13 @@ public class AccountController {
 				return "redirect:/reset-password";
 			}
 			var hashPassword = bCryptPasswordEncoder.encode(newPassword);
-			var check = accountService.saveResetPassword(session.getAttribute("email").toString(), hashPassword);
-			if(check.isStatus()) {
+			result = accountService.saveResetPassword(session.getAttribute("email").toString(), hashPassword);
+			if(result.getOption() == 1) {
 				session.removeAttribute("email");
-				result.setMessage(check.getMessage());
+				model.addAttribute("msg", result);
 				return "redirect:/login";
 			}
-			result.setMessage(check.getMessage());
+			model.addAttribute("msg", result);
 			return "redirect:/reset-password";
 		}
 		return "account/accessDenied";

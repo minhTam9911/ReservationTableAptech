@@ -51,20 +51,20 @@ public class ReservationAgentService implements IReservationAgentService {
 
 
 	@Override
-	public  ResultResponse<ReservationAgentDto> updateReservationAgent(String id, ReservationAgentDto reservationAgentDto) {
+	public  ResultResponse<String> updateReservationAgent(String id, ReservationAgentDto reservationAgentDto) {
 		try {
 
 			if(receptionistRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(reservationAgentRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(guestRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(systemRepository.existEmail(reservationAgentDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			var data = reservationAgentRepository.findById(id).get();
 			data.setFullName(reservationAgentDto.getFullName());
@@ -78,52 +78,47 @@ public class ReservationAgentService implements IReservationAgentService {
 			data.setTotalRestaurant(reservationAgentDto.getTotalRestaurant());
 			data.setUpdated(LocalDate.now());
 			if(reservationAgentRepository.save(data)!=null) {
-				return new  ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
+				return new  ResultResponse<String>(true,1, "Process Successfully");
 			}else {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Failure"));
+				return new  ResultResponse<String>(true,2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto(e.getMessage()));
+			return new  ResultResponse<String>(true,2, e.getMessage());
 		}
 	}
 
 	@Override
-	public  ResultResponse<ReservationAgentDto> deleteReservationAgent(String id) {
+	public  ResultResponse<String> deleteReservationAgent(String id) {
 		try {
 
 			if(reservationAgentRepository.findById(id)!=null) {
 				reservationAgentRepository.deleteById(id);
-                return new ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
+				return new  ResultResponse<String>(true,1, "Process Successfully");
             } else {
-                return new ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto());
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto(e.getMessage()));
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
 	}
 
 	@Override
-	public  ResultResponse<ReservationAgentDto> createReservationAgent(ReservationAgentDto reservationAgentDto, String emailCreatedBy) {
+	public  ResultResponse<String> createReservationAgent(ReservationAgentDto reservationAgentDto, String emailCreatedBy) {
 		try {
 			reservationAgentDto.setEmail(reservationAgentDto.getEmail().toLowerCase());
 
 			if(systemRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(receptionistRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(reservationAgentRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			}
+				return new  ResultResponse<String>(true,2, "Email already");			}
 			if(guestRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			}
-			if(systemRepository.findByEmail(reservationAgentDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			}
+				return new  ResultResponse<String>(true,2, "Email already");			}
 			var data = ReservationAgentMapper.mapToModel(reservationAgentDto);
 			var password = GenerateCode.GeneratePassword(12);
 			var hashPassword = cryptPasswordEncoder.encode(password);
@@ -134,18 +129,16 @@ public class ReservationAgentService implements IReservationAgentService {
 			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
 				
 			} else {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Send Email Fail"));
+				return new  ResultResponse<String>(true,2, "Send Email Fail");
 			}
 			
 			if(reservationAgentRepository.save(data)!=null) {
-				return new  ResultResponse<ReservationAgentDto>(true, new ReservationAgentDto());
+				return new  ResultResponse<String>(true,1, "Process Successfully");
 			}else {
-				return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-			}
+				return new  ResultResponse<String>(true,2, "Process Failure");			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new  ResultResponse<ReservationAgentDto>(false, new ReservationAgentDto("Email already"));
-		}
+			return new  ResultResponse<String>(true,2, e.getMessage());		}
 	}
 
 	@Override
