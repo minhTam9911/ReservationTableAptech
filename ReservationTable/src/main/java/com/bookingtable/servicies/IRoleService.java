@@ -10,8 +10,8 @@ public interface IRoleService {
 
     public RoleDto getRoleById(Integer id);
 
-    public ResultResponse<RoleDto> createRole(RoleDto roleDto) ;
-    public ResultResponse<RoleDto> updateRole(Integer id, RoleDto roleDto);
+    public ResultResponse<String> createRole(RoleDto roleDto) ;
+    public ResultResponse<String> updateRole(Integer id, RoleDto roleDto);
 
-    public ResultResponse<RoleDto> deleteRole(Integer id);
+    public ResultResponse<String> deleteRole(Integer id);
 }

@@ -54,21 +54,21 @@ public class CustomerService implements ICustomerService {
 
 
     @Override
-    public ResultResponse<CustomerDto> updateCustomer(String id, CustomerDto customerDto) {
+    public ResultResponse<String> updateCustomer(String id, CustomerDto customerDto) {
         try {
         	customerDto.setEmail(customerDto.getEmail().toLowerCase());
             if(customerRepository.existEmail(customerDto.getEmail().toLowerCase(),id)!=null) {
-            return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            return new  ResultResponse<String>(true,2,"Email already");
             }
             
 			if(receptionistRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(reservationAgentRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+				return new  ResultResponse<String>(true,2,"Email already");
 			}
 			if(systemRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+				return new  ResultResponse<String>(false,2,"Email already");
 			}
             var data = customerRepository.findById(id).get();
             
@@ -80,48 +80,48 @@ public class CustomerService implements ICustomerService {
             data.setGender(customerDto.isGender());
             data.setUpdated(LocalDate.now());
             if(customerRepository.save(data)!=null) {
-                return new  ResultResponse<CustomerDto>(true, new CustomerDto());
+                return new  ResultResponse<String>(true,1, "Process Successfully");
             }else {
-                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Failure"));
+                return new  ResultResponse<String>(true,2,"Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new  ResultResponse<CustomerDto>(false, new CustomerDto(e.getMessage()));
+            return new  ResultResponse<>(true,2, e.getMessage());
         }
     }
 
     @Override
-    public  ResultResponse<CustomerDto> deleteCustomer(String id) {
+    public  ResultResponse<String> deleteCustomer(String id) {
         try {
 
             if(customerRepository.findById(id)!=null) {
                 customerRepository.deleteById(id);
-                return new ResultResponse<CustomerDto>(true, new CustomerDto());
+                return new ResultResponse<String>(true,1, "Process Successfully");
             } else {
-                return new ResultResponse<CustomerDto>(false, new CustomerDto());
+                return new ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<CustomerDto>(false, new CustomerDto(e.getMessage()));
+            return new ResultResponse<String>(true,2, e.getMessage());
         }
     }
 
     @Override
-    public  ResultResponse<CustomerDto> createCustomer(CustomerDto customerDto) {
+    public  ResultResponse<String> createCustomer(CustomerDto customerDto) {
         try {
         	customerDto.setEmail(customerDto.getEmail().toLowerCase());
             if(customerRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-            return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            	return new  ResultResponse<String>(true,2, "Email already");
             }
             
 			if(receptionistRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(reservationAgentRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(systemRepository.findByEmail(customerDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 
             var data = CustomerMapper.mapToModel(customerDto);
@@ -134,17 +134,17 @@ public class CustomerService implements ICustomerService {
             if (mailService.send(email, data.getEmail(), "Active Account", content)) {
 
             } else {
-                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Send Email Fail"));
+                return new  ResultResponse<String>(true,2, "Send Email Fail");
             }
 
             if(customerRepository.save(data)!=null) {
-                return new  ResultResponse<CustomerDto>(true, new CustomerDto());
+                return new  ResultResponse<String>(true,1, "Please check your email again to activate your account");
             }else {
-                return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+                return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new  ResultResponse<CustomerDto>(false, new CustomerDto("Email already"));
+            return new  ResultResponse<String>(true,2 ,e.getMessage());
         }
     }
 

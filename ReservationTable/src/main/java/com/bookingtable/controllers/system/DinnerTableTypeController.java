@@ -1,6 +1,7 @@
 package com.bookingtable.controllers.system;
 
 import com.bookingtable.dtos.DinnerTableTypeDto;
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.implement.RestaurantService;
@@ -19,89 +20,95 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("staff/dinnerTableType" )
+@RequestMapping("staff/dinnerTableType")
 public class DinnerTableTypeController {
-    @Autowired
-    private RestaurantService iRestaurantService;
-    @Autowired
-    private IDinnerTableTypeService idinnerTableTypeService;
+	@Autowired
+	private RestaurantService iRestaurantService;
+	@Autowired
+	private IDinnerTableTypeService idinnerTableTypeService;
+	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
 
-    @GetMapping({ "index", "", "/" })
-    public String getAllDinnerTableTypes(Model model) {
-        List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
+	@GetMapping({ "index", "", "/" })
+	public String getAllDinnerTableTypes(Model model) {
+		List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
 
-        model.addAttribute("dinnerTableTypes",dinnerTableTypes);
+		model.addAttribute("dinnerTableTypes", dinnerTableTypes);
 
-        return "staff/dinnerTableType/index";
-    }
-    @GetMapping("create")
-    public String create(Model model) {
-        DinnerTableTypeDto dinnerTableTypeDto = new DinnerTableTypeDto();
-        model.addAttribute("dinnerTableTypeDto", dinnerTableTypeDto);
-        return "staff/dinnerTableType/create";
-    }
+		return "staff/dinnerTableType/index";
+	}
 
-    @PostMapping("/create")
-    public String createDinnerTableType(@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
-    		@PathParam("file") MultipartFile file, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "staff/dinnerTableType/create";
-        }
-        var image = FileHelper.uploadCategoryDinnerTable(file);
+	@GetMapping("create")
+	public String create(Model model) {
+		DinnerTableTypeDto dinnerTableTypeDto = new DinnerTableTypeDto();
+		model.addAttribute("dinnerTableTypeDto", dinnerTableTypeDto);
+		return "staff/dinnerTableType/create";
+	}
+
+	@PostMapping("/create")
+	public String createDinnerTableType(
+			@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
+			@PathParam("file") MultipartFile file, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "staff/dinnerTableType/create";
+		}
+		var image = FileHelper.uploadCategoryDinnerTable(file);
 		dinnerTableTypeDto.setImage(image);
-        var response = idinnerTableTypeService.createDinnerTableType(dinnerTableTypeDto);
-        if (response.isStatus()) {
-            return "redirect:/staff/dinnerTableType/index";
-        } else {
-            bindingResult.addError(
-                    new FieldError("dinnerTableTypeDto", "type", response.getMessage().getType())
+		response = idinnerTableTypeService.createDinnerTableType(dinnerTableTypeDto);
+		if (response.getOption() == 1) {
+			redirectAttributes.addFlashAttribute("msg", response);
+			return "redirect:/staff/dinnerTableType/index";
+		}
+		if (response.getOption() == 2) {
 
-            );
-            return "staff/dinnerTableType/create";
-        }
-    }
+			redirectAttributes.addFlashAttribute("msg", response);
+		}
+		return "staff/dinnerTableType/create";
 
-    @GetMapping("edit/{id}")
-    public String updateShowingForm(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("dinnerTableTypeDto", idinnerTableTypeService.getDinnerTableTypeById(id));
-        return "staff/dinnerTableType/edit";
-    }
+	}
 
-    @PostMapping("/edit/{id}")
-    public String updateDinnerTableType(@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
-    		@PathParam("file") MultipartFile file,
-    		BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return "staff/dinnerTableType/edit";
-        }
-        if(file!=null) {
-			var categoryImage =  idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
+	@GetMapping("edit/{id}")
+	public String updateShowingForm(Model model, @PathVariable("id") Integer id) {
+		model.addAttribute("dinnerTableTypeDto", idinnerTableTypeService.getDinnerTableTypeById(id));
+		return "staff/dinnerTableType/edit";
+	}
+
+	@PostMapping("/edit/{id}")
+	public String updateDinnerTableType(
+			@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
+			@PathParam("file") MultipartFile file, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "staff/dinnerTableType/edit";
+		}
+		if (file != null) {
+			var categoryImage = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
 			FileHelper.deleteCategoryDinnerTable(categoryImage.getImage());
 			var image = FileHelper.uploadCategoryDinnerTable(file);
 			dinnerTableTypeDto.setImage(image);
-		}else {
-			var categoryImage =  idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
+		} else {
+			var categoryImage = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
 			dinnerTableTypeDto.setImage(categoryImage.getImage());
 		}
-        System.out.println(dinnerTableTypeDto);
-        var response = idinnerTableTypeService.updateDinnerTableType(dinnerTableTypeDto.getId(),dinnerTableTypeDto);
-        if(response.isStatus()) {
-            return "redirect:/staff/dinnerTableType/index";
-        }else {
-            bindingResult.addError(new FieldError("dinnerTableTypeDto","name", response.getMessage().getType()));
-            return "staff/dinnerTableType/edit";
-        }
-    }
+		System.out.println(dinnerTableTypeDto);
+		response = idinnerTableTypeService.updateDinnerTableType(dinnerTableTypeDto.getId(), dinnerTableTypeDto);
+		if (response.getOption() == 1) {
 
-    @GetMapping("delete/{id}")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes attributes) {
-        var response = idinnerTableTypeService.deleteDinnerTableType(id);
-        if(response.isStatus()) {
-            attributes.addFlashAttribute("msg", response);
-            return "redirect:/staff/dinnerTableType/index";
-        }else {
-            attributes.addFlashAttribute("msg", response);
-            return "redirect:/staff/dinnerTableType/index";
-        }
-    }
+			redirectAttributes.addFlashAttribute("msg", response);
+			return "redirect:/staff/dinnerTableType/index";
+		}
+		if (response.getOption() == 2) {
+
+			redirectAttributes.addFlashAttribute("msg", response);
+		}
+		return "staff/dinnerTableType/edit";
+
+	}
+
+	@GetMapping("delete/{id}")
+	public String delete(@PathVariable("id") Integer id, RedirectAttributes attributes) {
+		response = idinnerTableTypeService.deleteDinnerTableType(id);
+
+		attributes.addFlashAttribute("msg", response);
+		return "redirect:/staff/dinnerTableType/index";
+
+	}
 }

@@ -9,7 +9,7 @@ public interface ICategoryRestaurantService {
 
 	CategoryRestaurantDto getById(Integer id);
 	List<CategoryRestaurantDto> getList();
-	ResultResponse<CategoryRestaurantDto> insert(CategoryRestaurantDto categoryRestaurantDto);
-	ResultResponse<CategoryRestaurantDto> update(Integer id,CategoryRestaurantDto categoryRestaurantDto);
-	ResultResponse<CategoryRestaurantDto> delete(Integer id);
+	ResultResponse<String> insert(CategoryRestaurantDto categoryRestaurantDto);
+	ResultResponse<String> update(Integer id,CategoryRestaurantDto categoryRestaurantDto);
+	ResultResponse<String> delete(Integer id);
 }

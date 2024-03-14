@@ -33,122 +33,103 @@ public class ReceptionistController {
 	@Autowired
 	private IReceptionistService receptionistService;
 
-	@Autowired 
+	@Autowired
 	private IRoleService roleService;
-	@Autowired 
+	@Autowired
 	private IRestaurantService restaurantService;
-	
-	
-	private ResultResponse<ReceptionistDto> response = new ResultResponse<>();
-	public  ReceptionistController() {
-		this.response = new ResultResponse<>(new ReceptionistDto());
+
+	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
+
+	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
+	public String index(Model model, Principal principal, RedirectAttributes redirectAttributess) {
+
+		model.addAttribute("data", receptionistService.getAllReceptionist(principal.getName()));
+		return "partner/receptionist/index";
 	}
 
-    @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-    public String index(Model model, Principal principal) {
-
-
-    	model.addAttribute("data", receptionistService.getAllReceptionist(principal.getName()));
-    	if(response.getMessage().getEmail() !=null) {
-    		if(response.isStatus()) {
-    			model.addAttribute("msg",true);
-    		}if(response.isStatus() == false) {
-    			model.addAttribute("msg",response.getMessage().getEmail());
-    		}
-    	}
-        return "partner/receptionist/index";
-    }
-
-    
-	
 	@GetMapping("create")
-	public String create(Model model,RedirectAttributes attributes, Principal principal) {
-		var receptionistDto = new ReceptionistDto(); 
-		
-		  List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
-		  model.addAttribute("restaurants", restaurants);
-		  model.addAttribute("receptionistDto", receptionistDto);
-		  if(response.isStatus()) {
-			model.addAttribute("msg",true);
-			return "partner/receptionist/create";
-		}
+	public String create(Model model, RedirectAttributes attributes, Principal principal) {
+		var receptionistDto = new ReceptionistDto();
 
-		model.addAttribute("msg",response.getMessage().getEmail());
+		List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+		model.addAttribute("restaurants", restaurants);
+		model.addAttribute("receptionistDto", receptionistDto);
 		return "partner/receptionist/create";
 	}
-	
+
 	@PostMapping("create/save")
-	public String createProcess(Model model,@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto ,
-			BindingResult bindingResult,Principal principal) {
-	
-		  var roleData = roleService.getRoleById(4);
-		  receptionistDto.setRoleDto(roleData);
-		  var restaurant = restaurantService.getRestaurantById(receptionistDto.getRestaurantDtoId());
-		  receptionistDto.setRestaurantDto(restaurant);
-		if(bindingResult.hasErrors()) {
-			  List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
-			  model.addAttribute("restaurants", restaurants);
+	public String createProcess(Model model, @Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto,
+			BindingResult bindingResult, Principal principal, RedirectAttributes redirectAttributes) {
+
+		var roleData = roleService.getRoleById(4);
+		receptionistDto.setRoleDto(roleData);
+		var restaurant = restaurantService.getRestaurantById(receptionistDto.getRestaurantDtoId());
+		receptionistDto.setRestaurantDto(restaurant);
+		if (bindingResult.hasErrors()) {
+			List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+			model.addAttribute("restaurants", restaurants);
 			return "partner/receptionist/create";
 		}
-		var response = receptionistService.createReceptionist(receptionistDto,principal.getName());
-		if(response.isStatus()) {
-			this.response.setStatus(true);
+		response = receptionistService.createReceptionist(receptionistDto, principal.getName());
+		if (response.getOption() == 1) {
+			redirectAttributes.addFlashAttribute("msg", response);
 			return "redirect:/partner/receptionist/index";
-		}else {
-			this.response.setMessage(new ReceptionistDto(response.getMessage().getEmail()));
-			return "redirect:/partner/receptionist/create";
-			
 		}
-		
+		if (response.getOption() == 2) {
+			redirectAttributes.addFlashAttribute("msg", response);
+
+		}
+		return "redirect:/partner/receptionist/create";
+
 	}
+
 	@GetMapping("update/{id}")
-	public String update(Model model, @PathVariable("id") String id,Principal principal) {
-		var receptionistDto = receptionistService.getReceptionistById(id,principal.getName());
-		  List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
-		  model.addAttribute("restaurants", restaurants);
-		  receptionistDto.setRestaurantDtoId(receptionistDto.getRestaurantDto().getId());
+	public String update(Model model, @PathVariable("id") String id, Principal principal) {
+		var receptionistDto = receptionistService.getReceptionistById(id, principal.getName());
+		List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+		model.addAttribute("restaurants", restaurants);
+		receptionistDto.setRestaurantDtoId(receptionistDto.getRestaurantDto().getId());
 		model.addAttribute("receptionistDto", receptionistDto);
 		return "partner/receptionist/edit";
 	}
+
 	@PostMapping("update/save")
-	public String updateProcess(@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto,Model model, BindingResult bindingResult,Principal principal) {
-		if(bindingResult.hasErrors()) {
+	public String updateProcess(@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto, Model model,
+			BindingResult bindingResult, Principal principal, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
 			List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
-			  model.addAttribute("restaurants", restaurants);
+			model.addAttribute("restaurants", restaurants);
 			return "partner/receptionist/edit";
 		}
 		var roleData = roleService.getRoleById(4);
 		receptionistDto.setRoleDto(roleData);
 		var restaurant = restaurantService.getRestaurantById(receptionistDto.getRestaurantDtoId());
-		  receptionistDto.setRestaurantDto(restaurant);
-		var response = receptionistService.updateReceptionist(receptionistDto.getId(),receptionistDto, principal.getName());
-		if(response.isStatus()) {
-			this.response.setStatus(true);;
+		receptionistDto.setRestaurantDto(restaurant);
+		response = receptionistService.updateReceptionist(receptionistDto.getId(), receptionistDto,
+				principal.getName());
+        if(response.getOption()==1) {
+        	redirectAttributes.addFlashAttribute("msg",response);
 			return "redirect:/partner/receptionist/index";
-		}else {
-			this.response.setMessage(new ReceptionistDto(response.getMessage().getEmail()));
-			 return "partner/receptionist/edit";
-		}
+		} if(response.getOption()==2) {
+			redirectAttributes.addFlashAttribute("msg",response);
+			}
+			return "partner/receptionist/edit";
+		
 	}
-	
+
 	@GetMapping("delete/{id}")
-	public String delete(@PathVariable("id") String id, RedirectAttributes attributes,Principal principal) {
-		var response = receptionistService.deleteReceptionist(id, principal.getName());
-		if(response.isStatus()) {
-			attributes.addFlashAttribute("msg", true);
+	public String delete(@PathVariable("id") String id, RedirectAttributes attributes, Principal principal) {
+		response = receptionistService.deleteReceptionist(id, principal.getName());
+		attributes.addFlashAttribute("msg",response);
 			return "redirect:/partner/receptionist/index";
-		}else {
-			attributes.addFlashAttribute("msg", response.getMessage().getEmail());
-			return "redirect:/partner/receptionist/index";
-		}
+		
 	}
+
 	@GetMapping("change/status/{id}")
 	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id, Principal principal) {
 		var check = receptionistService.changeStatus(id, principal.getName());
-		attributes.addFlashAttribute("msg",check);
+		attributes.addFlashAttribute("msg", check);
 		return "redirect:/partner/receptionist/index";
 	}
-	
 
-	
 }

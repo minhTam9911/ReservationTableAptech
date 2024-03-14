@@ -31,39 +31,39 @@ public class CategoryRestaurantService implements ICategoryRestaurantService {
 	}
 
 	@Override
-	public ResultResponse<CategoryRestaurantDto> insert(CategoryRestaurantDto categoryRestaurantDto) {
+	public ResultResponse<String> insert(CategoryRestaurantDto categoryRestaurantDto) {
 		if(categoryRestaurantRepository.findByName(toUpperCaseFirstLetter(categoryRestaurantDto.getName())).size()>0) {
-			return new ResultResponse<CategoryRestaurantDto>(false,new CategoryRestaurantDto("Name Already"));
+			return new ResultResponse<String>(true,2,"Name Already");
 		}
 		categoryRestaurantDto.setName(toUpperCaseFirstLetter(categoryRestaurantDto.getName()));
 		if(categoryRestaurantRepository.save(CategoryRestaurantMapper.mapToModel(categoryRestaurantDto))!=null) {
-			return new ResultResponse<CategoryRestaurantDto>(true,new CategoryRestaurantDto());
+			return new ResultResponse<String>(true,1,"Process Successfully");
 		}else {
-			return new ResultResponse<CategoryRestaurantDto>(false,new CategoryRestaurantDto());
+			return new ResultResponse<String>(true,2,"Process Failure");
 		}
 	}
 
 	@Override
-	public ResultResponse<CategoryRestaurantDto> update(Integer id, CategoryRestaurantDto categoryRestaurantDto) {
+	public ResultResponse<String> update(Integer id, CategoryRestaurantDto categoryRestaurantDto) {
 		if(categoryRestaurantRepository.existName(toUpperCaseFirstLetter(categoryRestaurantDto.getName()),id).size() >0) {
-			return new ResultResponse<CategoryRestaurantDto>(false,new CategoryRestaurantDto("Name Already"));
+			return new ResultResponse<String>(true,2,"Name Already");
 		}
 		categoryRestaurantDto.setName(toUpperCaseFirstLetter(categoryRestaurantDto.getName()));
 		categoryRestaurantDto.setId(id);
 		if(categoryRestaurantRepository.save(CategoryRestaurantMapper.mapToModel(categoryRestaurantDto))!=null) {
-			return new ResultResponse<CategoryRestaurantDto>(true,new CategoryRestaurantDto());
+			return new ResultResponse<String>(true,1,"Process Successfully");
 		}else {
-			return new ResultResponse<CategoryRestaurantDto>(false,new CategoryRestaurantDto());
+			return new ResultResponse<String>(false,2,"Process Failure");
 		}
 	}
 
 	@Override
-	public ResultResponse<CategoryRestaurantDto> delete(Integer id) {
+	public ResultResponse<String> delete(Integer id) {
 		if(categoryRestaurantRepository.findById(id) == null) {
-			return new ResultResponse<CategoryRestaurantDto>(false,new CategoryRestaurantDto("Id Does not exist"));
+			return new ResultResponse<String>(true,2,"Id Does not exist");
 		}
 		categoryRestaurantRepository.deleteById(id);
-		return new ResultResponse<CategoryRestaurantDto>(true,new CategoryRestaurantDto());
+		return new ResultResponse<String>(true,1,"Process Successfully");
 	}
 	
 	private  String toUpperCaseFirstLetter(String str) {

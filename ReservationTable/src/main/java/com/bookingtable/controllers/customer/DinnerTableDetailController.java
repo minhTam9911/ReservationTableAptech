@@ -38,27 +38,26 @@ public class DinnerTableDetailController {
         Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
         dinnerTable.setImagesDto(new ArrayList<>(images));
         model.addAttribute("dinnerTable", dinnerTable);
-        var rates = rateRepository.findByDinnerTable_id(dinnerTable.getId());
-        model.addAttribute("rates", rates);
-        var comments = rateRepository.findByDinnerTable_id(id);
-        model.addAttribute("comments", comments);
+        var listRates = new ArrayList<Rate>();
+        var rates = rateRepository.findAll();
+        for(var i : rates) {
+        	var rate = new Rate();
+        	if(i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
+        		 listRates.add(rate);
+        	}
+        }
+        model.addAttribute("ratesLenght", listRates.size());
+        model.addAttribute("rates", listRates);
         if(principal!=null) {
         	List<Rate> list = new ArrayList<>();
         	var commentPersonal = rateRepository.findByCustomerEmail(principal.getName());
         	for(var i : commentPersonal) {
-        		if(i.isStatus()) {
+        		if(i.getReservation().getReservationStatus().getStatus().equalsIgnoreCase("finished")) {
         			list.add(i);
         		}
         	}
         	model.addAttribute("commentPersonal", list);
         }
-        List<Rate> listCommentWrite = new ArrayList();
-        for(var i : comments) {
-        	if(i.isStatus()) {
-        		listCommentWrite.add(i);
-        	}
-        }
-        model.addAttribute("commentWrite", listCommentWrite);
         return "customer/dinnerTable-details/index";
     }
 }

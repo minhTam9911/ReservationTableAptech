@@ -13,15 +13,17 @@ import com.bookingtable.mappers.RoleMapper;
 import com.bookingtable.mappers.SystemMapper;
 import com.bookingtable.repositories.RoleRepository;
 import com.bookingtable.servicies.IRoleService;
+
 @Service
 public class RoleService implements IRoleService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
 	@Override
 	public List<RoleDto> getAllRoles() {
-		
-		return roleRepository.findAll().stream().map(i->RoleMapper.mapToDto(i)).collect(Collectors.toList());
+
+		return roleRepository.findAll().stream().map(i -> RoleMapper.mapToDto(i)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -31,56 +33,56 @@ public class RoleService implements IRoleService {
 	}
 
 	@Override
-	public ResultResponse<RoleDto> createRole(RoleDto roleDto) {
+	public ResultResponse<String> createRole(RoleDto roleDto) {
 		try {
-			if(roleRepository.findByName(roleDto.getName()).size()>0) {
-				return new ResultResponse<RoleDto>(false,new RoleDto(0,"Name already"));
+			if (roleRepository.findByName(roleDto.getName()).size() > 0) {
+				return new ResultResponse<String>(true, 2, "Name already");
 			}
-			if(roleRepository.save(RoleMapper.mapToModel(roleDto))!=null) {
-				return new ResultResponse<RoleDto>(true,new RoleDto());
-			}else {
-				return new ResultResponse<RoleDto>(false,new RoleDto(0,"Failure"));
+			if (roleRepository.save(RoleMapper.mapToModel(roleDto)) != null) {
+				return new ResultResponse<String>(true, 1, "Process Successfully");
+			} else {
+				return new ResultResponse<String>(true, 2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultResponse<RoleDto>(false,new RoleDto(0,e.getMessage()));
+			return new ResultResponse<String>(true, 2, e.getMessage());
 		}
 	}
 
 	@Override
-	public ResultResponse<RoleDto> updateRole(Integer id, RoleDto roleDto) {
+	public ResultResponse<String> updateRole(Integer id, RoleDto roleDto) {
 		try {
 			var data = roleRepository.findById(id).get();
-			if(data.getName() != roleDto.getName()) {
-				if(roleRepository.existName(roleDto.getName(), id).size()>0) {
-				return	new ResultResponse<RoleDto>(false,new RoleDto(0,"Name already"));
+			if (data.getName() != roleDto.getName()) {
+				if (roleRepository.existName(roleDto.getName(), id).size() > 0) {
+					return new ResultResponse<String>(true, 2, "Name already");
 				}
 			}
 			data.setName(roleDto.getName());
-				if(roleRepository.save(data)!=null) {
-				return	new ResultResponse<RoleDto>(true,new RoleDto());
-			}else {
-				return new ResultResponse<RoleDto>(false,new RoleDto(0,"Failure"));
+			if (roleRepository.save(data) != null) {
+				return new ResultResponse<String>(true, 1, "Process Successfully");
+			} else {
+				return new ResultResponse<String>(true, 2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultResponse<RoleDto>(false,new RoleDto(0,e.getMessage()));
+			return new ResultResponse<String>(true, 2, e.getMessage());
 		}
-		
+
 	}
 
 	@Override
-	public ResultResponse<RoleDto> deleteRole(Integer id) {
+	public ResultResponse<String> deleteRole(Integer id) {
 		try {
-			if(roleRepository.findById(id)!=null) {
+			if (roleRepository.findById(id) != null) {
 				roleRepository.deleteById(id);
-				return	new ResultResponse<RoleDto>(true,new RoleDto());
-			}else {
-				return	new ResultResponse<RoleDto>(false,new RoleDto(0,"Failure"));
+				return new ResultResponse<String>(true, 1, "Process Successfully");
+			} else {
+				return new ResultResponse<String>(true, 2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return	new ResultResponse<RoleDto>(false,new RoleDto(0,"Name already"));
+			return new ResultResponse<String>(true, 2, e.getMessage());
 		}
 	}
 

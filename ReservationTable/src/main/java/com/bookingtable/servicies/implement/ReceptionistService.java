@@ -57,24 +57,24 @@ public class ReceptionistService implements IReceptionistService {
 
 
 	@Override
-	public  ResultResponse<ReceptionistDto> updateReceptionist(String id, ReceptionistDto receptionistDto, String emailCreatedBy) {
+	public  ResultResponse<String> updateReceptionist(String id, ReceptionistDto receptionistDto, String emailCreatedBy) {
 		try {
 
 			if(receptionistRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(reservationAgentRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(guestRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(systemRepository.existEmail(receptionistDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			var data = receptionistRepository.findById(id).get();
 			if(data==null || !data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto());
+				return new  ResultResponse<String>(true,2, "Forbiden");
 			}
 			data.setFullname(receptionistDto.getFullname());
 			data.setAddress(receptionistDto.getAddress());
@@ -84,55 +84,55 @@ public class ReceptionistService implements IReceptionistService {
 			data.setRestaurant(RestaurantMapper.mapToModel(receptionistDto.getRestaurantDto()));
 			data.setUpdated(LocalDate.now());
 			if(receptionistRepository.save(data)!=null) {
-				return new  ResultResponse<ReceptionistDto>(true, new ReceptionistDto());
+				return new  ResultResponse<String>(true,1, "Process Successfully");
 			}else {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Failure"));
+				return new  ResultResponse<String>(true,2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto(e.getMessage()));
+			return new  ResultResponse<String>(true,2, e.getMessage());
 		}
 	}
 
 	@Override
-	public  ResultResponse<ReceptionistDto> deleteReceptionist(String id, String emailCreatedBy) {
+	public  ResultResponse<String> deleteReceptionist(String id, String emailCreatedBy) {
 		try {
 			var data = receptionistRepository.findById(id).get();
 			if(data!=null && data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
 				receptionistRepository.deleteById(id);
-                return new ResultResponse<ReceptionistDto>(true, new ReceptionistDto());
+				return new  ResultResponse<String>(true,1, "Process Successfully");
             } else {
-                return new ResultResponse<ReceptionistDto>(false, new ReceptionistDto());
+            	return new  ResultResponse<String>(true,2, "Process Failure");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultResponse<ReceptionistDto>(false, new ReceptionistDto(e.getMessage()));
+            return new  ResultResponse<String>(true,2, e.getMessage());
         }
 	}
 
 	@Override
-	public  ResultResponse<ReceptionistDto> createReceptionist(ReceptionistDto receptionistDto, String emailCreatedBy) {
+	public  ResultResponse<String> createReceptionist(ReceptionistDto receptionistDto, String emailCreatedBy) {
 		try {
 			receptionistDto.setEmail(receptionistDto.getEmail().toLowerCase());
 
 			if(systemRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(receptionistRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(reservationAgentRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(guestRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			if(systemRepository.findByEmail(receptionistDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+				return new  ResultResponse<String>(true,2, "Email already");
 			}
 			var reservationAgent = reservationAgentRepository.findByEmail(emailCreatedBy);
 			if(receptionistRepository.findByReservationAgentEmail(emailCreatedBy).size()>= reservationAgent.getTotalRestaurant()) {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("The creation limit has been reached"));
+				return new  ResultResponse<String>(true,2, "The creation limit has been reached");
 			}
 			
 			var data = ReceptionistMapper.mapToModel(receptionistDto);
@@ -146,17 +146,17 @@ public class ReceptionistService implements IReceptionistService {
 			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
 				
 			} else {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Send Email Fail"));
+				return new  ResultResponse<String>(true,2, "Send Email Fail");
 			}
 			
 			if(receptionistRepository.save(data)!=null) {
-				return new  ResultResponse<ReceptionistDto>(true, new ReceptionistDto());
+				return new  ResultResponse<String>(true,1, "Process Successfully");
 			}else {
-				return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto());
+				return new  ResultResponse<String>(true,2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new  ResultResponse<ReceptionistDto>(false, new ReceptionistDto("Email already"));
+			return new  ResultResponse<String>(true,2, e.getMessage());
 		}
 	}
 

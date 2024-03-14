@@ -12,10 +12,10 @@ public interface ISystemService {
 
     public SystemDto getSystemsById(String id);
 
-    public ResultResponse<SystemDto> insertSystem(SystemDto systemDto) ;
-    public  ResultResponse<SystemDto> updateSystem(String id, SystemDto systemDto);
+    public ResultResponse<String> insertSystem(SystemDto systemDto) ;
+    public  ResultResponse<String> updateSystem(String id, SystemDto systemDto);
 
-    public  ResultResponse<SystemDto> deleteSystem(String id);
+    public  ResultResponse<String> deleteSystem(String id);
     public boolean changeStatus(String id);
 	
 }

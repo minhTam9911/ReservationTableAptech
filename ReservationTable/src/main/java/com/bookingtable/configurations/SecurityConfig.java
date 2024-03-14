@@ -58,7 +58,8 @@ public class SecurityConfig {
                             "assets/customer/fonts/**",
                             "assets/system/css/**",
                             "assets/system/img/**",
-                            
+                            "categories/image-restaurant/**",
+                            "categories/image-dinnerTable/**",
                             "assets/system/js/**",
                             "assets/system/scss/bootstrap/scss/**",
                             "assets/system/scss/bootstrap/scss/forms/**",
@@ -77,10 +78,11 @@ public class SecurityConfig {
                             "uploads/**",
                             "/login", "/register","/accessDenied",
                             "/",
-                            "/**",
+                          //  "/**",
                             "/restaurant/index",
                             "/account/accessDenied",
                             "/customer/**",
+                            "/customer/dinnerTable-details/**",
                             "/customer/home/index",
                             "/customer/aboutUs",
                             "/customer/dinnerTables",
@@ -93,6 +95,8 @@ public class SecurityConfig {
                             "/payment/paypal/success",
                             "/payment/paypal/cancel",
                             "/payment/vnpay/**",
+                            "/customer/category/dinerTable/detail/**",
+                            "/customer/category/restaurant/detail/**",
                             "/payment/vnpay/create-payment",
                             "/payment/vnpay/success",
                             "/payment/vnpay/cancel",
@@ -126,7 +130,7 @@ public class SecurityConfig {
                                                                     Authentication authentication) throws IOException, ServletException {
                                     Map<String, String> urls = new HashMap<>();
                                     urls.put("ROLE_ADMIN", "/admin/panel/index");
-                                    urls.put("ROLE_STAFF", "/staff/index");
+                                    urls.put("ROLE_STAFF", "/staff/reservationAgent/index");
                                     urls.put("ROLE_PARTNER", "/partner/index");
                                     urls.put("ROLE_RECEPTIONIST", "/receptionist/index");
                                     urls.put("ROLE_CUSTOMER", "/customer/home");

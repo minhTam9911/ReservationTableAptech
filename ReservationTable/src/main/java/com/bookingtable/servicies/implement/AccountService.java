@@ -138,7 +138,7 @@ public class AccountService implements IAccountService {
 			 String emailFrom = environment.getProperty("spring.mail.username");
             var content =MailHelper.HtmlVerify(code);
             iMailService.send(emailFrom, data.getEmail(), "Verification code", content);
-			return new ResultResponse<String>(true, "Please check your email again");
+			return new ResultResponse<String>(true,1, "Please check your email again");
 		}
 		if(reservationAgentRepository.findByEmail(email)!=null) {
 			var data = reservationAgentRepository.findByEmail(email);
@@ -148,7 +148,7 @@ public class AccountService implements IAccountService {
 			 String emailFrom = environment.getProperty("spring.mail.username");
             var content =MailHelper.HtmlVerify(code);
             iMailService.send(emailFrom, data.getEmail(), "Verification code", content);
-			return new ResultResponse<String>(true, "Please check your email again");
+			return new ResultResponse<String>(true,1, "Please check your email again");
 		}
 		if(receptionistRepository.findByEmail(email)!=null) {
 			var data = receptionistRepository.findByEmail(email);
@@ -158,7 +158,7 @@ public class AccountService implements IAccountService {
 			 String emailFrom = environment.getProperty("spring.mail.username");
             var content =MailHelper.HtmlVerify(code);
             iMailService.send(emailFrom, data.getEmail(), "Verification code", content);
-			return new ResultResponse<String>(true, "Please check your email again");
+			return new ResultResponse<String>(true,1, "Please check your email again");
 		}
 		if(customerRepository.findByEmail(email)!=null) {
 			var data = customerRepository.findByEmail(email);
@@ -168,9 +168,9 @@ public class AccountService implements IAccountService {
 			 String emailFrom = environment.getProperty("spring.mail.username");
             var content =MailHelper.HtmlVerify(code);
             iMailService.send(emailFrom, data.getEmail(), "Verification code", content);
-			return new ResultResponse<String>(true, "Please check your email again");
+			return new ResultResponse<String>(true,1, "Please check your email again");
 		}
-		return new ResultResponse<String>(false, "Email does not exist");
+		return new ResultResponse<String>(true,2, "Email does not exist");
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class AccountService implements IAccountService {
 			if(data.getSecurityCode().equals(code)) {
 				data.setSecurityCode(null);
 				systemRepository.save(data);
-				return new ResultResponse<String>(true, "Verify Code is valid");
+				return new ResultResponse<String>(true,1, "Verify Code is valid");
 			}
 		}
 		if(reservationAgentRepository.findByEmail(email)!=null) {
@@ -188,7 +188,7 @@ public class AccountService implements IAccountService {
 			if(data.getSecurityCode().equals(code)) {
 				data.setSecurityCode(null);
 				reservationAgentRepository.save(data);
-				return new ResultResponse<String>(true, "Verify Code is valid");
+				return new ResultResponse<String>(true,1, "Verify Code is valid");
 			}
 		}
 		if(receptionistRepository.findByEmail(email)!=null) {
@@ -196,7 +196,7 @@ public class AccountService implements IAccountService {
 			if(data.getSecurityCode().equals(code)) {
 				data.setSecurityCode(null);
 				receptionistRepository.save(data);
-				return new ResultResponse<String>(true, "Verify Code is valid");
+				return new ResultResponse<String>(true,1, "Verify Code is valid");
 			}
 		}
 		if(customerRepository.findByEmail(email)!=null) {
@@ -204,10 +204,10 @@ public class AccountService implements IAccountService {
 			if(data.getSecurityCode().equals(code)) {
 				data.setSecurityCode(null);
 				customerRepository.save(data);
-				return new ResultResponse<String>(true, "Verify Code is valid");
+				return new ResultResponse<String>(true,1, "Verify Code is valid");
 			}
 		}
-		return  new ResultResponse<String>(false, "Security code not match");
+		return  new ResultResponse<String>(true,2, "Security code not match");
 	}
 
 	@Override
@@ -217,28 +217,28 @@ public class AccountService implements IAccountService {
 			
 				data.setPassword(password);
 				systemRepository.save(data);
-				return new ResultResponse<String>(true, "Reset Password Successful");
+				return new ResultResponse<String>(true,1, "Reset Password Successful");
 			
 		}
 		if(reservationAgentRepository.findByEmail(email)!=null) {
 			var data = reservationAgentRepository.findByEmail(email);
 			data.setPassword(password);
 				reservationAgentRepository.save(data);
-				return new ResultResponse<String>(true, "Reset Password Successful");
+				return new ResultResponse<String>(true,1, "Reset Password Successful");
 		}
 		if(receptionistRepository.findByEmail(email)!=null) {
 			var data = receptionistRepository.findByEmail(email);
 			data.setPassword(password);
 				receptionistRepository.save(data);
-				return new ResultResponse<String>(true, "Reset Password Successful");
+				return new ResultResponse<String>(true,1, "Reset Password Successful");
 		}
 		if(customerRepository.findByEmail(email)!=null) {
 			var data = customerRepository.findByEmail(email);
 			data.setPassword(password);
 				customerRepository.save(data);
-				return new ResultResponse<String>(true, "Reset Password Successful");
+				return new ResultResponse<String>(true,1, "Reset Password Successful");
 		}
-		return  new ResultResponse<String>(false, "Reset Password Failure");
+		return  new ResultResponse<String>(true,2, "Reset Password Failure");
 	}
 	@Override
 	public ResultResponse<String> updateProfile(SystemDto updatedProfile,String email) {
@@ -249,7 +249,7 @@ public class AccountService implements IAccountService {
 			system.setPhoneNumber(updatedProfile.getPhoneNumber());
 			system.setPassword(updatedProfile.getPassword());
 			systemRepository.save(system);
-			return new ResultResponse<String>(true, "Profile updated successfully");
+			return new ResultResponse<String>(true,1, "Profile updated successfully");
 		}
 
 		ReservationAgent reservationAgent = reservationAgentRepository.findByEmail(email);
@@ -259,7 +259,7 @@ public class AccountService implements IAccountService {
 			system.setPhoneNumber(reservationAgent.getCellularPhoneNumber());
 			system.setPassword(reservationAgent.getPassword());
 			reservationAgentRepository.save(reservationAgent);
-			return new ResultResponse<String>(true, "Profile updated successfully");
+			return new ResultResponse<String>(true,1, "Profile updated successfully");
 		}
 
 		Receptionist receptionist = receptionistRepository.findByEmail(email);
@@ -270,9 +270,9 @@ public class AccountService implements IAccountService {
 			system.setPassword(receptionist.getPassword());
 			system.setDateOfBirth(receptionist.getDateOfBirth());
 			receptionistRepository.save(receptionist);
-			return new ResultResponse<String>(true, "Profile updated successfully");
+			return new ResultResponse<String>(true,1, "Profile updated successfully");
 		}
-		return new ResultResponse<String>(false, "User not found");
+		return new ResultResponse<String>(true,2, "User not found");
 	}
 	@Override
 	public SystemDto findByEmail(String email) {

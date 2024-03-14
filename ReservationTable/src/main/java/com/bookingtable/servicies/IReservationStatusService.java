@@ -11,8 +11,8 @@ public interface IReservationStatusService {
 
     public ReservationStatusDto getReservationStatusById(Integer id);
 
-    public ResultResponse<ReservationStatusDto>  createReservationStatus(ReservationStatusDto reservationDto) ;
-    public ResultResponse<ReservationStatusDto>  updateReservationStatus(Integer id, ReservationStatusDto reservationDto);
+    public ResultResponse<String>  createReservationStatus(ReservationStatusDto reservationDto) ;
+    public ResultResponse<String>  updateReservationStatus(Integer id, ReservationStatusDto reservationDto);
 
-    public ResultResponse<ReservationStatusDto>  deleteReservationStatus(Integer id);
+    public ResultResponse<String>  deleteReservationStatus(Integer id);
 }

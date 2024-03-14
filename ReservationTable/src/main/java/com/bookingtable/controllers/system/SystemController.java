@@ -34,107 +34,86 @@ public class SystemController {
 	@Autowired
 	private ISystemService systemService;
 
-	@Autowired 
+	@Autowired
 	private IRoleService roleService;
-	
-	private ResultResponse<SystemDto> response = new ResultResponse<>(new SystemDto());
-	public SystemController() {
-		this.response = new ResultResponse<>(new SystemDto());
+
+	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
+
+	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
+	public String index(Model model, Principal principal) {
+		model.addAttribute("username", principal.getName());
+		model.addAttribute("data", systemService.getAllSystems());
+		return "admin/panel/staff/index";
 	}
 
-    @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-    public String index(Model model, Principal principal) {
-		model.addAttribute("username",principal.getName());
-
-		model.addAttribute("data", systemService.getAllSystems());
-    	if(response.getMessage().getEmail() !=null) {
-    		if(response.isStatus()) {
-    			model.addAttribute("msg",true);
-    		}if(response.isStatus() == false) {
-    			model.addAttribute("msg",response.getMessage().getEmail());
-    		}
-    	}
-        return "admin/panel/staff/index";
-    }
-
-    
-	
 	@GetMapping("create")
-	public String create(Model model,RedirectAttributes attributes) {
-		var systemDto = new SystemDto(); 
+	public String create(Model model, RedirectAttributes attributes) {
+		var systemDto = new SystemDto();
 		model.addAttribute("systemDto", systemDto);
-		if(response.isStatus()) {
-			model.addAttribute("msg",true);
-			return "admin/panel/staff/create";
-		}
-
-		model.addAttribute("msg",response.getMessage().getEmail());
 		return "admin/panel/staff/create";
 	}
-	
+
 	@PostMapping("create/save")
-	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto ,
-			BindingResult bindingResult) {
-	
-		  var roleData = roleService.getRoleById(2);
-		  systemDto.setRoleDto(roleData);
-		 
-		System.out.println(bindingResult.getAllErrors().toString());
-		
-		if(bindingResult.hasErrors()) {
+	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
+			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+
+		var roleData = roleService.getRoleById(2);
+		systemDto.setRoleDto(roleData);
+		if (bindingResult.hasErrors()) {
 			return "admin/panel/staff/create";
 		}
-		var response = systemService.insertSystem(systemDto);
-		if(response.isStatus()) {
-			this.response.setStatus(true);
+		response = systemService.insertSystem(systemDto);
+		if (response.getOption() == 1) {
+			redirectAttributes.addFlashAttribute("msg", response);
 			return "redirect:/admin/panel/index";
-		}else {
-			this.response.setMessage(new SystemDto(response.getMessage().getEmail()));
-			return "redirect:/admin/panel/create";
-			
 		}
-		
+		if (response.getOption() == 2) {
+			redirectAttributes.addFlashAttribute("msg", response);
+		}
+		return "redirect:/admin/panel/create";
+
 	}
+
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") String id) {
 		var systemDto = systemService.getSystemsById(id);
 		model.addAttribute("systemDto", systemDto);
 		return "admin/panel/staff/edit";
 	}
+
 	@PostMapping("update/save")
-	public String updateProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+	public String updateProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
+			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
 			return "admin/panel/staff/edit";
 		}
-		var response = systemService.updateSystem(systemDto.getId(),systemDto);
-		if(response.isStatus()) {
-			this.response.setStatus(true);;
+		response = systemService.updateSystem(systemDto.getId(), systemDto);
+		if (response.getOption() == 1) {
+			redirectAttributes.addFlashAttribute("msg", response);
+			this.response.setStatus(true);
+
 			return "redirect:/admin/panel/index";
-		}else {
-			this.response.setMessage(new SystemDto(response.getMessage().getEmail()));
-			 return "admin/panel/staff/edit";
 		}
+		if (response.getOption() == 2) {
+			redirectAttributes.addFlashAttribute("msg", response);
+
+		}
+		return "admin/panel/staff/edit";
 	}
-	
+
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
-		var response = systemService.deleteSystem(id);
-		if(response.isStatus()) {
-			attributes.addFlashAttribute("msg", true);
+		 response = systemService.deleteSystem(id);
+		 attributes.addFlashAttribute("msg",response);
 			return "redirect:/admin/panel/index";
-		}else {
-			attributes.addFlashAttribute("msg", response.getMessage().getEmail());
-			return "redirect:/admin/panel/index";
-		}
+		
 	}
+
 	@GetMapping("change/status/{id}")
 	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id) {
 		var check = systemService.changeStatus(id);
-		attributes.addFlashAttribute("msg",check);
+		attributes.addFlashAttribute("msg", check);
 		return "redirect:/admin/panel/index";
 	}
-	
 
-
-  
 }

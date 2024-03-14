@@ -13,10 +13,10 @@ public interface IRestaurantService {
     public List<RestaurantDto> getAllRestaurantsWithCategory(Integer categoryId);
     public RestaurantDto getRestaurantById(String id);
     public RestaurantDto getRestaurantById(String id, String idAgent);
-    public ResultResponse<RestaurantDto> createRestaurant(RestaurantDto restaurantDto, String emailCreatedBy) ;
-    public ResultResponse<RestaurantDto> updateRestaurant(String id, RestaurantDto restaurantDto,String emailCreatedBy);
+    public ResultResponse<String> createRestaurant(RestaurantDto restaurantDto, String emailCreatedBy) ;
+    public ResultResponse<String> updateRestaurant(String id, RestaurantDto restaurantDto,String emailCreatedBy);
 
-    public ResultResponse<RestaurantDto> deleteRestaurant(String id, String emailCreateBy);
+    public ResultResponse<String> deleteRestaurant(String id, String emailCreateBy);
 
 
 }

@@ -41,11 +41,7 @@ public class DinnerTableController {
     @Autowired
     private IImageService imageService;
 
-
-    private ResultResponse<DinnerTableDto> response = new ResultResponse<>();
-    public DinnerTableController() {
-        this.response = new ResultResponse<>(new DinnerTableDto());
-    }
+    private ResultResponse<String> response = new ResultResponse<>(false,0,"");
     @Autowired
     private RestaurantService restaurantService;
 
@@ -83,16 +79,12 @@ public class DinnerTableController {
         List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
         dinnerTableDto.setRestaurantList(restaurants);
         model.addAttribute("dinnerTableDto", dinnerTableDto);
-        if(response.isStatus()) {
-            model.addAttribute("msg",true);
-            return "partner/dinnerTable/create";
-        }
         return "partner/dinnerTable/create";
     }
 
     @PostMapping("create/save")
     public String createDinnerTable(@Valid @ModelAttribute("dinnerTableDto") DinnerTableDto dinnerTableDto,BindingResult bindingResult
-                                    ,@RequestParam("images") MultipartFile[] images) {
+                                    ,@RequestParam("images") MultipartFile[] images, RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
@@ -107,24 +99,25 @@ public class DinnerTableController {
         var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
         dinnerTableDto.setRestaurantDto(restaurantDto);
 
-        var response = iDinnerTableService.createDinnerTable(dinnerTableDto);
-        for (MultipartFile image : images) {
-            ImageDto imageDto = new ImageDto();
-            imageDto.setPath(FileHelper.uploadDinnerTable(image));
-            imageDto.setDinnerTableDto(response.getMessage());
-            imageDto.setRestaurantDto(restaurantDto);
-            imageService.createImage(imageDto);
-        }
+        response = iDinnerTableService.createDinnerTable(dinnerTableDto);
+       
+        if(response.getOption()==1) {
+        	 for (MultipartFile image : images) {
+                 ImageDto imageDto = new ImageDto();
+                 imageDto.setPath(FileHelper.uploadDinnerTable(image));
+                 imageDto.setDinnerTableDto(iDinnerTableService.getDinnerTableById(Integer.valueOf(response.getMessage())));
+                 imageDto.setRestaurantDto(restaurantDto);
+                 imageService.createImage(imageDto);
+             }
 
-        if(response.isStatus()) {
-            this.response.setStatus(true);
+            response.setMessage("Process Successfully");
+            redirectAttributes.addFlashAttribute("msg",response);
             return "redirect:/partner/dinnerTable/index";
-        }else {
+        }if(response.getOption()==2) {
+        	  redirectAttributes.addFlashAttribute("msg",response);
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-            return "redirect:/partner/dinnerTable/create";
-
-        }
+        } return "redirect:/partner/dinnerTable/create";
     }
 
     @GetMapping("edit/{id}")
@@ -145,11 +138,6 @@ public class DinnerTableController {
 
         List<RestaurantDto> restaurants = restaurantService.getAllRestaurants();
         dinnerTableDto.setRestaurantList(restaurants);
-
-        if(response.isStatus()) {
-            model.addAttribute("msg",true);
-            return "partner/dinnerTable/edit";
-        }
         return "partner/dinnerTable/edit";
     }
 
@@ -169,14 +157,14 @@ public class DinnerTableController {
         dinnerTableDto.setDinnerTableTypeDto(dinnerTableTypeDto);
         var restaurantDto = iRestaurantService.getRestaurantById(dinnerTableDto.getRestaurantDtoId());
         dinnerTableDto.setRestaurantDto(restaurantDto);
-        var response = iDinnerTableService.updateDinnerTable(dinnerTableDto.getId(),dinnerTableDto);
+        response = iDinnerTableService.updateDinnerTable(dinnerTableDto.getId(),dinnerTableDto);
         Set<String> imagePaths = new HashSet<>(); // Store paths of new images
 
         // Loop through new images
         for (MultipartFile image : images) {
             ImageDto imageDto = new ImageDto();
             imageDto.setPath(FileHelper.uploadDinnerTable(image));
-            imageDto.setDinnerTableDto(response.getMessage());
+            imageDto.setDinnerTableDto(iDinnerTableService.getDinnerTableById(Integer.valueOf(response.getMessage())));
             imagePaths.add(imageDto.getPath()); // Add new image path to the set
 
             // Check if the new image already exists in the existing images
@@ -208,26 +196,27 @@ public class DinnerTableController {
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
             return "partner/dinnerTable/edit";
         }
-        if(response.isStatus()) {
-            this.response.setStatus(true);
+        if(response.getOption()==1) {
+            response.setMessage("Process Successfully");
+            redirectAttributes.addFlashAttribute("msg",response);
             return "redirect:/partner/dinnerTable/index";
-        }else {
+        }        if(response.getOption()==2) {
+             redirectAttributes.addFlashAttribute("msg",response);
             dinnerTableDto.setDinnerTableTypeList(idinnerTableTypeService.getAllDinnerTablesType());
             dinnerTableDto.setRestaurantList(iRestaurantService.getAllRestaurants());
-            return "redirect:/partner/dinnerTable/edit";
-
-        }
+        } return "partner/dinnerTable/edit";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteDinnerTable(@PathVariable Integer id) {
+    public String deleteDinnerTable(@PathVariable Integer id,RedirectAttributes attributes) {
         var existImages = imageService.getImagesByDinnerTableId(id);
         for(var existImage :existImages) {
             FileHelper.deleteDinnerTableImage(existImage.getPath());
 
             imageService.deleteImage(existImage.getId());
         }
-        iDinnerTableService.deleteDinnerTable(id);
+        response = iDinnerTableService.deleteDinnerTable(id);
+        attributes.addFlashAttribute("msg",response);
         return "redirect:/partner/dinnerTable";
     }
 }

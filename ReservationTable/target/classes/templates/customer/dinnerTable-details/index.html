@@ -242,7 +242,7 @@
                             <div class="input-group" style="flex-direction: column;">
                                 <label>Payment method:</label>
                                 <select class="wide" name="method" style="display: none;">
-                                    <option value="1">Paypal</option>
+                                    <option value="1" selected>Paypal</option>
                                     <option value="2">VNPay</option>
                                 </select>
 
@@ -290,12 +290,16 @@
                         from </p>
                 </div>
                 <div class="testimonial_slider owl-carousel">
+					<th:block th:if="${ratesLenght}>0">
+						
+					
                     <div class="media testimonial_item" th:each="rate : ${rates}">
                         <img class="rounded-circle" src="image/testtimonial-1.jpg" alt="">
                         <div class="media-body">
                             <p th:text="${rate.comment}"></p>
-                            <a href="#"><h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4></a>
+                          <!--  <a href="#"><h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4></a>-->
                             <div class="star">
+								
                                 <th:block th:switch="${rate.point}">
                                     <th:block th:case="1"><i class="fa fa-star"></i></th:block>
                                     <th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i>
@@ -309,17 +313,24 @@
                                     </th:block>
                                     <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
                                 </th:block>
+                              
                             </div>
                         </div>
                     </div>
+                    	</th:block>
                 </div>
             </div>
         </section>
         <!-- Phần comment -->
-        <div class="comment-section">
+      <!--  <div class="comment-section">
             <h2>Comments</h2>
+            <th:block th:if="${commentPersonal.length}>0">
+				<th:block th:each="i : ${commentPersonal}">
+					
+				</th:block>
+		
 				<form >
-					<th:block th:switch="${rate.point}">
+					<th:block th:switch="${i.point}">
                                     <th:block th:case="1"><i class="fa fa-star"><input type="hidden" name="point" value="1"></i></th:block>
                                     <th:block th:case="2"><i class="fa fa-star"></i><input type="hidden" name="point" value="2"><i class="fa fa-star"></i>
                                     </th:block>
@@ -339,9 +350,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             	</form>
-		<!--	</th:block> -->
+            		</th:block>
+			</th:block> 
         </div>
-
+-->
     </div>
     <script>
 			document.addEventListener("DOMContentLoaded", function () {
