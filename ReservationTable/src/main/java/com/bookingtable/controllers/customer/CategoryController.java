@@ -1,5 +1,10 @@
 package com.bookingtable.controllers.customer;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,9 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bookingtable.dtos.DinnerTableDto;
+import com.bookingtable.dtos.ImageDto;
+import com.bookingtable.dtos.RestaurantDto;
 import com.bookingtable.servicies.ICategoryRestaurantService;
+import com.bookingtable.servicies.ICollectionService;
+import com.bookingtable.servicies.ICustomerService;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
+import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.IRestaurantService;
 
 @Controller
@@ -24,6 +35,13 @@ public class CategoryController {
 	private IRestaurantService restaurantService;
 	@Autowired
 	private IDinnerTableService dinnerTableService;
+	@Autowired
+	private IImageService iImageService;
+	@Autowired
+	private ICustomerService iCustomerService;
+	@Autowired
+	private ICollectionService collectionService;
+	
 	
 	@GetMapping("restaurant")
 	public String indexRestaurant(Model model) {
@@ -37,14 +55,48 @@ public class CategoryController {
 		return "customer/category/dinnerTable";
 	}
 	@GetMapping("restaurant/detail/{id}")
-	public String detailRestaurant(Model model,@PathVariable("id") Integer id) {
-		model.addAttribute("data", restaurantService.getAllCategory(id));
+	public String detailRestaurant(Model model,@PathVariable("id") Integer id,Principal principal) {
+		var restaurants =  restaurantService.getAllCategory(id);
+		var list = new ArrayList<RestaurantDto>();
+		  for (var i : restaurants) {
+	            var restaurant = new RestaurantDto();
+	            restaurant = i;
+	            if (principal != null) {
+	                var customer = iCustomerService.getCustomerByEmail(principal.getName());
+
+	                var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
+
+	                if (collection != null && collection.isStatus()) {
+	                    i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
+	                } else {
+	                    i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
+	                }
+	            }
+	            for (int j = 0; j <= 2; j++) {
+	                ImageDto image = new ImageDto();
+	                var images = iImageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
+	                for(var x : images) {
+	                	if(x.getDinnerTableDto() == null) {
+	                		image = x;
+	                        restaurant.setImageSrc(image.getPath());
+	                	}
+	                }
+	                
+	            }
+	            list.add(restaurant);
+		  }
+		model.addAttribute("data",list);
 		return "customer/category/detail-restaurant";
 	}
 	
 	@GetMapping("dinnerTable/detail/{id}")
 	public String detailDinnerTable(Model model,@PathVariable("id") Integer id) {
-		model.addAttribute("data", dinnerTableService.getAllCategory(id));
+		var dinnerTables = dinnerTableService.getAllCategory(id);
+		 for (DinnerTableDto dinnerTable : dinnerTables) {
+	            Set<ImageDto> images = iImageService.getImagesByDinnerTableId(dinnerTable.getId());
+	            dinnerTable.setImagesDto(new ArrayList<>(images));
+	        }
+		model.addAttribute("data", dinnerTables);
 		return "customer/category/detail-dinnerTable";
 	}
 	

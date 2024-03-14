@@ -63,7 +63,7 @@
                 <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast</p>
             </div>
             <div class="row mb_30">
-                <div class="col-lg-3 col-sm-6" style="margin-bottom: 40px" th:each="dinnerTable : ${data}">
+                <div class="col-lg-3 col-sm-6" style="margin-bottom: 40px" th:each="dinnerTable : ${dinnerTables}">
                     <div class="card">
                         <img class="card-img-top" th:if="${dinnerTable.imagesDto.size() > 0}"
                              th:src="@{/uploads/dinnerTables/{imageName}(imageName=${dinnerTable.imagesDto[0].path})}"

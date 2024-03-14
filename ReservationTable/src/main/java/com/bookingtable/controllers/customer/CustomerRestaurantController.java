@@ -71,8 +71,13 @@ public class CustomerRestaurantController {
             for (int j = 0; j <= 2; j++) {
                 ImageDto image = new ImageDto();
                 var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
-                image = images.get(j);
-                restaurant.setImageSrc(image.getPath());
+                for(var x : images) {
+                	if(x.getDinnerTableDto() == null) {
+                		image = x;
+                        restaurant.setImageSrc(image.getPath());
+                	}
+                }
+                
             }
             data.add(restaurant);
         }
@@ -118,8 +123,14 @@ public class CustomerRestaurantController {
         List<Rate> listRates = new ArrayList<>();
         for (DinnerTableDto dinnerTable : dinnerTables) {
             dinnerTable.getId();
-            var rates = rateRepository.findByDinnerTable_id(dinnerTable.getId());
-            listRates.addAll(rates);
+            var rates = rateRepository.findAll();
+            for(var i : rates) {
+            	var rate = new Rate();
+            	if(i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
+            		 listRates.add(rate);
+            	}
+            }
+            
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }
