@@ -318,16 +318,28 @@
         <!-- Phần comment -->
         <div class="comment-section">
             <h2>Comments</h2>
-
-            <!-- Form comment -->
-            <form>
+				<form >
+					<th:block th:switch="${rate.point}">
+                                    <th:block th:case="1"><i class="fa fa-star"><input type="hidden" name="point" value="1"></i></th:block>
+                                    <th:block th:case="2"><i class="fa fa-star"></i><input type="hidden" name="point" value="2"><i class="fa fa-star"></i>
+                                    </th:block>
+                                    <th:block th:case="3"><i class="fa fa-star"></i><input type="hidden" name="point" value="3"><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i></th:block>
+                                    <th:block th:case="4"><i class="fa fa-star"><input type="hidden" name="point" value="4"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
+                                    <th:block th:case="5"><i class="fa fa-star"><input type="hidden" name="point" value="5"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                    </th:block>
+                                    <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
+                                </th:block>
                 <div class="form-group">
                     <label for="comment">Comment & Rating:</label>
                     <textarea class="form-control" id="comment" rows="3"
                               placeholder="Enter your comment"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            	</form>
+		<!--	</th:block> -->
         </div>
 
     </div>
