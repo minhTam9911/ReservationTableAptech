@@ -33,7 +33,8 @@ public class DinnerTableTypeController {
 		List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
 
 		model.addAttribute("dinnerTableTypes", dinnerTableTypes);
-
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "staff/dinnerTableType/index";
 	}
 
@@ -41,45 +42,47 @@ public class DinnerTableTypeController {
 	public String create(Model model) {
 		DinnerTableTypeDto dinnerTableTypeDto = new DinnerTableTypeDto();
 		model.addAttribute("dinnerTableTypeDto", dinnerTableTypeDto);
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "staff/dinnerTableType/create";
 	}
 
-	@PostMapping("/create")
+	@PostMapping("create-submit")
 	public String createDinnerTableType(
 			@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
-			@PathParam("file") MultipartFile file, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			 BindingResult bindingResult,Model model, @PathParam("file") MultipartFile file) {
 		if (bindingResult.hasErrors()) {
+			response.setOption(2);
+			response.setMessage("Form input invalid");
+			model.addAttribute("msg", response);
 			return "staff/dinnerTableType/create";
 		}
 		var image = FileHelper.uploadCategoryDinnerTable(file);
 		dinnerTableTypeDto.setImage(image);
 		response = idinnerTableTypeService.createDinnerTableType(dinnerTableTypeDto);
-		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
-			return "redirect:/staff/dinnerTableType/index";
-		}
-		if (response.getOption() == 2) {
-
-			redirectAttributes.addFlashAttribute("msg", response);
-		}
-		return "staff/dinnerTableType/create";
+		return "redirect:/staff/dinnerTableType/index";
+		
 
 	}
 
 	@GetMapping("edit/{id}")
 	public String updateShowingForm(Model model, @PathVariable("id") Integer id) {
 		model.addAttribute("dinnerTableTypeDto", idinnerTableTypeService.getDinnerTableTypeById(id));
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "staff/dinnerTableType/edit";
 	}
 
-	@PostMapping("/edit/{id}")
+	@PostMapping("edit/submit")
 	public String updateDinnerTableType(
 			@Valid @ModelAttribute("dinnerTableTypeDto") DinnerTableTypeDto dinnerTableTypeDto,
-			@PathParam("file") MultipartFile file, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult,Model model,@PathParam("file") MultipartFile file) {
 		if (bindingResult.hasErrors()) {
+			response.setOption(2);
+			response.setMessage("Form input invalid");
+			model.addAttribute("msg", response);
 			return "staff/dinnerTableType/edit";
-		}
-		if (file != null) {
+		}if (file != null) {
 			var categoryImage = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
 			FileHelper.deleteCategoryDinnerTable(categoryImage.getImage());
 			var image = FileHelper.uploadCategoryDinnerTable(file);
@@ -88,18 +91,9 @@ public class DinnerTableTypeController {
 			var categoryImage = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
 			dinnerTableTypeDto.setImage(categoryImage.getImage());
 		}
-		System.out.println(dinnerTableTypeDto);
 		response = idinnerTableTypeService.updateDinnerTableType(dinnerTableTypeDto.getId(), dinnerTableTypeDto);
-		if (response.getOption() == 1) {
-
-			redirectAttributes.addFlashAttribute("msg", response);
-			return "redirect:/staff/dinnerTableType/index";
-		}
-		if (response.getOption() == 2) {
-
-			redirectAttributes.addFlashAttribute("msg", response);
-		}
-		return "staff/dinnerTableType/edit";
+	
+				return "redirect:/staff/dinnerTableType/index";
 
 	}
 

@@ -33,6 +33,8 @@ public class CategoryRestaurantController {
 	@GetMapping({"index"})
 	public String index(Model model) {
 		model.addAttribute("data", categoryRestaurantService.getList());
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false, 0, "");
 		return "staff/categoryRestaurant/index";
 	}
 	
@@ -40,40 +42,44 @@ public class CategoryRestaurantController {
 	public String create(Model model) {
 		CategoryRestaurantDto categoryRestaurantDto = new CategoryRestaurantDto();
 		model.addAttribute("categoryRestaurantDto", categoryRestaurantDto);
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false, 0, "");
 		return "staff/categoryRestaurant/create";
 	}
 	
 	@PostMapping("create/save")
-	public String createProcess(@Valid @ModelAttribute("categoryRestaurantDto") CategoryRestaurantDto categoryRestaurantDto,
+	public String createProcess(@Valid @ModelAttribute("categoryRestaurantDto") CategoryRestaurantDto categoryRestaurantDto,BindingResult bindingResult,
 			@PathParam("file") MultipartFile file,
-			RedirectAttributes attributes,
-			Model model,
-			BindingResult bindingResult) {
+			Model model
+			) {
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("msg", result);
+			result = new ResultResponse<>(false, 0, "");
 			return "staff/categoryRestaurant/create";
 		}
 		var image = FileHelper.uploadCategoryRestaurant(file);
 		categoryRestaurantDto.setImage(image);
 		result = categoryRestaurantService.insert(categoryRestaurantDto);
 		if(result.getOption()==1) {
-			attributes.addFlashAttribute("msg", result);
 			return "redirect:/staff/categoryRestaurant/index";
 		}if(result.getOption() == 2) {
-
-			model.addAttribute("msg", result);       
+			return "staff/categoryRestaurant/create";
 		}
 	return "staff/categoryRestaurant/create";
 	}
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") Integer id) {
 		model.addAttribute("categoryRestaurantDto", categoryRestaurantService.getById(id));
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false, 0, "");
 		return "staff/categoryRestaurant/edit";
 	}
 	@PostMapping("updateProcess")
-	public String updateProcess(@Valid @ModelAttribute("categoryRestaurantDto") CategoryRestaurantDto categoryRestaurantDto,
-			@PathParam("file") MultipartFile file,RedirectAttributes attributes,Model model,
-			BindingResult bindingResult) {
+	public String updateProcess(@Valid @ModelAttribute("categoryRestaurantDto") CategoryRestaurantDto categoryRestaurantDto,BindingResult bindingResult,
+			@PathParam("file") MultipartFile file,Model model) {
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("msg", result);
+			result = new ResultResponse<>(false, 0, "");
 			return "staff/categoryRestaurant/edit";
 		}
 		if(file!=null) {
@@ -87,22 +93,18 @@ public class CategoryRestaurantController {
 		}
 		result = categoryRestaurantService.update(categoryRestaurantDto.getId(),categoryRestaurantDto);
 		if(result.getOption()==1) {
-			attributes.addFlashAttribute("msg", result);
 			return "redirect:/staff/categoryRestaurant/index";
 		}if(result.getOption()==2) {
-			model.addAttribute("msg", result);
 		}return "staff/categoryRestaurant/edit";
 	}
 	
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") Integer id, RedirectAttributes attributes) {
 		result = categoryRestaurantService.delete(id);
-		if(result.getOption()==1) {
 			attributes.addFlashAttribute("msg", result);
 			return "redirect:/staff/categoryRestaurant/index";
-		}else {
-			attributes.addFlashAttribute("msg", result);
-			return "redirect:/staff/categoryRestaurant/index";
-		}
+		
+		
+		
 	}
 }
