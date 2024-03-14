@@ -38,12 +38,12 @@ public class CommentController {
 	@PostMapping("insert/{idDinnerTable}")
 	public String insert(@Valid @ModelAttribute("comment") Rate comment,
 			Principal principal,
-			@PathVariable("idDinnerTable") Integer idDinnerTable) {
+			@PathVariable("idReservation") String idReservation) {
 		if(principal.getName()!=null || !principal.getName().isEmpty()) {
 			comment.setCustomer(customerRepository.findByEmail(principal.getName()));
-			comment.setDinnerTable(dinnerTableRepository.findById(idDinnerTable).get());
+			comment.setReservation(reservationRepository.findById(idReservation).get());
 			rateRepository.save(comment);
-			return "redirect:/customer/dinnerTable/"+comment.getDinnerTable().getId();
+			return "redirect:/customer/dinnerTable/"+comment.getReservation().getDinnerTable().getId();
 			}
 		return "customer/accessDined";
 	}

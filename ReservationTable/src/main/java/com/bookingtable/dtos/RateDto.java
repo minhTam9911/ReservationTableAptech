@@ -2,6 +2,8 @@ package com.bookingtable.dtos;
 
 import java.time.LocalDate;
 
+import com.bookingtable.models.Reservation;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,5 +25,5 @@ public class RateDto {
 	@NotNull(message = "Created cannot be null")
 	private LocalDate created;
 	
-	private DinnerTableDto dinnerTable;
+	private Reservation reservation;
 }

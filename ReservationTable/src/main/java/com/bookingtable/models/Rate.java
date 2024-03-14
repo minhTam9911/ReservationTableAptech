@@ -39,8 +39,8 @@ public class Rate {
 	@Column
 	private boolean status;
 	@OneToOne
-	@JoinColumn(name = "dinnerTable_id") 
-	private DinnerTable dinnerTable;
+	@JoinColumn(name = "reservation") 
+	private Reservation reservation;
 	@ManyToOne
 	@JoinColumn(name = "customer",nullable = false)
 	private Customer customer;
