@@ -48,9 +48,7 @@ public class CustomerReservationController {
 			if(dinerTable == null) {
 				return "dinnerTable-details/cancel";
 			}
-			if(dinerTable.getDinnerTableType().getCapacity()>=partySize) {
-				return "dinnerTable-details/cancel";
-			}
+			
 			reservation.setReservationStatus(reservationStatusRepository.findById(1).get());
 			reservation.setRestaurant(dinerTable.getRestaurant());
 			reservation.setBookingDate(date);
