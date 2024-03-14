@@ -20,6 +20,9 @@
 <link href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css"/>
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.27/sweetalert2.min.css">
+
 </head>
 
 <body>
@@ -54,5 +57,28 @@
 		})
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+	var option="[[${msg.option}]]"
+    var message="[[${msg.message}]]"
+    
+	if(option==1){
+			Swal.fire({
+				title: 'Successfully!',
+				text: '<span th:text=:"${msg.massage}"></span>',
+				icon: 'success',
+				timer: 2000
+			});
+	}if(option==2){
+			Swal.fire({
+				title: 'Error!',
+				text: message,
+				timer: 2000
+			});
+		}
+
+</script>
+
 
 </html>

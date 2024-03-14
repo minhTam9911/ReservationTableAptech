@@ -32,7 +32,6 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
-
 public class AccountController {
 
 	@Autowired
@@ -58,8 +57,11 @@ public class AccountController {
 				result.setStatus(true);
 				result.setMessage("Username and password invalid");
 				model.addAttribute("msg", result);
+				return "account/login";
 			}
-
+			
+			model.addAttribute("msg", result);
+			result = new ResultResponse<>(false,0,"");
 			return "account/login";
 		}
 		return "redirect:/accessDenied";
@@ -73,12 +75,13 @@ public class AccountController {
 		customerDto.setCreated(LocalDate.now());
 		customerDto.setRoleDto(roleData);
 		if(bindingResult.hasErrors()) {
-			model.addAttribute("msg", "Form input invalid");
+			result = new ResultResponse<String>(true, 2, "Form invalid");
+			model.addAttribute("msg", result);
 			return "account/login";
 		}
 		result = customerService.createCustomer(customerDto);
-			attributes.addFlashAttribute("msg", result);
-			return "redirect:/login";
+		attributes.addFlashAttribute("msg", result);
+		return "redirect:/login";
 	}
 	@GetMapping("verify")
 	public String verifyActive(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
