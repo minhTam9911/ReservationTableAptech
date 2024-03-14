@@ -80,27 +80,23 @@ public class AccountController {
 			return "account/login";
 		}
 		result = customerService.createCustomer(customerDto);
-		attributes.addFlashAttribute("msg", result);
-		result = new ResultResponse<>(false,0,"");
 		return "redirect:/login";
 	}
 	@GetMapping("verify")
 	public String verifyActive(@PathParam("email")String email, @PathParam("securityCode") String securityCode,RedirectAttributes attributes) {
-		if(customerService.changeStatus(email, securityCode)) {
-			result.setOption(1);
-			result.setMessage("Success activation");
-			result.setStatus(true);
-			
-		}else {
-			result.setOption(1);
-			result.setMessage("Failure activation");
-			result.setStatus(true);
+		var status = customerService.changeStatus(email, securityCode);
+			if (status) {
+				result.setOption(1);
+				result.setMessage("Success activation");
+				result.setStatus(true);
+
+			} else {
+				result.setOption(2);
+				result.setMessage("Failure activation");
+				result.setStatus(true);
+			}
+			return "redirect:/login";
 		}
-		attributes.addFlashAttribute("msg", result);
-		result = new ResultResponse<>(false,0,"");
-		return "redirect:/login";
-	}
-	
 	
 
 	@GetMapping("/forgot-password")
