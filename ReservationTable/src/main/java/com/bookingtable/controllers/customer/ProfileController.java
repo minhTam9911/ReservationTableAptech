@@ -21,7 +21,7 @@ public class ProfileController {
     private ICustomerService customerService;
     @Autowired
     private IImageService iImageService;
-    private ResultResponse<String> result = new ResultResponse<>(false,"");
+    private ResultResponse<String> result = new ResultResponse<String>(false,0,"");
 
     @GetMapping("customer/profile")
     public String profile(Model model, Principal principal) {

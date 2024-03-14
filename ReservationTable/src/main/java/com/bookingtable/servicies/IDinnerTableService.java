@@ -15,10 +15,10 @@ public interface IDinnerTableService {
     public List<DinnerTableDto> getAllCategory(Integer id);
     public DinnerTableDto getDinnerTableById(Integer id);
 
-    public ResultResponse<DinnerTableDto> createDinnerTable(DinnerTableDto dinnerTableDto) ;
-    public ResultResponse<DinnerTableDto> updateDinnerTable(Integer id,DinnerTableDto dinnerTableDto);
+    public ResultResponse<String> createDinnerTable(DinnerTableDto dinnerTableDto) ;
+    public ResultResponse<String> updateDinnerTable(Integer id,DinnerTableDto dinnerTableDto);
 
-    public ResultResponse<DinnerTableDto> deleteDinnerTable(Integer id);
+    public ResultResponse<String> deleteDinnerTable(Integer id);
     public List<DinnerTableDto> getDinnerTablesByType(DinnerTableTypeDto dinnerTableTypeDto);
     public List<DinnerTableDto> getAllDinnerTablesForRestaurant(String restaunrantId);
 }

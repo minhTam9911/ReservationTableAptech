@@ -38,10 +38,12 @@ public class SystemService implements ISystemService {
 	private Environment environment;
 	@Autowired
 	private BCryptPasswordEncoder cryptPasswordEncoder;
+
 	@Override
 	public List<SystemDto> getAllSystems() {
 
-		return systemRepository.findByRoleIdNot(1).stream().map(i->SystemMapper.mapToDto(i)).collect(Collectors.toList());
+		return systemRepository.findByRoleIdNot(1).stream().map(i -> SystemMapper.mapToDto(i))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -49,23 +51,22 @@ public class SystemService implements ISystemService {
 		return SystemMapper.mapToDto(systemRepository.findById(id).get());
 	}
 
-
-
 	@Override
-	public  ResultResponse<SystemDto> updateSystem(String id, SystemDto systemDto) {
+	public ResultResponse<String> updateSystem(String id, SystemDto systemDto) {
 		try {
 
-			if(receptionistRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (receptionistRepository.existEmail(systemDto.getEmail().toLowerCase(), id) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
-			if(reservationAgentRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (reservationAgentRepository.existEmail(systemDto.getEmail().toLowerCase(), id) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
+
 			}
-			if(guestRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (guestRepository.existEmail(systemDto.getEmail().toLowerCase(), id) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
-			if(systemRepository.existEmail(systemDto.getEmail().toLowerCase(),id)!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (systemRepository.existEmail(systemDto.getEmail().toLowerCase(), id) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
 			var data = systemRepository.findById(id).get();
 			data.setFullname(systemDto.getFullname());
@@ -75,52 +76,52 @@ public class SystemService implements ISystemService {
 			data.setPhoneNumber(systemDto.getPhoneNumber());
 			data.setGender(systemDto.isGender());
 			data.setUpdated(LocalDate.now());
-			if(systemRepository.save(data)!=null) {
-				return new  ResultResponse<SystemDto>(true, new SystemDto());
-			}else {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Failure"));
+			if (systemRepository.save(data) != null) {
+				return new ResultResponse<String>(true, 1, "Process Successfully");
+			} else {
+				return new ResultResponse<String>(true, 2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new  ResultResponse<SystemDto>(false, new SystemDto(e.getMessage()));
+			return new ResultResponse<String>(true, 2, e.getMessage());
 		}
 	}
 
 	@Override
-	public  ResultResponse<SystemDto> deleteSystem(String id) {
+	public ResultResponse<String> deleteSystem(String id) {
 		try {
 
-			if(systemRepository.findById(id)!=null) {
+			if (systemRepository.findById(id) != null) {
 				systemRepository.deleteById(id);
-                return new ResultResponse<SystemDto>(true, new SystemDto());
-            } else {
-                return new ResultResponse<SystemDto>(false, new SystemDto());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResultResponse<SystemDto>(false, new SystemDto(e.getMessage()));
-        }
+				return new ResultResponse<String>(true, 1, "Process Successfully");
+			} else {
+				return new ResultResponse<String>(true, 2, "Process Failure");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResultResponse<String>(true, 2, e.getMessage());
+		}
 	}
 
 	@Override
-	public  ResultResponse<SystemDto> insertSystem(SystemDto systemDto) {
+	public ResultResponse<String> insertSystem(SystemDto systemDto) {
 		try {
 			systemDto.setEmail(systemDto.getEmail().toLowerCase());
 
-			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (systemRepository.findByEmail(systemDto.getEmail().toLowerCase()) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
-			if(receptionistRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (receptionistRepository.findByEmail(systemDto.getEmail().toLowerCase()) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
-			if(reservationAgentRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (reservationAgentRepository.findByEmail(systemDto.getEmail().toLowerCase()) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
-			if(guestRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (guestRepository.findByEmail(systemDto.getEmail().toLowerCase()) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
-			if(systemRepository.findByEmail(systemDto.getEmail().toLowerCase())!=null) {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			if (systemRepository.findByEmail(systemDto.getEmail().toLowerCase()) != null) {
+				return new ResultResponse<String>(true, 2, "Email already");
 			}
 			var data = SystemMapper.mapToModel(systemDto);
 			var password = GenerateCode.GeneratePassword(12);
@@ -129,19 +130,19 @@ public class SystemService implements ISystemService {
 			String email = environment.getProperty("spring.mail.username");
 			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), password);
 			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
-				
+
 			} else {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Send Email Fail"));
+				return new ResultResponse<String>(true, 2, "Send Email Fail");
 			}
-			
-			if(systemRepository.save(data)!=null) {
-				return new  ResultResponse<SystemDto>(true, new SystemDto());
-			}else {
-				return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+
+			if (systemRepository.save(data) != null) {
+				return new ResultResponse<String>(true, 1, "Process Successfully");
+			} else {
+				return new ResultResponse<String>(true, 2, "Process Failure");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new  ResultResponse<SystemDto>(false, new SystemDto("Email already"));
+			return new ResultResponse<String>(true, 2, e.getMessage());
 		}
 	}
 
@@ -149,16 +150,17 @@ public class SystemService implements ISystemService {
 	public boolean changeStatus(String id) {
 		try {
 			var data = systemRepository.findById(id).get();
-			if(data== null) {
+			if (data == null) {
 				return false;
 			}
 			data.setStatus(!data.isStatus());
-			if(systemRepository.save(data)!=null) return true;
+			if (systemRepository.save(data) != null)
+				return true;
 			return false;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
-		
+
 	}
 
 }

@@ -13,10 +13,10 @@ public interface IReservationAgentService {
 
     public ReservationAgentDto getReservationAgentById(String id);
 
-    public ResultResponse<ReservationAgentDto> createReservationAgent(ReservationAgentDto reservationAgentDto, String emailCreatedBy) ;
-    public ResultResponse<ReservationAgentDto> updateReservationAgent(String id, ReservationAgentDto reservationAgentDto);
+    public ResultResponse<String> createReservationAgent(ReservationAgentDto reservationAgentDto, String emailCreatedBy) ;
+    public ResultResponse<String> updateReservationAgent(String id, ReservationAgentDto reservationAgentDto);
 
-    public ResultResponse<ReservationAgentDto> deleteReservationAgent(String id);
+    public ResultResponse<String> deleteReservationAgent(String id);
     public boolean changeStatus(String id);
 	
 	

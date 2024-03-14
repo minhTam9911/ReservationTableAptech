@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.RoleDto;
 import com.bookingtable.servicies.IRoleService;
 
@@ -25,67 +26,71 @@ public class RoleController {
 
 	@Autowired
 	private IRoleService roleService;
-	
-	@GetMapping({"index"})
+	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
+
+	@GetMapping({ "index" })
 	public String index(Model model) {
 		model.addAttribute("roles", roleService.getAllRoles());
 		return "admin/panel/role/index";
 	}
-	
+
 	@GetMapping("create")
 	public String create(Model model) {
 		RoleDto roleDto = new RoleDto();
 		model.addAttribute("roleDto", roleDto);
 		return "admin/panel/role/create";
 	}
-	
+
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto,
-			BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
 			return "admin/panel/role/create";
 		}
 		roleDto.setName(roleDto.getName().toUpperCase());
-		var response = roleService.createRole(roleDto);
-		if(response.isStatus()) {
+		response = roleService.createRole(roleDto);
+		if (response.getOption() == 1) {
+			redirectAttributes.addFlashAttribute("msg", response);
 			return "redirect:/admin/panel/role/index";
-		}else {
-			  
-		       bindingResult.addError(new FieldError("roleDto","name", response.getMessage().getName()));
-		       return "admin/panel/role/create";
 		}
-		
+		if (response.getOption() == 2) {
+
+			redirectAttributes.addFlashAttribute("msg", response);
+
+		}
+		return "admin/panel/role/create";
 	}
+
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") Integer id) {
 		model.addAttribute("roleDto", roleService.getRoleById(id));
 		return "admin/panel/role/edit";
 	}
+
 	@PostMapping("updateProcess")
-	public String updateProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+	public String updateProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto,
+			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
 			return "admin/panel/role/edit";
 		}
 		roleDto.setName(roleDto.getName().toUpperCase());
-		var response = roleService.updateRole(roleDto.getId(),roleDto);
-		if(response.isStatus()) {
-			
+		response = roleService.updateRole(roleDto.getId(), roleDto);
+		if (response.getOption() == 1) {
+			redirectAttributes.addFlashAttribute("msg", response);
 			return "redirect:/admin/panel/role/index";
-		}else {
-			 bindingResult.addError(new FieldError("roleDto","name", response.getMessage().getName()));
-		       return "admin/panel/role/edit";
 		}
+		if (response.getOption() == 2) {
+			redirectAttributes.addFlashAttribute("msg", response);
+		}
+		return "admin/panel/role/edit";
 	}
-	
+
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") Integer id, RedirectAttributes attributes) {
-		var response = roleService.deleteRole(id);
-		if(response.isStatus()) {
-			attributes.addFlashAttribute("msg", response);
-			return "redirect:/admin/panel/role/index";
-		}else {
-			attributes.addFlashAttribute("msg", response);
-			return "redirect:/admin/panel/role/index";
-		}
+		response = roleService.deleteRole(id);
+
+		attributes.addFlashAttribute("msg", response);
+		return "redirect:/admin/panel/role/index";
+
 	}
 }

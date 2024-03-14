@@ -10,16 +10,8 @@ import lombok.NoArgsConstructor;
 public class ResultResponse<T> {
 
 	private boolean status;
-	private String check;
+	private Integer option;
 	private T message;
-	public ResultResponse(T message) {
-		super();
-		this.message = message;
-	}
-	public ResultResponse(boolean status, T message) {
-		super();
-		this.status = status;
-		this.message = message;
-	}
+	
 	
 }
