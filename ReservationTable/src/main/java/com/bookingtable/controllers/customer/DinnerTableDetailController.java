@@ -52,8 +52,13 @@ public class DinnerTableDetailController {
         	}
         	model.addAttribute("commentPersonal", list);
         }
-        
-        // Trả về tên của template HTML để hiển thị thông tin chi tiết của bàn ăn
-        return "customer/dinnerTable-details/index"; // Chỉ định đường dẫn đúng tới template HTML
+        List<Rate> listCommentWrite = new ArrayList();
+        for(var i : comments) {
+        	if(i.isStatus()) {
+        		listCommentWrite.add(i);
+        	}
+        }
+        model.addAttribute("commentWrite", listCommentWrite);
+        return "customer/dinnerTable-details/index";
     }
 }
