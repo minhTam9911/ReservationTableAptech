@@ -35,7 +35,7 @@
             <td th:text="${reservationStatus.description}"></td>
             <td>
                 <a th:href="@{/staff/reservationStatus/update/{id}(id=${reservationStatus.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
-                <a th:href="@{/staff/reservationStatus/delete/{id}(id=${reservationStatus.id})}" class="btn btn-danger">Delete</a>
+                <a th:attr="onclick=${'confirmDelete(''/staff/reservationStatus/delete/'+reservationStatus.id+''')'}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

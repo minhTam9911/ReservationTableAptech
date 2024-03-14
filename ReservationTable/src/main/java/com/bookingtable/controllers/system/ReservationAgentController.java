@@ -40,7 +40,11 @@ public class ReservationAgentController {
 
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
+    	System.out.println(response);
     	model.addAttribute("data", reservationAgentService.getAllReservationAgents());
+    	model.addAttribute("msg", response);
+    	response = new ResultResponse<>(false, 0, "");
+    	
         return "staff/reservationAgent/index";
     }
 
@@ -50,25 +54,29 @@ public class ReservationAgentController {
 	public String create(Model model,RedirectAttributes attributes) {
 		var reservationAgentDto = new ReservationAgentDto(); 
 		model.addAttribute("reservationAgentDto", reservationAgentDto);
+		model.addAttribute("msg", response);
+    	response = new ResultResponse<>(false, 0, "");
 		return "staff/reservationAgent/create";
 	}
 	
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto ,
-			BindingResult bindingResult, Principal principal, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, Principal principal, Model model) {
 	
 		  var roleData = roleService.getRoleById(3);
 		  reservationAgentDto.setRoleDto(roleData);
 		  System.out.println(principal.getName());
 		if(bindingResult.hasErrors()) {
+			response.setOption(2);
+			response.setMessage("Form Input  invalid");
+			model.addAttribute("msg", response);
+	    	response = new ResultResponse<>(false, 0, "");
 			return "staff/reservationAgent/create";
 		}
 		response = reservationAgentService.createReservationAgent(reservationAgentDto, principal.getName());
         if(response.getOption()==1) {
-        	redirectAttributes.addFlashAttribute("msg",response);
 			return "redirect:/staff/reservationAgent/index";
 		}if(response.getOption()==2) {
-			redirectAttributes.addFlashAttribute("msg",response);
 		}
 			return "redirect:/staff/reservationAgent/create";
 			
@@ -79,30 +87,32 @@ public class ReservationAgentController {
 	public String update(Model model, @PathVariable("id") String id) {
 		var reservationAgentDto = reservationAgentService.getReservationAgentById(id);
 		model.addAttribute("reservationAgentDto", reservationAgentDto);
+		model.addAttribute("msg", response);
+    	response = new ResultResponse<>(false, 0, "");
 		return "staff/reservationAgent/edit";
 	}
 	@PostMapping("update/save")
-	public String updateProcess(RedirectAttributes redirectAttributes,@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto, BindingResult bindingResult) {
+	public String updateProcess(@Valid @ModelAttribute("reservationAgentDto") ReservationAgentDto reservationAgentDto, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("msg", response);
+	    	response = new ResultResponse<>(false, 0, "");
 			return "staff/reservationAgent/edit";
 		}
 		var roleData = roleService.getRoleById(3);
 		  reservationAgentDto.setRoleDto(roleData);
 		response = reservationAgentService.updateReservationAgent(reservationAgentDto.getId(),reservationAgentDto);
         if(response.getOption()==1) {
-        	redirectAttributes.addFlashAttribute("msg",response);
+        	
 			return "redirect:/staff/reservationAgent/index";
 		}if(response.getOption()==2) {
-			redirectAttributes.addFlashAttribute("msg",response);
+			
 			 
 		}return "staff/reservationAgent/edit";
 	}
 	
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
-		response = reservationAgentService.deleteReservationAgent(id);
-		
-			attributes.addFlashAttribute("msg", response);
+			response = reservationAgentService.deleteReservationAgent(id);
 			return "redirect:/staff/reservationAgent/index";
 		
 	}

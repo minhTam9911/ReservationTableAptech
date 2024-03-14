@@ -15,7 +15,7 @@
 
     <br>
      <div class="bg-light rounded h-100 p-4">
-         <form th:action="@{/staff/dinnerTableType/create}"  enctype="multipart/form-data"method="post" th:object="${dinnerTableTypeDto}">
+         <form th:action="@{/staff/dinnerTableType/create-submit}"  enctype="multipart/form-data"method="post" th:object="${dinnerTableTypeDto}">
              <div class="mb-3">
                  <label class="form-label">Type</label>
                 <input type="text" class="form-control" th:field="*{type}" >

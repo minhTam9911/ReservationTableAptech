@@ -37,8 +37,7 @@
             <td th:text="${dinnerTableType.description}"></td>
             <td>
                 <a th:href="@{/staff/dinnerTableType/edit/{id}(id=${dinnerTableType.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
-                <a th:href="@{/staff/dinnerTableType/delete/{id}(id=${dinnerTableType.id})}" class="btn btn-danger">Delete</a>&emsp;|&emsp;
-                <a th:href="@{/staff/dinnerTableType/detail/{id}(id=${dinnerTableType.id})}" class="btn btn-info">Detail</a>
+                <a th:attr="onclick=${'confirmDelete(''/staff/dinnerTableType/delete/'+dinnerTableType.id+''')'}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

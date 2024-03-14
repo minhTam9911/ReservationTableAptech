@@ -81,6 +81,7 @@ public class AccountController {
 		}
 		result = customerService.createCustomer(customerDto);
 		attributes.addFlashAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		return "redirect:/login";
 	}
 	@GetMapping("verify")
@@ -96,6 +97,7 @@ public class AccountController {
 			result.setStatus(true);
 		}
 		attributes.addFlashAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		return "redirect:/login";
 	}
 	
@@ -103,9 +105,8 @@ public class AccountController {
 
 	@GetMapping("/forgot-password")
 	public String forgot(Model model) {
-		if(!result.getMessage().isEmpty()) {
-			model.addAttribute("msg",result);
-		}
+		model.addAttribute("msg",result);
+		result = new ResultResponse<>(false,0,"");
 		return "account/forgotPassword";
 	}
 	
@@ -113,9 +114,8 @@ public class AccountController {
 	@GetMapping("/reset-password")
 	public String resetPassword(HttpSession session, Model model) {
 		if(session.getAttribute("email")!=null) {
-			if(!result.getMessage().isEmpty()) {
 				model.addAttribute("msg",result);
-			};
+				result = new ResultResponse<>(false,0,"");
 			return "account/resetPassword";
 		}
 		return "account/accessDenied";
@@ -127,9 +127,8 @@ public class AccountController {
 	@GetMapping("/verify-code")
 	public String verifyCode(HttpSession session,Model model) {
 		if(session.getAttribute("email")!=null) {
-			if(!result.getMessage().isEmpty()) {
 				model.addAttribute("msg",result);
-			}
+				result = new ResultResponse<>(false,0,"");
 			return "account/verificationCode";
 		}
 		return "account/accessDenied";
@@ -139,12 +138,14 @@ public class AccountController {
 	@PostMapping("/forgot-password/submit")
 	public String forgot(RedirectAttributes attributes,Model model,HttpSession session, @PathParam("email") String email) {
 		result = accountService.forgotPassword(email);
+		System.out.println(result);
 		if(result.getOption() == 1) {
 			model.addAttribute("msg", result);
 			session.setAttribute("email", email);
+			result = new ResultResponse<>(false,0,"");
 			return "account/verificationCode";
 		}if(result.getOption() == 2) {
-			model.addAttribute("msg", result);
+			return "redirect:/forgot-password";
 		}
 		return "redirect:/forgot-password";
 		
@@ -158,10 +159,8 @@ public class AccountController {
 			}
 			result = accountService.verifyCode(session.getAttribute("email").toString(), verifyCode);
 			if(result.getOption() == 1) {
-				model.addAttribute("msg", result);
 				return "redirect:/reset-password";
 			}
-			model.addAttribute("msg", result);
 			return "redirect:/verify-code";
 		}
 		return "account/accessDenied";
@@ -171,6 +170,7 @@ public class AccountController {
 	public String resetPassword(RedirectAttributes attributes,Model model,HttpSession session, @PathParam("newPassword") String newPassword,  @PathParam("confirmPassword") String confirmPassword) {
 		if(session.getAttribute("email") != null) {
 			if(!newPassword.equals(confirmPassword)) {
+				result.setOption(2);
 				result.setMessage( "Confirm password does not match new password");
 				return "redirect:/reset-password";
 			}
@@ -178,10 +178,8 @@ public class AccountController {
 			result = accountService.saveResetPassword(session.getAttribute("email").toString(), hashPassword);
 			if(result.getOption() == 1) {
 				session.removeAttribute("email");
-				model.addAttribute("msg", result);
 				return "redirect:/login";
 			}
-			model.addAttribute("msg", result);
 			return "redirect:/reset-password";
 		}
 		return "account/accessDenied";

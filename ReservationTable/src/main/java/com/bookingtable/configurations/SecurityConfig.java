@@ -101,6 +101,7 @@ public class SecurityConfig {
                             "/payment/vnpay/success",
                             "/payment/vnpay/cancel",
                             "/payment/vnpay/error",
+                            "/reset-password",
                             "/reset-password/save").permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
@@ -130,7 +131,7 @@ public class SecurityConfig {
                                                                     Authentication authentication) throws IOException, ServletException {
                                     Map<String, String> urls = new HashMap<>();
                                     urls.put("ROLE_ADMIN", "/admin/panel/index");
-                                    urls.put("ROLE_STAFF", "/staff/reservationAgent/index");
+                                    urls.put("ROLE_STAFF", "/staff/index");
                                     urls.put("ROLE_PARTNER", "/partner/index");
                                     urls.put("ROLE_RECEPTIONIST", "/receptionist/index");
                                     urls.put("ROLE_CUSTOMER", "/customer/home");

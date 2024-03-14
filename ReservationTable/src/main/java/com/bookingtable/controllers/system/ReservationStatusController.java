@@ -31,6 +31,8 @@ public class ReservationStatusController {
 	@GetMapping({ "index", "" })
 	public String index(Model model) {
 		model.addAttribute("reservationStatuses", reservationStatusService.getAllReservationStatuses());
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "staff/reservationStatus/index";
 	}
 
@@ -38,24 +40,25 @@ public class ReservationStatusController {
 	public String create(Model model) {
 		ReservationStatusDto reservationStatusDto = new ReservationStatusDto();
 		model.addAttribute("reservationStatusDto", reservationStatusDto);
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "staff/reservationStatus/create";
 	}
 
 	@PostMapping("create/save")
 	public String createProcess(
 			@Valid @ModelAttribute("reservationStatusDto") ReservationStatusDto reservationStatusDto,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("msg", response);
+			response = new ResultResponse<>(false, 0, "");
 			return "staff/reservationStatus/create";
 		}
 		response = reservationStatusService.createReservationStatus(reservationStatusDto);
 		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
 			return "redirect:/staff/reservationStatus/index";
 		}
 		if (response.getOption() == 2) {
-
-			redirectAttributes.addFlashAttribute("msg", response);
 		}
 		return "staff/reservationStatus/create";
 
@@ -64,23 +67,27 @@ public class ReservationStatusController {
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") Integer id) {
 		model.addAttribute("reservationStatusDto", reservationStatusService.getReservationStatusById(id));
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "staff/reservationStatus/edit";
 	}
 
 	@PostMapping("updateProcess")
 	public String updateProcess(
 			@Valid @ModelAttribute("reservationStatusDto") ReservationStatusDto reservationStatusDto,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("msg", response);
+			response = new ResultResponse<>(false, 0, "");
 			return "staff/reservationStatus/edit";
 		}
 		response = reservationStatusService.updateReservationStatus(reservationStatusDto.getId(), reservationStatusDto);
 		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
+			
 			return "redirect:/staff/reservationStatus/index";
 		}
 		if (response.getOption() == 2) {
-			redirectAttributes.addFlashAttribute("msg", response);
+			
 		}
 		return "staff/reservationStatus/edit";
 	}
