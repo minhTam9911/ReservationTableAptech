@@ -14,6 +14,7 @@ public class DinnerTableTypeMapper {
                 .capacity(dinnerTableTypeDto.getCapacity())
                 .price(dinnerTableTypeDto.getPrice())
                 .type(dinnerTableTypeDto.getType())
+                .image(dinnerTableTypeDto.getImage())
                 .description(dinnerTableTypeDto.getDescription())
                 .build();
     }
@@ -24,6 +25,7 @@ public class DinnerTableTypeMapper {
                 .capacity(dinnerTableType.getCapacity())
                 .price(dinnerTableType.getPrice())
                 .type(dinnerTableType.getType())
+                .image(dinnerTableType.getImage())
                 .description(dinnerTableType.getDescription())
                 .build();
     }

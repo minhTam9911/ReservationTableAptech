@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IRestaurantService {
     public List<RestaurantDto> getAllRestaurants();
+    public List<RestaurantDto> getAllCategory(Integer id);
     public List<RestaurantDto> getAllRestaurantsForAgent(String idAgent);
     public List<RestaurantDto> getAllRestaurantsWithCategory(Integer categoryId);
     public RestaurantDto getRestaurantById(String id);

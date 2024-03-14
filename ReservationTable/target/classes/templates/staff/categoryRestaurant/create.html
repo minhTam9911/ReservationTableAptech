@@ -15,7 +15,7 @@
     <br>
      <div class="bg-light rounded h-100 p-4">
           <h6 class="mb-4">Form</h6>
-               <form th:action="@{/staff/categoryRestaurant/create/save}" method="post" th:object="${categoryRestaurantDto}">
+               <form th:action="@{/staff/categoryRestaurant/create/save}" enctype="multipart/form-data" method="post" th:object="${categoryRestaurantDto}">
                      <div class="mb-3">
                          <label for="exampleInputEmail1" class="form-label">Name</label>
                                 <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{name}">
@@ -23,7 +23,14 @@
 									<span  th:if="${#fields.hasErrors('name')}" th:errors="*{name}"style="color: red;"></span>
                                    </div>
                                 </div>
-                        <div>	
+                        <div>
+							<div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label"
+                       style="font-weight: 600; color: black;">Image</label>
+                <input type="file" class="form-control" aria-describedby="emailHelp"  name="file"
+                       required>
+
+            </div>	
                         <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
               	</form>

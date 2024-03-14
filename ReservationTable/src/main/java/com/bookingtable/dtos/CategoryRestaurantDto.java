@@ -27,14 +27,16 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CategoryRestaurantDto {
-	
-	
+
 	private Integer id;
 	@NotEmpty
 	private String name;
+
+	private String image;
+
 	public CategoryRestaurantDto(@NotEmpty String name) {
 		super();
 		this.name = name;
 	}
-	
+
 }

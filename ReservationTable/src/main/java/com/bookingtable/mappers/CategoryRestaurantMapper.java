@@ -9,14 +9,14 @@ public class CategoryRestaurantMapper {
 		return CategoryRestaurant.builder()
 				.id(categoryRestaurantDto.getId())
 				.name(categoryRestaurantDto.getName())
-				
+				.image(categoryRestaurantDto.getImage())
 				.build();
 	}
 	public static CategoryRestaurantDto mapToDto(CategoryRestaurant categoryRestaurant) {
 		return CategoryRestaurantDto.builder()
 				.id(categoryRestaurant.getId())
 				.name(categoryRestaurant.getName())
-				
+				.image(categoryRestaurant.getImage())
 				.build();
 	}
 	

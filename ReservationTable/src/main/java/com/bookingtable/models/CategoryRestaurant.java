@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,8 @@ public class CategoryRestaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@Column
 	private String name;
-	
+	 @Column
+	 private String image;
 }
