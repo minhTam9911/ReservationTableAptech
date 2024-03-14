@@ -11,7 +11,7 @@ public class RateMapper {
                 .comment(rateDto.getComment())
                 .created(rateDto.getCreated())
                 
-                .dinnerTable(DinnerTableMapper.mapToModel(rateDto.getDinnerTable()))
+                .reservation(rateDto.getReservation())
                 .build();
     }
 
@@ -22,7 +22,7 @@ public class RateMapper {
                 .comment(rate.getComment())
                 .created(rate.getCreated())
                
-                .dinnerTable(DinnerTableMapper.mapToDto(rate.getDinnerTable()))
+                .reservation(rate.getReservation())
                 .build();
     }
 }

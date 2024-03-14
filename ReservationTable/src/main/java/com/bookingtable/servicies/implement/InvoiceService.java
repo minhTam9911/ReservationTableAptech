@@ -78,7 +78,7 @@ public class InvoiceService implements IInvoiceService {
 		var invoiceSaveChages = invoiceRepository.save(invoice);
 		var rate = new Rate();
 		rate.setStatus(true);
-		rate.setDinnerTable(dinnerTableRepository.findById(invoiceSaveChages.getReservation().getDinnerTable().getId()).get());
+		rate.setReservation(invoiceSaveChages.getReservation());
 		rate.setCustomer(invoiceSaveChages.getReservation().getCustomer());
 		rateRepository.save(rate);
 		return true;
