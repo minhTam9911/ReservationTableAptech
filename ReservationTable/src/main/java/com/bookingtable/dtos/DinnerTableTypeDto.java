@@ -1,6 +1,7 @@
 package com.bookingtable.dtos;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -20,16 +21,16 @@ import java.util.Set;
 @Builder
 public class DinnerTableTypeDto {
     private Integer id;
-    @NotNull(message = "Capacity cannot be null")
+    @Min(value = 1)
     private int capacity;
 
-    @NotNull(message = "Price cannot be null")
+    @Min(value = 10000)
     private double price;
 
-    @NotNull(message="Type cannot be null")
+    @NotEmpty(message="Type cannot be null")
     private String type;
 
-    @NotNull(message="Type cannot be null")
+    @NotEmpty(message="Type cannot be null")
     private String description;
     
     private String image;

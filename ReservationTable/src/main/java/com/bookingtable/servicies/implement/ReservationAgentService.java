@@ -100,7 +100,7 @@ public class ReservationAgentService implements IReservationAgentService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new  ResultResponse<String>(true,2, e.getMessage());
+            return new  ResultResponse<String>(true,2,"Process Failure");	
         }
 	}
 

@@ -15,8 +15,9 @@
         Create Dinner table type Table</h2>
     <br>
     <div class="bg-light rounded h-100 p-4">
-        <form th:action="@{/staff/dinnerTableType/edit/{id}(id=${dinnerTableTypeDto.id})}" enctype="multipart/form-data" method="post" th:object="${dinnerTableTypeDto}">
+        <form th:action="@{/staff/dinnerTableType/edit/submit}" enctype="multipart/form-data" method="post" th:object="${dinnerTableTypeDto}">
             <div class="mb-3">
+				<input type="hidden" th:field="*{id}">
                 <label class="form-label">Type</label>
                 <input type="text" class="form-control" th:field="*{type}">
                  <div class="form-text">
