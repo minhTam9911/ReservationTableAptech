@@ -102,7 +102,9 @@ public class SecurityConfig {
                             "/payment/vnpay/cancel",
                             "/payment/vnpay/error",
                             "/reset-password",
-                            "/reset-password/save").permitAll();
+                            "/reset-password/save",
+                            "/verify"
+                            ).permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
