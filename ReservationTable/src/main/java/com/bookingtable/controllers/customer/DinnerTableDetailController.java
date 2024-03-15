@@ -2,6 +2,7 @@ package com.bookingtable.controllers.customer;
 
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.ImageDto;
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.models.Rate;
 import com.bookingtable.repositories.RateRepository;
 import com.bookingtable.servicies.IDinnerTableService;
@@ -28,7 +29,7 @@ public class DinnerTableDetailController {
     private RateRepository rateRepository;
     @Autowired
     private IImageService imageService;
-    
+    public ResultResponse<String> validation = new ResultResponse<String>(false,0,"");
     
     @GetMapping("/customer/dinnerTable-details/{id}")
     public String showDinnerTableDetailsPage(@PathVariable("id") Integer id, Model model, Principal principal) {
@@ -58,6 +59,8 @@ public class DinnerTableDetailController {
         	}
         	model.addAttribute("commentPersonal", list);
         }
+        model.addAttribute("msg", validation);
+		validation = new ResultResponse<>(false, 0, "");
         return "customer/dinnerTable-details/index";
     }
 }

@@ -42,8 +42,9 @@ public class ReceptionistController {
 
 	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
 	public String index(Model model, Principal principal, RedirectAttributes redirectAttributess) {
-
 		model.addAttribute("data", receptionistService.getAllReceptionist(principal.getName()));
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "partner/receptionist/index";
 	}
 
@@ -54,32 +55,35 @@ public class ReceptionistController {
 		List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
 		model.addAttribute("restaurants", restaurants);
 		model.addAttribute("receptionistDto", receptionistDto);
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "partner/receptionist/create";
 	}
 
 	@PostMapping("create/save")
-	public String createProcess(Model model, @Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto,
-			BindingResult bindingResult, Principal principal, RedirectAttributes redirectAttributes) {
+	public String createProcess(@Valid @ModelAttribute("receptionistDto") ReceptionistDto receptionistDto,
+			BindingResult bindingResult, Principal principal,Model model) {
 
+		
+		if (bindingResult.hasErrors()) {
+			List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
+			model.addAttribute("restaurants", restaurants);
+			response.setOption(2);
+			response.setMessage("Form input invalid");
+			model.addAttribute("msg", response);
+			return "partner/receptionist/create";
+		}
 		var roleData = roleService.getRoleById(4);
 		receptionistDto.setRoleDto(roleData);
 		var restaurant = restaurantService.getRestaurantById(receptionistDto.getRestaurantDtoId());
 		receptionistDto.setRestaurantDto(restaurant);
-		if (bindingResult.hasErrors()) {
-			List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
-			model.addAttribute("restaurants", restaurants);
-			return "partner/receptionist/create";
-		}
 		response = receptionistService.createReceptionist(receptionistDto, principal.getName());
 		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
 			return "redirect:/partner/receptionist/index";
 		}
 		if (response.getOption() == 2) {
-			redirectAttributes.addFlashAttribute("msg", response);
-
 		}
-		return "redirect:/partner/receptionist/create";
+		return "partner/receptionist/create";
 
 	}
 
@@ -90,6 +94,8 @@ public class ReceptionistController {
 		model.addAttribute("restaurants", restaurants);
 		receptionistDto.setRestaurantDtoId(receptionistDto.getRestaurantDto().getId());
 		model.addAttribute("receptionistDto", receptionistDto);
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "partner/receptionist/edit";
 	}
 
@@ -99,6 +105,10 @@ public class ReceptionistController {
 		if (bindingResult.hasErrors()) {
 			List<RestaurantDto> restaurants = restaurantService.getAllRestaurantsForAgent(principal.getName());
 			model.addAttribute("restaurants", restaurants);
+			response.setOption(2);
+			response.setMessage("Form input invalid");
+			model.addAttribute("msg", response);
+			response = new ResultResponse<>(false, 0, "");
 			return "partner/receptionist/edit";
 		}
 		var roleData = roleService.getRoleById(4);
@@ -107,28 +117,35 @@ public class ReceptionistController {
 		receptionistDto.setRestaurantDto(restaurant);
 		response = receptionistService.updateReceptionist(receptionistDto.getId(), receptionistDto,
 				principal.getName());
-        if(response.getOption()==1) {
-        	redirectAttributes.addFlashAttribute("msg",response);
+		if (response.getOption() == 1) {
+
 			return "redirect:/partner/receptionist/index";
-		} if(response.getOption()==2) {
-			redirectAttributes.addFlashAttribute("msg",response);
-			}
-			return "partner/receptionist/edit";
-		
+		}
+		if (response.getOption() == 2) {
+
+		}
+		return "partner/receptionist/edit";
+
 	}
 
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") String id, RedirectAttributes attributes, Principal principal) {
 		response = receptionistService.deleteReceptionist(id, principal.getName());
-		attributes.addFlashAttribute("msg",response);
-			return "redirect:/partner/receptionist/index";
-		
+		attributes.addFlashAttribute("msg", response);
+		return "redirect:/partner/receptionist/index";
+
 	}
 
 	@GetMapping("change/status/{id}")
 	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id, Principal principal) {
 		var check = receptionistService.changeStatus(id, principal.getName());
-		attributes.addFlashAttribute("msg", check);
+		if(check) {
+			response.setOption(1);
+			response.setMessage("Process Successfully");
+		}else {
+			response.setOption(2);
+			response.setMessage("Process Failure");
+		}
 		return "redirect:/partner/receptionist/index";
 	}
 

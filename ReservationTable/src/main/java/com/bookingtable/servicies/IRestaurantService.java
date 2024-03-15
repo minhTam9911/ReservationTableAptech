@@ -17,6 +17,6 @@ public interface IRestaurantService {
     public ResultResponse<String> updateRestaurant(String id, RestaurantDto restaurantDto,String emailCreatedBy);
 
     public ResultResponse<String> deleteRestaurant(String id, String emailCreateBy);
-
+    public  ResultResponse<String> changeStatus(String id,String emailCreatedBy);
 
 }

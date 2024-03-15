@@ -1,6 +1,5 @@
 package com.bookingtable.controllers.system;
 
-
 import com.bookingtable.dtos.*;
 import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.models.Image;
@@ -29,66 +28,78 @@ import java.util.Set;
 @Controller
 @RequestMapping("partner/restaurant")
 public class RestaurantController {
-    @Autowired
-    private IRestaurantService iRestaurantService;
-    @Autowired
-    private IImageService iImageService;
-    @Autowired
-    private ICategoryRestaurantService categoryRestaurantService;
+	@Autowired
+	private IRestaurantService iRestaurantService;
+	@Autowired
+	private IImageService iImageService;
+	@Autowired
+	private ICategoryRestaurantService categoryRestaurantService;
 	@Autowired
 	private IDinnerTableService iDinnerTableService;
-	private ResultResponse<String> response = new ResultResponse<>(false,0,"");
+	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
+
 	@GetMapping("index")
-    public String getAllRestaurants(Model model, Principal principal) {
+	public String getAllRestaurants(Model model, Principal principal) {
 		List<RestaurantDto> restaurants = iRestaurantService.getAllRestaurantsForAgent(principal.getName());
 		for (var restaurant : restaurants) {
 			Set<ImageDto> images = iImageService.getImagesByRestaurantId(restaurant.getId());
 			restaurant.setImagesDto(new ArrayList<>(images));
 		}
 
-        model.addAttribute("restaurants", restaurants);
-        return "partner/restaurant/index";
-    }
+		model.addAttribute("restaurants", restaurants);
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
+		return "partner/restaurant/index";
+	}
 
-    @GetMapping("create")
-    public String create(Model model) {
-    
-        RestaurantDto restaurantDto = new RestaurantDto();
-        model.addAttribute("restaurantDto", restaurantDto);
-        model.addAttribute("category", categoryRestaurantService.getList());
-        return "partner/restaurant/create";
-    }
-    @PostMapping("create/save")
-	public String createProcess(@Valid @ModelAttribute("restaurantDto") RestaurantDto restaurantDto ,
-			BindingResult bindingResult,Model model,RedirectAttributes redirectAttributes,Principal principal, @RequestParam("images") MultipartFile[] images) {
-	
+	@GetMapping("create")
+	public String create(Model model) {
+
+		RestaurantDto restaurantDto = new RestaurantDto();
+		model.addAttribute("restaurantDto", restaurantDto);
+		model.addAttribute("category", categoryRestaurantService.getList());
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
+		return "partner/restaurant/create";
+	}
+
+	@PostMapping("create/save")
+	public String createProcess(@Valid @ModelAttribute("restaurantDto") RestaurantDto restaurantDto,
+			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, Principal principal,
+			@RequestParam("images") MultipartFile[] images) {
+
 		restaurantDto.setImagesDto(new ArrayList<ImageDto>());
-		if(bindingResult.hasErrors()) {
-			   model.addAttribute("category", categoryRestaurantService.getList());
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("category", categoryRestaurantService.getList());
+			response.setOption(2);
+			response.setMessage("Form input invalid");
+			model.addAttribute("msg", response);
+			response = new ResultResponse<>(false, 0, "");
 			return "partner/restaurant/create";
 		}
 		var category = categoryRestaurantService.getById(restaurantDto.getCategoryId());
 		restaurantDto.setCategoryRetaurantDto(category);
-		response = iRestaurantService.createRestaurant(restaurantDto,principal.getName());
-        if(response.getOption()==1) {
-        	redirectAttributes.addFlashAttribute("msg",response);
-			for(var i : images) {
+		response = iRestaurantService.createRestaurant(restaurantDto, principal.getName());
+		if (response.getOption() == 1) {
+			for (var i : images) {
 				var image = new ImageDto();
-	    		var fileName =  FileHelper.uploadRestaurant(i);
-	    		image.setPath(fileName);
-	    		image.setRestaurantDto(iRestaurantService.getRestaurantById(response.getMessage(), principal.getName()));
-	    		iImageService.createImage(image);
+				var fileName = FileHelper.uploadRestaurant(i);
+				image.setPath(fileName);
+				image.setRestaurantDto(
+						iRestaurantService.getRestaurantById(response.getMessage(), principal.getName()));
+				iImageService.createImage(image);
 			}
+			response.setMessage("Process Successfully");
 			return "redirect:/partner/restaurant/index";
-		}if(response.getOption()==2) {
-			redirectAttributes.addFlashAttribute("msg",response);
 		}
-			return "redirect:/partner/restaurant/create";
-		
+		if (response.getOption() == 2) {
+		}
+		return "partner/restaurant/create";
+
 	}
 
 	@GetMapping("edit/{id}")
-	public String showEditRestaurantForm(@PathVariable("id") String id, ModelMap model,Principal principal) {
+	public String showEditRestaurantForm(@PathVariable("id") String id, ModelMap model, Principal principal) {
 		RestaurantDto restaurantDto = iRestaurantService.getRestaurantById(id);
 		Set<ImageDto> getExistingImages = iImageService.getImagesByRestaurantId(id);
 		List<ImageDto> imageDtos = new ArrayList<>(getExistingImages);
@@ -98,21 +109,22 @@ public class RestaurantController {
 		model.addAttribute("imageDtos", imageDtos);
 		var categoryId = restaurantDto.getCategoryRetaurantDto().getId();
 		restaurantDto.setCategoryId(categoryId);
-		   model.addAttribute("category", categoryRestaurantService.getList());
+		model.addAttribute("category", categoryRestaurantService.getList());
 		model.addAttribute("restaurantDto", restaurantDto);
+		model.addAttribute("msg", response);
+		response = new ResultResponse<>(false, 0, "");
 		return "partner/restaurant/edit";
 	}
 
 	@PostMapping("edit/save")
 	public String editRestaurant(@ModelAttribute("restaurantDto") RestaurantDto restaurantDto,
-								  @RequestParam("images") MultipartFile[] images,
-								  RedirectAttributes redirectAttributes,
-								  BindingResult bindingResult,
-								 Principal principal,
-								 Model model
-	) {
-		if(bindingResult.hasErrors()) {
-			   model.addAttribute("category", categoryRestaurantService.getList());
+			@RequestParam("images") MultipartFile[] images, RedirectAttributes redirectAttributes,
+			BindingResult bindingResult, Principal principal, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("category", categoryRestaurantService.getList());
+			response.setOption(2);
+			response.setMessage("Form invalid");
+			model.addAttribute("msg", response);
 			return "partner/restaurant/edit";
 		}
 		List<ImageDto> existingImages = new ArrayList<>(iImageService.getImagesByRestaurantId(restaurantDto.getId()));
@@ -147,38 +159,43 @@ public class RestaurantController {
 // Lặp qua danh sách các hình ảnh cũ và kiểm tra xem có hình ảnh nào cần xóa không
 		for (ImageDto existingImage : existingImages) {
 			if (!imagePaths.contains(existingImage.getPath())) {
-				// Nếu đường dẫn hình ảnh cũ không tồn tại trong tập hợp các đường dẫn hình ảnh mới
+				// Nếu đường dẫn hình ảnh cũ không tồn tại trong tập hợp các đường dẫn hình ảnh
+				// mới
 				// thì xóa hình ảnh cũ
 				iImageService.deleteImage(existingImage.getId());
 				FileHelper.deleteRestaurantImage(existingImage.getPath());
 			}
 		}
 
-		
-        if(response.getOption()==1) {
-        	redirectAttributes.addFlashAttribute("msg",response);
+		if (response.getOption() == 1) {
+			response.setMessage("Proccess Successfully");
 			return "redirect:/partner/restaurant/index";
-		}if(response.getOption()==2) {
-			model.addAttribute("msg",response);
 		}
-			return "partner/restaurant/edit";
+		if (response.getOption() == 2) {
+		}
+		return "partner/restaurant/edit";
 
-		
 	}
+
 	@GetMapping("delete/{id}")
-	public String deleteRestaurant(@PathVariable String id,Principal principal, RedirectAttributes attributes) {
+	public String deleteRestaurant(@PathVariable String id, Principal principal, RedirectAttributes attributes) {
 		var existImages = iImageService.getImagesByRestaurantId(id);
 		var existDinnerTables = iDinnerTableService.getAllDinnerTablesForRestaurant(id);
 
-		for(var existImage :existImages) {
+		for (var existImage : existImages) {
 			FileHelper.deleteRestaurantImage(existImage.getPath());
 			iImageService.deleteImage(existImage.getId());
 		}
-		for(var existDinnerTable :existDinnerTables) {
+		for (var existDinnerTable : existDinnerTables) {
 			iDinnerTableService.deleteDinnerTable(existDinnerTable.getId());
 		}
-		response = iRestaurantService.deleteRestaurant(id,principal.getName());
-		attributes.addFlashAttribute("msg",response);
+		response = iRestaurantService.deleteRestaurant(id, principal.getName());
+		return "redirect:/partner/restaurant/index";
+	}
+	
+	@GetMapping("change/status/{id}")
+	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id, Principal principal) {
+		response = iRestaurantService.changeStatus(id, principal.getName());
 		return "redirect:/partner/restaurant/index";
 	}
 }

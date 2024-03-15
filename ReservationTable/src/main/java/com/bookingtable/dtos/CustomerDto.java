@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class CustomerDto {
 	private String fullname;
 
 	@NotEmpty(message = "Phone number cannot be null")
+	@Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	private String phoneNumber;
 
 	@NotEmpty(message = "Address cannot be null")
@@ -33,6 +36,7 @@ public class CustomerDto {
 	private String email;
 
 	@NotEmpty(message = "Password cannot be null")
+	@Size(min = 8)
 	private String password;
 
 	private boolean gender;

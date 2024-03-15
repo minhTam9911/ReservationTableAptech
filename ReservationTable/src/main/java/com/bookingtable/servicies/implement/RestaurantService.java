@@ -11,6 +11,7 @@ import com.bookingtable.models.DinnerTable;
 import com.bookingtable.models.Restaurant;
 import com.bookingtable.repositories.CategoryRestaurantRepository;
 import com.bookingtable.repositories.DinnerTableRepository;
+import com.bookingtable.repositories.ReceptionistRepository;
 import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.repositories.RestaurantRepository;
@@ -35,6 +36,8 @@ public class RestaurantService implements IRestaurantService {
 	private DinnerTableRepository dinnerTableRepository;
 	@Autowired
 	private ReservationAgentRepository reservationAgentRepository;
+	@Autowired 
+	private ReceptionistRepository receptionistRepository;
 
 	@Override
 	public List<RestaurantDto> getAllRestaurants() {
@@ -159,6 +162,31 @@ public class RestaurantService implements IRestaurantService {
 			}
 		}
 		return list.stream().map(i -> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
+	}
+
+	@Override
+	public ResultResponse<String> changeStatus(String id, String emailCreatedBy) {
+		try {
+			var data = restaurantRepository.findById(id).get();
+			if (data == null) {
+				return new ResultResponse<String>(true, 2, "Proccess Failure");
+			}
+			if (data != null && data.getReservationAgent().getEmail().equalsIgnoreCase(emailCreatedBy)) {
+				data.setActive(!data.isActive());
+				if (restaurantRepository.save(data) != null)
+					return new ResultResponse<String>(true,1,"Proccess Successlly");
+			}
+			var reception = receptionistRepository.findByEmail(emailCreatedBy);
+			if (data != null && reception.getRestaurant().getId().equals(data.getId())) {
+				data.setActive(!data.isActive());
+				if (restaurantRepository.save(data) != null)
+					return new ResultResponse<String>(true,1,"Proccess Successlly");
+			}
+			return new ResultResponse<String>(true, 2,"Proccess Failure");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResultResponse<String>(true, 2, "Proccess Failure");
+		}
 	}
 
 }
