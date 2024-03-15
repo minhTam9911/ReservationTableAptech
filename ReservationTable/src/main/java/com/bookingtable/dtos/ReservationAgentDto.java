@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.UUID;
 
+import jakarta.validation.constraints.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,11 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -54,6 +50,7 @@ public class ReservationAgentDto {
 	
     @NotEmpty
     @Size(min = 8)
+	@Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	private String homePhoneNumber;
 	
     @Min(value =1)
@@ -61,6 +58,7 @@ public class ReservationAgentDto {
 
     @NotEmpty
     @Size(min = 8)
+	@Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	private String cellularPhoneNumber;
 	
 	private String password;

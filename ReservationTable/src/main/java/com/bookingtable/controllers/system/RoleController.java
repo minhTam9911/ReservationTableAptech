@@ -26,11 +26,13 @@ public class RoleController {
 
 	@Autowired
 	private IRoleService roleService;
-	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
+	private ResultResponse<String> result = new ResultResponse<>(false, 0, "");
 
 	@GetMapping({ "index" })
 	public String index(Model model) {
 		model.addAttribute("roles", roleService.getAllRoles());
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		return "admin/panel/role/index";
 	}
 
@@ -38,31 +40,35 @@ public class RoleController {
 	public String create(Model model) {
 		RoleDto roleDto = new RoleDto();
 		model.addAttribute("roleDto", roleDto);
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		return "admin/panel/role/create";
 	}
 
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("roleDto") RoleDto roleDto,
-			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+			RedirectAttributes redirectAttributes, BindingResult bindingResult,Model model) {
 		if (bindingResult.hasErrors()) {
+			result.setOption(2);
+			result.setMessage("Form valid");
+			model.addAttribute("msg", result);
+			result = new ResultResponse<>(false,0,"");
 			return "admin/panel/role/create";
 		}
 		roleDto.setName(roleDto.getName().toUpperCase());
-		response = roleService.createRole(roleDto);
-		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
+		result = roleService.createRole(roleDto);
+		if (result.getOption() == 1) {
 			return "redirect:/admin/panel/role/index";
 		}
-		if (response.getOption() == 2) {
-
-			redirectAttributes.addFlashAttribute("msg", response);
-
-		}
+//		if (result.getOption() == 2) {
+//		}
 		return "admin/panel/role/create";
 	}
 
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") Integer id) {
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		model.addAttribute("roleDto", roleService.getRoleById(id));
 		return "admin/panel/role/edit";
 	}
@@ -74,22 +80,27 @@ public class RoleController {
 			return "admin/panel/role/edit";
 		}
 		roleDto.setName(roleDto.getName().toUpperCase());
-		response = roleService.updateRole(roleDto.getId(), roleDto);
-		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
+		result = roleService.updateRole(roleDto.getId(), roleDto);
+		if (result.getOption() == 1) {
 			return "redirect:/admin/panel/role/index";
 		}
-		if (response.getOption() == 2) {
-			redirectAttributes.addFlashAttribute("msg", response);
+		if (result.getOption() == 2) {
+			return "admin/panel/staff/edit";
 		}
 		return "admin/panel/role/edit";
 	}
 
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") Integer id, RedirectAttributes attributes) {
-		response = roleService.deleteRole(id);
-
-		attributes.addFlashAttribute("msg", response);
+		result = roleService.deleteRole(id);
+		if (result.getOption()==1){
+			result.setOption(1);
+			result.setMessage("Process Success");
+		}
+		if (result.getOption()==2){
+			result.setOption(2);
+			result.setMessage("Process Failure");
+		}
 		return "redirect:/admin/panel/role/index";
 
 	}
