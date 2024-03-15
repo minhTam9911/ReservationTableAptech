@@ -10,30 +10,6 @@
 <body>
 
 <section layout:fragment="content">
-	<th:block th:if="${msg} == true">
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-           <i class="fa fa-exclamation-circle me-2"></i><span>Process Successful</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-           </div>
-	</th:block>
-	<th:block th:if="${msg} == false">
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-           <i class="fa fa-exclamation-circle me-2"></i><span>Process Failure</span>
-         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-	</th:block>
-	<th:block th:if="${msg} != null">
-		<th:block th:if="${msg} != false">
-			<th:block th:if="${msg} != true">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-          	 <i class="fa fa-exclamation-circle me-2"></i><span th:text="${msg}"></span>
-         	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-			</th:block>
-				
-		</th:block>
-	</th:block>
-	<br>
     <h2 style="text-align: center;">
 		<a href="/staff/reservationAgent/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
 			
@@ -63,11 +39,11 @@
             <td th:text="${i.dinnerTable.id}"></td>
             <td th:text="${i.reservationStatus.status}"></td>     
             <td>
-				<th:block th:if="${i.reservationStatus == 1}">
-				   <a th:href="@{/staff/reservationAgent/change-status/{id}(id=${i.id})}"   class="btn btn-success">Confirmed</a>
+				<th:block th:if="${i.reservationStatus.id}==1">
+				   <a th:href="@{/receptionist/change-status/{id}(id=${i.id})}" class="btn btn-success">Confirmed</a>
        
 			   </th:block>
-			    <th:block  th:unless="${i.reservationStatus.status == 1}">
+			    <th:block  th:unless="${i.reservationStatus.id}==1">
 				   <button type="button" class="btn btn-secondary" ><span th:text="${i.reservationStatus.status}"></span></button>
 			   </th:block>
 				</div>
