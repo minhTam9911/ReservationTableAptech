@@ -37,46 +37,53 @@ public class SystemController {
 	@Autowired
 	private IRoleService roleService;
 
-	private ResultResponse<String> response = new ResultResponse<>(false, 0, "");
+	private ResultResponse<String> result = new ResultResponse<>(false,0,"");
 
 	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
 	public String index(Model model, Principal principal) {
 		model.addAttribute("username", principal.getName());
 		model.addAttribute("data", systemService.getAllSystems());
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		return "admin/panel/staff/index";
 	}
 
 	@GetMapping("create")
-	public String create(Model model, RedirectAttributes attributes) {
+	public String create(Model model) {
 		var systemDto = new SystemDto();
 		model.addAttribute("systemDto", systemDto);
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		return "admin/panel/staff/create";
 	}
 
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
-			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+								BindingResult bindingResult, Model model) {
 
 		var roleData = roleService.getRoleById(2);
 		systemDto.setRoleDto(roleData);
 		if (bindingResult.hasErrors()) {
+			result.setOption(2);
+			result.setMessage("Form valid");
+			model.addAttribute("msg", result);
+			result = new ResultResponse<>(false,0,"");
 			return "admin/panel/staff/create";
 		}
-		response = systemService.insertSystem(systemDto);
-		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
+		result = systemService.insertSystem(systemDto);
+		if (result.getOption() == 1) {
 			return "redirect:/admin/panel/index";
 		}
-		if (response.getOption() == 2) {
-			redirectAttributes.addFlashAttribute("msg", response);
-		}
+//		if (result.getOption() == 2) {
+//		}
 		return "redirect:/admin/panel/create";
-
 	}
 
 	@GetMapping("update/{id}")
 	public String update(Model model, @PathVariable("id") String id) {
 		var systemDto = systemService.getSystemsById(id);
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		model.addAttribute("systemDto", systemDto);
 		return "admin/panel/staff/edit";
 	}
@@ -85,34 +92,46 @@ public class SystemController {
 	public String updateProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
 			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
+			result.setOption(2);
+			result.setMessage("Form Valid");
 			return "admin/panel/staff/edit";
 		}
-		response = systemService.updateSystem(systemDto.getId(), systemDto);
-		if (response.getOption() == 1) {
-			redirectAttributes.addFlashAttribute("msg", response);
-			this.response.setStatus(true);
-
+		result = systemService.updateSystem(systemDto.getId(), systemDto);
+		if (result.getOption() == 1) {
 			return "redirect:/admin/panel/index";
 		}
-		if (response.getOption() == 2) {
-			redirectAttributes.addFlashAttribute("msg", response);
-
+		if (result.getOption() == 2) {
+			return "admin/panel/staff/edit";
 		}
 		return "admin/panel/staff/edit";
 	}
 
 	@GetMapping("delete/{id}")
-	public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
-		 response = systemService.deleteSystem(id);
-		 attributes.addFlashAttribute("msg",response);
-			return "redirect:/admin/panel/index";
+	public String delete(@PathVariable("id") String id) {
+		 result = systemService.deleteSystem(id);
+		if (result.getOption()==1){
+			result.setOption(1);
+			result.setMessage("Process Success");
+		}
+		if (result.getOption()==2){
+			result.setOption(2);
+			result.setMessage("Process Failure");
+		}
+		 return "redirect:/admin/panel/index";
 		
 	}
 
 	@GetMapping("change/status/{id}")
-	public String chageStatus(RedirectAttributes attributes, @PathVariable("id") String id) {
-		var check = systemService.changeStatus(id);
-		attributes.addFlashAttribute("msg", check);
+	public String changeStatus(@PathVariable("id") String id) {
+		var status = systemService.changeStatus(id);
+		if(status){
+			result.setOption(1);
+			result.setMessage("Process Success");
+		}
+		else {
+			result.setOption(2);
+			result.setMessage("Process Failure");
+		}
 		return "redirect:/admin/panel/index";
 	}
 

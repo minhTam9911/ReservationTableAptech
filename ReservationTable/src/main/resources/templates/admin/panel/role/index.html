@@ -31,8 +31,7 @@
             <td th:text="${role.name}"></td>
             <td>
                 <a th:href="@{/admin/panel/role/update/{id}(id=${role.id})}" class="btn btn-warning">Edit</a>&emsp;|&emsp;
-                <a th:href="@{/admin/panel/role/delete/{id}(id=${role.id})}" class="btn btn-danger">Delete</a>&emsp;|&emsp;
-                <a th:href="@{/admin/panel/role/detail/{id}(id=${role.id})}" class="btn btn-info">Detail</a>
+                <a th:attr="onclick=${'confirmDelete(''/admin/panel/role/delete/'+role.id+''')'}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>
