@@ -3,6 +3,7 @@ package com.bookingtable.controllers.system;
 import com.bookingtable.dtos.*;
 import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.models.Image;
+import com.bookingtable.repositories.RestaurantRepository;
 import com.bookingtable.servicies.ICategoryRestaurantService;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IImageService;

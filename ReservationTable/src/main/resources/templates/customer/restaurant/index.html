@@ -64,24 +64,24 @@
                                     <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
                                          alt="">
                                     <th:block sec:authorize="isAuthenticated()">
-                                        <input type="hidden" id="restaurantId" name="restaurantId" th:value="${i.id}"/>
+                                        <input type="hidden" th:id="'restaurantId_'+${i.id}" th:name="'restaurantId_'+${i.id}" th:value="${i.id}"/>
                                         <!-- Nút thêm vào collection -->
                                         <th:block th:if="${i.collectionStatus == false}">
-                                            <form id="addToCollectionForm"
+                                            <form th:id="'addToCollectionForm_'+${i.id}"
                                                   th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}"
                                                   method="post">
                                             </form>
-                                            <a href="#" onclick="submitForm()" class="heart-icon">
+                                            <a href="#" th:attr="onclick=${'submitForm('''+i.id+''')'}" class="heart-icon">
                                                 <i class="fa-regular fa-heart fa-2x"></i>
                                             </a>
                                         </th:block>
                                         <!-- Nút xóa khỏi collection -->
                                         <th:block th:if="${i.collectionStatus == true}">
-                                            <form id="removeFromCollectionForm"
+                                            <form th:id="'removeFromCollectionForm_'+${i.id}"
                                                   th:action="@{/customer/restaurant/remove-collection/{id}(id=${i.id})}"
                                                   method="delete">
                                             </form>
-                                            <a href="#" onclick="removeCollection()" class="heart-icon">
+                                            <a href="#" th:attr="onclick=${'removeCollection('''+i.id+''')'}" class="heart-icon">
                                                 <i class="fa-solid fa-heart fa-2x"></i>
                                             </a>
                                         </th:block>
@@ -110,14 +110,12 @@
         
     </section>
     <script th:inline="javascript">
- function removeCollection() {
-     var restaurantId = document.getElementById("restaurantId").value;
-
- document.getElementById("removeFromCollectionForm").submit();
+ function removeCollection(restaurantId) {
+   document.getElementById("removeFromCollectionForm_"+restaurantId).submit();
 }
 
-function submitForm() {
-    document.getElementById("addToCollectionForm").submit();
+function submitForm(restaurantId) {
+    document.getElementById("addToCollectionForm_"+restaurantId).submit();
 }
 
     </script>

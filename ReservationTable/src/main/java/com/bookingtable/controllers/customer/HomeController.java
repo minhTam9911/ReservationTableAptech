@@ -4,6 +4,8 @@ import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.models.DinnerTableType;
+import com.bookingtable.repositories.DinnerTableRepository;
+import com.bookingtable.repositories.RestaurantRepository;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.IImageService;
@@ -33,6 +35,10 @@ public class HomeController {
 	private IDinnerTableService iDinnerTableService;
 	@Autowired
 	private IImageService imageService;
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	@Autowired
+	private DinnerTableRepository dinnerTableRepository;
 	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
 	public String index(Model model) {
 		String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
