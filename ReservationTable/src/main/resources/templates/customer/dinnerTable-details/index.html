@@ -1,90 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/customer}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <title>Dinner table details Page</title>
-    <style>
-    .wrapper {
-    position: relative;
-    /* display: inline-block; */
-    border: none;
-    font-size: 14px;
-    margin: 50px auto;
-    left: -35%;
-    transform: translateX(-50%);
-    bottom: 7px;
+	<title>Dinner table details Page</title>
+	<style>
+		.wrapper {
+			position: relative;
+			display: inline-block;
+			border: none;
+			font-size: 14px;
+			margin: 50px auto;
+			left: 50%;
+			transform: translateX(-50%);
+		}
 
-}
+		.wrapper input {
+			border: 0;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px);
+			clip: rect(1px, 1px, 1px, 1px);
+			opacity: 0;
+		}
 
-.wrapper input {
-  border: 0;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  position: absolute !important;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-  opacity: 0;
-}
+		.wrapper label {
+			position: relative;
+			float: right;
+			padding: 10px 20px;
+			background-color: #F2F2F2;
+			cursor: pointer;
+			transition: background-color 0.3s ease-in-out;
+		}
 
-.wrapper label {
-  position: relative;
-  float: right;
-  color: #C8C8C8;
-}
+		.wrapper label:before {
+			margin: 5px;
+			content: "\f005";
+			font-family: FontAwesome;
+			display: inline-block;
+			font-size: 1.5em;
 
-.wrapper label:before {
-  margin: 5px;
-  content: "\f005";
-  font-family: FontAwesome;
-  display: inline-block;
-  font-size: 1.5em;
-  color: #ccc;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
 
-.wrapper input:checked ~ label:before {
-  color: #FFC107;
-}
 
-.wrapper label:hover ~ label:before {
-  color: #ffdb70;
-}
+		.wrapper input:checked~label:before {
+			color: #FFC107;
+		}
 
-.wrapper label:hover:before {
-  color: #FFC107;
-}
-     .row {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-}
-    .card-img-top {
-  width: 100%; /* Đặt chiều rộng của hình ảnh là 100% của phần tử cha (card) */
-  height: 220px; /* Đặt chiều cao cố định của hình ảnh */
-  object-fit: cover; /* Cắt hình ảnh để nó vừa với kích thước được đặt */
-  }
-.star-rating {
-  display: flex;
-  justify-content: center;
-}
-.card-body{    flex: 1 1 auto;
-    padding: 1rem;
-    background-color: whitesmoke;}
-.star {
-  color: gold;
-  font-size: 20px;
-  margin-right: 5px;
-}
+		.wrapper label:hover {
+			background-color: #ffdb70;
+		}
+
+		.wrapper label:hover:before {
+			color: #FFC107;
+		}
+
+		.label--filled {
+			background-color: #C8C8C8;
+		}
+
+		.label--filled:before {
+			color: #FFC107;
+		}
+
+		.card-img-top {
+			width: 100%;
+			/* Đặt chiều rộng của hình ảnh là 100% của phần tử cha (card) */
+			height: 220px;
+			/* Đặt chiều cao cố định của hình ảnh */
+			object-fit: cover;
+			/* Cắt hình ảnh để nó vừa với kích thước được đặt */
+		}
+
+		.star-rating {
+			display: flex;
+			justify-content: center;
+		}
+
+		.card-body {
+			flex: 1 1 auto;
+			padding: 1rem;
+			background-color: whitesmoke;
+		}
+
+		.star {
+			color: gold;
+			font-size: 20px;
+			margin-right: 5px;
+		}
 
 
 		#map {
@@ -197,208 +206,244 @@
 		.demo:hover {
 			opacity: 1;
 		}
-
-
-
-
-
-    </style>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"/>
+	</style>
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
 
 </head>
 
 <body>
 
-<section layout:fragment="content">
-    <!--================Breadcrumb Area =================-->
-    <section class="breadcrumb_area">
-        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
-             data-background=""></div>
-        <div class="container">
-            <div class="page-cover text-center">
-                <h2 class="page-cover-tittle">For more information
-                </h2>
-                <ol class="breadcrumb">
-                    <li><a th:href="@{/customer/dinnerTables}">Dinner Tables</a></li>
-                    <li class="active">Dinner Table Details</li>
-                </ol>
-            </div>
-        </div>
-    </section>
-    <!--================Breadcrumb Area =================-->
-    <div class="container">
-        <h1 style="    text-align: center;
+	<section layout:fragment="content">
+		<!--================Breadcrumb Area =================-->
+		<section class="breadcrumb_area">
+			<div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+				data-background=""></div>
+			<div class="container">
+				<div class="page-cover text-center">
+					<h2 class="page-cover-tittle">For more information
+					</h2>
+					<ol class="breadcrumb">
+						<li><a th:href="@{/customer/dinnerTables}">Dinner Tables</a></li>
+						<li class="active">Dinner Table Details</li>
+					</ol>
+				</div>
+			</div>
+		</section>
+		<!--================Breadcrumb Area =================-->
+		<div class="container">
+			<h1 style="    text-align: center;
     margin-top: 50px;
     color: black;
 ">Dinner Table Details</h1>
-        <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="mySlides">
-            <div class="numbertext" th:text="${iterStat.index + 1} + ' / ' + ${dinnerTable.imagesDto.size()}"></div>
-            <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}"
-                 style="width:100%;height: 523px;margin-bottom: 15px;margin-top: 40px;">
-        </div>
-        <!-- Thumbnail images -->
-        <div class="row">
-            <!-- Iterate over imagesDto and generate thumbnail images -->
-            <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="column">
-                <img class="demo cursor" th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}"
-                     style="width:100%;height: 160px;" th:onclick="'currentSlide(' + ${iterStat.index + 1} + ')'"
-                     th:alt="Image">
-            </div>
-        </div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
+			<div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="mySlides">
+				<div class="numbertext" th:text="${iterStat.index + 1} + ' / ' + ${dinnerTable.imagesDto.size()}"></div>
+				<img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}"
+					style="width:100%;height: 523px;margin-bottom: 15px;margin-top: 40px;">
+			</div>
+			<!-- Thumbnail images -->
+			<div class="row">
+				<!-- Iterate over imagesDto and generate thumbnail images -->
+				<div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="column">
+					<img class="demo cursor" th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}"
+						style="width:100%;height: 160px;" th:onclick="'currentSlide(' + ${iterStat.index + 1} + ')'"
+						th:alt="Image">
+				</div>
+			</div>
+			<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+			<a class="next" onclick="plusSlides(1)">&#10095;</a>
+		</div>
 
-    <div class="container" style="
+		<div class="container" style="
     margin-bottom: 33px;">
-        <div class="details-display d-flex justify-content-between">
-            <div class="card">
-                <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
-                    <h5 class="card-title">Table Details</h5>
-                    <h6 class="card-subtitle mb-2 text-muted" th:text="'Table ID: ' + ${dinnerTable.id}"></h6>
-                    <p class="card-text" th:text="'Table Quantity: ' + ${dinnerTable.quantity}"></p>
-                    <p class="card-text" th:text="'Table Type: ' + ${dinnerTable.dinnerTableTypeDto.type}"></p>
-                    <p class="card-text" th:text="'Restaurant Name: ' + ${dinnerTable.restaurantDto.name}"></p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
-                    <h5 class="card-title">Location and contact information</h5>
-                    <div id="map"></div>
-                    <div class="location-info">
-                        <i class="fa-solid fa-location-dot larger icon-blue"></i>
-                        <p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
-                    </div>
+			<div class="details-display d-flex justify-content-between">
+				<div class="card">
+					<div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
+						<h5 class="card-title">Table Details</h5>
+						<h6 class="card-subtitle mb-2 text-muted" th:text="'Table ID: ' + ${dinnerTable.id}"></h6>
+						<p class="card-text" th:text="'Table Quantity: ' + ${dinnerTable.quantity}"></p>
+						<p class="card-text" th:text="'Table Type: ' + ${dinnerTable.dinnerTableTypeDto.type}"></p>
+						<p class="card-text" th:text="'Restaurant Name: ' + ${dinnerTable.restaurantDto.name}"></p>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
+						<h5 class="card-title">Location and contact information</h5>
+						<div id="map"></div>
+						<div class="location-info">
+							<i class="fa-solid fa-location-dot larger icon-blue"></i>
+							<p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
+						</div>
 
 
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body" style="width: 350px; box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);">
-                    <div class="booking-form">
-                        <h3 class="card-title">Reserve your table</h3>
-                        <form action="/customer/reservation/submit" method="post">
-                            <div class="form-group">
-                                <label for="booking-date">Booking Date:</label>
-                                <input type="date" name="date" class="form-control" id="booking-date" required
-                                       style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
-                            </div>
-                            <div class="form-group">
-                                <label for="booking-time">Booking Time:</label>
-                                <input type="time" name="time" class="form-control" id="booking-time" required
-                                       style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
-                            </div>
-                            <div class="input-group" style="flex-direction: column;">
-                                <label>Party size:</label>
-                                <select class="wide" name="partySize" style="display: none;">
-                                    <option value="1">1 People</option>
-                                    <th:block th:each="i : ${#numbers.sequence(2, 10)}">
-                                        <option th:value="${i}" th:text="${i} + ' Peoples'"></option>
-                                    </th:block>
-                                </select>
-                            </div>
-                            <div class="input-group" style="flex-direction: column;">
-                                <label>Payment method:</label>
-                                <select class="wide" name="method" style="display: none;">
-                                    <option value="1" selected>Paypal</option>
-                                    <option value="2">VNPay</option>
-                                </select>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body" style="width: 350px; box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);">
+						<div class="booking-form">
+							<h3 class="card-title">Reserve your table</h3>
+							<form action="/customer/reservation/submit" method="post">
+								<div class="form-group">
+									<label for="booking-date">Booking Date:</label>
+									<input type="date" name="date" class="form-control" id="booking-date" required
+										style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+								</div>
+								<div class="form-group">
+									<label for="booking-time">Booking Time:</label>
+									<input type="time" name="time" class="form-control" id="booking-time" required
+										style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+								</div>
+								<div class="input-group" style="flex-direction: column;">
+									<label>Party size:</label>
+									<select class="wide" name="partySize" style="display: none;">
+										<option value="1">1 People</option>
+										<th:block th:each="i : ${#numbers.sequence(2, 10)}">
+											<option th:value="${i}" th:text="${i} + ' Peoples'"></option>
+										</th:block>
+									</select>
+								</div>
+								<div class="input-group" style="flex-direction: column;">
+									<label>Payment method:</label>
+									<select class="wide" name="method" style="display: none;">
+										<option value="1" selected>Paypal</option>
+										<option value="2">VNPay</option>
+									</select>
 
-                            </div>
-                            <input type="hidden" name="idDinnerTable" th:value="${dinnerTable.id}">
-                            <br>
-                            <button sec:authorize="isAuthenticated() and hasAnyAuthority('ROLE_CUSTOMER')" type="submit"
-                                    class="btn btn-primary"
-                                    style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
-                                Book
-                            </button>
-                            <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Booking
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-                        <button type="button" style="border: 0;background-color: white;" class="btn-close"
-                                data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href="/login" type="button" class="btn btn-primary">Login</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--================ Testimonial Area  =================-->
-        <section class="testimonial_area section_gap">
-            <div class="container">
-                <div class="section_title text-center">
-                    <h2 class="title_color">Testimonial from our Clients</h2>
-                    <p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall
-                        from </p>
-                </div>
-                <div class="testimonial_slider owl-carousel">
-                    <div class="media testimonial_item" th:each="rate : ${rates}">
-                        <img class="rounded-circle" src="image/testtimonial-1.jpg" alt="">
-                        <div class="media-body">
-                            <p th:text="${rate.comment}"></p>
-                            <!--  <a href="#"><h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4></a>-->
-                            <div class="star">
-                                <th:block th:switch="${rate.point}">
-                                    <th:block th:case="1"><i class="fa fa-star"></i></th:block>
-                                    <th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </th:block>
-                                    <th:block th:case="3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i></th:block>
-                                    <th:block th:case="4"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                    <th:block th:case="5"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i>
-                                    </th:block>
-                                    <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
-                                </th:block>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Phần comment -->
-        <div class="comment-section">
-            <form id="ratingForm" method="get" action="#">
-                <h2 style="margin-top: 25px;">Comments</h2>
-                <div class="wrapper">
-                    <input type="checkbox" id="st1" value="5" name="point5"/>
-                    <label for="st1"></label>
-                    <input type="checkbox" id="st2" value="4" name="point4"/>
-                    <label for="st2"></label>
-                    <input type="checkbox" id="st3" value="3" name="point3"/>
-                    <label for="st3"></label>
-                    <input type="checkbox" id="st4" value="2" name="point2"/>
-                    <label for="st4"></label>
-                    <input type="checkbox" id="st5" value="1" name="point1"/>
-                    <label for="st5"></label>
-                </div>
-                <div class="form-group">
-                    <textarea class="form-control" id="comment" rows="3" placeholder="Enter your comment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-    <script>
+								</div>
+								<input type="hidden" name="idDinnerTable" th:value="${dinnerTable.id}">
+								<br>
+								<button sec:authorize="isAuthenticated() and hasAnyAuthority('ROLE_CUSTOMER')"
+									type="submit" class="btn btn-primary"
+									style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+									Book
+								</button>
+								<button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary"
+									data-bs-toggle="modal" data-bs-target="#exampleModal">
+									Booking
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+							<button type="button" style="border: 0;background-color: white;" class="btn-close"
+								data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+						</div>
+						<div class="modal-body">
+							...
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<a href="/login" type="button" class="btn btn-primary">Login</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--================ Testimonial Area  =================-->
+			<section class="testimonial_area section_gap">
+				<div class="container">
+					<div class="section_title text-center">
+						<h2 class="title_color">Testimonial from our Clients</h2>
+						<p>The French Revolution constituted for the conscience of the dominant aristocratic class a
+							fall
+							from </p>
+					</div>
+					<div class="testimonial_slider owl-carousel">
+						<div class="media testimonial_item" id="myDiv" th:each="rate : ${rates}">
+<img class="rounded-circle" th:src="@{/assets/customer/image/avatar.jpg}" alt="">
+							<div id="image-container"></div>
+
+							<div class="media-body">
+								<p th:text="${rate.comment}" style="font-weight: 500;"></p>
+								<a href="#">
+									<h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4>
+								</a>
+								<div class="star">
+									<th:block th:switch="${rate.point}">
+										<th:block th:case="1"><i class="fa fa-star"></i></th:block>
+										<th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i>
+										</th:block>
+										<th:block th:case="3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i></th:block>
+										<th:block th:case="4"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
+										<th:block th:case="5"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i>
+										</th:block>
+										<th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
+									</th:block>
+								</div>
+							</div>
+
+						</div>
+						
+						
+	
+						
+					</div>
+				</div>
+			</section>
+
+			<!-- Phần comment -->
+			<th:block th:if="${commentPersonalLenght == 2}" )>
+				<div class="comment-section">
+					<form id="ratingForm" method="post" action="/customer/comment/create">
+						<h2 style="margin-top: 25px;">Comments & Reviews</h2>
+						<div class="wrapper">
+							<input type="radio" id="st1" name="selection" value="5" />
+							<label for="st1" class="label--1"></label>
+							<input type="radio" id="st2" name="selection" value="4" />
+							<label for="st2" class="label--2"></label>
+							<input type="radio" id="st3" name="selection" value="3" />
+							<label for="st3" class="label--3"></label>
+							<input type="radio" id="st4" name="selection" value="2" />
+							<label for="st4" class="label--4"></label>
+							<input type="radio" id="st5" name="selection" value="1" />
+							<label for="st5" class="label--5"></label>
+
+							<script>
+								const radios = document.querySelectorAll('input[type="radio"]');
+								const labels = document.querySelectorAll('.wrapper label');
+
+								radios.forEach(radio => {
+									radio.addEventListener('change', (event) => {
+										const selectedValue = parseInt(event.target.value);
+
+										for (const label of labels) {
+											const labelValue = parseInt(label.classList[1].slice(7)); // Lấy giá trị từ class "label--X"
+
+											if (labelValue > selectedValue) {
+												label.classList.add('label--filled');
+											} else {
+												label.classList.remove('label--filled');
+											}
+										}
+									});
+								});
+							</script>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" id="comment" rows="3" name="comment"
+								placeholder="Enter your comment" required></textarea>
+						</div>
+						<input type="hidden" th:value="${commentPersonal.id}" name="id">
+						<input type="hidden" th:value="${commentPersonal.reservation.id}" name="idReservation">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</th:block>
+		</div>
+		<script>
+
+
+
 			document.addEventListener("DOMContentLoaded", function () {
 				// Hiển thị slide đầu tiên
 				showSlides(slideIndex);
@@ -461,17 +506,17 @@
 
 
 
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-            crossorigin="anonymous"></script>
-</section>
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+			integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+			integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+			crossorigin="anonymous"></script>
+	</section>
 
 </body>
 
