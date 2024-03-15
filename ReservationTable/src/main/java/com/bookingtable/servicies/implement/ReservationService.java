@@ -95,7 +95,7 @@ public class ReservationService implements IReservationService {
 		var receptionist = receptionistRepository.findByEmail(emailReception);
 		for(var i : reservation) {
 			if(i.getDinnerTable().getRestaurant().getId().equals(receptionist.getRestaurant().getId())) {
-				if(!i.getReservationStatus().getStatus().equalsIgnoreCase("Finished") && !i.getReservationStatus().getStatus().equalsIgnoreCase("Cancelled")) {
+				if(!(i.getReservationStatus().getId()==3) && !(i.getReservationStatus().getId()==4)) {
 					list.add(i);
 				}
 			}
@@ -107,7 +107,7 @@ public class ReservationService implements IReservationService {
 	public boolean changeReservationStatusConfirmed(String id) {
 		try {
 			var data = reservationRepository.findById(id).get();
-			data.setReservationStatus(reservationStatusRepository.findById(3).get());
+			data.setReservationStatus(reservationStatusRepository.findById(2).get());
 			if(reservationRepository.save(data) != null){
 					return true;
 			}else {
@@ -123,7 +123,7 @@ public class ReservationService implements IReservationService {
 	public boolean changeReservationStatusFinnished(String id) {
 		try {
 			var data = reservationRepository.findById(id).get();
-			data.setReservationStatus(reservationStatusRepository.findById(4).get());
+			data.setReservationStatus(reservationStatusRepository.findById(3).get());
 			if(reservationRepository.save(data) != null){
 					return true;
 			}else {
@@ -139,7 +139,7 @@ public class ReservationService implements IReservationService {
 	public boolean changeReservationStatusCancel(String id) {
 		try {
 			var data = reservationRepository.findById(id).get();
-			data.setReservationStatus(reservationStatusRepository.findById(5).get());
+			data.setReservationStatus(reservationStatusRepository.findById(4).get());
 			if(reservationRepository.save(data) != null){
 					return true;
 			}else {

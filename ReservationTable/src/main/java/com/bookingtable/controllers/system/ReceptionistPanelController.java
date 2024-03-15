@@ -29,9 +29,9 @@ public class ReceptionistPanelController {
 		var reservation = iReservationService.getAllReservationForReceptionist(principal.getName());
 		for(var i : reservation) {
 			if(i.getBookingDate().isBefore(LocalDate.now()) && i.getBookingTime().isBefore(LocalTime.now())) {
-				if(i.getReservationStatus().getId() == 3) {
+				if(i.getReservationStatus().getId() == 2) {
 					iReservationService.changeReservationStatusFinnished(i.getId());
-				}if(i.getReservationStatus().getId()==2) {
+				}if(i.getReservationStatus().getId()==1) {
 					iReservationService.changeReservationStatusCancel(i.getId());
 				}
 			}
@@ -42,7 +42,7 @@ public class ReceptionistPanelController {
 		return "receptionist/index";
 	}
 	@GetMapping("change-status/{id}")
-	public String changeStatus(Model model, @PathVariable("id") String id) {
+	public String changeStatus(@PathVariable("id") String id) {
 		iReservationService.changeReservationStatusConfirmed(id);
 		return "redirect:/receptionist/index";
 	}
