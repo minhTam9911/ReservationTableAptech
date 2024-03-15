@@ -1,6 +1,7 @@
 package com.bookingtable.controllers.customer;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.servicies.IRateService;
 
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("customer/comment")
@@ -35,15 +37,21 @@ public class CommentController {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@PostMapping("insert/{idDinnerTable}")
-	public String insert(@Valid @ModelAttribute("comment") Rate comment,
-			Principal principal,
-			@PathVariable("idReservation") String idReservation) {
+	@PostMapping("create")
+	public String insert(@PathParam("selection") int selection,
+			Principal principal,@PathParam("comment") String comment,
+			@PathParam("id") Integer id,
+			@PathParam("idReservation") String idReservation) {
 		if(principal.getName()!=null || !principal.getName().isEmpty()) {
-			comment.setCustomer(customerRepository.findByEmail(principal.getName()));
-			comment.setReservation(reservationRepository.findById(idReservation).get());
-			rateRepository.save(comment);
-			return "redirect:/customer/dinnerTable/"+comment.getReservation().getDinnerTable().getId();
+			var rate = new Rate();
+			rate.setId(id);
+			rate.setCustomer(customerRepository.findByEmail(principal.getName()));
+			rate.setReservation(reservationRepository.findById(idReservation).get());
+			rate.setComment(comment);
+			rate.setCreated(LocalDate.now());
+			rate.setStatus(false);
+			rateRepository.save(rate);
+			return "redirect:/customer/dinnerTable-details/"+rate.getReservation().getDinnerTable().getId();
 			}
 		return "customer/accessDined";
 	}

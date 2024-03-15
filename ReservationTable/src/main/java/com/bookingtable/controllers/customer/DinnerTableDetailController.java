@@ -40,9 +40,9 @@ public class DinnerTableDetailController {
         var listRates = new ArrayList<Rate>();
         var rates = rateRepository.findAll();
         for(var i : rates) {
-        	var rate = new Rate();
-        	if((i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) && !rate.isStatus()) {
-        		 listRates.add(rate);
+   
+        	if((i.getReservation().getDinnerTable().getId() == id) && !i.isStatus()) {
+        		 listRates.add(i);
         	}
         }
 
@@ -53,10 +53,21 @@ public class DinnerTableDetailController {
             if(commentPersonal!=null) {
                 for (var i : commentPersonal) {
                     if (i.getReservation().getReservationStatus().getId()==3 && i.isStatus()) {
-                        list = i;
+                    	if(i.getReservation().getDinnerTable().getId()==id) {
+                    		list = i;
+                    	}
+                        
                     }
                 }
+                var count = 0;
+                if(list.getId() == null) {
+                	count = 1;
+                }else {
+                	count = 2;
+                }
+                model.addAttribute("commentPersonalLenght", count);
                 model.addAttribute("commentPersonal", list);
+                
             }
         }
         model.addAttribute("msg", validation);
