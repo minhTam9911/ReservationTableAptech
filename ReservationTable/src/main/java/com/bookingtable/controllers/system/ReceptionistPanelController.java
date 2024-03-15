@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bookingtable.dtos.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,8 @@ import com.bookingtable.servicies.IReservationService;
 public class ReceptionistPanelController {
 	@Autowired
 	private IReservationService iReservationService;
-	
+	private ResultResponse<String> result = new ResultResponse<>(false, 0, "");
+
 	@GetMapping("index")
 	public String index(Model  model, Principal principal) {
 		var reservation = iReservationService.getAllReservationForReceptionist(principal.getName());
@@ -34,11 +36,13 @@ public class ReceptionistPanelController {
 				}
 			}
 		}
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
 		model.addAttribute("data", iReservationService.getAllReservationForReceptionist(principal.getName()));
 		return "receptionist/index";
 	}
 	@GetMapping("change-status/{id}")
-	public String changeStatus(Model model, @PathVariable("id") String id,Principal principal) {
+	public String changeStatus(Model model, @PathVariable("id") String id) {
 		iReservationService.changeReservationStatusConfirmed(id);
 		return "redirect:/receptionist/index";
 	}
