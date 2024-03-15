@@ -21,24 +21,13 @@
 
 			<form th:action="@{/partner/dinnerTable/create/save}" method="post" th:object="${dinnerTableDto}"
 				enctype="multipart/form-data">
-
-				<div class="mb-3">
-					<label>Status:</label>
-					<select th:field="*{status}" class="form-control">
-						<option value="">Select Status</option>
-						<option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available
-						</option>
-						<option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
-						<option value="Under Maintenance or Repair"
-							th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or
-							Repair</option>
-					</select>
-					<div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback"
-						style="display:block;"></div>
-
-				</div>
-
 				<!-- Quantity with Thymeleaf error handling -->
+				<div class="mb-3">
+					<label>Name:</label>
+					<input type="text" th:field="*{status}" class="form-control">
+					<div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback"
+						 style="display:block;"></div>
+				</div>
 				<div class="mb-3">
 					<label>Quantity:</label>
 					<input type="number" th:field="*{quantity}" class="form-control">

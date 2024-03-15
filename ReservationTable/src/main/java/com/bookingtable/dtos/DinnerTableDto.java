@@ -24,12 +24,9 @@ public class DinnerTableDto {
 	
     private Integer id;
     @Min(value = 1,message = "Quantity must higher one")
-    @NotNull(message = "Quantity table cannot be null")
-    @Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
     private int quantity;
 
     private int currentQuantity;
-    @NotEmpty(message = "Status cannot be empty")
     private String status;
     private DinnerTableTypeDto dinnerTableTypeDto;
 
