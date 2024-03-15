@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,13 +33,13 @@ public class SystemDto {
 	private String fullname;
 	
     @NotEmpty
+	@Pattern(regexp = "^[0-9]+$")
 	private String phoneNumber;
 	
     @NotEmpty
 	private String address;
 	
     @NotEmpty
-	@Nullable
     @Email
 	private String email;
 	
