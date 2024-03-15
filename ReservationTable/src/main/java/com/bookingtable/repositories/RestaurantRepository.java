@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface RestaurantRepository extends JpaRepository<Restaurant, String> {
 	List<Restaurant> findByReservationAgentEmail(String email);
 	List<Restaurant> findByCategoryRestaurantId(Integer idCategory);
+
+	List<Restaurant> findByCity(String email);
+
 }

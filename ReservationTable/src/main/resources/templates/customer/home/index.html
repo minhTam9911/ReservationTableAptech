@@ -133,21 +133,32 @@
     <section class="accomodation_area section_gap">
         <div class="container">
             <section class="search-container">
-                <input type="text" id="searchInput" placeholder="Search by area...">
-                <select id="categorySelect">
-                    <option value="">All Categories</option>
-                    <option value="restaurant">Restaurant</option>
-                    <option value="hotel">Hotel</option>
-                    <!-- Thêm các lựa chọn khác nếu cần -->
-                </select>
-                <input type="number" id="priceMin" placeholder="Min price">
-                <input type="number" id="priceMax" placeholder="Max price">
-                <button onclick="search()">Search</button>
+                <div>
+                    <select id="categorySelect">
+                        <option value="">All tables</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="city">City</option>
+                        <option value="city">Dinner Table Type</option>
+                    </select>
+                    <div class="display-chosen">
+                        <div th:each="i:${data}"></div>
+                    </div>
+                </div>
             </section>
-            <section id="searchResults">
+            <section id="search-results">
                 <!-- Kết quả tìm kiếm sẽ được hiển thị ở đây -->
             </section>
         </div>
+
+        <div class="container">
+           <section class="top-recommended">
+               <h1>top recommended dinner table</h1>
+               <div class="recommended-display">
+
+               </div>
+           </section>
+        </div>
+        //type
         <div class="container">
             <div class="section_title text-center">
                 <h2 class="title_color">All Dinner Types</h2>
@@ -221,42 +232,6 @@
         </div>
     </section>
     <!--================ Facilities Area  =================-->
-
-
-
-    <script>
- function search() {
-    var searchTerm = document.getElementById("searchInput").value;
-    var category = document.getElementById("categorySelect").value;
-    var minPrice = document.getElementById("priceMin").value;
-    var maxPrice = document.getElementById("priceMax").value;
-
-    // Gửi yêu cầu tìm kiếm đến máy chủ
-    var xhr = new XMLHttpRequest();
-    var url = "/search?term=" + searchTerm + "&category=" + category + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
-    xhr.open("GET", url, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var searchResults = JSON.parse(xhr.responseText);
-            displayResults(searchResults);
-        }
-    };
-    xhr.send();
-}
-
-function displayResults(results) {
-    var searchResultsSection = document.getElementById("searchResults");
-    searchResultsSection.innerHTML = ""; // Xóa nội dung cũ
-
-    // Hiển thị kết quả tìm kiếm
-    results.forEach(function(result) {
-        var resultElement = document.createElement("div");
-        resultElement.textContent = result.name + " - " + result.area + " - " + result.category + " - $" + result.price;
-        searchResultsSection.appendChild(resultElement);
-    });
-}
-
-</script>
 </section>
 
 </body>
