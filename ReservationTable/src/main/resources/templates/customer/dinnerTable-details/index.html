@@ -147,6 +147,8 @@
 		}
 
 
+
+
     </style>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"/>
@@ -294,9 +296,6 @@
                         from </p>
                 </div>
                 <div class="testimonial_slider owl-carousel">
-                    <th:block th:if="${ratesLenght}>0">
-
-
                         <div class="media testimonial_item" th:each="rate : ${rates}">
                             <img class="rounded-circle" src="image/testtimonial-1.jpg" alt="">
                             <div class="media-body">
@@ -322,43 +321,44 @@
                                 </div>
                             </div>
                         </div>
-                    </th:block>
                 </div>
             </div>
         </section>
         <!-- Phần comment -->
-        <!--  <div class="comment-section">
-              <h2>Comments</h2>
-              <th:block th:if="${commentPersonal.length}>0">
-                  <th:block th:each="i : ${commentPersonal}">
+        <div class="comment-section">
+            <h2>Comments</h2>
+            <th:block th:each="i : ${commentPersonal}">
+                <th:block th:switch="${i.point}">
+                    <th:block th:case="1"><i class="fa fa-star"><input type="hidden" name="point" value="1"></i>
+                    </th:block>
+                    <th:block th:case="2"><i class="fa fa-star"></i><input type="hidden" name="point" value="2"><i
+                            class="fa fa-star"></i>
+                    </th:block>
+                    <th:block th:case="3"><i class="fa fa-star"></i><input type="hidden" name="point" value="3"><i
+                            class="fa fa-star"></i><i
+                            class="fa fa-star"></i></th:block>
+                    <th:block th:case="4"><i class="fa fa-star"><input type="hidden" name="point" value="4"></i><i
+                            class="fa fa-star"></i><i
+                            class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
+                    <th:block th:case="5"><i class="fa fa-star"><input type="hidden" name="point" value="5"></i><i
+                            class="fa fa-star"></i><i
+                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    </th:block>
+                    <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
+                </th:block>
+            </th:block>
 
-                  </th:block>
+            <form>
 
-                  <form >
-                      <th:block th:switch="${i.point}">
-                                      <th:block th:case="1"><i class="fa fa-star"><input type="hidden" name="point" value="1"></i></th:block>
-                                      <th:block th:case="2"><i class="fa fa-star"></i><input type="hidden" name="point" value="2"><i class="fa fa-star"></i>
-                                      </th:block>
-                                      <th:block th:case="3"><i class="fa fa-star"></i><input type="hidden" name="point" value="3"><i class="fa fa-star"></i><i
-                                              class="fa fa-star"></i></th:block>
-                                      <th:block th:case="4"><i class="fa fa-star"><input type="hidden" name="point" value="4"></i><i class="fa fa-star"></i><i
-                                              class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                      <th:block th:case="5"><i class="fa fa-star"><input type="hidden" name="point" value="5"></i><i class="fa fa-star"></i><i
-                                              class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                      </th:block>
-                                      <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
-                                  </th:block>
-                  <div class="form-group">
-                      <label for="comment">Comment & Rating:</label>
-                      <textarea class="form-control" id="comment" rows="3"
-                                placeholder="Enter your comment"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
-                      </th:block>
-              </th:block>
-          </div>
-  -->
+                <div class="form-group">
+                    <label for="comment">Comment & Rating:</label>
+                    <textarea class="form-control" id="comment" rows="3"
+                              placeholder="Enter your comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            </th:block>
+        </div>
     </div>
     <script>
 			document.addEventListener("DOMContentLoaded", function () {
@@ -417,6 +417,8 @@
 			map.on('load', function () {
 				map.getCanvasContainer().appendChild(googleMapOverlay);
 			});
+
+
 
 
 

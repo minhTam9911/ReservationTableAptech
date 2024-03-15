@@ -33,9 +33,7 @@ public class DinnerTableDetailController {
     
     @GetMapping("/customer/dinnerTable-details/{id}")
     public String showDinnerTableDetailsPage(@PathVariable("id") Integer id, Model model, Principal principal) {
-        // Lấy thông tin chi tiết của bàn ăn từ service
         var dinnerTable = dinnerTableService.getDinnerTableById(id);
-        // Đưa thông tin chi tiết của bàn ăn vào model để hiển thị trên trang HTML
         Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
         dinnerTable.setImagesDto(new ArrayList<>(images));
         model.addAttribute("dinnerTable", dinnerTable);
@@ -47,17 +45,18 @@ public class DinnerTableDetailController {
         		 listRates.add(rate);
         	}
         }
-        model.addAttribute("ratesLenght", listRates.size());
         model.addAttribute("rates", listRates);
         if(principal!=null) {
         	List<Rate> list = new ArrayList<>();
         	var commentPersonal = rateRepository.findByCustomerEmail(principal.getName());
-        	for(var i : commentPersonal) {
-        		if(i.getReservation().getReservationStatus().getStatus().equalsIgnoreCase("finished")) {
-        			list.add(i);
-        		}
-        	}
-        	model.addAttribute("commentPersonal", list);
+            if(commentPersonal!=null) {
+                for (var i : commentPersonal) {
+                    if (i.getReservation().getReservationStatus().getStatus().equalsIgnoreCase("finished")) {
+                        list.add(i);
+                    }
+                }
+                model.addAttribute("commentPersonal", list);
+            }
         }
         model.addAttribute("msg", validation);
 		validation = new ResultResponse<>(false, 0, "");

@@ -50,12 +50,12 @@ public class CustomerReservationController {
 			if(dinerTable == null) {
 				return "dinnerTable-details/cancel";
 			}
-			if(partySize > dinerTable.getDinnerTableType().getCapacity()) {
-				validation.setOption(2);
-				validation.setMessage("The total number of people has exceeded the given limit");
-				model.addAttribute("msg", validation);
-				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
-			}
+//			if(partySize > dinerTable.getDinnerTableType().getCapacity()) {
+//				validation.setOption(2);
+//				validation.setMessage("The total number of people has exceeded the given limit");
+//				model.addAttribute("msg", validation);
+//				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
+//			}
 			reservation.setReservationStatus(reservationStatusRepository.findById(1).get());
 			reservation.setRestaurant(dinerTable.getRestaurant());
 			reservation.setBookingDate(date);
