@@ -41,18 +41,19 @@ public class DinnerTableDetailController {
         var rates = rateRepository.findAll();
         for(var i : rates) {
         	var rate = new Rate();
-        	if(i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
+        	if((i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) && !rate.isStatus()) {
         		 listRates.add(rate);
         	}
         }
+
         model.addAttribute("rates", listRates);
         if(principal!=null) {
-        	List<Rate> list = new ArrayList<>();
+        	Rate list = new Rate();
         	var commentPersonal = rateRepository.findByCustomerEmail(principal.getName());
             if(commentPersonal!=null) {
                 for (var i : commentPersonal) {
-                    if (i.getReservation().getReservationStatus().getStatus().equalsIgnoreCase("finished")) {
-                        list.add(i);
+                    if (i.getReservation().getReservationStatus().getId()==3 && i.isStatus()) {
+                        list = i;
                     }
                 }
                 model.addAttribute("commentPersonal", list);
