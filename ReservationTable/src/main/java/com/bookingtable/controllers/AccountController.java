@@ -63,7 +63,7 @@ public class AccountController {
             model.addAttribute("msg", result);
             result = new ResultResponse<>(false, 0, "");
             return "account/login";
-        }
+        }result = new ResultResponse<>(false, 0, "");
         return "redirect:/accessDenied";
 
     }

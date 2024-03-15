@@ -61,9 +61,9 @@
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Toll Free
                     Number</label>
-                <input type="number" class="form-control" aria-describedby="emailHelp" th:field="*{totalFreeNumber}">
+                <input type="number" class="form-control" aria-describedby="emailHelp" th:field="*{tollFreeNumber}">
                 <div class="form-text">
-                        <span th:if="${#fields.hasErrors('totalFreeNumber')}" th:errors="*{tollFreeNumber}"
+                        <span th:if="${#fields.hasErrors('tollFreeNumber')}" th:errors="*{tollFreeNumber}"
                               style="color: red;"></span>
                 </div>
             </div>
@@ -142,7 +142,7 @@
                     <label for="floatingTextarea">Description</label>
                 </div>
                  <div class="form-text">
-                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{descriptionsite}"
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                           style="color: red;"></span>
                 </div>
 			</div>

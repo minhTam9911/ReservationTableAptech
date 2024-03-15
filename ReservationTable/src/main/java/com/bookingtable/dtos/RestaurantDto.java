@@ -47,7 +47,7 @@ public class RestaurantDto {
 
 	    @NotEmpty
 	    @Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
-	    private String totalFreeNumber;
+	    private String tollFreeNumber;
 	
 	    @NotEmpty
 	    @Email
