@@ -59,25 +59,39 @@ public class CustomerRestaurantController {
             restaurant = i;
             if (principal != null) {
                 var customer = iCustomerService.getCustomerByEmail(principal.getName());
-
-                var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
-
-                if (collection != null && collection.isStatus()) {
-                    i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
+                if (customer != null) {
+                    var collection = collectionService.findByCustomerAndRestaurant(customer.getId(), i.getId());
+                    if (collection != null && collection.isStatus()) {
+                        i.setCollectionStatus(true); // Collection tồn tại và có trạng thái true
+                    } else {
+                        i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
+                    }
                 } else {
-                    i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
+                    for (int j = 0; j <= 2; j++) {
+                        ImageDto image = new ImageDto();
+                        var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
+                        for (var x : images) {
+                            if (x.getDinnerTableDto() == null) {
+                                image = x;
+                                restaurant.setImageSrc(image.getPath());
+                            }
+                        }
+
+                    }
+                    data.add(restaurant);
+                    model.addAttribute("data", data);
+                    return "customer/restaurant/index";
                 }
             }
             for (int j = 0; j <= 2; j++) {
                 ImageDto image = new ImageDto();
                 var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
-                for(var x : images) {
-                	if(x.getDinnerTableDto() == null) {
-                		image = x;
+                for (var x : images) {
+                    if (x.getDinnerTableDto() == null) {
+                        image = x;
                         restaurant.setImageSrc(image.getPath());
-                	}
+                    }
                 }
-                
             }
             data.add(restaurant);
         }
@@ -124,13 +138,13 @@ public class CustomerRestaurantController {
         for (DinnerTableDto dinnerTable : dinnerTables) {
             dinnerTable.getId();
             var rates = rateRepository.findAll();
-            for(var i : rates) {
-            	var rate = new Rate();
-            	if(i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
-            		 listRates.add(rate);
-            	}
+            for (var i : rates) {
+                var rate = new Rate();
+                if (i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
+                    listRates.add(rate);
+                }
             }
-            
+
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }

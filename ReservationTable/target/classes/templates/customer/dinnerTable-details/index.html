@@ -146,6 +146,7 @@
 			opacity: 1;
 		}
 
+
     </style>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"/>
@@ -172,11 +173,14 @@
     </section>
     <!--================Breadcrumb Area =================-->
     <div class="container">
-        <h1>Dinner Table Details</h1>
+        <h1 style="    text-align: center;
+    margin-top: 50px;
+    color: black;
+">Dinner Table Details</h1>
         <div th:each="image, iterStat : ${dinnerTable.imagesDto}" class="mySlides">
             <div class="numbertext" th:text="${iterStat.index + 1} + ' / ' + ${dinnerTable.imagesDto.size()}"></div>
             <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${image.path})}"
-                 style="width:100%;height: 523px;margin-bottom: 15px;">
+                 style="width:100%;height: 523px;margin-bottom: 15px;margin-top: 40px;">
         </div>
         <!-- Thumbnail images -->
         <div class="row">
@@ -254,7 +258,7 @@
                                     style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
                                 Book
                             </button>
-                            <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary"
+                            <button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Booking
                             </button>
@@ -290,70 +294,71 @@
                         from </p>
                 </div>
                 <div class="testimonial_slider owl-carousel">
-					<th:block th:if="${ratesLenght}>0">
-						
-					
-                    <div class="media testimonial_item" th:each="rate : ${rates}">
-                        <img class="rounded-circle" src="image/testtimonial-1.jpg" alt="">
-                        <div class="media-body">
-                            <p th:text="${rate.comment}"></p>
-                          <!--  <a href="#"><h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4></a>-->
-                            <div class="star">
-								
-                                <th:block th:switch="${rate.point}">
-                                    <th:block th:case="1"><i class="fa fa-star"></i></th:block>
-                                    <th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    <th:block th:if="${ratesLenght}>0">
+
+
+                        <div class="media testimonial_item" th:each="rate : ${rates}">
+                            <img class="rounded-circle" src="image/testtimonial-1.jpg" alt="">
+                            <div class="media-body">
+                                <p th:text="${rate.comment}"></p>
+                                <!--  <a href="#"><h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4></a>-->
+                                <div class="star">
+
+                                    <th:block th:switch="${rate.point}">
+                                        <th:block th:case="1"><i class="fa fa-star"></i></th:block>
+                                        <th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                        </th:block>
+                                        <th:block th:case="3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                class="fa fa-star"></i></th:block>
+                                        <th:block th:case="4"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
+                                        <th:block th:case="5"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                class="fa fa-star"></i>
+                                        </th:block>
+                                        <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
                                     </th:block>
-                                    <th:block th:case="3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i></th:block>
-                                    <th:block th:case="4"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                    <th:block th:case="5"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </th:block>
-                                    <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
-                                </th:block>
-                              
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    	</th:block>
+                    </th:block>
                 </div>
             </div>
         </section>
         <!-- Phần comment -->
-      <!--  <div class="comment-section">
-            <h2>Comments</h2>
-            <th:block th:if="${commentPersonal.length}>0">
-				<th:block th:each="i : ${commentPersonal}">
-					
-				</th:block>
-		
-				<form >
-					<th:block th:switch="${i.point}">
-                                    <th:block th:case="1"><i class="fa fa-star"><input type="hidden" name="point" value="1"></i></th:block>
-                                    <th:block th:case="2"><i class="fa fa-star"></i><input type="hidden" name="point" value="2"><i class="fa fa-star"></i>
-                                    </th:block>
-                                    <th:block th:case="3"><i class="fa fa-star"></i><input type="hidden" name="point" value="3"><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i></th:block>
-                                    <th:block th:case="4"><i class="fa fa-star"><input type="hidden" name="point" value="4"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                    <th:block th:case="5"><i class="fa fa-star"><input type="hidden" name="point" value="5"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </th:block>
-                                    <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
-                                </th:block>
-                <div class="form-group">
-                    <label for="comment">Comment & Rating:</label>
-                    <textarea class="form-control" id="comment" rows="3"
-                              placeholder="Enter your comment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            	</form>
-            		</th:block>
-			</th:block> 
-        </div>
--->
+        <!--  <div class="comment-section">
+              <h2>Comments</h2>
+              <th:block th:if="${commentPersonal.length}>0">
+                  <th:block th:each="i : ${commentPersonal}">
+
+                  </th:block>
+
+                  <form >
+                      <th:block th:switch="${i.point}">
+                                      <th:block th:case="1"><i class="fa fa-star"><input type="hidden" name="point" value="1"></i></th:block>
+                                      <th:block th:case="2"><i class="fa fa-star"></i><input type="hidden" name="point" value="2"><i class="fa fa-star"></i>
+                                      </th:block>
+                                      <th:block th:case="3"><i class="fa fa-star"></i><input type="hidden" name="point" value="3"><i class="fa fa-star"></i><i
+                                              class="fa fa-star"></i></th:block>
+                                      <th:block th:case="4"><i class="fa fa-star"><input type="hidden" name="point" value="4"></i><i class="fa fa-star"></i><i
+                                              class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
+                                      <th:block th:case="5"><i class="fa fa-star"><input type="hidden" name="point" value="5"></i><i class="fa fa-star"></i><i
+                                              class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                      </th:block>
+                                      <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
+                                  </th:block>
+                  <div class="form-group">
+                      <label for="comment">Comment & Rating:</label>
+                      <textarea class="form-control" id="comment" rows="3"
+                                placeholder="Enter your comment"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                      </th:block>
+              </th:block>
+          </div>
+  -->
     </div>
     <script>
 			document.addEventListener("DOMContentLoaded", function () {
@@ -412,6 +417,7 @@
 			map.on('load', function () {
 				map.getCanvasContainer().appendChild(googleMapOverlay);
 			});
+
 
 
     </script>
