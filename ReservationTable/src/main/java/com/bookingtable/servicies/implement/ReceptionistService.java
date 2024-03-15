@@ -142,7 +142,7 @@ public class ReceptionistService implements IReceptionistService {
 			data.setReservationAgent(reservationAgentRepository.findByEmail(emailCreatedBy));
 			data.setPassword(hashPassword);
 			String email = environment.getProperty("spring.mail.username");
-			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), data.getPassword());
+			String content = MailHelper.HtmlNewAccount(data.getFullname(), data.getEmail(), password);
 			if (mailService.send(email, data.getEmail(), "Account for you", content)) {
 				
 			} else {
