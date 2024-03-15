@@ -31,7 +31,6 @@ public class DinnerTableTypeController {
 	@GetMapping({ "index", "", "/" })
 	public String getAllDinnerTableTypes(Model model) {
 		List<DinnerTableTypeDto> dinnerTableTypes = idinnerTableTypeService.getAllDinnerTablesType();
-
 		model.addAttribute("dinnerTableTypes", dinnerTableTypes);
 		model.addAttribute("msg", response);
 		response = new ResultResponse<>(false, 0, "");

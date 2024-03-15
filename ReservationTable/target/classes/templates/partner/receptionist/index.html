@@ -10,29 +10,6 @@
 <body>
 
 <section layout:fragment="content">
-	<th:block th:if="${msg} == true">
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-           <i class="fa fa-exclamation-circle me-2"></i><span>Process Successful</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-           </div>
-	</th:block>
-	<th:block th:if="${msg} == false">
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-           <i class="fa fa-exclamation-circle me-2"></i><span>Process Failure</span>
-         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-	</th:block>
-	<th:block th:if="${msg} != null">
-		<th:block th:if="${msg} != false">
-			<th:block th:if="${msg} != true">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-          	 <i class="fa fa-exclamation-circle me-2"></i><span th:text="${msg}"></span>
-         	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-			</th:block>
-				
-		</th:block>
-	</th:block>
 	<br>
     <h2 style="text-align: center;">
 		<a href="/partner/receptionist/index" class="btn btn-secondary" style="float: left; "><i class="fa-solid fa-house"></i> Home</a>
@@ -66,14 +43,14 @@
             <td>
 				<div style="display: flex; flex-direction: column;  gap: 5px">
 					 <a th:href="@{/partner/receptionist/update/{id}(id=${i.id})}"  class="btn btn-warning">Edit</a>
-                <a th:href="@{/partner/receptionist/delete/{id}(id=${i.id})}"  class="btn btn-danger">Delete</a>
+                <a th:attr="onclick=${'confirmDelete(''/partner/receptionist/delete/'+i.id+''')'}"  class="btn btn-danger">Delete</a>
                <th:block th:if="${i.status} == false">
 				   <a th:href="@{/partner/receptionist/change/status/{id}(id=${i.id})}"   class="btn btn-success">Active</a>
        
 			   </th:block>
 			    <th:block  th:if="${i.status} == true">
 				   <a th:href="@{/partner/receptionist/change/status/{id}(id=${i.id})}"
-				     class="btn btn-success">UnActive</a>
+				     class="btn btn-success">Inactive</a>
        
 			   </th:block>
 				</div>

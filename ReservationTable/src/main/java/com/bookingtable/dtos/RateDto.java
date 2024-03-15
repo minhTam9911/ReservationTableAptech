@@ -2,6 +2,8 @@ package com.bookingtable.dtos;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.bookingtable.models.Reservation;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -18,11 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RateDto {
 	private Integer id;
-	@NotNull(message = "Point cannot be null")
+	
 	private double point;
-	@NotNull(message = "Comment cannot be null")
+	@NotEmpty
 	private String comment;
-	@NotNull(message = "Created cannot be null")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate created;
 	
 	private Reservation reservation;

@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,18 +38,24 @@ public class RestaurantDto {
 	    private String name;
 	
 	    @NotEmpty
+	    @Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	    private String mainPhoneNumber;
 	
 	    @NotEmpty
+	    @Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	    private String faxNumber;
 
 	    @NotEmpty
+	    @Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	    private String totalFreeNumber;
 	
 	    @NotEmpty
 	    @Email
 	    private String companyMail;
-		 private String status;
+		private String status;
+		 
+		@NotEmpty
+		@Pattern(regexp = "^((ftp|http|https):\\/\\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\\.[a-zA-Z]+)+((\\/)[\\w#]+)*(\\/\\w+\\?[a-zA-Z0-9_]+=\\w+(&[a-zA-Z0-9_]+=\\w+)*)?$", message = "This field is not in the correct format")
 	    private String website;
 	   
 	    
@@ -88,7 +95,7 @@ public class RestaurantDto {
 			this.active = active;
 		}
 		private boolean collectionStatus;
-	public String getFullAddress() {
+		public String getFullAddress() {
 
 		String fullAddress = "";
 		if (address != null && !address.isEmpty()) {

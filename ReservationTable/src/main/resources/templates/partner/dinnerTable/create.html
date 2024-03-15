@@ -1,74 +1,86 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-    <title>Create Dinner Table Page</title>
+	<title>Create Dinner Table Page</title>
 </head>
+
 <body>
 
-<section layout:fragment="content" class="container">
-    <br>
-    <h2 style="text-align: center;">
-        <a href="/partner/dinnerTable/index" class="btn btn-secondary" style="float: left; ">
-            <i class="fa-solid fa-arrow-left"></i>&nbsp;Back to List</a>
-        Create Dinner Table</h2>
+	<section layout:fragment="content" class="container">
+		<br>
+		<h2 style="text-align: center;">
+			<a href="/partner/dinnerTable/index" class="btn btn-secondary" style="float: left; ">
+				<i class="fa-solid fa-arrow-left"></i>&nbsp;Back to List</a>
+			Create Dinner Table
+		</h2>
 
-    <br>
-    <div class="bg-light rounded h-100 p-4">
+		<br>
+		<div class="bg-light rounded h-100 p-4">
 
-        <form th:action="@{/partner/dinnerTable/create/save}" method="post" th:object="${dinnerTableDto}" enctype="multipart/form-data">
+			<form th:action="@{/partner/dinnerTable/create/save}" method="post" th:object="${dinnerTableDto}"
+				enctype="multipart/form-data">
 
-            <div class="mb-3">
-                <label>Status:</label>
-                <select th:field="*{status}" class="form-control">
-                    <option value="">Select Status</option>
-                    <option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available</option>
-                    <option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
-                    <option value="Under Maintenance or Repair" th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or Repair</option>
-                </select>
-                <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback" style="display:block;"></div>
+				<div class="mb-3">
+					<label>Status:</label>
+					<select th:field="*{status}" class="form-control">
+						<option value="">Select Status</option>
+						<option value="Available" th:selected="${dinnerTableDto.status == 'Available'}">Available
+						</option>
+						<option value="Reserved" th:selected="${dinnerTableDto.status == 'Reserved'}">Reserved</option>
+						<option value="Under Maintenance or Repair"
+							th:selected="${dinnerTableDto.status == 'Under Maintenance or Repair'}">Under Maintenance or
+							Repair</option>
+					</select>
+					<div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback"
+						style="display:block;"></div>
 
-            </div>
+				</div>
 
-            <!-- Quantity with Thymeleaf error handling -->
-            <div class="mb-3">
-                <label>Quantity:</label>
-                <input type="number" th:field="*{quantity}" class="form-control">
-                <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="invalid-feedback" style="display:block;"></div>
-            </div>
+				<!-- Quantity with Thymeleaf error handling -->
+				<div class="mb-3">
+					<label>Quantity:</label>
+					<input type="number" th:field="*{quantity}" class="form-control">
+					<div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="invalid-feedback"
+						style="display:block;"></div>
+				</div>
 
-            <div class="mb-3">
-                <label class="form-label" style="font-weight: 600; color: black;" accept="image/*">Image</label>
-                <input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images" required>
-            </div>
+				<div class="mb-3">
+					<label class="form-label" style="font-weight: 600; color: black;" accept="image/*">Image</label>
+					<input type="file" class="form-control" aria-describedby="emailHelp" multiple name="images"
+						required>
+				</div>
 
-            <div class="mb-3">
-                <label>Dinner Table Type:</label>
-                <select th:field="*{dinnerTableTypeDtoId}" class="form-control">
-                    <th:block th:each="i : ${dinnerTableDto.dinnerTableTypeList}">
-                            <option th:value="${i.id}" th:text="${i.type+' - '+i.description}"></option>
-                    </th:block>
-                </select>
-            </div>
+				<div class="mb-3">
+					<label>Dinner Table Type:</label>
+					<select th:field="*{dinnerTableTypeDtoId}" class="form-control">
+						<th:block th:each="i : ${dinnerTableDto.dinnerTableTypeList}">
+							<option th:value="${i.id}" th:text="${i.type+' - '+i.description}"></option>
+						</th:block>
+					</select>
+				</div>
 
-            <!-- Restaurant with Thymeleaf error handling -->
-            <div class="mb-3">
-                <label>Restaurant:</label>
+				<!-- Restaurant with Thymeleaf error handling -->
+				<div class="mb-3">
+					<label>Restaurant:</label>
 
-                <select th:field="*{restaurantDtoId}" class="form-control" >
-                    <option value="">Select Restaurant</option>
-                    <th:block th:each="i : ${dinnerTableDto.restaurantList}">
-                        <th:block>
-                            <option th:value="${i.id}" th:text="${i.name}"></option>
-                        </th:block>
-                    </th:block>
+					<select th:field="*{restaurantDtoId}" class="form-control">
+						<option value="">Select Restaurant</option>
+						<th:block th:each="i : ${dinnerTableDto.restaurantList}">
+							<th:block>
+								<option th:value="${i.id}" th:text="${i.name}"></option>
+							</th:block>
+						</th:block>
 
-                </select>
+					</select>
 
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</section>
+				</div>
+				<br>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</section>
 </body>
+
 </html>

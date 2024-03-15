@@ -15,8 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,21 +33,22 @@ public class ReceptionistDto {
 
 	
 	private String id;
-	@NotNull(message = "Full name cannot be null")
+	@NotEmpty
 	private String fullname;
-	@NotNull(message = "Phone number cannot be null")
+	@NotEmpty
+	@Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
 	private String phoneNumber;
 	public ReceptionistDto( String email) {
 		super();
 		this.email = email;
 	}
-	@NotNull(message = "Address cannot be null")
+	@NotEmpty
 	private String address;
 	private boolean status;
-	@NotNull(message = "Email cannot be null")
+	@NotEmpty
+	@Email
 	private String email;
 
-	@NotNull(message = "Password cannot be null")
 	private String password;
 
 	private boolean gender;

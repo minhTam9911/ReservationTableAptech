@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bookingtable.dtos.PaymentDto;
 import com.bookingtable.dtos.ReservationDto;
+import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.models.Reservation;
 import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.DinnerTableRepository;
@@ -32,13 +33,14 @@ public class CustomerReservationController {
 	private ReservationStatusRepository  reservationStatusRepository;
 	@Autowired 
 	private CustomerRepository customerRepository;
+	public ResultResponse<String> validation = new ResultResponse<String>(false,0,"");
 	
 	@PostMapping("submit")
 	public String submit(@PathParam("idDinnerTable") Integer idDinnerTable,
 			@PathParam("date") LocalDate date,
 			@PathParam("time") LocalTime time,
 			@PathParam("method") Integer method,
-			@PathParam("partySize") Integer partySize,
+			@PathParam("partySize") int partySize,
 			Principal principal,Model model, HttpSession session) {
 		if(principal!=null) {
 			var reservation = new Reservation();
@@ -48,7 +50,12 @@ public class CustomerReservationController {
 			if(dinerTable == null) {
 				return "dinnerTable-details/cancel";
 			}
-			
+			if(partySize > dinerTable.getDinnerTableType().getCapacity()) {
+				validation.setOption(2);
+				validation.setMessage("The total number of people has exceeded the given limit");
+				model.addAttribute("msg", validation);
+				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
+			}
 			reservation.setReservationStatus(reservationStatusRepository.findById(1).get());
 			reservation.setRestaurant(dinerTable.getRestaurant());
 			reservation.setBookingDate(date);
