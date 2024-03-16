@@ -206,7 +206,7 @@ table.invoice tr.totals table tr.total td:last-child {
             </td>
             <td class="text-right">
               <span class="num">Order # <span th:text="${data.reservationId}"></span></span><br>
-             <span th:text="${data.created}"></span>
+             <span th:text="${#temporals.format(data.created, 'HH:mm dd-MM-yyyy ')} "></span>
             </td>
           </tr>
           <tr class="details">
@@ -260,7 +260,7 @@ table.invoice tr.totals table tr.total td:last-child {
         <div class="row">
           <div class="columns">
             <h5>Restaurant Information</h5>
-            <p th:text="${data.city}"><br>
+            <p ><span th:text="${data.city}"></span><br>
             <span th:text="${data.district}"></span><br>
               <span th:text="${data.ward}"></span><br>
               <span th:text="${data.address}"></span></p>

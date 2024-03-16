@@ -25,7 +25,9 @@
     <link rel="canonical" href="https://codepen.io/khaledsAlshibani/pen/BavdXxq">
   
   
-  
+  <link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.27/sweetalert2.min.css">
+</head>
   
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@200;500&display=swap");
@@ -183,7 +185,7 @@ body {
       <p class="error-page__heading-desciption">404 error</p>
     </div>
 
-    <a class="error-page__button" href="#" aria-label="back to home" title="back to home">back to home</a>
+    <a class="error-page__button" href="/" aria-label="back to home" title="back to home">back to home</a>
   </div>
 </div>
 
@@ -216,6 +218,65 @@ colorSwitcher.addEventListener("click", function () {
 });
 //# sourceURL=pen.js
     </script>
+<script src="https://cdn.datatables.net/2.0.1/js/dataTables.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#myTable').DataTable();
+		})
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script type="text/javascript">
+		var option = "[[${msg.option}]]"
+		var message = "[[${msg.message}]]"
+
+		if (option == 1) {
+			Swal.fire({
+				title: 'Successfully!',
+				text: message,
+				icon: 'success',
+				timer: 2000
+			});
+		} if (option == 2) {
+			Swal.fire({
+				title: 'Error!',
+				text: message,
+				icon: "error",
+				timer: 2000
+			});
+		}
+		function confirmDelete(string) {
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: "btn btn-success",
+					cancelButton: "btn btn-danger"
+				},
+				buttonsStyling: false
+			});
+			// Gọi hộp thoại xác nhận xóa của SweetAlert
+			swalWithBootstrapButtons.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Yes, delete it!",
+				cancelButtonText: "No, cancel!",
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// Nếu người dùng xác nhận xóa, chuyển hướng đến URL xóa
+					window.location.href =  string ;
+				}
+				 else if (result.dismiss === Swal.DismissReason.cancel) {
+				swalWithBootstrapButtons.fire({
+				title: "Cancelled",
+				text: "Your imaginary file is safe :)",
+				icon: "error"
+				});
+			}
+		});
+		}
+
+	</script>
 
   
 </body>

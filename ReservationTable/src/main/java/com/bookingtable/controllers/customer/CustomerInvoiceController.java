@@ -1,10 +1,13 @@
 package com.bookingtable.controllers.customer;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +58,7 @@ public class CustomerInvoiceController {
 	@GetMapping("detail/{id}")
 	public String detail(Model model,@PathVariable("id") String id, Principal principal) {
 		var i = iInvoiceService.getById(id, principal.getName());
+		var dateFormat =  DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
 		var invoice = new InvoiceDetail();
 		invoice.setIdInvoice(i.getId());
 		invoice.setAmount(i.getReservation().getDinnerTable().getDinnerTableType().getPrice());
