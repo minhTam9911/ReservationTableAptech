@@ -19,4 +19,7 @@ public interface IReservationService {
     public boolean	changeReservationStatusConfirmed(String id);
     public boolean	changeReservationStatusFinnished(String id);
     boolean changeReservationStatusCancel(String id);
+
+    public List<ReservationDto> findByDinnerTableId(Integer id);
+
 }

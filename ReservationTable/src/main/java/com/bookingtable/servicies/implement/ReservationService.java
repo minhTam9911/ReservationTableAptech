@@ -40,7 +40,15 @@ public class ReservationService implements IReservationService {
 	public ReservationDto getReservationById(String id) {
 		return ReservationMapper.mapToDto(reservationRepository.findById(id).get());
 	}
-
+	@Override
+	public List<ReservationDto> findByDinnerTableId(Integer id) {
+		List<Reservation> reservations = reservationRepository.findByDinnerTableId(id);
+		List<ReservationDto> reservationDtos = new ArrayList<>();
+		for (Reservation reservation : reservations) {
+			reservationDtos.add(ReservationMapper.mapToDto(reservation));
+		}
+		return reservationDtos;
+	}
 	@Override
 	public boolean createReservation(ReservationDto reservationDto) {
 		try {

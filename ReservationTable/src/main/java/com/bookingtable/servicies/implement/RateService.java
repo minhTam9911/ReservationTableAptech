@@ -22,6 +22,12 @@ public class RateService implements IRateService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<RateDto> getRateByReservationId(String id) {
+        return rateRepository.findByReservationId(id).stream()
+                .map(RateMapper::mapToDto)
+                .collect(Collectors.toList());    }
+
     public RateDto getRateById(Integer id) {
         Rate rate = rateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Rate not found with id: " + id));
@@ -52,4 +58,5 @@ public class RateService implements IRateService {
         }
         return false;
     }
+
 }

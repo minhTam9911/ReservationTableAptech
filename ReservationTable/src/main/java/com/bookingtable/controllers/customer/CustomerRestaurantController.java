@@ -15,6 +15,7 @@ import com.bookingtable.repositories.RateRepository;
 import com.bookingtable.repositories.RestaurantRepository;
 import com.bookingtable.servicies.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,12 +49,14 @@ public class CustomerRestaurantController {
     private RateRepository rateRepository;
 
     @GetMapping({"index", "/", ""})
-    public String index(Model model, Principal principal) {
+    public String index(Model model, Principal principal,@Param("keyword") String keyword) {
         String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
         model.addAttribute("requestURI", requestURI);
 
         List<RestaurantDto> data = new ArrayList<>();
-        var restaurants = restaurantService.getAllRestaurants();
+//        var restaurants = restaurantService.getAllRestaurants();
+        var restaurants = restaurantService.getRestaurantByName(keyword);
+
         var list = new ArrayList<RestaurantDto>();
         for(var i : restaurants) {
         	if(i.isActive()) {
@@ -154,7 +157,6 @@ public class CustomerRestaurantController {
         var listRates = new ArrayList<Rate>();
         var rates = rateRepository.findAll();
         for(var i : rates) {
-   
         	if((i.getReservation().getRestaurant().getId().equals(id)) && !i.isStatus()) {
         		 listRates.add(i);
         	}
