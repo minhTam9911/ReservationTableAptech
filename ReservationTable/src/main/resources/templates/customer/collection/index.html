@@ -254,28 +254,27 @@ a.buy-btn{
                         <div class="wsk-cp-img">
                             <!-- Use the first image from the restaurant's image list -->
                             <img th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[0].path})}"
-                                 alt="Product" class="img-responsive"/>
+                                 alt="Product" class="img-responsive" style="height: 237px;"/>
                         </div>
                         <div class="wsk-cp-text">
                             <div class="category">
-                                <span>Ethnic</span>
+                                <span th:text="${restaurant.name}"></span>
                             </div>
                             <div class="title-product">
                                 <!-- Display restaurant name -->
-                                <h3 th:text="${restaurant.name}">My face not my heart</h3>
+                                <h3 th:text="${restaurant.getAddress()}"></h3>
                             </div>
                             <div class="description-prod">
                                 <!-- Display restaurant description -->
-                                <p th:text="${restaurant.description}">Description Product tell me how to change
-                                    playlist height size like 600px in html5 player. player good work now check this
-                                    link</p>
+                                <p th:text="${restaurant.description}"></p>
                             </div>
                             <div class="card-footer">
                                 <div class="wcf-left">
                                     <span>Rp500.000</span>
                                 </div>
                                 <div class="wcf-right">
-                                    <a href="#" class="buy-btn"><i class="zmdi zmdi-shopping-basket"></i></a>
+                                    <a th:href="@{/customer/restaurant/index}" class="buy-btn">
+                                        <i class="fa-solid fa-magnifying-glass-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>

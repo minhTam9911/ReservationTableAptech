@@ -44,7 +44,14 @@ public class RestaurantService implements IRestaurantService {
 		return restaurantRepository.findAll().stream().map(i -> RestaurantMapper.mapToDto(i))
 				.collect(Collectors.toList());
 	}
-
+	@Override
+	public List<RestaurantDto> getRestaurantByName(String name) {
+		List<Restaurant> restaurantByName = restaurantRepository.findByNameLike(name);
+		if (restaurantByName.size()>0){
+			return restaurantRepository.findByNameLike(name).stream().map(i-> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
+		}
+		return restaurantRepository.findAll().stream().map(i-> RestaurantMapper.mapToDto(i)).collect(Collectors.toList());
+	}
 	@Override
 	public RestaurantDto getRestaurantById(String id) {
 		return RestaurantMapper.mapToDto(restaurantRepository.findById(id).get());

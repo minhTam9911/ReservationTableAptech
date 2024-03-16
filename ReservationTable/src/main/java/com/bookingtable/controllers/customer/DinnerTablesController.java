@@ -7,6 +7,7 @@ import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.IRestaurantService;
 import com.bookingtable.servicies.implement.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +27,10 @@ public class DinnerTablesController {
     @Autowired
     private IImageService iImageService;
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index(Model model, @Param("keyword") String keyword) {
         String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
         model.addAttribute("requestURI", requestURI);
-        var dinnerTables = iDinnerTableService.getAllDinnerTables();
+        var dinnerTables = iDinnerTableService.getAllDinnerTablesByKeyWord(keyword);
         var list = new ArrayList<DinnerTableDto>();
         for(var i : dinnerTables){
         	if(i.getRestaurantDto().isActive()){

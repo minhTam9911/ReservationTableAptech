@@ -515,7 +515,7 @@ button:focus {
   position: relative;
   overflow: hidden;
   width: 100%;
-  min-height: 800px;
+  min-height: 600px;
 }
 
 .overlay {
@@ -534,11 +534,13 @@ button:focus {
 }
 
 .banner_content h6 {
-  font-size: 14px;
-  line-height: 30px;
-  text-transform: uppercase;
-  letter-spacing: 1.4px;
-  font-weight: 400;
+    font-size: 14px;
+    line-height: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-weight: 400;
+    color: #fffce0;
+    font-weight: bold;
 }
 
 .banner_content h2 {

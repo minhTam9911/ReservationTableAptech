@@ -109,13 +109,8 @@ public class DinnerTableService implements IDinnerTableService {
     @Override
     public List<DinnerTableDto> getAllDinnerTablesByKeyWord(String keyword) {
         List<DinnerTable> dinnerTableByStatus = dinnerTableRepository.findByStatusLike(keyword);
-        List<DinnerTable> dinnerTableByRestaurantName = dinnerTableRepository.findByRestaurantNameLike(keyword);
-
         if (dinnerTableByStatus.size()>0){
             return dinnerTableRepository.findByStatusLike(keyword).stream().map(i-> DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
-        }
-        if (dinnerTableByRestaurantName.size()>0){
-            return dinnerTableRepository.findByRestaurantNameLike(keyword).stream().map(i-> DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
         }
         return dinnerTableRepository.findAll().stream().map(i-> DinnerTableMapper.mapToDto(i)).collect(Collectors.toList());
     }
