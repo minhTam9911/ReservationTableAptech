@@ -6,18 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7a7ee9ad-99f2-41fa-a704-9f71598743ed" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/customer/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bookingtable/controllers/customer/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/dinnerTables/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/dinnerTables/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/home/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/home/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/restaurant/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/restaurant/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/CommentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/CommentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/DinnerTableDetailController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/DinnerTableDetailController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/customer/HomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/RestaurantController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/controllers/system/RestaurantController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bookingtable/repositories/RestaurantRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bookingtable/repositories/RestaurantRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/customer/home/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/customer/home/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/fragments/header.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
