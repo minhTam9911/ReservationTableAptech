@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="7a7ee9ad-99f2-41fa-a704-9f71598743ed" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/fragments/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/invoice/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/invoice/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/profile/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/profile/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/restaurant/dinnerTableRestaurant.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/restaurant/dinnerTableRestaurant.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/restaurant/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/restaurant/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
