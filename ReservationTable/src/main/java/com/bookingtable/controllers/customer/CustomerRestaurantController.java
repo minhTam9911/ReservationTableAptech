@@ -54,7 +54,13 @@ public class CustomerRestaurantController {
 
         List<RestaurantDto> data = new ArrayList<>();
         var restaurants = restaurantService.getAllRestaurants();
-        for (var i : restaurants) {
+        var list = new ArrayList<RestaurantDto>();
+        for(var i : restaurants) {
+        	if(i.isActive()) {
+        		list.add(i);
+        	}
+        }
+        for (var i : list) {
             var restaurant = new RestaurantDto();
             restaurant = i;
             if (principal != null) {
@@ -106,7 +112,13 @@ public class CustomerRestaurantController {
     public String category(Model model, @PathVariable("id") Integer id) {
         var restaurants = restaurantService.getAllRestaurantsWithCategory(id);
         List<RestaurantDto> data = new ArrayList<>();
-        for (var i : restaurants) {
+        var list = new ArrayList<RestaurantDto>();
+        for(var i : restaurants) {
+        	if(i.isActive()) {
+        		list.add(i);
+        	}
+        }
+        for (var i : list) {
             var restaurant = new RestaurantDto();
             restaurant = i;
             for (int j = 0; j <= 2; j++) {
@@ -140,7 +152,7 @@ public class CustomerRestaurantController {
             var rates = rateRepository.findAll();
             for (var i : rates) {
                 var rate = new Rate();
-                if (i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
+                if (i.getReservation().getDinnerTable().getRestaurant().getId().equals(id)) {
                     listRates.add(rate);
                 }
             }
@@ -149,7 +161,6 @@ public class CustomerRestaurantController {
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }
         model.addAttribute("rates", listRates);
-
         model.addAttribute("dinnerTables", dinnerTables);
         return "customer/restaurant/dinnerTableRestaurant";
     }

@@ -29,12 +29,18 @@ public class DinnerTablesController {
     public String index(Model model) {
         String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
         model.addAttribute("requestURI", requestURI);
-        var dinnerTables = iDinnerTableService.getAllDinnerTables(); // Assuming this returns a copy of the list you can modify, or simply objects that you're updating.
-        for (DinnerTableDto dinnerTable : dinnerTables) {
+        var dinnerTables = iDinnerTableService.getAllDinnerTables();
+        var list = new ArrayList<DinnerTableDto>();
+        for(var i : dinnerTables){
+        	if(i.getRestaurantDto().isActive()){
+        		list.add(i);// Assuming this returns a copy of the list you can modify, or simply objects that you're updating.
+        	}
+        }
+        for (DinnerTableDto dinnerTable : list) {
             Set<ImageDto> images = iImageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }
-        model.addAttribute("dinnerTables", dinnerTables);
+        model.addAttribute("dinnerTables", list);
         return "customer/dinnerTables/index";
     }
 

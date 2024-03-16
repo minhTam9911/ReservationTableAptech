@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bookingtable.dtos.CustomerDto;
@@ -176,6 +177,11 @@ public class AccountController {
                 result.setMessage("Confirm password does not match new password");
                 return "redirect:/reset-password";
             }
+            if(newPassword.length()<8) {
+            	result.setOption(2);
+                result.setMessage("Password length must be more than 8 characters");
+                return "redirect:/reset-password";
+            }
             var hashPassword = bCryptPasswordEncoder.encode(newPassword);
             result = accountService.saveResetPassword(session.getAttribute("email").toString(), hashPassword);
             if (result.getOption() == 1) {
@@ -187,31 +193,82 @@ public class AccountController {
         return "account/accessDenied";
     }
 
-    @GetMapping("profile")
+    @GetMapping("/profile")
     public String profileForm(Model model, Principal principal) {
         var systemDto = accountService.findByEmail(principal.getName());
-        model.addAttribute("systemDto", systemDto);
+        
+        model.addAttribute("data", systemDto);
         model.addAttribute("msg", result);
         result = new ResultResponse<>(false, 0, "");
         return "/account/profile";
     }
+    
+    @GetMapping("/profile/edit")
+    public String profileEdit(Model model, Principal principal) {
+        var systemDto = accountService.findByEmail(principal.getName());
+        model.addAttribute("data", systemDto);
+        model.addAttribute("msg", result);
+        result = new ResultResponse<>(false, 0, "");
+        return "/account/profile-edit";
+    }
 
-    @PostMapping("profile/save")
-    public String updateProfileProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
-                                       BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            result.setOption(2);
-            result.setMessage("Form valid");
-            model.addAttribute("msg", result);
-            result = new ResultResponse<>(false, 0, "");
-            return "account/profile";
-        }
-        result = accountService.updateProfile(systemDto, systemDto.getEmail());
+    @PostMapping("/profile/edit/submit")
+    public String profileEditSubmit(Model model, Principal principal, @PathParam("fullname") String fullname,  @PathParam("phoneNumber") String phoneNumber, @PathParam("address") String address, @PathParam("file") MultipartFile file) {
+        result = accountService.updateProfile(fullname, phoneNumber,address,file,principal.getName());
         if (result.getOption() == 1) {
             return "redirect:/profile";
-        } else {
-            return "account/profile";
-        }
+        } 
+        result = new ResultResponse<>(false, 0, "");
+        return "/account/profile-edit";
+    }
+
+    
+    @GetMapping("/change-password")
+    public String changePassword(Model model) {
+      //  var systemDto = accountService.findByEmail(principal.getName());
+   //     model.addAttribute("data", systemDto);
+        model.addAttribute("msg", result);
+        result = new ResultResponse<>(false, 0, "");
+        return "/account/changePassword";
+    }
+    @PostMapping("/change-password/save")
+    public String changePassword(Model model, Principal principal,@PathParam("oldPassword") String oldPassword,@PathParam("newPassword") String newPassword, @PathParam("confirmPassword") String confirmPassword) {
+            if (!newPassword.equals(confirmPassword)) {
+                result.setOption(2);
+                result.setMessage("Confirm password does not match new password");
+                model.addAttribute("msg", result);
+                result = new ResultResponse<>(false, 0, "");
+                return "/account/changePassword";
+            }
+            if(newPassword.length()<8) {
+            	result.setOption(2);
+                result.setMessage("Password length must be more than 8 characters");
+                model.addAttribute("msg", result);
+                result = new ResultResponse<>(false, 0, "");
+                return "/account/changePassword";
+            }
+            var changePass = accountService.changePassword(principal.getName());
+            if(changePass .getOption()== 1) {
+            	if(bCryptPasswordEncoder.matches(oldPassword, changePass.getMessage().toString())) {
+            		var hashPassword = bCryptPasswordEncoder.encode(newPassword);
+                    result = accountService.saveResetPassword(principal.getName(), hashPassword);
+                    if (result.getOption() == 1) {
+                    	result = new ResultResponse<>(false, 0, "");
+                        return "redirect:/";
+                    }
+                    
+            	}else {
+            		 result.setOption(2);
+                     result.setMessage("Old password does not match");
+                     model.addAttribute("msg", result);
+                     result = new ResultResponse<>(false, 0, "");
+                     return "/account/changePassword";
+            	}
+            }
+            result.setOption(2);
+            result.setMessage("User not found");
+            model.addAttribute("msg", result);
+            result = new ResultResponse<>(false, 0, "");
+            return "/account/changePassword";
     }
 }

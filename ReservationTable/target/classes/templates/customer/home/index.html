@@ -133,19 +133,32 @@
     <section class="accomodation_area section_gap">
         <div class="container">
             <section class="search-container">
-                <input type="text" id="searchInput" placeholder="Search by area...">
-                <select id="categorySelect">
-                    <option value="">All tables</option>
-                    <option value="restaurant">Restaurant</option>
-                    <option value="city">City</option>
-                    <option value="city">Top ReCommented</option>
-                </select>
-
+                <div>
+                    <select id="categorySelect">
+                        <option value="">All tables</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="city">City</option>
+                        <option value="city">Dinner Table Type</option>
+                    </select>
+                    <div class="display-chosen">
+                        <div th:each="i:${data}"></div>
+                    </div>
+                </div>
             </section>
-            <section id="searchResults">
+            <section id="search-results">
                 <!-- Kết quả tìm kiếm sẽ được hiển thị ở đây -->
             </section>
         </div>
+
+        <div class="container">
+           <section class="top-recommended">
+               <h1>top recommended dinner table</h1>
+               <div class="recommended-display">
+
+               </div>
+           </section>
+        </div>
+        //type
         <div class="container">
             <div class="section_title text-center">
                 <h2 class="title_color">All Dinner Types</h2>

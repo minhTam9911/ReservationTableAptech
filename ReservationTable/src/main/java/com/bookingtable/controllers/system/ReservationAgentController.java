@@ -17,8 +17,10 @@ import com.bookingtable.dtos.ReservationAgentDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
 import com.bookingtable.servicies.IReservationAgentService;
+import com.bookingtable.servicies.IRestaurantService;
 import com.bookingtable.servicies.IRoleService;
 import com.bookingtable.servicies.ISystemService;
+import com.bookingtable.servicies.implement.RestaurantService;
 
 import jakarta.validation.Valid;
 
@@ -34,18 +36,33 @@ public class ReservationAgentController {
 
 	@Autowired 
 	private IRoleService roleService;
+	
+	@Autowired 
+	private IRestaurantService restaurantService;
 
 
 	private ResultResponse<String> response = new ResultResponse<>(false,0,"");
 
     @RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
     public String index(Model model) {
-    	System.out.println(response);
+    
     	model.addAttribute("data", reservationAgentService.getAllReservationAgents());
     	model.addAttribute("msg", response);
     	response = new ResultResponse<>(false, 0, "");
     	
         return "staff/reservationAgent/index";
+    }
+
+    
+    @RequestMapping(value = { "detail/{id}"}, method = RequestMethod.GET)
+    public String detail(Model model,@PathVariable("id") String id) {
+    	var data = reservationAgentService.getReservationAgentById(id);
+    	model.addAttribute("data", data);
+    	model.addAttribute("restaurant", restaurantService.getAllRestaurantsForAgent(data.getEmail()));
+    	model.addAttribute("msg", response);
+    	response = new ResultResponse<>(false, 0, "");
+    	
+        return "staff/reservationAgent/detail";
     }
 
     

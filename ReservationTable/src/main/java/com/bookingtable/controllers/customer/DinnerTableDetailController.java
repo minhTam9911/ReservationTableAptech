@@ -4,7 +4,9 @@ import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.ImageDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.models.Rate;
+import com.bookingtable.models.Reservation;
 import com.bookingtable.repositories.RateRepository;
+import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.servicies.IDinnerTableService;
 import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.IRestaurantService;
@@ -27,6 +29,8 @@ public class DinnerTableDetailController {
     private IDinnerTableService dinnerTableService;
     @Autowired
     private RateRepository rateRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
     @Autowired
     private IImageService imageService;
     public ResultResponse<String> validation = new ResultResponse<String>(false,0,"");
@@ -70,6 +74,16 @@ public class DinnerTableDetailController {
                 
             }
         }
+        var reservation = reservationRepository.findByDinnerTableId(id);
+        List<Reservation> totalReservation = new ArrayList<>();
+        for(var i : reservation) {
+        	if(!(i.getReservationStatus().getId()==4)) {
+        		totalReservation.add(i);
+        	}
+        }
+        
+        model.addAttribute("totalReservation", totalReservation.size());
+        model.addAttribute("totalRate", listRates.size());
         model.addAttribute("msg", validation);
 		validation = new ResultResponse<>(false, 0, "");
         return "customer/dinnerTable-details/index";

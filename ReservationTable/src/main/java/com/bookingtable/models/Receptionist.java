@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,13 @@ public class Receptionist {
 	@Column
 	private String email;
 	@Column
+	private String image;
+
+	@PrePersist
+	private void generateAvatarDefault() {
+		this.image = "avatar.jpg";
+	}
+	@Column
 	private String password;
 	@Column
 	private boolean gender;
@@ -56,13 +64,13 @@ public class Receptionist {
 	@UpdateTimestamp
 	private LocalDate updated;
 	@ManyToOne
-	@JoinColumn(name = "role",nullable = false)
+	@JoinColumn(name = "role", nullable = false)
 	private Role role;
 	@OneToOne
 	@JoinColumn(name = "restaurant")
 	private Restaurant restaurant;
 	@ManyToOne
-	@JoinColumn(name = "reservationAgent",nullable = true)
+	@JoinColumn(name = "reservationAgent", nullable = true)
 	private ReservationAgent reservationAgent;
-	
+
 }

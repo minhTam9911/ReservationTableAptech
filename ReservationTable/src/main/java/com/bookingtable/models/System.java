@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,14 @@ public class System {
 	@Column
 	private String password;
 	@Column
+	private String image;
+
+	@PrePersist
+	private void generateAvatarDefault() {
+		this.image = "avatar.jpg";
+	}
+
+	@Column
 	private boolean gender;
 	@Column
 	private LocalDate dateOfBirth;
@@ -57,9 +66,9 @@ public class System {
 	@UpdateTimestamp
 	private LocalDate updated;
 	@ManyToOne
-	@JoinColumn(name = "role",nullable = false)
+	@JoinColumn(name = "role", nullable = false)
 	private Role role;
-	
-    @OneToMany(mappedBy = "system", cascade = CascadeType.ALL)
-    private Collection<ReservationAgent> reservationAgents;
+
+	@OneToMany(mappedBy = "system", cascade = CascadeType.ALL)
+	private Collection<ReservationAgent> reservationAgents;
 }
