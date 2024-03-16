@@ -79,7 +79,7 @@ public class SecurityConfig {
                             "uploads/avatars/**",
                             "/login", "/register","/accessDenied",
                             "/",
-                           // "/**",
+                            "/**",
                             
                             "/restaurant/index",
                             "/account/accessDenied",

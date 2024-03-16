@@ -12,4 +12,5 @@ import com.bookingtable.models.Reservation;
 public interface ReservationRepository extends JpaRepository<Reservation, String>  {
 	List<Reservation> findByCustomer_Id(String customer_id);
 	List<Reservation> findByDinnerTableId(Integer dinnerTable);
+	List<Reservation> findByRestaurantId(String idRestaurant);
 }
