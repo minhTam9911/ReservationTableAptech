@@ -33,7 +33,7 @@ public class DinnerTableDetailController {
     private ReservationRepository reservationRepository;
     @Autowired
     private IImageService imageService;
-    public ResultResponse<String> validation = new ResultResponse<String>(false,0,"");
+    public static ResultResponse<String> validation = new ResultResponse<String>(false,0,"");
     
     @GetMapping("/customer/dinnerTable-details/{id}")
     public String showDinnerTableDetailsPage(@PathVariable("id") Integer id, Model model, Principal principal) {
@@ -84,9 +84,8 @@ public class DinnerTableDetailController {
         
         System.out.println(listRates.size());
         model.addAttribute("totalReservation", totalReservation.size());
-        model.addAttribute("totalRate", listRates.size());
-        model.addAttribute("msg", validation);
-		validation = new ResultResponse<>(false, 0, "");
+	        model.addAttribute("totalRate", listRates.size());
+	        model.addAttribute("msg", validation);
         return "customer/dinnerTable-details/index";
     }
 }

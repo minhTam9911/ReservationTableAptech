@@ -110,13 +110,13 @@ public class SecurityConfig {
                             ).permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-                    auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
-                    auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
-                    auth.requestMatchers(HttpMethod.POST, "/staff/reservationAgent/create/save").hasAnyRole("STAFF");
+                    auth.requestMatchers("/staff/**").hasAnyRole("STAFF","ADMIN");
+                    auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF","ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/staff/reservationAgent/create/save").hasAnyRole("STAFF","ADMIN");
                     auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
                     auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/partner/restaurant/**","/partner/dinnerTable/**").hasAnyRole("PARTNER");
-                    auth.requestMatchers("/customer/profile/**").hasAnyRole("CUSTOMER");
+                    auth.requestMatchers("/customer/profile/**","/customer/invoice/detail/**").hasAnyRole("CUSTOMER");
                     auth.requestMatchers(HttpMethod.POST,"/customer/profile/upload","/customer/profile/edit/submit").hasAnyRole("CUSTOMER");
                     auth.requestMatchers("/account/profile", "/account/changePass-save",
                             "/account/change-password", "/account/edit-avatar", "/account/edit-profile","/change-password","/change-password/save")

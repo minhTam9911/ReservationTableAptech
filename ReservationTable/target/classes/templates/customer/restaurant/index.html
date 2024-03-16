@@ -106,7 +106,7 @@
                     <div class="col-md-6 col-xl-4 mb-5">
                         <div class="card card-explore">
                             <div class="card-explore__img position-relative">
-                                <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
+                                <img class="card-img" style="width: 368px; height: 245px;" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
                                      alt="">
                                 <th:block sec:authorize="isAuthenticated()">
                                     <input type="hidden" th:id="'restaurantId_'+${i.id}"
@@ -135,13 +135,13 @@
                                 </th:block>
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body" style="width: 368px; height: 300px">
                                 <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
                                         th:text=" ${'/'+ i.city}"></sub></h3>
                                 <h4 class="card-explore__title"><a
                                         th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}"
                                         th:text="${i.categoryRetaurantDto.name}"></a></h4>
-                                <p th:text="${i.shortDescription}"></p>
+                                <p th:text="${i.shortDescription.substring(0, 100)}"></p>
                                 <a class="card-explore__link"
                                    th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
                                         class="ti-arrow-right"></i></a>
