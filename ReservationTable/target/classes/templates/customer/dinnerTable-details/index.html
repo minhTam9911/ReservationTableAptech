@@ -371,7 +371,7 @@
 							fall
 							from </p>
 					</div>
-					<div class="testimonial_slider owl-carousel" th:if="${totalRates >12}">
+					<div class="testimonial_slider owl-carousel" th:if="${totalRate >0}">
 						<div class="media testimonial_item" id="myDiv" th:each="rate : ${rates}">
 							<img class="rounded-circle"
 								th:src="@{/uploads/avatars/{image}(image=${rate.customer.image})}" alt=""

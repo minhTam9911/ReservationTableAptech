@@ -82,6 +82,7 @@ public class DinnerTableDetailController {
         	}
         }
         
+        System.out.println(listRates.size());
         model.addAttribute("totalReservation", totalReservation.size());
         model.addAttribute("totalRate", listRates.size());
         model.addAttribute("msg", validation);

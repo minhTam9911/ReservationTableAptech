@@ -146,20 +146,20 @@ public class CustomerRestaurantController {
         }
         restaurant.setImagesDto(imageRestaurant);
         model.addAttribute("restaurant", restaurant);
-        List<Rate> listRates = new ArrayList<>();
         for (DinnerTableDto dinnerTable : dinnerTables) {
-            dinnerTable.getId();
-            var rates = rateRepository.findAll();
-            for (var i : rates) {
-                var rate = new Rate();
-                if (i.getReservation().getDinnerTable().getRestaurant().getId().equals(id)) {
-                    listRates.add(rate);
-                }
-            }
-
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }
+        
+        var listRates = new ArrayList<Rate>();
+        var rates = rateRepository.findAll();
+        for(var i : rates) {
+   
+        	if((i.getReservation().getRestaurant().getId().equals(id)) && !i.isStatus()) {
+        		 listRates.add(i);
+        	}
+        }
+        
         model.addAttribute("rates", listRates);
         model.addAttribute("dinnerTables", dinnerTables);
         return "customer/restaurant/dinnerTableRestaurant";
