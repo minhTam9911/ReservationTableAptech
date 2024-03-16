@@ -259,11 +259,27 @@
 			<div class="details-display d-flex justify-content-between">
 				<div class="card">
 					<div class="card-body" style="width:350px;box-shadow:0px 0px 12px rgba(0, 0, 0, 0.1);">
-						<h5 class="card-title">Table Details</h5>
-						<h6 class="card-subtitle mb-2 text-muted" th:text="'Table ID: ' + ${dinnerTable.id}"></h6>
-						<p class="card-text" th:text="'Table Quantity: ' + ${dinnerTable.quantity}"></p>
-						<p class="card-text" th:text="'Table Type: ' + ${dinnerTable.dinnerTableTypeDto.type}"></p>
-						<p class="card-text" th:text="'Restaurant Name: ' + ${dinnerTable.restaurantDto.name}"></p>
+						<h3 class="card-title">Table Detail</h3>
+						<p class="card-text" th:text="'Name: ' + ${dinnerTable.status}"></p>
+						<p class="card-text" th:text="'Type: ' + ${dinnerTable.dinnerTableTypeDto.type}"></p>
+						<p class="card-text" th:text="'Restaurant: ' + ${dinnerTable.restaurantDto.name}"></p>
+						<p class="card-text" th:text="'Note: ' + ${dinnerTable.dinnerTableTypeDto.description}">
+						</p>
+						<p class="card-text"
+							th:text="'Pre-order price: ' + ${dinnerTable.dinnerTableTypeDto.price}+' VND'"></p>
+						<th:block th:if="${dinnerTable.restaurantDto.shortDescription.length>=100}" )>
+							<p class="card-text"
+								th:text="'Description: ' +  ${dinnerTable.restaurantDto.shortDescription.substring(0, 100)} + '...'">
+							</p>
+
+						</th:block>
+						<th:block th:unless="${dinnerTable.restaurantDto.shortDescription.length>=100}" )>
+							<p class="card-text"
+								th:text="'Description: ' +  ${dinnerTable.restaurantDto.shortDescription}">
+							</p>
+						</th:block>
+						<p class="card-text" th:text="'Total Reservation: ' + ${totalReservation}"></p>
+						<p class="card-text" th:text="'Total Review: ' + ${totalRate}"></p>
 					</div>
 				</div>
 				<div class="card">
@@ -331,12 +347,13 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+							<h5 class="modal-title text-danger" id="exampleModalLabel">Warning</h5>
 							<button type="button" style="border: 0;background-color: white;" class="btn-close"
 								data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
 						</div>
 						<div class="modal-body">
-							...
+
+							<h4>Please log in to schedule an appointment</h4>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -354,9 +371,11 @@
 							fall
 							from </p>
 					</div>
-					<div class="testimonial_slider owl-carousel">
+					<div class="testimonial_slider owl-carousel" th:if="${totalRates >12}">
 						<div class="media testimonial_item" id="myDiv" th:each="rate : ${rates}">
-<img class="rounded-circle" th:src="@{/assets/customer/image/avatar.jpg}" alt="">
+							<img class="rounded-circle"
+								th:src="@{/uploads/avatars/{image}(image=${rate.customer.image})}" alt=""
+								style="width: 94px; height: 94px;">
 							<div id="image-container"></div>
 
 							<div class="media-body">
@@ -383,10 +402,10 @@
 							</div>
 
 						</div>
-						
-						
-	
-						
+
+
+
+
 					</div>
 				</div>
 			</section>

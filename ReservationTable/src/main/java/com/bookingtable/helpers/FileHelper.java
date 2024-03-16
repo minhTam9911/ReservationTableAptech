@@ -35,6 +35,26 @@ public class FileHelper {
         }
     }
 
+    
+    public static String uploadAvatar(MultipartFile file) {
+
+        if (file.isEmpty()) {
+            return "No file";
+        }
+        try {
+            final Path directory = Paths.get("src/main/resources/static/uploads/avatars");
+            final Path filePath = Paths.get("src/main/resources/static/uploads/avatars/" + file.getOriginalFilename());
+            if (!Files.exists(directory)) {
+                Files.createDirectories(directory);
+            }
+            Files.write(filePath, file.getBytes());
+            return file.getOriginalFilename();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
     public static String uploadRestaurant(MultipartFile file) {
 
         if (file.isEmpty()) {

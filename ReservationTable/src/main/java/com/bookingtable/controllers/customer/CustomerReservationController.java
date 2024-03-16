@@ -17,6 +17,7 @@ import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.models.Reservation;
 import com.bookingtable.repositories.CustomerRepository;
 import com.bookingtable.repositories.DinnerTableRepository;
+import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.repositories.ReservationStatusRepository;
 import com.paypal.api.payments.Payment;
 
@@ -31,6 +32,8 @@ public class CustomerReservationController {
 	private DinnerTableRepository dinnerTableRepository;
 	@Autowired 
 	private ReservationStatusRepository  reservationStatusRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
 	@Autowired 
 	private CustomerRepository customerRepository;
 	public ResultResponse<String> validation = new ResultResponse<String>(false,0,"");
@@ -50,12 +53,36 @@ public class CustomerReservationController {
 			if(dinerTable == null) {
 				return "dinnerTable-details/cancel";
 			}
-//			if(partySize > dinerTable.getDinnerTableType().getCapacity()) {
-//				validation.setOption(2);
-//				validation.setMessage("The total number of people has exceeded the given limit");
-//				model.addAttribute("msg", validation);
-//				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
-//			}
+			if(!dinerTable.getRestaurant().isActive()) {
+				validation.setOption(2);
+				validation.setMessage("The restaurant is closed, please rebook for the next day");
+				model.addAttribute("msg", validation);
+				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
+			}
+			if(partySize > dinerTable.getDinnerTableType().getCapacity()) {
+				validation.setOption(2);
+				validation.setMessage("The total number of people has exceeded the given limit");
+				model.addAttribute("msg", validation);
+				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
+			}
+			var reservstionCheck = reservationRepository.findByDinnerTableId(idDinnerTable);
+			var total = 0;
+			for(var  i  : reservstionCheck) {
+				if(date.equals(i.getBookingDate())) {
+					var timePlus = time.plusMinutes(60);
+					var timeMinus = time.minusMinutes(45);
+					if(i.getBookingTime().isBefore(timePlus) &&i.getBookingTime().isAfter(timeMinus) ) {
+						total++;
+					}
+				}
+			}
+			if(total>=dinerTable.getQuantity()) {
+				validation.setOption(2);
+				validation.setMessage("The table is sold out "+ time+" "+date);
+				model.addAttribute("msg", validation);
+				return "redirect:/customer/dinnerTable-details/"+dinerTable.getId();
+			}
+		
 			reservation.setReservationStatus(reservationStatusRepository.findById(1).get());
 			reservation.setRestaurant(dinerTable.getRestaurant());
 			reservation.setBookingDate(date);

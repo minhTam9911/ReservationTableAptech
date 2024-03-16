@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +47,14 @@ public class ReservationAgent {
 	@Column
 	private String ward;
 	@Column
+	private String image;
+
+	@PrePersist
+	private void generateAvatarDefault() {
+		this.image = "avatar.jpg";
+	}
+
+	@Column
 	private String address;
 	@Column
 	private String email;
@@ -67,15 +76,15 @@ public class ReservationAgent {
 	@Column
 	@UpdateTimestamp
 	private LocalDate updated;
-	@OneToMany(mappedBy = "reservationAgent") 
-    private Set<Receptionist> receptionists = new HashSet<>() ;
+	@OneToMany(mappedBy = "reservationAgent")
+	private Set<Receptionist> receptionists = new HashSet<>();
 	@OneToMany
-    private Set<Restaurant> restaurants = new HashSet<>();
+	private Set<Restaurant> restaurants = new HashSet<>();
 
 	@ManyToOne
-	@JoinColumn(name = "role",nullable = false)
+	@JoinColumn(name = "role", nullable = false)
 	private Role role;
 	@ManyToOne
-	@JoinColumn(name = "system",nullable = false)
+	@JoinColumn(name = "system", nullable = false)
 	private System system;
 }

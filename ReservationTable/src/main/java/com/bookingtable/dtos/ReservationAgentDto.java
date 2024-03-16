@@ -22,7 +22,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -31,51 +30,59 @@ import lombok.NoArgsConstructor;
 public class ReservationAgentDto {
 	private String id;
 
-    @NotEmpty
+	@NotEmpty
 	private String fullName;
-	
+	private String fullname;
+
 	private String city;
-	
+
 	private String district;
-	
+
 	private String ward;
-	
-    @NotEmpty
+
+	private String image;
+
+	@NotEmpty
 	private String address;
 	private boolean status;
+
+	private String detailAddress;
 	
-    @NotEmpty
-    @Email
+	@NotEmpty
+	@Email
 	private String email;
-	
-    @NotEmpty
-    @Size(min = 8)
-	@Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
+
+	@NotEmpty
+	@Size(min = 8)
+	@Pattern(regexp = "^[0-9]+$", message = "This field can only enter numbers")
 	private String homePhoneNumber;
 	
-    @Min(value =1)
+	
+	private String phoneNumber;
+
+	@Min(value = 1)
 	private int totalRestaurant;
 
-    @NotEmpty
-    @Size(min = 8)
-	@Pattern(regexp = "^[0-9]+$",message = "This field can only enter numbers")
+	@NotEmpty
+	@Size(min = 8)
+	@Pattern(regexp = "^[0-9]+$", message = "This field can only enter numbers")
 	private String cellularPhoneNumber;
-	
-	private String password;
-	
-	private LocalDate created;
-	
-	private LocalDate updated;
-	
-	private RoleDto roleDto;
-	
-	 private Collection<ReceptionistDto> receptionistsDto;
-	 
-	 private SystemDto createBy;
 
-	public ReservationAgentDto( String email) {
+	private String password;
+
+	private LocalDate created;
+
+	private LocalDate updated;
+
+	private RoleDto roleDto;
+
+	private Collection<ReceptionistDto> receptionistsDto;
+
+	private SystemDto createBy;
+
+	public ReservationAgentDto(String email) {
 		super();
 		this.email = email;
 	}
-	
+
 }

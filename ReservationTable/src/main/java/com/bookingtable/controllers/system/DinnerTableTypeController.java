@@ -81,7 +81,7 @@ public class DinnerTableTypeController {
 			response.setMessage("Form input invalid");
 			model.addAttribute("msg", response);
 			return "staff/dinnerTableType/edit";
-		}if (file != null) {
+		}if (file.isEmpty()) {
 			var categoryImage = idinnerTableTypeService.getDinnerTableTypeById(dinnerTableTypeDto.getId());
 			FileHelper.deleteCategoryDinnerTable(categoryImage.getImage());
 			var image = FileHelper.uploadCategoryDinnerTable(file);

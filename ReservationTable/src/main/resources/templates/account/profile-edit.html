@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/system}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Edit Profile Page</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+	<style>.avatar{
+width:200px;
+height:200px;
+}	</style>
+   <div class="container bootstrap snippets bootdey">
+    <h1 class="text-primary text-center">Edit Profile</h1>
+      <hr>
+	<div class="row" style="margin-top: 50px;margin-left: 120px;">
+      <!-- left column -->
+      
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
+          <h6>Upload a different photo...</h6>
+         <form th:action="@{/profile/edit/submit}" th:object="${data}" enctype="multipart/form-data" method="post">
+          <input type="file" class="form-control" name="file">
+        </div>
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        
+        <h3>My Account</h3>
+        
+        <div class="form-horizontal" role="form">
+          <div class="form-group" style="margin-top: 20px;">
+            <label class="col-lg-3 control-label">Fullname:</label>
+            <div class="col-lg-10">
+              <input class="form-control" type="text" th:value="${data.fullname}" name="fullname">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label class="col-lg-3 control-label" >Address:</label>
+            <div class="col-lg-10">
+              <input class="form-control" type="text"  th:value="${data.detailAddress}" name="address">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label class="col-lg-3 control-label">Phone Number:</label>
+            <div class="col-lg-10">
+              <input class="form-control" type="text" value="" th:value="${data.phoneNumber}" name="phoneNumber">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="col-lg-10">
+              <input class="btn btn-primary" style="float: right;" type="submit" value="Save Changes">
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+  </div>
+</div>
+<hr>
+</section>
+</body>
+</html>

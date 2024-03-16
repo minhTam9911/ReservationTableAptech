@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.bookingtable.helpers.GenerateCode;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +37,12 @@ public class Customer {
     private String password;
     @Column
     private boolean gender;
+    @Column
+    private String image;
+    @PrePersist
+    private void generateAvatarDefault() {
+        this.image = "avatar.jpg";
+    }
     @Column
 	private String securityCode;
     @Column

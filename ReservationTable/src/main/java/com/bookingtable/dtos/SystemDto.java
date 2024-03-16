@@ -35,9 +35,11 @@ public class SystemDto {
     @NotEmpty
 	@Pattern(regexp = "^[0-9]+$")
 	private String phoneNumber;
-	
+
+	private String image;
     @NotEmpty
 	private String address;
+    private String detailAddress;
 	
     @NotEmpty
     @Email

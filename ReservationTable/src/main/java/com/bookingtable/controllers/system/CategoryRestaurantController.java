@@ -82,7 +82,7 @@ public class CategoryRestaurantController {
 			result = new ResultResponse<>(false, 0, "");
 			return "staff/categoryRestaurant/edit";
 		}
-		if(file!=null) {
+		if(file.isEmpty()) {
 			var categoryImage =  categoryRestaurantService.getById(categoryRestaurantDto.getId());
 			FileHelper.deleteCategoryRestaurant(categoryImage.getImage());
 			var image = FileHelper.uploadCategoryRestaurant(file);
