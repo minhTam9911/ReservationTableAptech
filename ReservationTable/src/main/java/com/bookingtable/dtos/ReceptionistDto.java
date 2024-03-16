@@ -44,12 +44,15 @@ public class ReceptionistDto {
 	}
 	@NotEmpty
 	private String address;
+
+	private String image;
 	private boolean status;
 	@NotEmpty
 	@Email
 	private String email;
 
 	private String password;
+	private String detailAddress;
 
 	private boolean gender;
 

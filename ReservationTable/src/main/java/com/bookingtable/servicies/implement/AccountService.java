@@ -1,5 +1,6 @@
 package com.bookingtable.servicies.implement;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,8 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bookingtable.dtos.ResultResponse;
+import com.bookingtable.helpers.FileHelper;
 import com.bookingtable.helpers.GenerateCode;
 import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.models.Customer;
@@ -33,6 +36,8 @@ import com.bookingtable.repositories.ReservationAgentRepository;
 import com.bookingtable.repositories.SystemRepository;
 import com.bookingtable.servicies.IAccountService;
 import com.bookingtable.servicies.IMailService;
+
+import jakarta.mail.Multipart;
 
 @Service
 public class AccountService implements IAccountService {
@@ -240,35 +245,75 @@ public class AccountService implements IAccountService {
 		}
 		return  new ResultResponse<String>(true,2, "Reset Password Failure");
 	}
+	
+	
 	@Override
-	public ResultResponse<String> updateProfile(SystemDto updatedProfile,String email) {
+	public ResultResponse<String> changePassword(String email) {
+		if(systemRepository.findByEmail(email)!=null) {
+			var data = systemRepository.findByEmail(email);
+				return new ResultResponse<String>(true,1, data.getPassword());
+			
+		}
+		if(reservationAgentRepository.findByEmail(email)!=null) {
+			var data = reservationAgentRepository.findByEmail(email);
+		
+				reservationAgentRepository.save(data);
+				return new ResultResponse<String>(true,1, data.getPassword());
+		}
+		if(receptionistRepository.findByEmail(email)!=null) {
+			var data = receptionistRepository.findByEmail(email);
+			
+				receptionistRepository.save(data);
+				return new ResultResponse<String>(true,1, data.getPassword());
+		}
+		if(customerRepository.findByEmail(email)!=null) {
+			var data = customerRepository.findByEmail(email);
+			
+				customerRepository.save(data);
+				return new ResultResponse<String>(true,1, data.getPassword());
+		}
+		return  new ResultResponse<String>(true,2, "User No Found");
+	}
+	
+	@Override
+	public ResultResponse<String> updateProfile(String fullname, String phoneNumer, String address, MultipartFile file,String email) {
 		System system = systemRepository.findByEmail(email);
 		if (system != null) {
-			system.setFullname(updatedProfile.getFullname());
-			system.setAddress(updatedProfile.getAddress());
-			system.setPhoneNumber(updatedProfile.getPhoneNumber());
-			system.setPassword(updatedProfile.getPassword());
+			if(!file.isEmpty()) {
+				var image = FileHelper.uploadAvatar(file);
+
+				system.setImage(image);
+			}
+			system.setFullname(fullname);
+			system.setAddress(address);
+			system.setPhoneNumber(phoneNumer);
 			systemRepository.save(system);
 			return new ResultResponse<String>(true,1, "Profile updated successfully");
 		}
 
 		ReservationAgent reservationAgent = reservationAgentRepository.findByEmail(email);
 		if (reservationAgent != null) {
-			system.setFullname(reservationAgent.getFullName());
-			system.setAddress(reservationAgent.getAddress());
-			system.setPhoneNumber(reservationAgent.getCellularPhoneNumber());
-			system.setPassword(reservationAgent.getPassword());
+			if(!file.isEmpty()) {
+				var image = FileHelper.uploadAvatar(file);
+				reservationAgent.setImage(image);
+			}
+			reservationAgent.setFullName(fullname);
+			reservationAgent.setAddress(address);
+			reservationAgent.setCellularPhoneNumber(phoneNumer);
 			reservationAgentRepository.save(reservationAgent);
 			return new ResultResponse<String>(true,1, "Profile updated successfully");
 		}
 
 		Receptionist receptionist = receptionistRepository.findByEmail(email);
-		if (reservationAgent != null) {
-			system.setFullname(receptionist.getFullname());
-			system.setAddress(receptionist.getAddress());
-			system.setPhoneNumber(receptionist.getPhoneNumber());
-			system.setPassword(receptionist.getPassword());
-			system.setDateOfBirth(receptionist.getDateOfBirth());
+		if (receptionist != null) {
+			if(!file.isEmpty()) {
+				var image = FileHelper.uploadAvatar(file);
+
+				receptionist.setImage(image);
+			}
+			receptionist.setFullname(fullname);
+			receptionist.setAddress(address);
+			receptionist.setPhoneNumber(phoneNumer);
 			receptionistRepository.save(receptionist);
 			return new ResultResponse<String>(true,1, "Profile updated successfully");
 		}
@@ -276,35 +321,43 @@ public class AccountService implements IAccountService {
 	}
 	@Override
 	public SystemDto findByEmail(String email) {
-		System system = systemRepository.findByEmail(email);
-		if (system != null) {
-			system.setFullname(system.getFullname());
-			system.setAddress(system.getAddress());
-			system.setPhoneNumber(system.getPhoneNumber());
-			system.setPassword(system.getPassword());
-			return SystemMapper.mapToDto(system);
+		var system = new SystemDto();
+		System systemmodel = systemRepository.findByEmail(email);
+		if (systemmodel != null) {
+			system.setFullname(systemmodel.getFullname());
+			system.setDetailAddress(systemmodel.getAddress());
+			system.setPhoneNumber(systemmodel.getPhoneNumber());
+			system.setPassword(systemmodel.getPassword());
+			system.setEmail(systemmodel.getEmail());
+			system.setCreated(systemmodel.getCreated());
+			return system;
 		}
 
 		ReservationAgent reservationAgent = reservationAgentRepository.findByEmail(email);
 		if (reservationAgent != null) {
 			system.setFullname(reservationAgent.getFullName());
-			system.setAddress(reservationAgent.getAddress());
+			system.setDetailAddress((reservationAgent.getAddress()+", "+reservationAgent.getWard()+", "+reservationAgent.getDistrict()+","+reservationAgent.getCity()).toString());
 			system.setPhoneNumber(reservationAgent.getCellularPhoneNumber());
 			system.setPassword(reservationAgent.getPassword());
-			return SystemMapper.mapToDto(system);
+			system.setEmail(reservationAgent.getEmail());
+			system.setDateOfBirth(reservationAgent.getCreated());
+			system.setCreated(reservationAgent.getCreated());
+			return system;
 		}
 
 		Receptionist receptionist = receptionistRepository.findByEmail(email);
 		if (receptionist != null) {
 			system.setFullname(receptionist.getFullname());
-			system.setAddress(receptionist.getAddress());
+			system.setDetailAddress(receptionist.getAddress());
+			system.setEmail(receptionist.getEmail());
 			system.setPhoneNumber(receptionist.getPhoneNumber());
 			system.setPassword(receptionist.getPassword());
 			system.setDateOfBirth(receptionist.getDateOfBirth());
-			return SystemMapper.mapToDto(system);
+			system.setCreated(receptionist.getCreated());
+			return system;
 		}
 
-		return SystemMapper.mapToDto(system);
+		return system;
 	}
 
 

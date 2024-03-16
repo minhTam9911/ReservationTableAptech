@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 @Builder
 @Data
@@ -74,8 +75,10 @@ public class RestaurantDto {
 		private CategoryRestaurantDto categoryRetaurantDto;
 		private Integer categoryId;
 		@NotEmpty
+		@Length(min = 100)
 		private String description;
 		@NotEmpty
+		@Length(min = 40)
 		private String shortDescription;
 		private ReceptionistDto receptionistDto;
 		

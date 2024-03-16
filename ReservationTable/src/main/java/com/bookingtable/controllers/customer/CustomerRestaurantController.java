@@ -54,7 +54,13 @@ public class CustomerRestaurantController {
 
         List<RestaurantDto> data = new ArrayList<>();
         var restaurants = restaurantService.getAllRestaurants();
-        for (var i : restaurants) {
+        var list = new ArrayList<RestaurantDto>();
+        for(var i : restaurants) {
+        	if(i.isActive()) {
+        		list.add(i);
+        	}
+        }
+        for (var i : list) {
             var restaurant = new RestaurantDto();
             restaurant = i;
             if (principal != null) {
@@ -106,7 +112,13 @@ public class CustomerRestaurantController {
     public String category(Model model, @PathVariable("id") Integer id) {
         var restaurants = restaurantService.getAllRestaurantsWithCategory(id);
         List<RestaurantDto> data = new ArrayList<>();
-        for (var i : restaurants) {
+        var list = new ArrayList<RestaurantDto>();
+        for(var i : restaurants) {
+        	if(i.isActive()) {
+        		list.add(i);
+        	}
+        }
+        for (var i : list) {
             var restaurant = new RestaurantDto();
             restaurant = i;
             for (int j = 0; j <= 2; j++) {
@@ -134,22 +146,21 @@ public class CustomerRestaurantController {
         }
         restaurant.setImagesDto(imageRestaurant);
         model.addAttribute("restaurant", restaurant);
-        List<Rate> listRates = new ArrayList<>();
         for (DinnerTableDto dinnerTable : dinnerTables) {
-            dinnerTable.getId();
-            var rates = rateRepository.findAll();
-            for (var i : rates) {
-                var rate = new Rate();
-                if (i.getReservation().getDinnerTable().getId() == dinnerTable.getId()) {
-                    listRates.add(rate);
-                }
-            }
-
             Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
             dinnerTable.setImagesDto(new ArrayList<>(images));
         }
+        
+        var listRates = new ArrayList<Rate>();
+        var rates = rateRepository.findAll();
+        for(var i : rates) {
+   
+        	if((i.getReservation().getRestaurant().getId().equals(id)) && !i.isStatus()) {
+        		 listRates.add(i);
+        	}
+        }
+        
         model.addAttribute("rates", listRates);
-
         model.addAttribute("dinnerTables", dinnerTables);
         return "customer/restaurant/dinnerTableRestaurant";
     }

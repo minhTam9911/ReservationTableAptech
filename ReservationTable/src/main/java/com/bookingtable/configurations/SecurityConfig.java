@@ -76,9 +76,11 @@ public class SecurityConfig {
                             "assets/system/lib/tempusdominus/css/**",
                             "assets/**",
                             "uploads/**",
+                            "uploads/avatars/**",
                             "/login", "/register","/accessDenied",
                             "/",
-                            "/**",
+                           // "/**",
+                            
                             "/restaurant/index",
                             "/account/accessDenied",
                             "/customer/**",
@@ -104,23 +106,22 @@ public class SecurityConfig {
                             "/reset-password",
                             "/reset-password/save",
                             "/verify"
+                            
                             ).permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-                    auth.requestMatchers("/admin/panel/role/**").hasAnyRole("ADMIN");
-                    auth.requestMatchers("/admin/panel/role/**").permitAll();
-                    	auth.requestMatchers("/admin/panel/**").permitAll();
-                    //auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/staff/**").hasAnyRole("STAFF");
                     auth.requestMatchers("/staff/reservationAgent/**").hasAnyRole("STAFF");
                     auth.requestMatchers(HttpMethod.POST, "/staff/reservationAgent/create/save").hasAnyRole("STAFF");
                     auth.requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST");
                     auth.requestMatchers("/partner/**").hasAnyRole("PARTNER");
                     auth.requestMatchers("/partner/restaurant/**","/partner/dinnerTable/**").hasAnyRole("PARTNER");
+                    auth.requestMatchers("/customer/profile/**").hasAnyRole("CUSTOMER");
+                    auth.requestMatchers(HttpMethod.POST,"/customer/profile/upload","/customer/profile/edit/submit").hasAnyRole("CUSTOMER");
                     auth.requestMatchers("/account/profile", "/account/changePass-save",
-                            "/account/change-password", "/account/edit-avatar", "/account/edit-profile")
+                            "/account/change-password", "/account/edit-avatar", "/account/edit-profile","/change-password","/change-password/save")
                             .hasAnyRole("STAFF", "ADMIN", "PARTNER", "RECEPTIONIST", "CUSTOMER");
-
+                    auth.requestMatchers("/profile","/profile/edit","/profile/edit/submit").hasAnyRole("STAFF", "ADMIN", "PARTNER");
                 }).logout(logout ->
                         logout.logoutUrl("/logout").logoutSuccessUrl("/login")
                 )

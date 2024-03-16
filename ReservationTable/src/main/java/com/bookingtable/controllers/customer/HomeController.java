@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping({ "", "customer/home", "/" })
+@RequestMapping({ "", "customer/home", "/","home" })
 public class HomeController {
 	@Autowired
 	private IDinnerTableTypeService iDinnerTableTypeService;

@@ -1,180 +1,202 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layout/customer}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/customer}"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <title>Home Page</title>
-    <style>
-    .row {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-}
-    .card-img-top {
-  width: 100%; /* Đặt chiều rộng của hình ảnh là 100% của phần tử cha (card) */
-  height: 220px; /* Đặt chiều cao cố định của hình ảnh */
-  object-fit: cover; /* Cắt hình ảnh để nó vừa với kích thước được đặt */
-  }
-.star-rating {
-  display: flex;
-  justify-content: center;
-}
-.card-body{    flex: 1 1 auto;
-    padding: 1rem;
-    background-color: whitesmoke;}
-.star {
-  color: gold;
-  font-size: 20px;
-  margin-right: 5px;
-}
+	<title>Home Page</title>
+	<style>
+		.row {
+			display: -ms-flexbox;
+			display: flex;
+			-ms-flex-wrap: wrap;
+			flex-wrap: wrap;
+			margin-right: -15px;
+			margin-left: -15px;
+			justify-content: flex-end;
+			flex-direction: row-reverse;
+		}
 
+		.card-img-top {
+			width: 100%;
+			/* Đặt chiều rộng của hình ảnh là 100% của phần tử cha (card) */
+			height: 220px;
+			/* Đặt chiều cao cố định của hình ảnh */
+			object-fit: cover;
+			/* Cắt hình ảnh để nó vừa với kích thước được đặt */
+		}
 
+		.star-rating {
+			display: flex;
+			justify-content: center;
+		}
 
-    </style>
+		.card-body {
+			flex: 1 1 auto;
+			padding: 1rem;
+			background-color: whitesmoke;
+		}
+
+		.star {
+			color: gold;
+			font-size: 20px;
+			margin-right: 5px;
+		}
+	</style>
 </head>
+
 <body>
 
-<section layout:fragment="content">
-    <!--================Breadcrumb Area =================-->
-    <section class="breadcrumb_area">
-        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
-             data-background=""></div>
-        <div class="container">
-            <div class="page-cover text-center">
-                <h2 class="page-cover-tittle">Our Dinner Table</h2>
-                <ol class="breadcrumb">
-                    <li><a th:href="@{/customer/home}">Home</a></li>
-                    <li class="active">Dinner Tables</li>
-                </ol>
-            </div>
-        </div>
-    </section>
-    <!--================Breadcrumb Area =================-->
-    <section class="accomodation_area section_gap">
-        <div class="container">
-            <div class="section_title text-center">
-                <h2 class="title_color" th:text="${restaurant.name}"></h2>
-                <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast,</p>
-            </div>
-        </div>
-    </section>
+	<section layout:fragment="content">
+		<!--================Breadcrumb Area =================-->
+		<section class="breadcrumb_area">
+			<div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
+				data-background=""></div>
+			<div class="container">
+				<div class="page-cover text-center">
+					<h2 class="page-cover-tittle">Our Dinner Table</h2>
+					<ol class="breadcrumb">
+						<li><a th:href="@{/customer/home}">Home</a></li>
+						<li class="active">Dinner Tables</li>
+					</ol>
+				</div>
+			</div>
+		</section>
+		<!--================Breadcrumb Area =================-->
+		<section class="accomodation_area section_gap">
+			<div class="container">
+				<div class="section_title text-center">
+					<h2 class="title_color" th:text="${restaurant.name}"></h2>
+					<p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast,
+					</p>
+				</div>
+			</div>
+		</section>
 
-    <section class="welcome pt-0 section-margin">
-        <div class="container">
-            <div class="align-items-center" style="display: flex;
+		<section class="welcome pt-0 section-margin">
+			<div class="container">
+				<div class="align-items-center" style="display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
     justify-content: flex-end;">
-                <div class="col-lg-5 mb-4 mb-lg-0">
-                    <div class="row no-gutters welcome-images">
-                        <div class="col-sm-7">
-                            <div class="card">
-                                <img class=""
-                                     th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[0].path})}"
-                                     alt="Card image cap">
-                            </div>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="card">
-                                <img class=""
-                                     th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[1].path})}"
-                                     alt="Card image cap">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <img class=""
-                                     th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[2].path})}"
-                                     alt="Card image cap">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="welcome-content">
-                        <h2 class="mb-4"><span class="d-block" th:text="${restaurant.shortDescription}"></span></h2>
-                        <span th:utext="${restaurant.description.replace('.', '<br/>')}"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+					<div class="col-lg-5 mb-4 mb-lg-0">
+						<div class="row no-gutters welcome-images">
+							<div class="col-sm-7">
+								<div class="card">
+									<img class=""
+										th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[0].path})}"
+										alt="Card image cap">
+								</div>
+							</div>
+							<div class="col-sm-5">
+								<div class="card">
+									<img class=""
+										th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[1].path})}"
+										alt="Card image cap">
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="card">
+									<img class=""
+										th:src="@{/uploads/restaurants/{imageName}(imageName=${restaurant.imagesDto[2].path})}"
+										alt="Card image cap">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-7">
+						<div class="welcome-content">
+							<h2 class="mb-4"><span class="d-block" th:text="${restaurant.shortDescription}"></span></h2>
+							<span th:utext="${restaurant.description.replace('.', '<br/>')}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
 
-    <!--================ Accomodation Area  =================-->
-    <section class="accomodation_area section_gap">
-        <div class="container">
-            <div class="section_title text-center">
-                <h2 class="title_color">Dinner Table</h2>
-                <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast,</p>
-            </div>
-            <div class="row mb_30">
-                <div class="col-lg-3 col-sm-6" style="margin-bottom: 40px" th:each="dinnerTable : ${dinnerTables}">
-                    <div class="card">
-                        <img class="card-img-top" th:if="${dinnerTable.imagesDto.size() > 0}"
-                             th:src="@{/uploads/dinnerTables/{imageName}(imageName=${dinnerTable.imagesDto[0].path})}"
-                             alt="Table Image">
-                        <div class="card-body">
-                            <div style="display: flex;justify-content: space-between;">
-                                <h5 class="card-title">$250<small>/night</small></h5>
-                                <div class="star-rating">
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                </div>
-                            </div>
-                            <h6 class="card-subtitle mb-2 text-muted"
-                                th:text="${dinnerTable.quantity + ' dining tables left'}"></h6>
-                            <a th:href="@{/customer/dinnerTable-details/{id}(id=${dinnerTable.id})}"
-                               class="btn theme_btn button_hover">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+		<!--================ Accomodation Area  =================-->
+		<section class="accomodation_area section_gap">
+			<div class="container">
+				<div class="section_title text-center">
+					<h2 class="title_color">Dinner Table</h2>
+					<p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast,
+					</p>
+				</div>
+				<div class="row mb_30">
+					<div class="col-lg-3 col-sm-6" style="margin-bottom: 40px" th:each="dinnerTable : ${dinnerTables}">
+						<div class="card">
+							<img class="card-img-top" th:if="${dinnerTable.imagesDto.size() > 0}"
+								th:src="@{/uploads/dinnerTables/{imageName}(imageName=${dinnerTable.imagesDto[0].path})}"
+								alt="Table Image">
+							<div class="card-body">
+								<div style="display: flex;justify-content: space-between;">
+									<h5 class="card-title">$250<small>/night</small></h5>
+									<div class="star-rating">
+										<span class="star">&#9733;</span>
+										<span class="star">&#9733;</span>
+										<span class="star">&#9733;</span>
+										<span class="star">&#9733;</span>
+										<span class="star">&#9733;</span>
+									</div>
+								</div>
+								<h6 class="card-subtitle mb-2 text-muted"
+									th:text="${dinnerTable.quantity + ' dining tables left'}"></h6>
+								<a th:href="@{/customer/dinnerTable-details/{id}(id=${dinnerTable.id})}"
+									class="btn theme_btn button_hover">Read more</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
 
-    <!--================ Testimonial Area  =================-->
-    <section class="testimonial_area section_gap">
-        <div class="container">
-            <div class="section_title text-center">
-                <h2 class="title_color">Testimonial from our Clients</h2>
-                <p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall
-                    from </p>
-            </div>
-            <div class="testimonial_slider owl-carousel">
-                <div class="media testimonial_item" th:each="rate : ${rates}">
-                    <img class="rounded-circle" src="image/testtimonial-1.jpg" alt="">
-                    <div class="media-body">
-                        <p th:text="${rate.comment}"></p>
-                        <a href="#"><h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4></a>
-                        <div class="star">
-                            <th:block th:switch="${rate.point}">
-                                <th:block th:case="1"><i class="fa fa-star"></i></th:block>
-                                <th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                <th:block th:case="3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                <th:block th:case="4"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                <th:block th:case="5"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
-                                <th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
-                            </th:block>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-</section>
+		<!--================ Testimonial Area  =================-->
+		<section class="testimonial_area section_gap">
+			<div class="container">
+				<div class="section_title text-center">
+					<h2 class="title_color">Testimonial from our Clients</h2>
+					<p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall
+						from </p>
+				</div>
+				<div class="testimonial_slider owl-carousel" th:if="${rates.size>0}">
+				
+					<div class="media testimonial_item" id="myDiv" th:each="rate : ${rates}">
+						<img class="rounded-circle" th:src="@{/uploads/avatars/{image}(image=${rate.customer.image})}"
+							alt="" style="width: 94px; height: 94px;">
+						<div id="image-container"></div>
+
+						<div class="media-body">
+							<p th:text="${rate.comment}" style="font-weight: 500;"></p>
+							<a href="#">
+								<h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4>
+							</a>
+							
+							<div class="star">
+								<th:block th:switch="${rate.point}">
+									<th:block th:case="1"><i class="fa fa-star"></i></th:block>
+									<th:block th:case="2"><i class="fa fa-star"></i><i class="fa fa-star"></i>
+									</th:block>
+									<th:block th:case="3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+											class="fa fa-star"></i></th:block>
+									<th:block th:case="4"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+											class="fa fa-star"></i><i class="fa fa-star"></i></th:block>
+									<th:block th:case="5"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+											class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+									</th:block>
+									<th:block th:case="*"><i class="fa fa-star-half-o"></i></th:block>
+								</th:block>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</section>
 
 </body>
+
 </html>
