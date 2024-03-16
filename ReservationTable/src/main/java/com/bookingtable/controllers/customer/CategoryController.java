@@ -58,7 +58,13 @@ public class CategoryController {
 	public String detailRestaurant(Model model,@PathVariable("id") Integer id,Principal principal) {
 		var restaurants =  restaurantService.getAllCategory(id);
 		var list = new ArrayList<RestaurantDto>();
-		  for (var i : restaurants) {
+		 var lists = new ArrayList<RestaurantDto>();
+	        for(var i : restaurants) {
+	        	if(i.isActive()) {
+	        		list.add(i);
+	        	}
+	        }
+		  for (var i : list) {
 	            var restaurant = new RestaurantDto();
 	            restaurant = i;
 	            if (principal != null) {
@@ -83,20 +89,27 @@ public class CategoryController {
 	                }
 	                
 	            }
-	            list.add(restaurant);
+	            lists.add(restaurant);
 		  }
-		model.addAttribute("data",list);
+		  
+		model.addAttribute("data",lists);
 		return "customer/category/detail-restaurant";
 	}
 	
 	@GetMapping("dinnerTable/detail/{id}")
 	public String detailDinnerTable(Model model,@PathVariable("id") Integer id) {
 		var dinnerTables = dinnerTableService.getAllCategory(id);
-		 for (DinnerTableDto dinnerTable : dinnerTables) {
+		 var list = new ArrayList<DinnerTableDto>();
+	        for(var i : dinnerTables) {
+	        	if(i.getRestaurantDto().isActive()) {
+	        		list.add(i);
+	        	}
+	        }
+		 for (DinnerTableDto dinnerTable : list) {
 	            Set<ImageDto> images = iImageService.getImagesByDinnerTableId(dinnerTable.getId());
 	            dinnerTable.setImagesDto(new ArrayList<>(images));
 	        }
-		model.addAttribute("data", dinnerTables);
+		model.addAttribute("data", list);
 		return "customer/category/detail-dinnerTable";
 	}
 	
