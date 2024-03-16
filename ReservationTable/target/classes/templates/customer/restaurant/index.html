@@ -17,7 +17,7 @@
     border-radius: 50%; /* Làm cho viền tròn */
     background-color: #ffffff; /* Màu nền trắng cho biểu tượng */
     padding: 8px; /* Khoảng cách từ biểu tượng đến viền */
-    z-index: 999; /* Đảm bảo biểu tượng hiển thị phía trên hình ảnh */
+    z-index: 4; /* Đảm bảo biểu tượng hiển thị phía trên hình ảnh */
 }
 
 .heart-icon i {
@@ -108,7 +108,7 @@
                             <div class="card-explore__img position-relative">
                                 <img class="card-img" style="width: 368px; height: 245px;" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
                                      alt="">
-                                <th:block sec:authorize="isAuthenticated()">
+                                <th:block>
                                     <input type="hidden" th:id="'restaurantId_'+${i.id}"
                                            th:name="'restaurantId_'+${i.id}" th:value="${i.id}"/>
                                     <!-- Nút thêm vào collection -->

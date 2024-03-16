@@ -58,51 +58,6 @@
     <!--================ Accomodation Area  =================-->
     <section class="accomodation_area section_gap">
         <div class="container">
-            <div class="search-container">
-                <div class="row">
-                    <form action="">
-                        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" style="width: 1000px;">
-                            <div class="input-group">
-                                <input type="search" placeholder="City, Restaurant, Type, ...."
-                                       aria-describedby="button-addon2" class="form-control border-0 bg-light">
-                                <div class="input-group-prepend">
-                                    <button id="button-addon2" type="submit" class="btn btn-link text-warning">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="row mb-5" style="margin-left: -108px;">
-                    <div class="col-lg-6 ml-5" style="display: inline-flex;
-    font-size: 18px;
-    margin-bottom: -26px;left: 36px;">
-                        <div class="field-icon">
-                            <i class="fa-solid fa-utensils"></i>
-                        </div>
-                        <div class="field-name">
-                            <p>Dinner table type:</p>
-                            &nbsp;
-                        </div>
-                        <div class="field-option" th:each="i : ${dinnerTables}">
-                            <a href="#" th:text="${i.dinnerTableTypeDto.type}"></a>
-                        </div>
-                        <div class="field-option">
-                            <a href="#" th:text="All"></a>
-                        </div>
-                    </div>
-                    <div style="border-bottom: 1px solid #00000036;width: 1000px;
-    margin-left: 100px;"></div>
-                </div>
-            </div>
-
-            <div id="search-results">
-            </div>
-
-        </div>
-
-        <div class="container">
             <div class="section_title text-center">
                 <h2 class="title_color">All Special Table</h2>
                 <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast</p>
