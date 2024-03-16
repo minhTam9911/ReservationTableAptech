@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IRateService {
     public List<RateDto> getAllRate();
+    public List<RateDto> getRateByReservationId(String id);
+
 
     public RateDto getRateById(Integer id);
 
@@ -15,4 +17,5 @@ public interface IRateService {
     public boolean updateRate(Integer id, RateDto rateDto);
 
     public boolean deleteRate(Integer id);
+
 }
