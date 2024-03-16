@@ -26,6 +26,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -47,69 +48,115 @@
         </div>
     </section>
     <!--================Breadcrumb Area =================-->
-
     <!--================ Accomodation Area  =================-->
     <section class="accomodation_area section_gap">
         <div class="container">
-            <div class="section_title text-center">
-                <h2 class="title_color">All Dinner Types</h2>
-                <p>Various types of tables can be placed</p>
-            </div>
-            <div class="row mb_30">
-                <div class="row pb-4">
-                    <th:block th:each="i : ${data}">
-                        <div class="col-md-6 col-xl-4 mb-5">
-                            <div class="card card-explore">
-                                <div class="card-explore__img position-relative">
-                                    <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
-                                         alt="">
-                                    <th:block sec:authorize="isAuthenticated()">
-                                        <input type="hidden" th:id="'restaurantId_'+${i.id}" th:name="'restaurantId_'+${i.id}" th:value="${i.id}"/>
-                                        <!-- Nút thêm vào collection -->
-                                        <th:block th:if="${i.collectionStatus == false}">
-                                            <form th:id="'addToCollectionForm_'+${i.id}"
-                                                  th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}"
-                                                  method="post">
-                                            </form>
-                                            <a href="#" th:attr="onclick=${'submitForm('''+i.id+''')'}" class="heart-icon">
-                                                <i class="fa-regular fa-heart fa-2x"></i>
-                                            </a>
-                                        </th:block>
-                                        <!-- Nút xóa khỏi collection -->
-                                        <th:block th:if="${i.collectionStatus == true}">
-                                            <form th:id="'removeFromCollectionForm_'+${i.id}"
-                                                  th:action="@{/customer/restaurant/remove-collection/{id}(id=${i.id})}"
-                                                  method="delete">
-                                            </form>
-                                            <a href="#" th:attr="onclick=${'removeCollection('''+i.id+''')'}" class="heart-icon">
-                                                <i class="fa-solid fa-heart fa-2x"></i>
-                                            </a>
-                                        </th:block>
-                                    </th:block>
-                                </div>
-
-                                <div class="card-body">
-                                    <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
-                                            th:text=" ${'/'+ i.city}"></sub></h3>
-                                    <h4 class="card-explore__title"><a
-                                            th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}"
-                                            th:text="${i.categoryRetaurantDto.name}"></a></h4>
-                                    <p th:text="${i.shortDescription}"></p>
-                                    <a class="card-explore__link"
-                                       th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
-                                            class="ti-arrow-right"></i></a>
-                                    <div>
-                                    </div>
+            <div class="search-container">
+                <div class="row">
+                    <form action="">
+                        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" style="width: 1000px;">
+                            <div class="input-group">
+                                <input type="search" placeholder="City, Restaurant, Type, ...."
+                                       aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                                <div class="input-group-prepend">
+                                    <button id="button-addon2" type="submit" class="btn btn-link text-warning">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </th:block>
+                    </form>
+                </div>
+                <div class="row mb-5" style="margin-left: -108px;">
+                    <div class="col-lg-6 ml-5" style="display: inline-flex;
+    font-size: 18px;
+    margin-bottom: -26px;left: -172px;">
+                        <div class="field-icon">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <div class="field-name">
+                            <p>Restaurant:</p>
+                            &nbsp;
+                        </div>
+                        <div class="field-option" th:each="i : ${data}">
+                            <a href="#" th:text="${i.name}"></a>
+                        </div>
+                        <div class="field-option">
+                            <a href="#" th:text="All"></a>
+                        </div>
+                    </div>
+                    <div style="border-bottom: 1px solid #00000036;width: 1000px;
+    margin-left: 100px;"></div>
                 </div>
             </div>
+
+            <div id="search-results">
+            </div>
+
         </div>
-        
     </section>
-    <script th:inline="javascript">
+    <div class="container">
+        <div class="section_title text-center">
+            <h2 class="title_color">All Dinner Types</h2>
+            <p>Various types of tables can be placed</p>
+        </div>
+        <div class="row mb_30">
+            <div class="row pb-4">
+                <th:block th:each="i : ${data}">
+                    <div class="col-md-6 col-xl-4 mb-5">
+                        <div class="card card-explore">
+                            <div class="card-explore__img position-relative">
+                                <img class="card-img" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
+                                     alt="">
+                                <th:block sec:authorize="isAuthenticated()">
+                                    <input type="hidden" th:id="'restaurantId_'+${i.id}"
+                                           th:name="'restaurantId_'+${i.id}" th:value="${i.id}"/>
+                                    <!-- Nút thêm vào collection -->
+                                    <th:block th:if="${i.collectionStatus == false}">
+                                        <form th:id="'addToCollectionForm_'+${i.id}"
+                                              th:action="@{/customer/restaurant/create-collection/{id}(id=${i.id})}"
+                                              method="post">
+                                        </form>
+                                        <a href="#" th:attr="onclick=${'submitForm('''+i.id+''')'}" class="heart-icon">
+                                            <i class="fa-regular fa-heart fa-2x"></i>
+                                        </a>
+                                    </th:block>
+                                    <!-- Nút xóa khỏi collection -->
+                                    <th:block th:if="${i.collectionStatus == true}">
+                                        <form th:id="'removeFromCollectionForm_'+${i.id}"
+                                              th:action="@{/customer/restaurant/remove-collection/{id}(id=${i.id})}"
+                                              method="delete">
+                                        </form>
+                                        <a href="#" th:attr="onclick=${'removeCollection('''+i.id+''')'}"
+                                           class="heart-icon">
+                                            <i class="fa-solid fa-heart fa-2x"></i>
+                                        </a>
+                                    </th:block>
+                                </th:block>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="card-explore__price"><span th:text="${i.name}"></span> <sub
+                                        th:text=" ${'/'+ i.city}"></sub></h3>
+                                <h4 class="card-explore__title"><a
+                                        th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}"
+                                        th:text="${i.categoryRetaurantDto.name}"></a></h4>
+                                <p th:text="${i.shortDescription}"></p>
+                                <a class="card-explore__link"
+                                   th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
+                                        class="ti-arrow-right"></i></a>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script th:inline="javascript">
  function removeCollection(restaurantId) {
    document.getElementById("removeFromCollectionForm_"+restaurantId).submit();
 }
@@ -118,7 +165,8 @@ function submitForm(restaurantId) {
     document.getElementById("addToCollectionForm_"+restaurantId).submit();
 }
 
-    </script>
+
+</script>
 </section>
 
 </body>

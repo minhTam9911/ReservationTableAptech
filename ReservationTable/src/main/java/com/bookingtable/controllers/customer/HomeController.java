@@ -3,7 +3,9 @@ package com.bookingtable.controllers.customer;
 import com.bookingtable.dtos.DinnerTableDto;
 import com.bookingtable.dtos.DinnerTableTypeDto;
 import com.bookingtable.dtos.ImageDto;
+import com.bookingtable.models.DinnerTable;
 import com.bookingtable.models.DinnerTableType;
+import com.bookingtable.models.Restaurant;
 import com.bookingtable.repositories.DinnerTableRepository;
 import com.bookingtable.repositories.RestaurantRepository;
 import com.bookingtable.servicies.IDinnerTableService;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -39,6 +42,7 @@ public class HomeController {
 	private RestaurantRepository restaurantRepository;
 	@Autowired
 	private DinnerTableRepository dinnerTableRepository;
+
 	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
 	public String index(Model model) {
 		String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
@@ -65,6 +69,11 @@ public class HomeController {
 
 		model.addAttribute("dinnerTableTypes", dinnerTableTypes);
 		model.addAttribute("typeImagesMap", typeImagesMap);
+
+		var restaurants = restaurantRepository.findAll();
+		model.addAttribute("restaurants", restaurants);
+
+
 		return "customer/home/index";
 	}
 }
