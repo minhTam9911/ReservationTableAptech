@@ -13,6 +13,7 @@ import com.bookingtable.servicies.IDinnerTableTypeService;
 import com.bookingtable.servicies.IImageService;
 import com.bookingtable.servicies.implement.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,16 +45,19 @@ public class HomeController {
 	private DinnerTableRepository dinnerTableRepository;
 
 	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
-	public String index(Model model) {
+	public String index(Model model, @Param("keyword") String keyword) {
 		String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
 		model.addAttribute("requestURI", requestURI);
 		// Lấy danh sách tất cả các loại bàn ăn
 		List<DinnerTableTypeDto> dinnerTableTypes = iDinnerTableTypeService.getAllDinnerTablesType();
+
+		List<DinnerTableDto> dinnerTables = iDinnerTableService.getAllDinnerTablesByKeyWord(keyword);
+			model.addAttribute("dinnerTables", dinnerTables);
 		// Tạo một map lưu trữ hình ảnh đầu tiên của mỗi loại bàn ăn
 		Map<Integer, String> typeImagesMap = new HashMap<>();
 		for (DinnerTableTypeDto type : dinnerTableTypes) {
 			// Lấy danh sách các bàn ăn thuộc loại này
-			List<DinnerTableDto> dinnerTables = iDinnerTableService.getDinnerTablesByType(type);
+			List<DinnerTableDto> dinnerTablesByType = iDinnerTableService.getDinnerTablesByType(type);
 			for (DinnerTableDto dinnerTableDto : dinnerTables) {
 				// Lấy danh sách hình ảnh của bàn ăn này
 				Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTableDto.getId());
