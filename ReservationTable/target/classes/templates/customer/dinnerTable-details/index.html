@@ -212,12 +212,12 @@
     </style>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"/>
-
 </head>
 
 <body>
 
 <section layout:fragment="content">
+
     <!--================Breadcrumb Area =================-->
     <section class="breadcrumb_area">
         <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
@@ -295,7 +295,7 @@
                     </div>
                     <div class="location-info">
                         <i class="fa-regular fa-envelope larger icon-blue"></i>&nbsp;
-                        <p class="card-text" th:text="${dinnerTable.restaurantDto.companyMail}"></p>
+                        <p class="card-text" th:text="${'Gmail: '+dinnerTable.restaurantDto.companyMail}"></p>
                     </div>
                 </div>
             </div>
@@ -464,9 +464,6 @@
         </th:block>
     </div>
     <script>
-
-
-
 			document.addEventListener("DOMContentLoaded", function () {
 				// Hiển thị slide đầu tiên
 				showSlides(slideIndex);
@@ -503,26 +500,37 @@
 				showSlides(slideIndex = n);
 			}
 
-			mapboxgl.accessToken = 'pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw';
+		mapboxgl.accessToken ="pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw"
 
-			var map = new mapboxgl.Map({
-				container: 'map',
-				style: 'mapbox://styles/mapbox/streets-v11',
-				center: [-74.5, 40],
-				zoom: 9
-			});
+navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
+  enableHighAccuracy: true
+})
 
-			// Add Google Maps overlay
-			var googleMapOverlay = document.createElement('iframe');
-			googleMapOverlay.setAttribute('src', 'https://www.google.com/maps/embed/v1/place?key=pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw&q=' + encodeURIComponent(dinnerTable.restaurantDto.getFullAddress()));
-			googleMapOverlay.setAttribute('width', '100%');
-			googleMapOverlay.setAttribute('height', '320px');
-			googleMapOverlay.style.border = '0';
+function successLocation(position) {
+  setupMap([position.coords.longitude, position.coords.latitude])
+}
 
+function errorLocation() {
+  setupMap([-2.24, 53.48])
+}
 
-			map.on('load', function () {
-				map.getCanvasContainer().appendChild(googleMapOverlay);
-			});
+function setupMap(center) {
+  const map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v11",
+    center: center,
+    zoom: 15
+  })
+
+  const nav = new mapboxgl.NavigationControl()
+  map.addControl(nav)
+
+  var directions = new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+  })
+
+  map.addControl(directions, "top-left")
+}
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
