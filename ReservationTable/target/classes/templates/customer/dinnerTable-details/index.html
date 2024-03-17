@@ -282,6 +282,11 @@
 						</th:block>
 						<p class="card-text" th:text="'Total Reservation: ' + ${totalReservation}"></p>
 						<p class="card-text" th:text="'Total Review: ' + ${totalRate}"></p>
+						<div style="display:flex;     align-items: center;">
+							<i class="fa-regular fa-envelope larger icon-blue"></i>&nbsp;
+							<p class="card-text" th:text="${dinnerTable.restaurantDto.companyMail}"></p>
+						</div>
+						
 					</div>
 				</div>
 				<div class="card">
@@ -293,8 +298,7 @@
 							<p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
 						</div>
 						<div class="location-info">
-							<i class="fa-regular fa-envelope larger icon-blue"></i>&nbsp;
-							<p class="card-text" th:text="${'Gmail: '+dinnerTable.restaurantDto.companyMail}"></p>
+							
 						</div>
 					</div>
 				</div>
