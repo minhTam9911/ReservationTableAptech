@@ -95,8 +95,6 @@ public class PartnerController {
 		System.out.println(chartData);
 		return "partner/index";
 	}
-
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
 	
 	private Object getChartData(RestaurantStatistical dto) {
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");

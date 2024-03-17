@@ -107,6 +107,9 @@ button.swal2-cancel.btn.btn-danger {
 						<a sec:authorize="hasAnyRole('ROLE_RECEPTIONIST')" th:href="@{/receptionist/invoice}"
 						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Invoice</a>
 						
+						<a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin/panel/invoice}"
+						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Invoice</a>
+						
 						
 						<a sec:authorize="hasAnyRole('ROLE_PARTNER')" th:href="@{/partner/dinner-table}"
 						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Table</a>
@@ -145,6 +148,13 @@ button.swal2-cancel.btn.btn-danger {
 								<a href="/profile" class="dropdown-item">My Profile</a>
 							</li>
 							<li sec:authorize="!hasAuthority('ROLE_ADMIN')" class="nav-item">
+								<a href="/change-password" class="dropdown-item">Change Password</a>
+							</li>
+							
+							<li sec:authorize="hasAuthority('ROLE_ADMIN')" class="nav-item">
+								<a href="/profile" class="dropdown-item">My Profile</a>
+							</li>
+							<li sec:authorize="hasAuthority('ROLE_ADMIN')" class="nav-item">
 								<a href="/change-password" class="dropdown-item">Change Password</a>
 							</li>
 							<a href="/logout" class="dropdown-item">
