@@ -40,7 +40,7 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Company Mail</th>
+					
 					<th>Address</th>
 					<th>City</th>
 					<th>District</th>
@@ -52,7 +52,7 @@
 			<tbody>
 				<tr th:each="i : ${restaurants}">
 					<td th:text="${i.name}"></td>
-					<td th:text="${i.companyMail}"></td>
+					
 
 					<td th:text="${i.address}"></td>
 					<td th:text="${i.city}"></td>
@@ -78,8 +78,8 @@
 							<th:block th:if="${i.active} == true">
 								<a th:href="@{/partner/restaurant/change/status/{id}(id=${i.id})}"
 									class="btn btn-success">Inoperative</a>
-
 							</th:block>
+							<a th:href="@{/partner/restaurant/chart/{id}(id=${i.id})}" class="btn btn-info">Statistical</a>
 						</div>
 					</td>
 				</tr>

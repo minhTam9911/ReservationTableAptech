@@ -58,6 +58,7 @@ public class AccountController {
                 result.setStatus(true);
                 result.setMessage("Username and password invalid");
                 model.addAttribute("msg", result);
+                result = new ResultResponse<>(false, 0, "");
                 return "account/login";
             }
 
