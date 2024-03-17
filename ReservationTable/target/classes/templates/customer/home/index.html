@@ -5,8 +5,161 @@
 <head>
     <title>Home Page</title>
     <style>
+.right_conatct_social_icon{
+     background: linear-gradient(to top right, #1325e8 -5%, #8f10b7 100%);
+}
+.contact_us{
+    background-color: #f1f1f1;
+    padding: 120px 0px;
+}
 
+.contact_inner{
+    background-color: #fff;
+    position: relative;
+    box-shadow: 20px 22px 44px #cccc;
+    border-radius: 25px;
+}
+.contact_field{
+    padding: 60px 340px 90px 100px;
+}
+.right_conatct_social_icon{
+    height: 100%;
+}
 
+.contact_field h3{
+   color: #000;
+    font-size: 40px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 10px
+}
+.contact_field p{
+    color: #000;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 35px;
+}
+.contact_field .form-control{
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+.contact_field .form-control:focus{
+    box-shadow: none;
+    outline: none;
+    border-bottom: 2px solid #1325e8;
+}
+.contact_field .form-control::placeholder{
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.contact_info_sec {
+    position: absolute;
+    background-color: #2d2d2d;
+    right: 1px;
+    top: 18%;
+    height: 340px;
+    width: 340px;
+    padding: 40px;
+    border-radius: 25px 0 0 25px;
+}
+.contact_info_sec h4{
+    letter-spacing: 1px;
+    padding-bottom: 15px;
+}
+
+.info_single{
+    margin: 30px 0px;
+}
+.info_single i{
+    margin-right: 15px;
+}
+.info_single span{
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+button.contact_form_submit {
+    background: linear-gradient(to top right, #1325e8 -5%, #8f10b7 100%);
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    width: 100%;
+    margin-top: 25px;
+    border-radius: 35px;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+.socil_item_inner li{
+    list-style: none;
+}
+.socil_item_inner li a{
+    color: #fff;
+    margin: 0px 15px;
+    font-size: 14px;
+}
+.socil_item_inner{
+    padding-bottom: 10px;
+}
+
+.map_sec{
+    padding: 50px 0px;
+}
+.map_inner h4, .map_inner p{
+    color: #000;
+    text-align: center
+}
+.map_inner p{
+    font-size: 13px;
+}
+.map_bind{
+      margin-top: 50px;
+    overflow: hidden;
+    text-align: center;
+}
+.flip-card-back {
+  background-color: #ffffff; /* Màu nền */
+  color: #333333; /* Màu chữ */
+  padding: 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flip-card-back h5 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.flip-card-back p {
+  margin-bottom: 20px;
+}
+
+.flip-card-back button {
+  background-color: #007bff; /* Màu nút */
+  color: #ffffff; /* Màu chữ nút */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.flip-card-back button:hover {
+  background-color: #0056b3; /* Màu nút khi rê chuột qua */
+}
+
+.flip-card-back button a {
+  color: inherit;
+  text-decoration: none;
+}
 ul {
     margin: 0;
     padding: 0;
@@ -892,8 +1045,21 @@ input[type=checkbox]:checked + label {
                         <!-- Back -->
                         <div class="flip-card-back">
                             <div class="content-container">
-                                <h5 th:text="${dinnerTable.status}"></h5>
-                                <p th:text="${dinnerTable.quantity}"></p>
+                                <h5 th:text="${dinnerTable.status}" style=" font-size: 20px; /* Kích thước chữ */
+  font-weight: bold; /* Độ dày chữ */
+  color: #333333; /* Màu chữ */
+  text-align: center; /* Căn giữa chữ */
+  text-transform: uppercase; /* Chuyển đổi chữ thành chữ hoa */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Hiệu ứng bóng chữ */
+  letter-spacing: 2px; /* Khoảng cách giữa các ký tự */"></h5>
+                                </br>
+                                <p th:text="${dinnerTable.quantity + ' dining tables left'}"
+                                   th:style="${dinnerTable.quantity lt 3 ? 'color: #dc3545' : ''}"></p>
+                                <p th:text="${dinnerTable.restaurantDto.description}"></p>
+                                <p>
+                                    <span th:text="${dinnerTable.dinnerTableTypeDto.price}"></span>
+                                    <span class="icon"><i class="fa-solid fa-money-bill"></i></span> /table
+                                </p>
                                 <button type="button" class="btn btn-info">
                                     <a th:href="@{/customer/restaurant/index}">Find more&nbsp;</a>
                                     <i class="fas fa-search"></i>
@@ -918,7 +1084,7 @@ input[type=checkbox]:checked + label {
                         <div class="inner-box">
                             <div class="image-box">
                                 <figure class="image">
-                                    <a href="#"><img src="https://i.ibb.co/8x9xK4H/team.jpg" alt=""></a>
+                                    <a href="#"><img th:src="@{/assets/customer/image/giahuy.jpg}" alt=""></a>
                                 </figure>
                             </div>
                             <div class="info-box">
@@ -939,7 +1105,7 @@ input[type=checkbox]:checked + label {
                         <div class="inner-box">
                             <div class="image-box">
                                 <figure class="image">
-                                    <a href="#"><img src="https://i.ibb.co/8x9xK4H/team.jpg" alt=""></a>
+                                    <a href="#"><img th:src="@{/assets/customer/image/ducnam.jpg}" alt=""></a>
                                 </figure>
                             </div>
                             <div class="info-box">
@@ -961,7 +1127,7 @@ input[type=checkbox]:checked + label {
                         <div class="inner-box">
                             <div class="image-box">
                                 <figure class="image">
-                                    <a href="#"><img src="https://i.ibb.co/8x9xK4H/team.jpg" alt=""></a>
+                                    <a href="#"><img th:src="@{/assets/customer/image/giahuy.jpg}" alt=""></a>
                                 </figure>
                             </div>
                             <div class="info-box">
@@ -1006,44 +1172,68 @@ input[type=checkbox]:checked + label {
         </section>
 
     </div>
-    <div class="container" style="background-color: #faebd778;margin-top:20px">
-        <div class="row">
-            <h1>Contact us</h1>
-        </div>
-        <div class="row">
-            <h4 style="text-align:center">We'd love to hear from you!</h4>
-        </div>
-        <div class="row input-container">
-            <div class="col-xs-12">
-                <div class="styled-input wide">
-                    <input type="text" required />
-                    <label>Name</label>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="styled-input">
-                    <input type="text" required />
-                    <label>Email</label>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="styled-input" style="float:right;">
-                    <input type="text" required />
-                    <label>Phone Number</label>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <div class="styled-input wide">
-                    <textarea required></textarea>
-                    <label>Message</label>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <div class="btn-lrg submit-btn">Send Message</div>
-            </div>
-        </div>
-    </div>
+        <section class="contact_us">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="contact_inner">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="contact_form_inner">
+                                    <div class="contact_field">
+                                        <h3>Contact Us</h3>
+                                        <p>Feel Free to contact us any time. We will get back to you as soon as we can!.</p>
+                                        <input type="text" class="form-control form-group" placeholder="Name" />
+                                        <input type="text" class="form-control form-group" placeholder="Email" />
+                                        <textarea class="form-control form-group" placeholder="Message"></textarea>
+                                        <button class="contact_form_submit">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="right_conatct_social_icon d-flex align-items-end">
+                                    <div class="socil_item_inner d-flex">
+                                        <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact_info_sec">
+                            <h4>Contact Info</h4>
+                            <div class="d-flex info_single align-items-center">
+                                <i class="fas fa-headset"></i>
+                                <span>+91 8009 054294</span>
+                            </div>
+                            <div class="d-flex info_single align-items-center">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <span>bookingreservation@gmail.com</span>
+                            </div>
+                            <div class="d-flex info_single align-items-center">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <span>35/6 Đường D5, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh 72308, Việt Nam</span>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <section class="map_sec">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <div class="map_inner">
+                            <h4>Find Us on Google Map</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quo beatae quasi assumenda, expedita aliquam minima tenetur maiores neque incidunt repellat aut voluptas hic dolorem sequi ab porro, quia error.</p>
+                            <div class="map_bind">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15676.009198844806!2d106.66052078715823!3d10.811135099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752934c609c5bd%3A0x751f71739b98ebc4!2zQXB0ZWNoIENvbXB1dGVyIEVkdWNhdGlvbiAtIEjhu4cgdGjhu5FuZyDEkMOgbyB04bqhbyBM4bqtcCB0csOsbmggdmnDqm4gUXXhu5FjIHThur8gQXB0ZWNo!5e0!3m2!1sen!2sin!4v1710689271371!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     <script>
         function showText(toggleText) {
     toggleText.classList.toggle("active");
