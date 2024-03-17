@@ -100,6 +100,20 @@ button.swal2-cancel.btn.btn-danger {
 						th:href="@{/staff/categoryRestaurant/index}" class="nav-item nav-link"><i
 							class="fa-solid fa-table-list"></i>
 						Category</a>
+						
+						<a sec:authorize="hasAnyRole('ROLE_RECEPTIONIST')" th:href="@{/receptionist/dinner-table}"
+						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Dinner Table</a>
+						
+						<a sec:authorize="hasAnyRole('ROLE_RECEPTIONIST')" th:href="@{/receptionist/invoice}"
+						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Invoice</a>
+						
+						
+						<a sec:authorize="hasAnyRole('ROLE_PARTNER')" th:href="@{/partner/dinner-table}"
+						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Table</a>
+						
+						<a sec:authorize="hasAnyRole('ROLE_PARTNER')" th:href="@{/partner/invoice}"
+						class="nav-item nav-link"><i class="fa-solid fa-layer-group"></i>Invoice</a>
+					
 				</div>
 			</nav>
 		</div>
