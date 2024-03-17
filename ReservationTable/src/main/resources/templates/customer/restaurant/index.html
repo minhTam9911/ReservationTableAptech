@@ -99,9 +99,9 @@
         </div>
         <div class="row mb_30">
             <div class="row pb-4">
-                <th:block th:each="i : ${data}">
+                <th:block  th:each="i : ${data}">
                     <div class="col-md-6 col-xl-4 mb-5">
-                        <div class="card card-explore">
+                        <div class="card card-explore" >
                             <div class="card-explore__img position-relative">
                                 <img class="card-img" style="width: 368px; height: 245px;" th:src="@{/uploads/restaurants/{image}(image=${i.imageSrc})}"
                                      alt="">

@@ -75,21 +75,6 @@ public class CustomerRestaurantController {
                     } else {
                         i.setCollectionStatus(false); // Collection không tồn tại hoặc có trạng thái false
                     }
-                } else {
-                    for (int j = 0; j <= 2; j++) {
-                        ImageDto image = new ImageDto();
-                        var images = imageService.getImagesByRestaurantId(restaurant.getId()).stream().collect(Collectors.toList());
-                        for (var x : images) {
-                            if (x.getDinnerTableDto() == null) {
-                                image = x;
-                                restaurant.setImageSrc(image.getPath());
-                            }
-                        }
-
-                    }
-                    data.add(restaurant);
-                    model.addAttribute("data", data);
-                    return "customer/restaurant/index";
                 }
             }
             for (int j = 0; j <= 2; j++) {
@@ -105,7 +90,7 @@ public class CustomerRestaurantController {
             data.add(restaurant);
         }
 
-
+       
         model.addAttribute("data", data);
         return "customer/restaurant/index";
     }

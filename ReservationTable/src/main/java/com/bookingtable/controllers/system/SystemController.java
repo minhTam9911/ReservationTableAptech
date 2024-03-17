@@ -2,8 +2,10 @@ package com.bookingtable.controllers.system;
 
 import java.security.Principal;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,11 +25,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bookingtable.dtos.ReservationStatusDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.models.Invoice;
 import com.bookingtable.models.RestaurantStatistical;
 import com.bookingtable.models.RevenueStatistics;
+import com.bookingtable.repositories.CustomerRepository;
+import com.bookingtable.repositories.DinnerTableRepository;
+import com.bookingtable.repositories.InvoiceRepository;
+import com.bookingtable.repositories.ReservationRepository;
+import com.bookingtable.repositories.RestaurantRepository;
 import com.bookingtable.servicies.IRevenueStatisticsService;
 import com.bookingtable.servicies.IRoleService;
 import com.bookingtable.servicies.ISystemService;
+import com.bookingtable.servicies.implement.CustomerService;
 import com.bookingtable.servicies.implement.RoleService;
 
 import jakarta.validation.Valid;
@@ -41,7 +50,16 @@ public class SystemController {
 
 	@Autowired
 	private IRoleService roleService;
-
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	@Autowired
+	private DinnerTableRepository dinnerTableRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
+	@Autowired
+	private InvoiceRepository invoiceRepository;
 	@Autowired
 	private IRevenueStatisticsService revenueStatisticsService;
 
@@ -53,7 +71,30 @@ public class SystemController {
 		model.addAttribute("data", systemService.getAllSystems());
 		model.addAttribute("msg", result);
 		result = new ResultResponse<>(false, 0, "");
+		var revent = revenueStatisticsService.findAll();
+		List<Object> chartData = new ArrayList<>();
+		var totalRestaurant =restaurantRepository.findAll().size();
+		var totalDinnerTable = dinnerTableRepository.findAll().size();
+		var totalReservation = reservationRepository.findAll().size();
+		var totalCustomer = customerRepository.findAll().size();
 
+		List<Object> chartDataReservation = revent.stream().map(k -> getChartDataReservation(k))
+				.collect(Collectors.toList());
+		List<Object> chartDataComment = revent.stream().map(k -> getChartDataComment(k))
+				.collect(Collectors.toList());
+		List<Object> chartDataAgent = revent.stream().map(k -> getChartDataAgent(k))
+				.collect(Collectors.toList());
+		List<Object> chartDataCustomer = revent.stream().map(k -> getChartDataCustomer(k))
+				.collect(Collectors.toList());
+		model.addAttribute("totalRestaurant", totalRestaurant);
+		model.addAttribute("totalDinnerTable", totalDinnerTable);
+		model.addAttribute("totalReservation", totalReservation);
+		model.addAttribute("totalCustomer", totalCustomer);
+		model.addAttribute("chartDataReservation", chartDataReservation);
+		System.out.println(chartDataReservation);
+		model.addAttribute("chartDataComment", chartDataComment);
+		model.addAttribute("chartDataAgent", chartDataAgent);
+		model.addAttribute("chartDataCustomer", chartDataCustomer);
 		return "admin/panel/index";
 	}
 
@@ -62,11 +103,22 @@ public class SystemController {
 		return List.of(dto.getDate().format(formatters), dto.getTotalBookinged(), dto.getTotalFinished(),
 				dto.getTotalCanceled());
 	}
-	
-	private Object getChartDataReservation(RestaurantStatistical dto) {
+
+	private Object getChartDataAgent(RevenueStatistics dto) {
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
-		return List.of(dto.getDate().format(formatters), dto.getTotalBookinged(), dto.getTotalFinished(),
-				dto.getTotalCanceled());
+		return List.of(dto.getDate().format(formatters), dto.getTotalAgent(), dto.getTotalDinnerTable(),
+				dto.getTotalRestaurant());
+	}
+
+	private Object getChartDataComment(RevenueStatistics dto) {
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		return List.of(dto.getDate().format(formatters), dto.getTotalComment(), dto.getLevel1(), dto.getLevel2(),
+				dto.getLevel3(), dto.getLevel4(), dto.getLevel5());
+	}
+
+	private Object getChartDataCustomer(RevenueStatistics dto) {
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		return List.of(dto.getDate().format(formatters), dto.getTotalCustomer());
 	}
 
 	@GetMapping("create")
@@ -77,6 +129,31 @@ public class SystemController {
 		result = new ResultResponse<>(false, 0, "");
 		return "admin/panel/staff/create";
 	}
+	
+	@GetMapping("invoice")
+	public String invoice(Model model) {
+		var data = invoiceRepository.findAll();
+		model.addAttribute("data", data);
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false, 0, "");
+		return "admin/panel/invoice/index";
+	}
+	
+	@GetMapping("invoice/detail/{id}")
+	public String detalInvoiceDinnerTable(Model model, Principal principal, @PathVariable("id") String id) {
+		var invoices = invoiceRepository.findAll();
+		Invoice data = new Invoice();
+		for(var i : invoices) {
+			if(i.getId().equals(id)) {
+				data = i;
+			}
+		}
+		model.addAttribute("data",data);
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false,0,"");
+		return "admin/panel/invoice/detailCustomerDinnerTable";
+	}
+	
 
 	@PostMapping("create/save")
 	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto, BindingResult bindingResult,

@@ -74,14 +74,14 @@ public class InvoiceService implements IInvoiceService {
 	}
 
 	@Override
-	public boolean insert(Invoice invoice) {
+	public Invoice insert(Invoice invoice) {
 		var invoiceSaveChages = invoiceRepository.save(invoice);
 		var rate = new Rate();
 		rate.setStatus(true);
 		rate.setReservation(invoiceSaveChages.getReservation());
 		rate.setCustomer(invoiceSaveChages.getReservation().getCustomer());
 		rateRepository.save(rate);
-		return true;
+		return invoiceSaveChages;
 	}
 
 }

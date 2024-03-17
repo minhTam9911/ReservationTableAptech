@@ -41,6 +41,7 @@ public class DinnerTableDetailController {
         Set<ImageDto> images = imageService.getImagesByDinnerTableId(dinnerTable.getId());
         dinnerTable.setImagesDto(new ArrayList<>(images));
         model.addAttribute("dinnerTable", dinnerTable);
+        model.addAttribute("dinnerTableId", dinnerTable.getId());
         var listRates = new ArrayList<Rate>();
         var rates = rateRepository.findAll();
         for(var i : rates) {

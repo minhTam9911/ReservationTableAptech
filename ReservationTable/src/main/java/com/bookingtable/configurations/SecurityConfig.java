@@ -105,7 +105,7 @@ public class SecurityConfig {
                             "/payment/vnpay/error",
                             "/reset-password",
                             "/reset-password/save",
-                            "/verify"
+                            "/verify","/account/error"
                             
                             ).permitAll();
                     auth.requestMatchers("/admin/panel/**").hasAnyRole("ADMIN");
@@ -152,6 +152,7 @@ public class SecurityConfig {
 
                 }).exceptionHandling(ex -> {
                     ex.accessDeniedPage("/accessDenied");
+                    
                 })
                 .build();
     }

@@ -15,6 +15,6 @@ public interface IInvoiceService {
 	
 	List<Invoice> getByRestaurant(String idRestaurant,String idAgent);
 	
-	boolean insert(Invoice Invoice);
+	Invoice insert(Invoice Invoice);
 	
 }

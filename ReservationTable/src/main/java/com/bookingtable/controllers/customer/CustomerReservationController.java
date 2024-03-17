@@ -42,10 +42,11 @@ public class CustomerReservationController {
 	@PostMapping("submit")
 	public String submit(@PathParam("idDinnerTable") Integer idDinnerTable,
 			@PathParam("date") LocalDate date,
-			@PathParam("time") LocalTime time,
+			@PathParam("time") int timeInt,
 			@PathParam("method") Integer method,
 			@PathParam("partySize") int partySize,
 			Principal principal,Model model, HttpSession session, RedirectAttributes attributes) {
+		var time = LocalTime.of(timeInt, 0,0);
 		if(principal!=null) {
 			var reservation = new Reservation();
 			var dinerTable = dinnerTableRepository.findById(idDinnerTable).get();
