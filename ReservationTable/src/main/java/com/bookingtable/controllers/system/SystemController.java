@@ -1,6 +1,8 @@
 package com.bookingtable.controllers.system;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bookingtable.dtos.ReservationStatusDto;
 import com.bookingtable.dtos.ResultResponse;
 import com.bookingtable.dtos.SystemDto;
+import com.bookingtable.models.RestaurantStatistical;
+import com.bookingtable.models.RevenueStatistics;
+import com.bookingtable.servicies.IRevenueStatisticsService;
 import com.bookingtable.servicies.IRoleService;
 import com.bookingtable.servicies.ISystemService;
 import com.bookingtable.servicies.implement.RoleService;
@@ -37,15 +42,31 @@ public class SystemController {
 	@Autowired
 	private IRoleService roleService;
 
-	private ResultResponse<String> result = new ResultResponse<>(false,0,"");
+	@Autowired
+	private IRevenueStatisticsService revenueStatisticsService;
+
+	private ResultResponse<String> result = new ResultResponse<>(false, 0, "");
 
 	@RequestMapping(value = { "index", "", "/" }, method = RequestMethod.GET)
 	public String index(Model model, Principal principal) {
 		model.addAttribute("username", principal.getName());
 		model.addAttribute("data", systemService.getAllSystems());
 		model.addAttribute("msg", result);
-		result = new ResultResponse<>(false,0,"");
-		return "admin/panel/staff/index";
+		result = new ResultResponse<>(false, 0, "");
+
+		return "admin/panel/index";
+	}
+
+	private Object getChartDataReservation(RevenueStatistics dto) {
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		return List.of(dto.getDate().format(formatters), dto.getTotalBookinged(), dto.getTotalFinished(),
+				dto.getTotalCanceled());
+	}
+	
+	private Object getChartDataReservation(RestaurantStatistical dto) {
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		return List.of(dto.getDate().format(formatters), dto.getTotalBookinged(), dto.getTotalFinished(),
+				dto.getTotalCanceled());
 	}
 
 	@GetMapping("create")
@@ -53,13 +74,13 @@ public class SystemController {
 		var systemDto = new SystemDto();
 		model.addAttribute("systemDto", systemDto);
 		model.addAttribute("msg", result);
-		result = new ResultResponse<>(false,0,"");
+		result = new ResultResponse<>(false, 0, "");
 		return "admin/panel/staff/create";
 	}
 
 	@PostMapping("create/save")
-	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto,
-								BindingResult bindingResult, Model model) {
+	public String createProcess(@Valid @ModelAttribute("systemDto") SystemDto systemDto, BindingResult bindingResult,
+			Model model) {
 
 		var roleData = roleService.getRoleById(2);
 		systemDto.setRoleDto(roleData);
@@ -67,7 +88,7 @@ public class SystemController {
 			result.setOption(2);
 			result.setMessage("Form valid");
 			model.addAttribute("msg", result);
-			result = new ResultResponse<>(false,0,"");
+			result = new ResultResponse<>(false, 0, "");
 			return "admin/panel/staff/create";
 		}
 		result = systemService.insertSystem(systemDto);
@@ -83,7 +104,7 @@ public class SystemController {
 	public String update(Model model, @PathVariable("id") String id) {
 		var systemDto = systemService.getSystemsById(id);
 		model.addAttribute("msg", result);
-		result = new ResultResponse<>(false,0,"");
+		result = new ResultResponse<>(false, 0, "");
 		model.addAttribute("systemDto", systemDto);
 		return "admin/panel/staff/edit";
 	}
@@ -108,27 +129,26 @@ public class SystemController {
 
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable("id") String id) {
-		 result = systemService.deleteSystem(id);
-		if (result.getOption()==1){
+		result = systemService.deleteSystem(id);
+		if (result.getOption() == 1) {
 			result.setOption(1);
 			result.setMessage("Process Success");
 		}
-		if (result.getOption()==2){
+		if (result.getOption() == 2) {
 			result.setOption(2);
 			result.setMessage("Process Failure");
 		}
-		 return "redirect:/admin/panel/index";
-		
+		return "redirect:/admin/panel/index";
+
 	}
 
 	@GetMapping("change/status/{id}")
 	public String changeStatus(@PathVariable("id") String id) {
 		var status = systemService.changeStatus(id);
-		if(status){
+		if (status) {
 			result.setOption(1);
 			result.setMessage("Process Success");
-		}
-		else {
+		} else {
 			result.setOption(2);
 			result.setMessage("Process Failure");
 		}
