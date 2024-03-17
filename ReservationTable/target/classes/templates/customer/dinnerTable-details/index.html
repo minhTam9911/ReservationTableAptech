@@ -208,7 +208,6 @@
 		.demo:hover {
 			opacity: 1;
 		}
-<<<<<<< HEAD
 
     </style>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
@@ -219,7 +218,7 @@
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
             type="text/css"
     />
-=======
+
 	</style>
 	<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
 	<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
@@ -308,7 +307,7 @@
 						<div id="map"></div>
 						<div class="location-info">
 							<i class="fa-solid fa-location-dot larger icon-blue"></i>&nbsp;
-							<p class="card-text" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
+							<p class="card-text" id="card-text-name" th:text="${dinnerTable.restaurantDto.getFullAddress()}"></p>
 						</div>
 						<div class="location-info">
 							
@@ -539,10 +538,9 @@
 				showSlides(slideIndex = n);
 			}
 
-<<<<<<< HEAD
-	document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     // Lấy địa chỉ của nhà hàng
-    var address = document.querySelector(".card-text").innerText;
+    var address = document.querySelector("#card-text-name").innerText;
 
     // Thực hiện setup bản đồ với địa chỉ nhà hàng
     setupMap(address);
@@ -577,48 +575,17 @@ function setupMap(address) {
     // Geocode địa chỉ nhà hàng và đặt trung tâm bản đồ vào đó
     geocoder.query(address);
 }
-=======
-			mapboxgl.accessToken = "pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw"
-
-			navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-				enableHighAccuracy: true
-			})
-
-			function successLocation(position) {
-				setupMap([position.coords.longitude, position.coords.latitude])
-			}
-
-			function errorLocation() {
-				setupMap([-2.24, 53.48])
-			}
-
-			function setupMap(center) {
-				const map = new mapboxgl.Map({
-					container: "map",
-					style: "mapbox://styles/mapbox/streets-v11",
-					center: center,
-					zoom: 15
-				})
-
-				const nav = new mapboxgl.NavigationControl()
-				map.addControl(nav)
-
-				var directions = new MapboxDirections({
-					accessToken: mapboxgl.accessToken
-				})
-
-				map.addControl(directions, "top-left")
-			}
->>>>>>> origin/main
-
-
 
 			function callApi(api) {
 				console.log(api)
 				return axios.get(api)
 					.then((response) => {
-						console.log(response)
-						renderData(response.data, "current_quantity");
+						if(response.data.length>10){
+							renderData(0, "current_quantity");
+						}else{
+							renderData(response.data, "current_quantity");
+						}
+						
 					}).catch (error => {
 				console.log(error)
 			});
@@ -635,7 +602,7 @@ function setupMap(address) {
 			}
 
 			var renderData = (array, select) => {
-				let row = `<input class="input-group" readonly value="${array}"/>`
+				let row = `<input class="input-group" readonly value="  ${array} table"/>`
 				document.querySelector("#" + select).innerHTML = row
 			}
 

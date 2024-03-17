@@ -24,6 +24,7 @@ public class DinnerTableAPi {
 	
 	@GetMapping("/api/dinnerTable/{id}/{time}/{date}")
 	public ResponseEntity<Integer> index(@PathVariable("id") Integer id,@PathVariable("time") int timeInt, @PathVariable("date") LocalDate date){
+		
 		var time = LocalTime.of(timeInt, 0, 0);
 		var quantity = dinnerTableRepository.findById(id).get().getQuantity();
 		var currentQuantity = quantity;
@@ -38,6 +39,7 @@ public class DinnerTableAPi {
 			}
 		}
 		return new ResponseEntity<Integer>(currentQuantity, HttpStatus.OK);
+		
 		
 	}
 }
