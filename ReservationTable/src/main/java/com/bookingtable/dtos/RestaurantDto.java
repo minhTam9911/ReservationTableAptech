@@ -78,7 +78,7 @@ public class RestaurantDto {
 		@Length(min = 100)
 		private String description;
 		@NotEmpty
-		@Length(min = 40)
+		@Length(min = 40, max = 60)
 		private String shortDescription;
 		private ReceptionistDto receptionistDto;
 		

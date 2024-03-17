@@ -3,6 +3,7 @@ package com.bookingtable.controllers;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.bookingtable.configurations.PaypalService;
+import com.bookingtable.helpers.MailHelper;
 import com.bookingtable.models.Invoice;
 import com.bookingtable.models.Reservation;
 import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.servicies.IInvoiceService;
+import com.bookingtable.servicies.IMailService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -35,6 +38,10 @@ public class PaymentPaypalController {
 	private ReservationRepository reservationRepository;
 	@Autowired
 	private IInvoiceService invoiceService;
+	@Autowired 
+	private IMailService iMailService;
+	@Autowired
+	private Environment environment;
 	
 	@GetMapping("index")
 	public String index() {
@@ -82,7 +89,9 @@ public class PaymentPaypalController {
 				var reservationSaveChange = reservationRepository.save(reservation);
 				var invoice = new Invoice();
 				invoice.setReservation(reservation);
-				invoiceService.insert(invoice);
+				var data =  invoiceService.insert(invoice);
+				 String emailFrom = environment.getProperty("spring.mail.username");
+		            iMailService.send(emailFrom, data.getReservation().getCustomer().getEmail(), "Table reservation payment invoice", MailHelper.HtmlNotification(data));
 				session.removeAttribute("reservation");
 				return "payment/paypal/success";
 			}

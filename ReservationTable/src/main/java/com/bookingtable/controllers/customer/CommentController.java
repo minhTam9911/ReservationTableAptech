@@ -48,6 +48,7 @@ public class CommentController {
 			rate.setCustomer(customerRepository.findByEmail(principal.getName()));
 			rate.setReservation(reservationRepository.findById(idReservation).get());
 			rate.setComment(comment);
+			rate.setPoint(selection);
 			rate.setCreated(LocalDate.now());
 			rate.setStatus(false);
 			rateRepository.save(rate);
