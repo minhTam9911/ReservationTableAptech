@@ -49,7 +49,7 @@ public class ReceptionistPanelController {
 					iReservationService.changeReservationStatusCancel(i.getId());
 				}
 			}if(i.getBookingDate().isEqual(LocalDate.now())){
-				if(i.getBookingTime().isBefore(LocalTime.now())) {
+				if(i.getBookingTime().isBefore(LocalTime.now().minusMinutes(60))) {
 					if(i.getReservationStatus().getId() == 2) {
 						iReservationService.changeReservationStatusFinnished(i.getId());
 					}if(i.getReservationStatus().getId()==1) {
