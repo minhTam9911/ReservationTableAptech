@@ -39,47 +39,22 @@
 		<table id="myTable" class="display">
 			<thead>
 				<tr>
-					<th>Name</th>
-					
-					<th>Address</th>
-					<th>City</th>
-					<th>District</th>
-					<th>Ward</th>
-					<th>Images</th>
+					<th>Id</th>
+					<th>DinnerTable</th>
+					<th>Party Size</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="i : ${restaurants}">
-					<td th:text="${i.name}"></td>
-					
+				<tr th:each="i : ${data}">
+					<td th:text="${i.id}"></td>
+					<td th:text="${i.reservation.dinnerTable.status}"></td>
 
-					<td th:text="${i.address}"></td>
-					<td th:text="${i.city}"></td>
-					<td th:text="${i.district}"></td>
-					<td th:text="${i.ward}"></td>
-					<td>
-						<div class="scroll-container">
-							<th:block th:each="image : ${i.imagesDto}">
-								<img th:src="@{/uploads/restaurants/{imageName}(imageName=${image.path})}" />
-							</th:block>
-						</div>
-					</td>
+					<td th:text="${i.reservation.numberOfPeople}"></td>
 					<td>
 						<div style="display: flex; flex-direction: column;  gap: 5px">
-							<a th:href="@{/partner/restaurant/edit/{id}(id=${i.id})}" class="btn btn-warning">Edit</a>
-							<a th:attr="onclick=${'confirmDelete(''/partner/restaurant/delete/'+i.id+''')'}"
-								class="btn btn-danger">Delete</a>
-							<th:block th:if="${i.active} == false">
-								<a th:href="@{/partner/restaurant/change/status/{id}(id=${i.id})}"
-									class="btn btn-success">Operative</a>
-
-							</th:block>
-							<th:block th:if="${i.active} == true">
-								<a th:href="@{/partner/restaurant/change/status/{id}(id=${i.id})}"
-									class="btn btn-success">Inoperative</a>
-							</th:block>
-							<a th:href="@{/partner/restaurant/chart/{id}(id=${i.id})}" class="btn btn-info">Statistical</a>
+							<a th:href="@{/receptionist/dinner-table/invoice/detail/{id}(id=${i.id})}" class="btn btn-info">Detail</a>
+	
 						</div>
 					</td>
 				</tr>
