@@ -208,9 +208,22 @@
 		.demo:hover {
 			opacity: 1;
 		}
+<<<<<<< HEAD
+
+    </style>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"/>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+            type="text/css"
+    />
+=======
 	</style>
 	<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
 	<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+>>>>>>> origin/main
 </head>
 
 <body>
@@ -526,6 +539,45 @@
 				showSlides(slideIndex = n);
 			}
 
+<<<<<<< HEAD
+	document.addEventListener("DOMContentLoaded", function () {
+    // Lấy địa chỉ của nhà hàng
+    var address = document.querySelector(".card-text").innerText;
+
+    // Thực hiện setup bản đồ với địa chỉ nhà hàng
+    setupMap(address);
+});
+
+function setupMap(address) {
+    mapboxgl.accessToken = "pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw";
+
+    // Khởi tạo bản đồ
+    var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        zoom: 13 // Điều chỉnh mức độ zoom tùy ý
+    });
+
+    // Sử dụng Geocoding API để tìm kiếm địa chỉ
+    var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        countries: "VN", // Chỉ tìm kiếm ở Việt Nam
+        placeholder: "Enter an address"
+    });
+
+    // Thêm control tìm kiếm vào bản đồ
+    map.addControl(geocoder);
+
+    // Lấy dự đoán địa chỉ từ Geocoder API và thiết lập trung tâm bản đồ
+    geocoder.on("result", function (event) {
+        map.setCenter(event.result.center);
+    });
+
+    // Geocode địa chỉ nhà hàng và đặt trung tâm bản đồ vào đó
+    geocoder.query(address);
+}
+=======
 			mapboxgl.accessToken = "pk.eyJ1IjoibXktdXNlcm5hbWUxMjMiLCJhIjoiY2x0bnVnMmcyMGF1aTJsbW52dG9ueHM1MSJ9.X8FX0jbH1HR15xi7Y0U7tw"
 
 			navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
@@ -557,6 +609,7 @@
 
 				map.addControl(directions, "top-left")
 			}
+>>>>>>> origin/main
 
 
 
