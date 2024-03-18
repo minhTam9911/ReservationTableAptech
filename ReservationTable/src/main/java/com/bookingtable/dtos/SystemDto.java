@@ -33,7 +33,7 @@ public class SystemDto {
 	private String fullname;
 	
     @NotEmpty
-	@Pattern(regexp = "^[0-9]+$")
+	@Pattern(regexp = "^[0-9]+$", message = "The field only number")
 	private String phoneNumber;
 
 	private String image;

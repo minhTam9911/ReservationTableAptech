@@ -86,6 +86,8 @@ public class SystemController {
 				.collect(Collectors.toList());
 		List<Object> chartDataCustomer = revent.stream().map(k -> getChartDataCustomer(k))
 				.collect(Collectors.toList());
+		List<Object> chartDataRevenue = revent.stream().map(k -> getChartDataRevenue(k))
+				.collect(Collectors.toList());
 		model.addAttribute("totalRestaurant", totalRestaurant);
 		model.addAttribute("totalDinnerTable", totalDinnerTable);
 		model.addAttribute("totalReservation", totalReservation);
@@ -94,6 +96,7 @@ public class SystemController {
 		System.out.println(chartDataReservation);
 		model.addAttribute("chartDataComment", chartDataComment);
 		model.addAttribute("chartDataAgent", chartDataAgent);
+		model.addAttribute("chartDataRevenue", chartDataRevenue);
 		model.addAttribute("chartDataCustomer", chartDataCustomer);
 		return "admin/panel/index";
 	}
@@ -109,6 +112,10 @@ public class SystemController {
 		return List.of(dto.getDate().format(formatters), dto.getTotalAgent(), dto.getTotalDinnerTable(),
 				dto.getTotalRestaurant());
 	}
+	private Object getChartDataRevenue(RevenueStatistics dto) {
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		return List.of(dto.getDate().format(formatters), dto.getTotalAmount());
+	}
 
 	private Object getChartDataComment(RevenueStatistics dto) {
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
@@ -121,6 +128,14 @@ public class SystemController {
 		return List.of(dto.getDate().format(formatters), dto.getTotalCustomer());
 	}
 
+	@GetMapping("staff/index")
+	public String index(Model model) {
+		model.addAttribute("data", systemService.getAllSystems());
+		model.addAttribute("msg", result);
+		result = new ResultResponse<>(false, 0, "");
+		return "admin/panel/staff/index";
+	}
+	
 	@GetMapping("create")
 	public String create(Model model) {
 		var systemDto = new SystemDto();

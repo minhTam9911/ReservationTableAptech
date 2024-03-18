@@ -72,15 +72,12 @@ public class CustomerReservationController {
 			var reservstionCheck = reservationRepository.findByDinnerTableId(idDinnerTable);
 			var total = 0;
 			for(var  i  : reservstionCheck) {
-				if(date.equals(i.getBookingDate())) {
-					var timePlus = time.plusMinutes(60);
-					var timeMinus = time.minusMinutes(45);
-					if(i.getBookingTime().isBefore(timePlus) &&i.getBookingTime().isAfter(timeMinus) ) {
+					if(i.getBookingTime().equals(time) &&i.getBookingDate().equals(date)) {
 						total++;
 					}
-				}
 			}
-			if(total>=dinerTable.getQuantity()) {
+			System.out.println(total+"----------"+dinerTable.getQuantity());
+			if(total==dinerTable.getQuantity()) {
 				validation.setOption(2);
 				validation.setMessage("The table is sold out "+ time+" "+date);
 				

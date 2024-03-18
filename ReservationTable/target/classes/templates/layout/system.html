@@ -14,7 +14,7 @@
 	<link href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
 
 	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css" />
-
+ <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4287/4287725.png">
 	<!-- Template Stylesheet -->
 	<link th:href="@{/assets/system/css/style.css}" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -72,7 +72,11 @@ button.swal2-cancel.btn.btn-danger {
                 </div>
 				</div>
 				<div class="navbar-nav w-100">
-					<a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+					<a href="/partner/index"sec:authorize="hasRole('ROLE_PARTNER')" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+					<a href="/admin/panel/index"sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+					<a href="/staff/index"sec:authorize="hasRole('ROLE_STAFF')" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+					<a th:href="@{/receptionist/index}"sec:authorize="hasRole('ROLE_RECEPTIONIST')" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+					
 					<a sec:authorize="hasAnyRole('ROLE_STAFF','ROLE_ADMIN')" th:href="@{/staff/dinnerTableType/index}"
 						class="nav-item nav-link"><i class="fa-solid fa-list"></i>
 						Dinner Table Types
@@ -89,7 +93,7 @@ button.swal2-cancel.btn.btn-danger {
 						class="nav-item nav-link"><i class="fa-regular fa-building"></i>Restaurants</a>
 					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/role/index}"
 						class="nav-item nav-link"><i class="fa-solid fa-key"></i>Roles</a>
-					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/index}"
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panel/staff/index}"
 						class="nav-item nav-link"><i class="fa-solid fa-users"></i>Staffs</a>
 					<a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STAFF')" th:href="@{/staff/reservationAgent/index}"
 						class="nav-item nav-link"><i class="fa-solid fa-users"></i>ReservationAgents</a>

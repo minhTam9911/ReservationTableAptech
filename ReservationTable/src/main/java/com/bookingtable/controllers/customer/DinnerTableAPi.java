@@ -28,7 +28,7 @@ public class DinnerTableAPi {
 		var time = LocalTime.of(timeInt, 0, 0);
 		var quantity = dinnerTableRepository.findById(id).get().getQuantity();
 		var currentQuantity = quantity;
-		var reservation = repository.findAll();
+		var reservation = repository.findByDinnerTableId(id);
 		for(var i : reservation) {
 			if(i.getReservationStatus().getId()==1 || i.getReservationStatus().getId()==2) {
 				if(i.getBookingDate().equals(date)) {
