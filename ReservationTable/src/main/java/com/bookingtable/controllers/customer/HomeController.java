@@ -111,7 +111,6 @@ public class HomeController {
 		model.addAttribute("topThreeTablesRates", topThreeTablesRates);
 		var restaurants = restaurantRepository.findAll();
 		model.addAttribute("restaurants", restaurants);
-
 		return "customer/home/index";
 	}
 

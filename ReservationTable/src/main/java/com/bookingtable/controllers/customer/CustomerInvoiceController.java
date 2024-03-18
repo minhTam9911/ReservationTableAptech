@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bookingtable.dtos.InvoiceDetail;
+import com.bookingtable.repositories.ReservationRepository;
 import com.bookingtable.servicies.IInvoiceService;
+import com.bookingtable.servicies.IReservationService;
 
 @Controller
 @RequestMapping("customer/invoice")
@@ -24,6 +26,8 @@ public class CustomerInvoiceController {
 
 	@Autowired
 	private IInvoiceService iInvoiceService;
+	@Autowired
+	private IReservationService reservationService;
 
 	@GetMapping("index")
 	public String index(Model model, Principal principal) {
@@ -57,24 +61,14 @@ public class CustomerInvoiceController {
 	
 	@GetMapping("detail/{id}")
 	public String detail(Model model,@PathVariable("id") String id, Principal principal) {
-		var i = iInvoiceService.getById(id, principal.getName());
-		var dateFormat =  DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
-		var invoice = new InvoiceDetail();
-		invoice.setIdInvoice(i.getId());
-		invoice.setAmount(i.getReservation().getDinnerTable().getDinnerTableType().getPrice());
-		invoice.setFullName(i.getReservation().getCustomer().getFullName());
-		invoice.setCreated(i.getReservation().getCreated());
-		invoice.setRestaurant(i.getReservation().getDinnerTable().getRestaurant().getName());
-		invoice.setDinnerTable(i.getReservation().getDinnerTable().getId());
-		invoice.setQuantity(1);
-		invoice.setCity(i.getReservation().getDinnerTable().getRestaurant().getCity());
-		invoice.setDistrict(i.getReservation().getDinnerTable().getRestaurant().getDistrict());
-		invoice.setWard(i.getReservation().getDinnerTable().getRestaurant().getWard());
-		invoice.setAddress(i.getReservation().getDinnerTable().getRestaurant().getAddress());
-		invoice.setStatus(i.getReservation().getReservationStatus().getStatus());
-		invoice.setReservationId(i.getReservation().getId());
-		model.addAttribute("data", invoice);
+		var data = iInvoiceService.getById(id, principal.getName());
+		model.addAttribute("data", data);
 		return "customer/invoice/detail";
 	}
-	
+	@GetMapping("cancel/{id}")
+	public String cancel(@PathVariable("id") String id, Principal principal) {
+		var i = iInvoiceService.getById(id, principal.getName());
+		reservationService.changeReservationStatusCancel(i.getReservation().getId());
+		return "redirec:/customer/invoice/index";
+	}
 }

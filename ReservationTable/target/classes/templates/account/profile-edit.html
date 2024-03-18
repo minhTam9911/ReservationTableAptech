@@ -13,7 +13,7 @@ height:200px;
    <div class="container bootstrap snippets bootdey">
     <h1 class="text-primary text-center">Edit Profile</h1>
       <hr>
-	<div class="row" style="margin-top: 50px;margin-left: 120px;">
+	<div class="row" style="margin-top: 50px; weigth:1000px;height=340px">
       <!-- left column -->
       
       <div class="col-md-3">
@@ -21,12 +21,12 @@ height:200px;
           <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
           <h6>Upload a different photo...</h6>
          <form th:action="@{/profile/edit/submit}" th:object="${data}" enctype="multipart/form-data" method="post">
-          <input type="file" class="form-control" name="file">
+          <input type="file" class="form-control" name="file" style="margin-right:8px">
         </div>
       </div>
       
       <!-- edit form column -->
-      <div class="col-md-9 personal-info">
+      <div class="col-md-9">
         
         <h3>My Account</h3>
         

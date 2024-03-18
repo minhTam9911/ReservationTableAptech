@@ -36,8 +36,8 @@ public class ReportService {
 	@Autowired
 	private IRevenueStatisticsService revenueStatisticsService;
 
-//@Scheduled(cron = "0 0 0 1 * ?")
-	@Scheduled(fixedRate = 20000)
+@Scheduled(cron = "0 0 0 1 * ?")
+//	@Scheduled(fixedRate = 20000)
 	public void generateMonthlyReport() {
 		System.out.println("---------------------------Test---------------------");
 		var currentMonth = LocalDate.now();

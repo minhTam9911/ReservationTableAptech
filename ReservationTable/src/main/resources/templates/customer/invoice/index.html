@@ -36,6 +36,8 @@
 <body>
 
 <section layout:fragment="content">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.27/sweetalert2.min.css">
     <!-- Breadcrumb Area -->
     <section class="breadcrumb_area">
         <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
@@ -313,11 +315,16 @@ body {
                 <td th:text="${i.created}"></td>
                 <td th:text="${i.restaurant}"></td>
                 <td th:text="${i.amount}"><span class="currency">VND</span></td>
-                <td>
+              
+                <td>  <th:block th:if="${i.status=='Reserved'}">  
+					<a h:attr="onclick=${'confirmDelete(''/customer/invoice/cancel/+i.idInvoice+''')'}" class="btn btn-danger">Cancel</a>
+					</th:block>
+					<th:block th:unless="${i.status=='Reserved'}"> 
                   <div class="dot-sucees"><span th:text="${i.status}"></span></div>
+					</th:block>
                 </td>
                 <td>
-					<a th:href="@{/customer/index/detail/{id}(id=${i.idInvoice})}">Detail</a>
+					<a th:href="@{/customer/invoice/detail/{id}(id=${i.idInvoice})}">Detail</a>
 				</td>
               </tr>
 				</th:block>
@@ -329,7 +336,41 @@ body {
     </div>
   </div>
 
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		function confirmDelete(string) {
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: "btn btn-success",
+					cancelButton: "btn btn-danger"
+				},
+				buttonsStyling: false
+			});
+			// Gọi hộp thoại xác nhận xóa của SweetAlert
+			swalWithBootstrapButtons.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Yes, delete it!",
+				cancelButtonText: "No, cancel!",
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// Nếu người dùng xác nhận xóa, chuyển hướng đến URL xóa
+					window.location.href =  string ;
+				}
+				 else if (result.dismiss === Swal.DismissReason.cancel) {
+				swalWithBootstrapButtons.fire({
+				title: "Cancelled",
+				text: "Your imaginary file is safe :)",
+				icon: "error"
+				});
+			}
+		});
+		}
 
+	</script>
 </section>
 
 </body>

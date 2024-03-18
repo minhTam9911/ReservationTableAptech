@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.ServletContext;
@@ -15,7 +17,9 @@ public class FileHelper {
 
     @Autowired
     private static ServletContext context;
-
+    private static String randomNameFile() {
+    	return UUID.randomUUID().toString().replace("-", "");
+    }
     public static String uploadDinnerTable(MultipartFile file) {
 
         if (file.isEmpty()) {
@@ -23,12 +27,14 @@ public class FileHelper {
         }
         try {
             final Path directory = Paths.get("src/main/resources/static/uploads/dinnerTables");
-            final Path filePath = Paths.get("src/main/resources/static/uploads/dinnerTables/" + file.getOriginalFilename());
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            var filename = randomNameFile()+"."+extension;
+            final Path filePath = Paths.get("src/main/resources/static/uploads/dinnerTables/" +filename);
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
             Files.write(filePath, file.getBytes());
-            return file.getOriginalFilename();
+            return filename;
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -43,12 +49,14 @@ public class FileHelper {
         }
         try {
             final Path directory = Paths.get("src/main/resources/static/uploads/avatars");
-            final Path filePath = Paths.get("src/main/resources/static/uploads/avatars/" + file.getOriginalFilename());
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            var filename = randomNameFile()+"."+extension;
+            final Path filePath = Paths.get("src/main/resources/static/uploads/avatars/" + filename);
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
             Files.write(filePath, file.getBytes());
-            return file.getOriginalFilename();
+            return filename;
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -62,12 +70,14 @@ public class FileHelper {
         }
         try {
             final Path directory = Paths.get("src/main/resources/static/uploads/restaurants");
-            final Path filePath = Paths.get("src/main/resources/static/uploads/restaurants/" + file.getOriginalFilename());
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            var filename = randomNameFile()+"."+extension;
+            final Path filePath = Paths.get("src/main/resources/static/uploads/restaurants/" + filename);
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
             Files.write(filePath, file.getBytes());
-            return file.getOriginalFilename();
+            return filename;
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -81,12 +91,15 @@ public class FileHelper {
         }
         try {
             final Path directory = Paths.get("src/main/resources/static/categories/image-dinnerTable");
-            final Path filePath = Paths.get("src/main/resources/static/categories/image-dinnerTable/" + file.getOriginalFilename());
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            var filename = randomNameFile()+"."+extension;
+            final Path filePath = Paths.get("src/main/resources/static/categories/image-dinnerTable/"+filename);
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
             Files.write(filePath, file.getBytes());
-            return file.getOriginalFilename();
+            
+            return filename;
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -100,12 +113,14 @@ public class FileHelper {
         }
         try {
             final Path directory = Paths.get("src/main/resources/static/categories/image-restaurant");
-            final Path filePath = Paths.get("src/main/resources/static/categories/image-restaurant/" + file.getOriginalFilename());
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            var filename = randomNameFile()+"."+extension;
+            final Path filePath = Paths.get("src/main/resources/static/categories/image-restaurant/" + filename);
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
             Files.write(filePath, file.getBytes());
-            return file.getOriginalFilename();
+            return filename;
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
