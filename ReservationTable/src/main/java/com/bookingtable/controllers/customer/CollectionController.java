@@ -56,4 +56,16 @@ public class CollectionController {
 			return "redirect:/customer/collection/index";
 	}
 	
+	@GetMapping("remove/{id}")
+	public String remove(Model model,@PathVariable("id") String id, Principal principal) {
+		var collections = collectionService.getByCustomer(principal.getName());
+		for(var i : collections) {
+			if(i.getRestaurant().getId().equals(id)) {
+				collectionService.delete(i.getId());
+			}
+		}
+			
+			return "redirect:/customer/collection/index";
+	}
+	
 }

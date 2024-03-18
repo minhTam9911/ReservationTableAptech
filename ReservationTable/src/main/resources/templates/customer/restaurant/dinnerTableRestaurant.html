@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<title>Home Page</title>
+	<title>Restaurant Detail</title>
 	<style>
 		.row {
 			display: -ms-flexbox;
@@ -53,10 +53,11 @@
 				data-background=""></div>
 			<div class="container">
 				<div class="page-cover text-center">
-					<h2 class="page-cover-tittle">Our Dinner Table</h2>
+					<h2 class="page-cover-tittle">Information Restaurant</h2>
 					<ol class="breadcrumb">
-						<li><a th:href="@{/customer/home}">Home</a></li>
-						<li class="active">Dinner Tables</li>
+						<li><a >Home</a></li>
+						<li class="active">Restaurant</li>
+						<li class="active">Detail</li>
 					</ol>
 				</div>
 			</div>
@@ -107,7 +108,7 @@
 					</div>
 					<div class="col-lg-7">
 						<div class="welcome-content">
-							<h2 class="mb-4"><span class="d-block" th:text="${restaurant.shortDescription}"></span></h2>
+							<h2 class="mb-4"><span class="d-block" th:utext="${restaurant.shortDescription.replace('.', '<br/>')}"></span></h2>
 							<span th:utext="${restaurant.description.replace('.', '<br/>')}"></span>
 						</div>
 					</div>
@@ -158,8 +159,7 @@
 			<div class="container">
 				<div class="section_title text-center">
 					<h2 class="title_color">Testimonial from our Clients</h2>
-					<p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall
-						from </p>
+				
 				</div>
 				<div class="testimonial_slider owl-carousel" th:if="${rates.size>0}">
 				

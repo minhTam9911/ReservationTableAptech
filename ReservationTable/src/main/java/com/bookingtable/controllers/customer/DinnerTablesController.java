@@ -30,11 +30,18 @@ public class DinnerTablesController {
     public String index(Model model, @Param("keyword") String keyword) {
         String requestURI = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI();
         model.addAttribute("requestURI", requestURI);
-        var dinnerTables = iDinnerTableService.getAllDinnerTablesByKeyWord(keyword);
+        var dinnerTables = iDinnerTableService.getAllDinnerTables();
         var list = new ArrayList<DinnerTableDto>();
         for(var i : dinnerTables){
         	if(i.getRestaurantDto().isActive()){
-        		list.add(i);// Assuming this returns a copy of the list you can modify, or simply objects that you're updating.
+        		if(keyword!=null) {
+        			if(i.getStatus().toLowerCase().contains(keyword.toLowerCase())) {
+        				list.add(i);
+        			}
+        		}
+        		else{
+        			list.add(i);// Assuming this returns a copy of the list you can modify, or simply objects that you're updating.
+        		}
         	}
         }
         for (DinnerTableDto dinnerTable : list) {

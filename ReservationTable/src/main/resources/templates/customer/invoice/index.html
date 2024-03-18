@@ -284,13 +284,19 @@ body {
 .overdue-row {
   background: #ff00000a;
 }
+
+	
+button.swal2-cancel.btn.btn-danger {
+    margin-right: 30px;
+}
+
 </style>
 
   
 	  <div class="container" style="margin-top: 40px;">
             <div class="section_title text-center">
-                <h2 class="title_color">All Dinner Types</h2>
-                <p>Various types of tables can be placed</p>
+                <h2 class="title_color">All Invoice</h2>
+                <p>Here are all your invoice details</p>
             </div>
             </div>
   <div class="container" style="margin-top: 30px; margin-bottom: 60px;">
@@ -317,7 +323,7 @@ body {
                 <td th:text="${i.amount}"><span class="currency">VND</span></td>
               
                 <td>  <th:block th:if="${i.status=='Reserved'}">  
-					<a h:attr="onclick=${'confirmDelete(''/customer/invoice/cancel/+i.idInvoice+''')'}" class="btn btn-danger">Cancel</a>
+					<a th:attr="onclick=${'confirmDelete(''/customer/invoice/cancel/'+i.idInvoice+''')'}" class="btn btn-danger">Cancel</a>
 					</th:block>
 					<th:block th:unless="${i.status=='Reserved'}"> 
                   <div class="dot-sucees"><span th:text="${i.status}"></span></div>

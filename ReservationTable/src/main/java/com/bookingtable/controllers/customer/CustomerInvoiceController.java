@@ -69,6 +69,6 @@ public class CustomerInvoiceController {
 	public String cancel(@PathVariable("id") String id, Principal principal) {
 		var i = iInvoiceService.getById(id, principal.getName());
 		reservationService.changeReservationStatusCancel(i.getReservation().getId());
-		return "redirec:/customer/invoice/index";
+		return "redirect:/customer/invoice/index";
 	}
 }
