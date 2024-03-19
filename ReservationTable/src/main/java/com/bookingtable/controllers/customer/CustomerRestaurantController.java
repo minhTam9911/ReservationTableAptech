@@ -127,10 +127,13 @@ public class CustomerRestaurantController {
         var restaurant = restaurantService.getRestaurantById(id);
         var imagesGet = imageService.getImagesByRestaurantId(id).stream().collect(Collectors.toList());
         var imageRestaurant = new ArrayList<ImageDto>();
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < imagesGet.size(); j++) {
             ImageDto image = new ImageDto();
-            image = imagesGet.get(j);
-            imageRestaurant.add(image);
+            if(imagesGet.get(j).getDinnerTableDto() == null) {
+            	  image = imagesGet.get(j);
+                  imageRestaurant.add(image);
+            }
+          
         }
         restaurant.setImagesDto(imageRestaurant);
         model.addAttribute("restaurant", restaurant);

@@ -1089,7 +1089,7 @@ input[type=checkbox]:checked + label {
     flex-direction: row-reverse;
     justify-content: center;">
             <i class="fa-solid fa-trophy"></i>
-            <h1 style="color:black">Top 3 Recommended</h1>
+            <h1 style="color:black">Top Recommended</h1>
         </div>
 
         <div class="row gy-4">
@@ -1098,7 +1098,7 @@ input[type=checkbox]:checked + label {
                     <div class="flip-card-inner">
                         <!-- Front -->
                         <div class="flip-card-front">
-                            <img th:src="@{/uploads/dinnerTables/{imageName}(imageName=${dinnerTable.imagesDto[0].path})}"
+                            <img  th:src="@{/uploads/dinnerTables/{imageName}(imageName=${dinnerTable.imagesDto[0].path})}"
                                  alt="Random Image" class="img-fluid w-100 h-100">
                             <div class="star">
                                 <th:block th:switch="${roundedAverage}">

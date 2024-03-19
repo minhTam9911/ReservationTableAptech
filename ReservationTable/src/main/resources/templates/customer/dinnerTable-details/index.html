@@ -594,13 +594,13 @@ function setupMap(address) {
 
 			function myFunction() {
 				var x = document.getElementById("mySelect").value;
-				console.log(x)
+				
 				var y = document.getElementById("booking-date").value;
-				console.log(y)
+				
 				var id =/*[[${dinnerTableId}]]*/
-					console.log(id)
-		//		callApi("http://localhost:8080/api/dinnerTable/" + id + "/" + x + "/" + y)
-		callApi("http://192.168.1.12:8080/api/dinnerTable/" + id + "/" + x + "/" + y)
+					
+				callApi("http://localhost:8080/api/dinnerTable/" + id + "/" + x + "/" + y)
+		
 			}
 
 			var renderData = (array, select) => {
