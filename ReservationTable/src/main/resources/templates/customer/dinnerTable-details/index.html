@@ -421,10 +421,11 @@
 							<div id="image-container"></div>
 
 							<div class="media-body">
-								<p th:text="${rate.comment}" style="font-weight: 500;"></p>
 								<a href="#">
 									<h4 class="sec_h4" th:text="${rate.customer.fullName}"></h4>
 								</a>
+								<p th:text="${rate.comment}" style="font-weight: 500;"></p>
+								
 								<div class="star">
 									<th:block th:switch="${rate.point}">
 										<th:block th:case="1"><i class="fa fa-star"></i></th:block>
@@ -598,7 +599,8 @@ function setupMap(address) {
 				console.log(y)
 				var id =/*[[${dinnerTableId}]]*/
 					console.log(id)
-				callApi("http://localhost:8080/api/dinnerTable/" + id + "/" + x + "/" + y)
+		//		callApi("http://localhost:8080/api/dinnerTable/" + id + "/" + x + "/" + y)
+		callApi("http://192.168.1.12:8080/api/dinnerTable/" + id + "/" + x + "/" + y)
 			}
 
 			var renderData = (array, select) => {

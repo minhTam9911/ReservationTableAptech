@@ -76,6 +76,7 @@ public class SecurityConfig {
                             "assets/system/lib/tempusdominus/css/**",
                             "assets/**",
                             "uploads/**",
+                            "uploads/restaurants/**",
                             "uploads/avatars/**",
                             "/login", "/register","/accessDenied",
                             "/",
