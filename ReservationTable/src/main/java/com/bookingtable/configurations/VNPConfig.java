@@ -20,9 +20,9 @@ public class VNPConfig {
 
 	
 	 	public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-//	public static String vnp_ReturnUrl = "http://172.16.7.43:8080/payment/vnpay/success";
+	public static String vnp_ReturnUrl = "http://192.168.1.12:8080/payment/vnpay/success";
 
-	public static String vnp_ReturnUrl = "http://localhost:8080/payment/vnpay/success";
+//	public static String vnp_ReturnUrl = "http://localhost:8080/payment/vnpay/success";
 	    public static String vnp_TmnCode = "G2YYKTPQ";
 	    public static String vnp_Version = "2.1.0";
 	    public static String vnp_Command = "pay";

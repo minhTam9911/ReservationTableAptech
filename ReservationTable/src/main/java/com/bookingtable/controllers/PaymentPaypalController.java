@@ -53,10 +53,10 @@ public class PaymentPaypalController {
 			@RequestParam("amount") String amount,
 			@RequestParam("description") String description) {
 		try {
-			String cancelUrl = "http://localhost:8080/payment/paypal/cancel";
-			String successUrl = "http://localhost:8080/payment/paypal/success";
-//			String cancelUrl = "http://172.16.7.43:8091/payment/paypal/cancel";
-//			String successUrl = "http://172.16.7.43:8091/payment/paypal/success";
+//			String cancelUrl = "http://localhost:8080/payment/paypal/cancel";
+//			String successUrl = "http://localhost:8080/payment/paypal/success";
+			String cancelUrl = "http://192.168.1.12:8080/payment/paypal/cancel";
+			String successUrl = "http://192.168.1.12:8080/payment/paypal/success";
 			Payment  payment = paypalService.createPayment(
 					Double.valueOf(amount),
 					"USD",

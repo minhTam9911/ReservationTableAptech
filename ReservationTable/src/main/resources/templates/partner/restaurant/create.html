@@ -32,7 +32,7 @@
         <form th:action="@{/partner/restaurant/create/save}" method="post" th:object="${restaurantDto}"
               enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">Full
+                <label for="exampleInputEmail1" class="form-label" style="font-weight: 600; color: black;">
                     Name</label>
                 <input type="text" class="form-control" aria-describedby="emailHelp" th:field="*{name}">
                 <div class="form-text">

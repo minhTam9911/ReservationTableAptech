@@ -18,9 +18,7 @@
 		}
 
 		body {
-			background-image: url(https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjU0NmJhdGNoMy1teW50LTM0LWJhZGdld2F0ZXJjb2xvcl8xLmpwZw.jpg);
-			display: flex;
-			justify-content: center;
+			background: linear-gradient(to top, rgb(160 14 148 / 51%), rgb(51 224 176)) fixed;justify-content: center;
 			align-items: center;
 			flex-direction: column;
 			font-family: 'Montserrat', sans-serif;
@@ -369,9 +367,9 @@
 
 
 
-	<div class="container" id="container">
+	<div class="container" id="container" >
 
-		<div class="form-container sign-up-container">
+		<div class="form-container sign-up-container" >
 
 			<form th:action="@{/register}" id="contact-form" method="post" th:object="${customerDto}"
 				class="main-form needs-validation">
@@ -482,19 +480,18 @@
 		</div>
 
 
-		<div class="overlay-container">
-			<div class="overlay">
+		<div class="overlay-container" >
+			<div class="overlay" style="background: linear-gradient(to top, rgb(198 202 19 / 83%), rgb(28 66 204)) fixed;">
 				<div class="overlay-panel overlay-left">
 					<h1>Welcome Back!</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+					<p>Create your free search profile and tell us your vision for the perfect table and restaurant</p>
 					<button class="ghost" id="signIn">SIGN IN</button>
 
 				</div>
 				<div class="overlay-panel overlay-right">
-					<h1>Hello World!</h1>
-					<p>Lorem ipsum dolor sit amet,<br>
-						sed do eiusmod tempor incididunt.</p>
-					<button class="ghost" id="signUp">CREATE ACCOUNT</button>
+					<h1>New Here!</h1>
+					<p>Log in to explore great services on our website</p>
+					<button class="ghost" id="signUp">Sign Up</button>
 				</div>
 			</div>
 		</div>

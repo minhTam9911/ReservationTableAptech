@@ -91,7 +91,7 @@
                                 <h4 class="card-explore__title"><a
                                         th:href="@{/customer/restaurant/category/{id}(id=${i.categoryRetaurantDto.id})}"
                                         th:text="${i.categoryRetaurantDto.name}"></a></h4>
-                                <p th:text="${i.shortDescription.substring(0, 100)}"></p>
+                                <p th:text="${i.shortDescription.substring(0, 40)}"></p>
                                 <a class="card-explore__link"
                                    th:href="@{/customer/restaurant/{id}/dinnertable(id=${i.id})}">Read More<i
                                         class="ti-arrow-right"></i></a>

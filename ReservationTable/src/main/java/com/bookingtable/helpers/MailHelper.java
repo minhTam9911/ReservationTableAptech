@@ -18,7 +18,7 @@ public class MailHelper {
     public static String HtmlNotification(Invoice data)
     {
     	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
-    	var amount = String.format("%,.2f", (data.getReservation().getDinnerTable().getDinnerTableType().getPrice())/24000);
+    	var amount = String.format("%,.2f", (data.getReservation().getDinnerTable().getDinnerTableType().getPrice()/24000));
     	String content = "<style type=\"text/css\">\r\n"
     			+ "    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);\r\n"
     			+ "\r\n"
