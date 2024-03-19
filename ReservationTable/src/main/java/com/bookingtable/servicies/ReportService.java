@@ -36,12 +36,12 @@ public class ReportService {
 	@Autowired
 	private IRevenueStatisticsService revenueStatisticsService;
 
-@Scheduled(cron = "0 0 0 1 * ?")
-//	@Scheduled(fixedRate = 20000)
+	@Scheduled(cron = "0 0 0 1 * ?")
+	//@Scheduled(fixedRate = 60000)
 	public void generateMonthlyReport() {
 		System.out.println("---------------------------Test---------------------");
 		var currentMonth = LocalDate.now();
-		var lastMonth = LocalDate.now().minusMonths(1);
+		var lastMonth = LocalDate.now().minusDays(1);   //2
 		///// -----Statiscal Restaurant------/////
 
 		var restaurants = restaurantRepository.findAll();

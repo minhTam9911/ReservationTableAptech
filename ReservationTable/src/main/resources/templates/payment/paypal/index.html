@@ -533,7 +533,7 @@ body {
               </div>
               
             </div>
-           <input type="hidden" name="amount" th:value="${paymentDto.amount}">
+           <input type="hidden" name="amount" th:value="${paymentDto.amount}" th:text="${#numbers.formatDecimal(paymentDto.amount, 1, 'DEFAULT', 2, 'POINT')}">
             <div class="action flex-center">
               <button type="submit" class="b-main-color pointer">
                 Pay Now
