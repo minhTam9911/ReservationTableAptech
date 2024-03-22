@@ -41,7 +41,7 @@ public class ReportService {
 	public void generateMonthlyReport() {
 		System.out.println("---------------------------Test---------------------");
 		var currentMonth = LocalDate.now();
-		var lastMonth = LocalDate.now().minusDays(1);   //2
+		var lastMonth = LocalDate.now().minusMonths(1);   //2
 		///// -----Statiscal Restaurant------/////
 
 		var restaurants = restaurantRepository.findAll();

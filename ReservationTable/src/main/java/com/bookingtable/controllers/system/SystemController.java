@@ -102,29 +102,29 @@ public class SystemController {
 	}
 
 	private Object getChartDataReservation(RevenueStatistics dto) {
-		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yy");
 		return List.of(dto.getDate().format(formatters), dto.getTotalBookinged(), dto.getTotalFinished(),
 				dto.getTotalCanceled());
 	}
 
 	private Object getChartDataAgent(RevenueStatistics dto) {
-		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return List.of(dto.getDate().format(formatters), dto.getTotalAgent(), dto.getTotalDinnerTable(),
 				dto.getTotalRestaurant());
 	}
 	private Object getChartDataRevenue(RevenueStatistics dto) {
-		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yy");
 		return List.of(dto.getDate().format(formatters), dto.getTotalAmount());
 	}
 
 	private Object getChartDataComment(RevenueStatistics dto) {
-		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yy");
 		return List.of(dto.getDate().format(formatters), dto.getTotalComment(), dto.getLevel1(), dto.getLevel2(),
 				dto.getLevel3(), dto.getLevel4(), dto.getLevel5());
 	}
 
 	private Object getChartDataCustomer(RevenueStatistics dto) {
-		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/yyyy");
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yy");
 		return List.of(dto.getDate().format(formatters), dto.getTotalCustomer());
 	}
 

@@ -115,12 +115,12 @@ public class CustomerService implements ICustomerService {
 			data.setPassword(hashPassword);
 			data.setSecurityCode(GenerateCode.RandomSecurityCode());
 			String email = environment.getProperty("spring.mail.username");
-//			var content = "Click here to activate: " + "http://localhost:8080/verify?email=" + data.getEmail()
-//					+ "&securityCode=" + data.getSecurityCode();
+			var content = "Click here to activate: " + "http://localhost:8080/verify?email=" + data.getEmail()
+					+ "&securityCode=" + data.getSecurityCode();
 			
-			var content = "Click here to activate: " + "http://192.168.1.12:8080/verify?email=" + data.getEmail()
-			+ "&securityCode=" + data.getSecurityCode();
-			System.out.println(content);
+//			var content = "Click here to activate: " + "http://192.168.1.12:8080/verify?email=" + data.getEmail()
+//			+ "&securityCode=" + data.getSecurityCode();
+//			System.out.println(content);
 			if (mailService.send(email, data.getEmail(), "Active Account", content)) {
 
 			} else {
